@@ -10,6 +10,8 @@
 (defface org-block-end-line
   '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
   "Face used for the line delimiting the end of source blocks.")
+;; fontify code in code blocks
+(setq org-src-fontify-natively t)
 
 
 ;; eorang's org setting
@@ -370,5 +372,4 @@
       (winner-mode 1))
 
 
-;; fontify code in code blocks
-(setq org-src-fontify-natively t)
+

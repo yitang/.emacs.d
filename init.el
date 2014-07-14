@@ -1,1 +1,1 @@
-(load "setup-org.el")
+(load "~/.emacs.d/setup-org.el")
