@@ -306,6 +306,7 @@ WARNING: Setting this to nil is unsafe and can cause deletion of a whole tree."
     (define-key map (kbd "C-c C-x")       'helm-ff-run-open-file-externally)
     (define-key map (kbd "C-c X")         'helm-ff-run-open-file-with-default-tool)
     (define-key map (kbd "M-!")           'helm-ff-run-eshell-command-on-file)
+    (define-key map (kbd "M-%")           'helm-ff-run-query-replace-on-marked)
     (define-key map (kbd "C-=")           'helm-ff-run-ediff-file)
     (define-key map (kbd "C-c =")         'helm-ff-run-ediff-merge-file)
     (define-key map (kbd "M-p")           'helm-ff-run-switch-to-history)
@@ -417,14 +418,20 @@ Don't set it directly, use instead `helm-ff-auto-update-initial-value'.")
            ("Find file in Dired" . helm-point-file-in-dired)
            ,(and (locate-library "elscreen")
                  '("Find file in Elscreen"  . helm-elscreen-find-file))
+           ("View file" . view-file)
            ("Checksum File" . helm-ff-checksum)
+           ("Query replace on marked" . helm-ff-query-replace-on-marked)
+           ("Serial rename files" . helm-ff-serial-rename)
+           ("Serial rename by symlinking files" . helm-ff-serial-rename-by-symlink)
+           ("Serial rename by copying files" . helm-ff-serial-rename-by-copying)
+           ("Open file with default tool" . helm-open-file-with-default-tool)
+           ("Find file in hex dump" . hexl-find-file)
            ("Complete at point `C-c i'"
             . helm-insert-file-name-completion-at-point)
            ("Insert as org link `C-c @'" . helm-files-insert-as-org-link)
            ("Find shell command `C-c /'" . helm-ff-find-sh-command)
            ("Open file externally `C-c C-x, C-u to choose'"
             . helm-open-file-externally)
-           ("Open file with default tool" . helm-open-file-with-default-tool)
            ("Grep File(s) `C-s, C-u Recurse'" . helm-find-files-grep)
            ("Zgrep File(s) `M-g z, C-u Recurse'" . helm-ff-zgrep)
            ("Switch to Eshell `M-e'" . helm-ff-switch-to-eshell)
@@ -432,22 +439,17 @@ Don't set it directly, use instead `helm-ff-auto-update-initial-value'.")
            ("Eshell command on file(s) `M-!, C-u take all marked as arguments.'"
             . helm-find-files-eshell-command-on-file)
            ("Find file as root `C-x @'" . helm-find-file-as-root)
-           ("Find file in hex dump" . hexl-find-file)
            ("Ediff File `C-='" . helm-find-files-ediff-files)
            ("Ediff Merge File `C-c ='" . helm-find-files-ediff-merge-files)
            ("Delete File(s) `M-D'" . helm-delete-marked-files)
            ("Copy file(s) `M-C, C-u to follow'" . helm-find-files-copy)
            ("Rename file(s) `M-R, C-u to follow'" . helm-find-files-rename)
-           ("Serial rename files" . helm-ff-serial-rename)
-           ("Serial rename by symlinking files" . helm-ff-serial-rename-by-symlink)
-           ("Serial rename by copying files" . helm-ff-serial-rename-by-copying)
            ("Symlink files(s) `M-S, C-u to follow'" . helm-find-files-symlink)
            ("Relsymlink file(s) `C-u to follow'" . helm-find-files-relsymlink)
            ("Hardlink file(s) `M-H, C-u to follow'" . helm-find-files-hardlink)
            ("Find file other window `C-c o'" . find-file-other-window)
            ("Switch to history `M-p'" . helm-find-files-switch-to-hist)
            ("Find file other frame `C-c C-o'" . find-file-other-frame)
-           ("View file" . view-file)
            ("Print File `C-c p, C-u to refresh'" . helm-ff-print)
            ("Locate `C-x C-f, C-u to specify locate db'" . helm-ff-locate)))))
   "The main source to browse files.
@@ -829,6 +831,58 @@ Rename only file of current directory, and copy files coming from
 other directories.
 See `helm-ff-serial-rename-1'."
   (helm-ff-serial-rename-action 'copy))
+
+(defun helm-ff-query-replace-on-marked-1 (candidates)
+  (with-helm-display-marked-candidates
+    helm-marked-buffer-name
+    (mapcar 'helm-basename candidates)
+    (let* ((regexp (read-string "Replace regexp in files: "))
+           (str    (read-string (format "Replace regexp `%s' with: " regexp))))
+      (cl-loop with query = "y"
+               with count = 0
+               for old in candidates
+               for new = (concat (helm-basedir old)
+                                 (replace-regexp-in-string
+                                  regexp str
+                                  (helm-basename old)))
+               ;; If `regexp' is not matched in `old'
+               ;; `replace-regexp-in-string' will
+               ;; return `old' unmodified.
+               unless (string= old new)
+               do (progn
+                    (unless (string= query "!")
+                      (while (not (member
+                                   (setq query
+                                         (string
+                                          (read-key
+                                           (propertize
+                                            (format
+                                             "Replace `%s' by `%s' (!,y,n,q)"
+                                             old new)
+                                            'face 'minibuffer-prompt))))
+                                   '("y" "!" "n" "q")))
+                        (message "Please answer by y,n,! or q") (sit-for 1)))
+                    (when (string= query "q")
+                      (cl-return (message "Operation aborted")))
+                    (unless (string= query "n")
+                      (rename-file old new)
+                      (cl-incf count)))
+               finally (message "%d Files renamed" count))))
+  ;; This fix the emacs bug where "Emacs-Lisp:" is sent
+  ;; in minibuffer (not the echo area).
+  (sit-for 0.1)
+  (with-current-buffer (window-buffer (minibuffer-window))
+    (delete-minibuffer-contents)))
+
+;; The action.
+(defun helm-ff-query-replace-on-marked (_candidate)
+  (let ((marked (helm-marked-candidates)))
+    (helm-run-after-quit #'helm-ff-query-replace-on-marked-1 marked)))
+
+;; The command for `helm-find-files-map'.
+(defun helm-ff-run-query-replace-on-marked ()
+  (interactive)
+  (helm-ff-query-replace-on-marked nil))
 
 (defun helm-ff-toggle-auto-update (_candidate)
   (setq helm-ff-auto-update-flag (not helm-ff-auto-update-flag))
