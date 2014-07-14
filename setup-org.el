@@ -16,6 +16,7 @@
 
 ;; eorang's org setting
 ;; agenda setup
+(require 'org)
 (setq org-agenda-files (quote ("~/Copy/org")))
 ;;			       "~/Copy/org/")))
 ;; Custom Key Bindings
@@ -248,12 +249,6 @@
                nil))))
 
 
-;; link org-mode lisp.
-(add-to-list 'load-path "/Users/yitang/.emacs.d/elisp/org-8.2.5h/lisp" t)
-;; add markdown expoter
-(eval-after-load "org"
-  '(require 'ox-md nil t))
-
 ;;
 ;(setq org-babel-default-header-args:R
 ;           (cons '(:results . "output")
@@ -264,112 +259,4 @@
 ;(setq org-babel-default-header-args:R
 ;           (cons '(:exports . "both")
 ;
-
-; Author: Baris Yuksel (2014)
-;
-; This is the .emacs file for the following video tutorials:
-;
-; Emacs as a C/C++ Editor/IDE (Part I): auto-complete, yasnippet, and auto-complete-c-headers
-; http://youtu.be/HTUE03LnaXA
-; Emacs as a C/C++ Editor/IDE (Part 2): iedit, flymake-google-cpplint, google-c-style
-; http://youtu.be/r_HW0EB67eY
-; Emacs as a C/C++ Editor/IDE (Part 3): cedet mode for true intellisense
-; http://youtu.be/Ib914gNr0ys
-;
-; start package.el with emacs
-(require 'package)
-; add MELPA to repository list
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-; initialize package.el
-(package-initialize)
-; start auto-complete with emacs
-(require 'auto-complete)
-; do default config for auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-
-; start yasnippet with emacs
-(require 'yasnippet)
-(yas-global-mode 1)
-; let's define a function which initializes auto-complete-c-headers and gets called for c/c++ hooks
-;(defun my:ac-c-header-init ()
-;  (require 'auto-complete-c-headers)
-;  (add-to-list 'ac-sources 'ac-source-c-headers)
-; ; (add-to-list 'achead:include-directories '"/Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2/lib/gcc/i686-apple-darwin11/4.2.1/include")
-;)
-; now let's call this function from c/c++ hooks
-;(add-hook 'c++-mode-hook 'my:ac-c-header-init)
-;(add-hook 'c-mode-hook 'my:ac-c-header-init)
-
-; Fix iedit bug in Mac
-;(define-key global-map (kbd "C-c ;") 'iedit-mode)
-
-; start flymake-google-cpplint-load
-; let's define a function for flymake initialization
-
-
-(add-to-list 'load-path "/Users/yitang/Library/Application Support/Aquamacs\ Emacs/elpa/flymake-google-cpplint-20140205.525/flymake-google-cpplint.el")
-(require 'flymake-google-cpplint)
-(add-hook 'c++-mode-hook 'flymake-google-cpplint-load)
-(custom-set-variables
- '(flymake-google-cpplint-command "/Library/Python/2.7/site-packages/cpplint/cpplint.py"))
-;"/usr/local/bin/cpplint"))
-
-; start google-c-style with emacs
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c++-mode-common-hook 'google-make-newline-indent)
-
-
-;; mobileOrg
-(require 'org-mobile)
-;; Set to the location of your Org files on your local system
-(setq org-directory "~/Copy/org")
-(setq org-mobile-files(quote ("~/Copy/org/mobile.org")))
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/Copy/org/pull")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-
-
-
-;; pkg-block: multi-cursors
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-;; pkg-block: helm
-
-
-
-;; pkg-block: Emacs
-;; save all backup files (foo~) to this directory.
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-  backup-by-copying t    ; Don't delink hardlinks
-  version-control t      ; Use version numbers on backups
-  delete-old-versions t  ; Automatically delete excess backups
-  kept-new-versions 20   ; how many of the newest versions to keep
-  kept-old-versions 5    ; and how many of the old
-  )
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; PACKAGE: helm              ;;
-;;                            ;;
-;; GROUP: Convenience -> Helm ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'helm-config)
-(helm-mode 1)
-
-;; linum mode
-(global-linum-mode 1)
-
-;;; winner-mode, undo window configration
-(when (fboundp 'winner-mode)
-      (winner-mode 1))
-
-
 
