@@ -1,0 +1,52 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Mon Jul 14 20:50:19 2014
+;; Desktop file format version 206
+;; Emacs version 24.3.50.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (21444 13435 591064 0) (desktop . "206") "yitang@yis-macbook-pro.lan" nil nil ((((font-backend mac-ct ns) (fontsize . 0) (font . "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (vertical-scroll-bars . right) (foreground-color . "Black") (background-color . "White") (line-spacing) (left-fringe . 3) (right-fringe . 11) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (fringe) (display-type . color) (background-mode . light) (cursor-color . "Red") (visibility . t) (frameset--id . "3CF7-2B74-CD09-A619") (frameset--mini t) (height . 58) (width . 270) (modeline . t) (minibuffer . t) (unsplittable) (left . 0) (top . 23) (icon-name) (display . "yis-macbook-pro.lan") (explicit-name) (tool-bar-position . top)) ((min-height . 4) (min-width . 20) (min-height-ignore . 3) (min-width-ignore . 16) (min-height-safe . 1) (min-width-safe . 4)) hc (total-height . 57) (total-width . 275) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (total-height . 57) (total-width . 137) (normal-height . 1.0) (normal-width . 0.5) (buffer "setup-org.el" (selected . t) (hscroll . 0) (fringes 3 11 nil) (margins 4) (scroll-bars 15 3 t nil) (vscroll . 0) (dedicated) (point . 1406) (start . 1))) (leaf (last . t) (total-height . 57) (total-width . 138) (normal-height . 1.0) (normal-width . 0.5) (buffer "init.el" (selected) (hscroll . 0) (fringes 3 11 nil) (margins 2) (scroll-bars 15 3 t nil) (vscroll . 0) (dedicated) (point . 22) (start . 1)))) (((font-backend mac-ct ns) (fontsize . 0) (font . "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1") (border-width . 0) (internal-border-width . 0) (vertical-scroll-bars . right) (foreground-color . "Black") (background-color . "White") (line-spacing) (left-fringe . 3) (right-fringe . 11) (menu-bar-lines . 1) (tool-bar-lines . 1) (title) (icon-type) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 15) (alpha) (fullscreen) (fringe) (display-type . color) (background-mode . light) (cursor-color . "Red") (visibility) (frameset--id . "9FA5-134F-C651-AA25") (frameset--mini t . t) (height . 58) (width . 270) (modeline . t) (minibuffer . t) (unsplittable) (left . 0) (top . 23) (icon-name) (display . "yis-macbook-pro.lan") (explicit-name . t) (tool-bar-position . top)) ((min-height . 4) (min-width . 10) (min-height-ignore . 2) (min-width-ignore . 8) (min-height-safe . 1) (min-width-safe . 2)) leaf (total-height . 57) (total-width . 275) (normal-height . 1.0) (normal-width . 1.0) (buffer " *empty*" (selected) (hscroll . 0) (fringes 3 11 nil) (margins nil) (scroll-bars 15 3 t nil) (vscroll . 0) (dedicated) (point . 1) (start . 1))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("f9" "require"))
+(setq regexp-search-ring nil)
+(setq register-alist '((48 . ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;; PACKAGE: helm              ;;\n;;                            ;;\n;; GROUP: Convenience -> Helm ;;\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;")))
+(setq file-name-history '("~/git/.emacs.d/init.el" "~/git/.emacs.d/setup-org.el" "~/Desktop/org_moday_tmp/jbarm.org" "~/git/.emacs.d/setup-cpp.el" "~/tmp.cpp" "~/git/.emacs.d/general.el" "~/git/.emacs.d/setup-cpp.el" "~/git/.emacs.d/general.el" "~/git/.emacs.d/setup-cpp.el" "~/git/.emacs.d/setup-cpp.org" "~/.emacs" "~/Copy/org/R.org" "~/git/.emacs.d/general.el" "~/git/.emacs.d/general.el" "~/.emacs"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/Users/yitang/git/.emacs.d/setup-org.el"
+  "setup-org.el"
+  'emacs-lisp-mode
+  '(auto-complete-mode yas-minor-mode linum-mode helm-mode)
+  1406
+  '(885 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . prefer-utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/yitang/git/.emacs.d/init.el"
+  "init.el"
+  'emacs-lisp-mode
+  '(auto-complete-mode yas-minor-mode linum-mode helm-mode)
+  22
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . prefer-utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/yitang/Library/Application Support/Aquamacs Emacs/scratch buffer"
+  "*scratch*"
+  'text-mode
+  '(visual-line-mode smart-spacing-mode yas-minor-mode linum-mode helm-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8) (truncate-lines)))
+
