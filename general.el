@@ -56,6 +56,13 @@
 
 
 
+;; recentf files
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 
 
