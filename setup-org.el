@@ -1,4 +1,4 @@
-;; highlight src code block 
+;; highlight src code block
 (defface org-block-begin-line
   '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
   "Face used for the line delimiting the begin of source blocks.")
@@ -249,14 +249,25 @@
                nil))))
 
 
-;;
-;(setq org-babel-default-header-args:R
-;           (cons '(:results . "output")
-;                 (assq-delete-all :results org-babel-default-header-args:R)))
-;(setq org-babel-default-header-args:R
-;           (cons '(:session . "R")
-;                 (assq-delete-all :results org-babel-default-header-args:R)))
-;(setq org-babel-default-header-args:R
-;           (cons '(:exports . "both")
-;
 
+;; scr source code
+;; ref: http://blogs.neuwirth.priv.at/software/2012/03/28/r-and-emacs-with-org-mode/
+;; ref: https://github.com/erikriverson/org-mode-R-tutorial/blob/master/org-mode-R-tutorial.org
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((R . t)
+   )
+)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+(add-hook 'org-mode-hook 'org-display-inline-images)
+(setq org-confirm-babel-evaluate nil)
+(setq org-export-html-validation-link nil)
+(setq org-export-allow-BIND t)
+(setq org-support-shift-select t)
+(setq org-src-fontify-natively t)
+(setq org-babel-default-header-args:R
+      '((:results . "output")))
+(setq org-babel-default-header-args:R
+      '((:session . "R")))
+(setq org-babel-default-header-args:R
+      '((:tangle . "yes")))
