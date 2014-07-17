@@ -9,7 +9,6 @@
 ;; linum mode
 (global-linum-mode 1)
 
-(require 'cl-lib)
 
 ;; ;;; winner-mode, undo window configration
 (when (fboundp 'winner-mode)
@@ -62,7 +61,7 @@
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(global-set-key "\C-r" 'helm-recentf)
 
 
 
