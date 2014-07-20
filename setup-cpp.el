@@ -1,4 +1,4 @@
-(global-set-key [(f9)] 'compile)
+;; (global-set-key [(f9)] 'compile)
 (setq compilation-window-height 2)
 (setq compilation-finish-function
       (lambda (buf str)
