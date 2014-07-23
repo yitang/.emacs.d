@@ -55,11 +55,16 @@
 
 (define-key ess-mode-map (kbd "C-d") 'comment-region)
 (define-key ess-mode-map (kbd "C-S-d") 'uncomment-region)
-;; C-b = list buffers 
+;; C-b = list buffers
 (global-set-key (kbd "C-b") 'bs-show)
 
+;; ESS Mode (.R file)
+  (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
+  (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
+  (define-key ess-mode-map "\C-r" 'ess-eval-region)
 
-;; use ess-transcript-clean-buffer to 
+
+;; use ess-transcript-clean-buffer to
 ;; 1. clean *R* buffer, remove all outputs
 ;; 2. save commands history
 

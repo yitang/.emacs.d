@@ -268,6 +268,6 @@
 (setq org-babel-default-header-args:R
       '((:results . "output")))
 (setq org-babel-default-header-args:R
-      '((:session . "R")))
+      '((:session . "*R*")))
 (setq org-babel-default-header-args:R
       '((:tangle . "yes")))
