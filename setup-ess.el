@@ -14,6 +14,7 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
+(setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
 (defun my-ess-start-R ()
   (interactive)
   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
@@ -58,14 +59,14 @@
 ;; C-b = list buffers
 (global-set-key (kbd "C-b") 'bs-show)
 
-;; ESS Mode (.R file)
-  (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
-  (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
-  (define-key ess-mode-map "\C-r" 'ess-eval-region)
+;; ;; ESS Mode (.R file)
+;;   (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
+;;   (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
+;;   (define-key ess-mode-map "\C-r" 'ess-eval-region)
 
 
 ;; use ess-transcript-clean-buffer to
 ;; 1. clean *R* buffer, remove all outputs
 ;; 2. save commands history
 
-(setq ess-eval-visibly-p 'nowait)
+
