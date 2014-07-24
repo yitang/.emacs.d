@@ -31,11 +31,11 @@
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; ; initialize package.el
 ;; (package-initialize)
-;; ; start auto-complete with emacs
-;; (require 'auto-complete)
-;; ; do default config for auto-complete
-;; (require 'auto-complete-config)
-;; (ac-config-default)
+; start auto-complete with emacs
+(require 'auto-complete)
+; do default config for auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
 
 ;; ; start yasnippet with emacs
 ;(add-to-list 'load-path "~/git/.emacs.d/elpa/")
