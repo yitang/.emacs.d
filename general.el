@@ -12,7 +12,7 @@
 
 ;; ;;; winner-mode, undo window configration
 (when (fboundp 'winner-mode)
-  (winner-mode 1))
+  (winner-mode 0))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; PACKAGE: helm              ;;

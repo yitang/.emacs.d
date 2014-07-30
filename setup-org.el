@@ -17,6 +17,8 @@
 ;; eorang's org setting
 ;; agenda setup
 (require 'org)
+
+
 (setq org-agenda-files (quote ("~/git/org")))
 ;; Custom Key Bindings
 (global-set-key (kbd "<f12>") 'org-agenda)
@@ -270,3 +272,8 @@
       '((:session . "*R*")))
 (setq org-babel-default-header-args:R
       '((:tangle . "yes")))
+(setq org-list-allow-alphabetical nil)
+
+(load "ox-latex.el") ;; add exporter http://orgmode.org/worg/exporters/ox-overview.html
+
+

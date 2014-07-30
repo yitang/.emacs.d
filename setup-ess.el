@@ -70,3 +70,13 @@
 ;; 2. save commands history
 
 
+
+
+
+;;;; Cross setting 
+;;;; 
+
+;; remove C-TAB
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (define-key org-mode-map [(control tab)] nil)))
