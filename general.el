@@ -45,14 +45,6 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
-;; ;; pkg-block: multi-cursors
-;; (require 'multiple-cursors)
-;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-
 
 
 ;; recentf files
@@ -67,5 +59,33 @@
 
 
 
+;; prefer horizentally split window
+(setq split-height-threshold nil)
+(setq split-width-threshold 0)
 
 
+;; Use 10-pt Consolas as default font
+(set-face-attribute 'default nil
+                    :family "Consolas" :height 100)
+
+;; windows path convention 
+(setenv "CYGWIN" "nodosfilewarning")
+
+;; kill *scratch* buffer if possible
+(kill-buffer "*scratch*")
+;; (kill-buffer "*GNU Emacs*")
+(setq inhibit-startup-message t)        ; Disable startup message 
+
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+
+;; C-tab to switch bteween buffers. 
+(global-set-key [C-tab] 'other-window)
