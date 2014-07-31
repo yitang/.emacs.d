@@ -277,3 +277,13 @@
 (load "ox-latex.el") ;; add exporter http://orgmode.org/worg/exporters/ox-overview.html
 
 
+;;;; Cross setting
+;;;;
+;; remove C-TAB
+;; (add-hook 'org-mode-hook
+;;           '(lambda ()
+;;              (define-key org-mode-map [(control tab)] nil)))
+;; (add-hook 'org-mode-hook
+;;       (lambda ()
+;;         (local-unset-key (kbd "C-TAB"))))
+(org-defkey org-mode-map [(control tab)] nil)
