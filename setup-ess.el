@@ -8,9 +8,9 @@
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
 (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
 (require 'ess-site)
-(setq ess-ask-for-ess-directory nil)
-(setq ess-local-process-name "R")
-(setq ansi-color-for-comint-mode 'filter)
+(setq ess-ask-for-ess-directory nil) ;; start R on default folder 
+(setq ess-local-process-name "R") 
+(setq ansi-color-for-comint-mode 'filter) ;; 
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
@@ -47,8 +47,6 @@
 
 
 ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
-;; C-tab to switch between the R command line and the file (similar to josh answer, but much faster):
-(global-set-key [C-tab] 'other-window)
 ;; Control and up/down arrow keys to search history with matching what you've already typed:
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
@@ -71,12 +69,11 @@
 
 
 
-
-
-;;;; Cross setting 
-;;;; 
+;;;; Cross setting
+;;;;
 
 ;; remove C-TAB
 (add-hook 'org-mode-hook
           '(lambda ()
              (define-key org-mode-map [(control tab)] nil)))
+
