@@ -105,6 +105,7 @@
 ;; start org-capture mode by C-c c. This is global setting, use it in Ess/R/C++ mode.
 (global-set-key (kbd "C-c c") 'org-capture)
 
+
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 ;; start org-capture mode, then type 't' to have TODO template, 'j' for journal template and so on.
 (setq org-capture-templates
@@ -133,7 +134,6 @@
     (org-remove-empty-drawer-at (point))))
 
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-
 ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
@@ -282,3 +282,6 @@
 (define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
 (org-defkey org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
 (org-defkey org-mode-map [(control tab)] nil)
+
+;; use helm iwth org 
+(setq org-completion-handler 'helm)
