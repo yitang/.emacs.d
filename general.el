@@ -89,3 +89,12 @@
 
 ;; C-tab to switch bteween buffers. 
 (global-set-key [C-tab] 'other-window)
+
+
+;; full path of current buffer
+(defun yt/copy-full-path-to-kill-ring ()
+  "copy buffer's full path to kill ring"
+  (interactive)
+  (when buffer-file-name
+    (kill-new (file-truename buffer-file-name))))
+(global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) ; Or any other key you want
