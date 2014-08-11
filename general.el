@@ -98,3 +98,11 @@
   (when buffer-file-name
     (kill-new (file-truename buffer-file-name))))
 (global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) ; Or any other key you want
+
+
+;; block comment style 
+(require 'line-comment-banner)
+(add-hook 'ess-mode-hook
+	  (lambda () (make-local-variable 'comment-fill)
+	    (setq comment-fill "#")))
+
