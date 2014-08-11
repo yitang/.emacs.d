@@ -1,19 +1,3 @@
-;; highlight src code block
-(defface org-block-begin-line
-  '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
-  "Face used for the line delimiting the begin of source blocks.")
-
-(defface org-block-background
-  '((t (:background "#FFFFEA")))
-  "Face used for the source block background.")
-
-(defface org-block-end-line
-  '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
-  "Face used for the line delimiting the end of source blocks.")
-;; fontify code in code blocks
-(setq org-src-fontify-natively t)
-
-
 ;; eorang's org setting
 ;; agenda setup
 (require 'org)
@@ -85,11 +69,21 @@
   (interactive)
   (switch-to-buffer "*scratch*"))
 
-;; TODO keywardse
+;; TODOS ;;
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-;; assing tags based on todo states change
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("NEXT" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold))))
+(setq org-use-fast-todo-selection t)
+(setq org-treat-S-cursor-todo-selection-as-state-change nil)
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
@@ -101,11 +95,8 @@
 
 ;; files to save notes.
 (setq org-default-notes-file "~/git/org/refile.org")
-
 ;; start org-capture mode by C-c c. This is global setting, use it in Ess/R/C++ mode.
 (global-set-key (kbd "C-c c") 'org-capture)
-
-
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 ;; start org-capture mode, then type 't' to have TODO template, 'j' for journal template and so on.
 (setq org-capture-templates
@@ -285,3 +276,20 @@
 
 ;; use helm iwth org 
 (setq org-completion-handler 'helm)
+
+
+;; highlight src code block
+(defface org-block-begin-line
+  '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
+  "Face used for the line delimiting the begin of source blocks.")
+
+(defface org-block-background
+  '((t (:background "#FFFFEA")))
+  "Face used for the source block background.")
+
+(defface org-block-end-line
+  '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
+  "Face used for the line delimiting the end of source blocks.")
+;; fontify code in code blocks
+(setq org-src-fontify-natively t)
+
