@@ -68,9 +68,15 @@
 (setq split-width-threshold 0)
 
 
-;; Use 10-pt Consolas as default font
-(set-face-attribute 'default nil
-                    :family "Consolas" :height 100)
+;; ;; Use 10-pt Consolas as default font
+;; (set-face-attribute 'default nil
+;;                     :family "Consolas" :height 100)
+(set-default-font "Source Code Pro")
+;; (when (window-system)
+;;   (set-frame-font "Source Code Pro")
+;;   (set-face-attribute 'default nil :font "Source Code Pro" :height 140)
+;;   (set-face-font 'default "Source Code Pro"))
+
 
 ;; windows path convention 
 (setenv "CYGWIN" "nodosfilewarning")
