@@ -72,16 +72,15 @@
 ;; TODOS ;;
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
               ("NEXT" :foreground "blue" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
               ("WAITING" :foreground "orange" :weight bold)
               ("HOLD" :foreground "magenta" :weight bold)
-              ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING" :foreground "forest green" :weight bold)
-              ("PHONE" :foreground "forest green" :weight bold))))
+              ("CANCELLED" :foreground "forest green" :weight bold))))
+
 (setq org-use-fast-todo-selection t)
 (setq org-treat-S-cursor-todo-selection-as-state-change nil)
 (setq org-todo-state-tags-triggers
@@ -92,6 +91,7 @@
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+(setq org-log-into-drawer 'LOGBOOK)
 
 ;; files to save notes.
 (setq org-default-notes-file "~/git/org/refile.org")
@@ -274,22 +274,24 @@
 (org-defkey org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
 (org-defkey org-mode-map [(control tab)] nil)
 
-;; use helm iwth org 
+;; use helm iwth org
 (setq org-completion-handler 'helm)
 
 
-;; highlight src code block
-(defface org-block-begin-line
-  '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
-  "Face used for the line delimiting the begin of source blocks.")
-
-(defface org-block-background
-  '((t (:background "#FFFFEA")))
-  "Face used for the source block background.")
-
-(defface org-block-end-line
-  '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))
-  "Face used for the line delimiting the end of source blocks.")
-;; fontify code in code blocks
-(setq org-src-fontify-natively t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; highlight src code block						       ;;
+;; (defface org-block-begin-line					       ;;
+;;   '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF"))) ;;
+;;   "Face used for the line delimiting the begin of source blocks.")	       ;;
+;; 									       ;;
+;; (defface org-block-background					       ;;
+;;   '((t (:background "#FFFFEA")))					       ;;
+;;   "Face used for the source block background.")			       ;;
+;; 									       ;;
+;; (defface org-block-end-line						       ;;
+;;   '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))  ;;
+;;   "Face used for the line delimiting the end of source blocks.")	       ;;
+;; ;; fontify code in code blocks					       ;;
+;; (setq org-src-fontify-natively t)					       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

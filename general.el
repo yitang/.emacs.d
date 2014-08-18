@@ -1,3 +1,4 @@
+;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; save all backup files (foo~) to this directory.
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
       backup-by-copying t    ; Don't delink hardlinks
@@ -5,7 +6,10 @@
       delete-old-versions t  ; Automatically delete excess backups
       kept-new-versions 20   ; how many of the newest versions to keep
       kept-old-versions 5    ; and how many of the old
+      auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
       )
+
 ;; linum mode
 (global-linum-mode 1)
 
