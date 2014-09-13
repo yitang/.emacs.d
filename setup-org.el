@@ -1,4 +1,4 @@
-;; eorang's org setting
+;; norang's org setting
 ;; agenda setup
 (require 'org)
 
