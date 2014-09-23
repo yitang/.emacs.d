@@ -257,12 +257,12 @@
 (setq org-export-allow-BIND t)
 (setq org-support-shift-select t)
 (setq org-src-fontify-natively t)
-(setq org-babel-default-header-args:R
-      '((:results . "output")))
-(setq org-babel-default-header-args:R
-      '((:session . "*R*")))
-(setq org-babel-default-header-args:R
-      '((:tangle . "yes")))
+;; (setq org-babel-default-header-args:R
+;;       '((:Results . "output")))
+;; (setq org-babel-default-header-args:R
+;;       '((:session . "*R*")))
+;; (setq org-babel-default-header-args:R
+;;       '((:tangle . "yes")))
 (setq org-list-allow-alphabetical nil)
 
 (load "ox-latex.el") ;; add exporter http://orgmode.org/worg/exporters/ox-overview.html
