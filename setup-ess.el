@@ -8,9 +8,9 @@
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
 (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
 (require 'ess-site)
-(setq ess-ask-for-ess-directory nil) ;; start R on default folder 
-(setq ess-local-process-name "R") 
-(setq ansi-color-for-comint-mode 'filter) ;; 
+(setq ess-ask-for-ess-directory nil) ;; start R on default folder
+(setq ess-local-process-name "R")
+(setq ansi-color-for-comint-mode 'filter) ;;
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
@@ -42,6 +42,11 @@
 (add-hook 'Rnw-mode-hook
           '(lambda()
              (local-set-key [(shift return)] 'my-ess-eval)))
+(add-hook 'ess-mode-hook
+          (lambda ()
+            (flyspell-prog-mode)
+					; ...
+	    ))
 ;; (require 'ess-site)
 
 
