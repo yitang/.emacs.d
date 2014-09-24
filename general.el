@@ -1,3 +1,9 @@
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  )
+
 ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; save all backup files (foo~) to this directory.
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -157,3 +163,12 @@
 (prefer-coding-system 'utf-8)
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+
+
+(require 'projectile)
+(require 'helm-projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-remember-window-configs t )
+(setq projectile-completion-system 'helm)
