@@ -164,7 +164,7 @@
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
-
+;; projectile related 
 (require 'projectile)
 (require 'helm-projectile)
 (projectile-global-mode)

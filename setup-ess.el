@@ -1,4 +1,3 @@
-
 ;,----
 ;| ;;;;; EMSS
 ;`----
@@ -71,6 +70,5 @@
 ;; use ess-transcript-clean-buffer to
 ;; 1. clean *R* buffer, remove all outputs
 ;; 2. save commands history
-
 
 
