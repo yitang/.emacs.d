@@ -1,7 +1,8 @@
 ;; norang's org setting
 ;; agenda setup
 (require 'org)
-
+(add-to-list 'load-path "~/git/.emacs.d/elpa/org-8.2.7c/contrib/lisp")
+(require 'org-checklist)
 
 (setq org-agenda-files (quote ("~/git/org")))
 ;; Custom Key Bindings
@@ -266,7 +267,7 @@
 (setq org-list-allow-alphabetical nil)
 
 (load "ox-latex.el") ;; add exporter http://orgmode.org/worg/exporters/ox-overview.html
-
+(load "ox-md.el")
 
 
 ;; remove C-TAB
@@ -278,20 +279,20 @@
 (setq org-completion-handler 'helm)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; highlight src code block						       ;;
-;; (defface org-block-begin-line					       ;;
-;;   '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF"))) ;;
-;;   "Face used for the line delimiting the begin of source blocks.")	       ;;
-;; 									       ;;
-;; (defface org-block-background					       ;;
-;;   '((t (:background "#FFFFEA")))					       ;;
-;;   "Face used for the source block background.")			       ;;
-;; 									       ;;
-;; (defface org-block-end-line						       ;;
-;;   '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))  ;;
-;;   "Face used for the line delimiting the end of source blocks.")	       ;;
-;; ;; fontify code in code blocks					       ;;
-;; (setq org-src-fontify-natively t)					       ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; highlight src code block						       ;;
+(defface org-block-begin-line					       ;;
+  '((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF"))) ;;
+  "Face used for the line delimiting the begin of source blocks.")	       ;;
+									       ;;
+(defface org-block-background					       ;;
+  '((t (:background "#FFFFEA")))					       ;;
+  "Face used for the source block background.")			       ;;
+									       ;;
+(defface org-block-end-line						       ;;
+  '((t (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")))  ;;
+  "Face used for the line delimiting the end of source blocks.")	       ;;
+;; fontify code in code blocks					       ;;
+(setq org-src-fontify-natively t)					       ;;
+
 

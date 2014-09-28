@@ -1,8 +1,3 @@
-;,----
-;| ;;;;; EMSS
-;`----
-
-
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
 (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
@@ -44,11 +39,11 @@
 (add-hook 'ess-mode-hook
           (lambda ()
             (flyspell-prog-mode)
+	    (run-hooks 'prog-mode-hook)
+	    ;; (prog-mode)
 					; ...
 	    ))
 ;; (require 'ess-site)
-
-
 
 ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
 ;; Control and up/down arrow keys to search history with matching what you've already typed:
@@ -70,5 +65,6 @@
 ;; use ess-transcript-clean-buffer to
 ;; 1. clean *R* buffer, remove all outputs
 ;; 2. save commands history
+
 
 

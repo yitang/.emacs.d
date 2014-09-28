@@ -118,13 +118,6 @@
 (global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) ; Or any other key you want
 
 
-;; block comment style
-(require 'line-comment-banner)
-(add-hook 'ess-mode-hook
-	  (lambda () (make-local-variable 'comment-fill)
-	    (setq comment-fill "#")))
-
-
 ;; git
 (require 'magit)
 
@@ -172,3 +165,35 @@
 (setq projectile-switch-project-action 'projectile-dired)
 (setq projectile-remember-window-configs t )
 (setq projectile-completion-system 'helm)
+
+
+
+;; spell, grammar 
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+;; (load "langtool.el")
+;; (setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/1.3.1/libexec/LanguageTool.jar")
+;; (setq langtool-mother-tongue "en")
+;; (setq-default ispell-program-name "hunspell")
+;; (setq ispell-program-name "/opt/local/bin/aspell") ;; in my mac. 
+(setq ispell-dictionary "british"
+      ispell-extra-args '() ;; TeX mode "-t"
+      ispell-silently-savep t
+      )
+
+
+;; visible notication for invalid options 
+(setq visible-bell t) 
+;; move between windows 
+
+(global-set-key (kbd "S-<up>") 'windmove-up)
+(global-set-key (kbd "S-<down>") 'windmove-down)
+(global-set-key (kbd "S-<right>") 'windmove-right)
+(global-set-key (kbd "S-<left>") 'windmove-left)
+
+
+;; highlights FIXME: TODO: and BUG: in prog-mode 
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (font-lock-add-keywords nil
+				    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
