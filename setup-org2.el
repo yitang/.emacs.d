@@ -1,4 +1,5 @@
 (require 'org)
+(require 'org-habit)
 (setq org-agenda-files '("~/git/org/" "~/git/jbarm"))
 
 ;; Standard key bindings
@@ -107,24 +108,43 @@
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
 
-;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+;; ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+;; (setq org-capture-templates
+;;       (quote (("t" "todo" entry (file "~/git/org/refile.org")
+;;                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+;;               ("r" "respond" entry (file "~/git/org/refile.org")
+;;                ;; "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+;; 	       "* NEXT Respond to %^{whom} on %^{subject} \nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+;;               ("n" "note" entry (file "~/git/org/refile.org")
+;;                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+;;               ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+;;                "* %?\n%U\n" :clock-in t :clock-resume t)
+;;               ("w" "org-protocol" entry (file "~/git/org/refile.org")
+;;                "* TODO Review %c\n%U\n" :immediate-finish t)
+;;               ("m" "Meeting" entry (file "~/git/org/refile.org")
+;;                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+;;               ("p" "Phone call" entry (file "~/git/org/refile.org")
+;;                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+;;               ("h" "Habit" entry (file "~/git/org/habits.org")
+;;                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
+;; mine modication 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
-               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+               "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
-               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+	       "* NEXT Respond to %^{whom} on %^{subject} \n %? \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t :immediate-finish t)
               ("n" "note" entry (file "~/git/org/refile.org")
-               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+               "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/git/org/refile.org")
-               "* TODO Review %c\n%U\n" :immediate-finish t)
               ("m" "Meeting" entry (file "~/git/org/refile.org")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
               ("p" "Phone call" entry (file "~/git/org/refile.org")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
-               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+               "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+
 
 ;; Remove empty LOGBOOK drawers on clock out
 (defun bh/remove-empty-drawer-on-clock-out ()
@@ -459,8 +479,8 @@ A prefix arg forces clock in of the default task."
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
-;; (require 'bbdb)
-;; (require 'bbdb-com)
+(require 'bbdb)
+(require 'bbdb-com)
 
 (global-set-key (kbd "<f9> p") 'bh/phone-call)
 
@@ -1765,6 +1785,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+	      ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
               ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
               ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
@@ -1873,3 +1894,14 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-completion-handler 'helm)
 
 
+
+;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
+(defun yt/org-clock-in-select ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ;; C-u, 
+  (call-interactively 'org-clock-in))
+(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
+
+
+;; add the following 
+(setq org-capture-bookmark nil)
