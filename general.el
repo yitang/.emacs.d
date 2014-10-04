@@ -16,8 +16,8 @@
       auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
       )
 
-;; linum mode
-(global-linum-mode 1)
+;; ;; linum mode
+;; (global-linum-mode 1)
 
 
 ;; ;;; winner-mode, undo window configration
@@ -26,104 +26,9 @@
 ;; winner-undo -> C-c <left>
 ;; winner-redo -> C-c <right>
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; PACKAGE: helm              ;;
-;; ;;                            ;;
-;; ;; GROUP: Convenience -> Helm ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (add-to-list 'load-path "~/git/.emacs.d/elpa/helm")
+;; helm 
 (require 'helm-config)
  (helm-mode 1)
-
-;; ; Author: Baris Yuksel (2014)
-;; ;
-;; ; start package.el with emacs
-;; (require 'package)
-;; ; add MELPA to repository list
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; ; initialize package.el
-;; (package-initialize)
-; start auto-complete with emacs
-(require 'auto-complete)
-; do default config for auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-
-;; ; start yasnippet with emacs
-;(add-to-list 'load-path "~/git/.emacs.d/elpa/")
-
-
-;; (add-to-list 'load-path "~/git/.emacs.d/elpa/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
-
-
-
-;; recentf files
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-saved-items 200
-      recentf-max-menu-items 15)
-
-(global-set-key "\C-r" 'helm-recentf)
-
-
-
-
-
-;; prefer horizentally split window
-(setq split-height-threshold nil)
-(setq split-width-threshold 0)
-
-
-;; ;; Use 10-pt Consolas as default font
-;; (set-face-attribute 'default nil
-;;                     :family "Consolas" :height 100)
-(set-default-font "Source Code Pro")
-;; (when (window-system)
-;;   (set-frame-font "Source Code Pro")
-;;   (set-face-attribute 'default nil :font "Source Code Pro" :height 140)
-;;   (set-face-font 'default "Source Code Pro"))
-
-
-;; windows path convention
-(setenv "CYGWIN" "nodosfilewarning")
-
-;; kill *scratch* buffer if possible
-(kill-buffer "*scratch*")
-;; (kill-buffer "*GNU Emacs*")
-(setq inhibit-startup-message t)        ; Disable startup message
-
-
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-
-;; C-tab to switch bteween buffers.
-(global-set-key [C-tab] 'other-window)
-
-
-;; full path of current buffer
-(defun yt/copy-full-path-to-kill-ring ()
-  "copy buffer's full path to kill ring"
-  (interactive)
-  (when buffer-file-name
-    (kill-new (file-truename buffer-file-name))))
-(global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) ; Or any other key you want
-
-
-;; git
-(require 'magit)
-
-;;;;;;;;;;;;;;;;
-;; helm-swoop ;;
-;;;;;;;;;;;;;;;;
 (require 'helm-swoop)
 
 ;; Change the keybinds to whatever you like :)
@@ -152,6 +57,69 @@
 (setq helm-swoop-speed-or-color nil)
 ;; ----------------------------------------------------------------------
 
+; start auto-complete with emacs
+(require 'auto-complete)
+; do default config for auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
+
+;; (add-to-list 'load-path "~/git/.emacs.d/elpa/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;; recentf files
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(global-set-key "\C-r" 'helm-recentf)
+
+;; prefer horizentally split window
+(setq split-height-threshold nil)
+(setq split-width-threshold 0)
+
+;; font
+(set-default-font "Source Code Pro")
+(set-face-attribute 'default nil :height 140)
+;; (when (window-system)
+;;   (set-frame-font "Source Code Pro")
+;;   (set-face-attribute 'default nil :font "Source Code Pro" :height 140)
+;;   (set-face-font 'default "Source Code Pro"))
+
+;; windows path convention
+(setenv "CYGWIN" "nodosfilewarning")
+;; kill *scratch* buffer if possible
+(kill-buffer "*scratch*")
+;; (kill-buffer "*GNU Emacs*")
+(setq inhibit-startup-message t)        ; Disable startup message
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+
+;; C-tab to switch bteween buffers.
+;; (global-set-key [C-tab] 'other-window)
+
+;; full path of current buffer
+(defun yt/copy-full-path-to-kill-ring ()
+  "copy buffer's full path to kill ring"
+  (interactive)
+  (when buffer-file-name
+    (kill-new (file-truename buffer-file-name))))
+(global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) ; Or any other key you want
+
+
+;; git
+(require 'magit)
+
+
+
 
 (prefer-coding-system 'utf-8)
 (when (display-graphic-p)
@@ -171,29 +139,25 @@
 ;; spell, grammar 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
-;; (load "langtool.el")
-;; (setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/1.3.1/libexec/LanguageTool.jar")
-;; (setq langtool-mother-tongue "en")
-;; (setq-default ispell-program-name "hunspell")
-;; (setq ispell-program-name "/opt/local/bin/aspell") ;; in my mac. 
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
-      ispell-silently-savep t
-      )
-
+      ispell-silently-savep t)
 
 ;; visible notication for invalid options 
 (setq visible-bell t) 
-;; move between windows 
-
-(global-set-key (kbd "S-<up>") 'windmove-up)
-(global-set-key (kbd "S-<down>") 'windmove-down)
-(global-set-key (kbd "S-<right>") 'windmove-right)
-(global-set-key (kbd "S-<left>") 'windmove-left)
-
+;; move between windows, alternatives: window_number.el
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
 
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (font-lock-add-keywords nil
 				    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+;; 
+(nyan-mode 1)
+;; Change "yes or no" to "y or n"
+(fset 'yes-or-no-p 'y-or-n-p)
