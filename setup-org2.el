@@ -143,7 +143,14 @@
               ("p" "Phone call" entry (file "~/git/org/refile.org")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
-               "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+               "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+	      ("l" "Ledger entries")
+	      ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
+	      ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
+	      )))
+
 
 
 ;; Remove empty LOGBOOK drawers on clock out
@@ -819,7 +826,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 	 ;; (gnuplot . t)
 ;;         (clojure . t)
          (sh . t)
-	 ;;  (ledger . t)
+	 (ledger . t)
          (org . t)
          (plantuml . t)
          (latex . t))))
@@ -1905,3 +1912,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 ;; add the following 
 (setq org-capture-bookmark nil)
+
+
+
