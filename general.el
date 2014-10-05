@@ -161,3 +161,27 @@
 (nyan-mode 1)
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
+
+
+
+(defun yt/reload-dot-emacs ()
+  "Save the .emacs buffer if needed, then reload .emacs."
+  (interactive)
+  (let ((dot-emacs "~/.emacs"))
+    (and (get-file-buffer dot-emacs)
+         (save-buffer (get-file-buffer dot-emacs)))
+    (load-file dot-emacs))
+  (message "Re-initialized!"))
+
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+(global-set-key (kbd "<f3>") 'hs-toggle-hiding)
+(global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
+(global-set-key (kbd "C-<f3>") 'hs-hide-all) 
+;;   hs-hide-block                      C-c @ C-h
+;;   hs-show-block                      C-c @ C-s
+;;   hs-hide-all                        C-c @ C-M-h
+;;   hs-show-all                        C-c @ C-M-s
+;;   hs-hide-level                      C-c @ C-l
+;;   hs-toggle-hiding 
+;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
+;;   hs-hide-initial-comment-block
