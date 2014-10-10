@@ -51,10 +51,8 @@
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
 
-(define-key ess-mode-map (kbd "C-d") 'comment-region)
-(define-key ess-mode-map (kbd "C-S-d") 'uncomment-region)
 ;; C-b = list buffers
-(global-set-key (kbd "C-b") 'bs-show)
+;; (global-set-key (kbd "C-b") 'bs-show)
 
 ;; ;; ESS Mode (.R file)
 ;;   (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)

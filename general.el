@@ -185,3 +185,6 @@
 ;;   hs-toggle-hiding 
 ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
 ;;   hs-hide-initial-comment-block
+
+(global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
+(global-set-key (kbd "C-S-d") 'uncomment-region)

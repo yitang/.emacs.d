@@ -1050,6 +1050,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (defun bh/org-agenda-to-appt ()
   (interactive)
   (setq appt-time-msg-list nil)
+  (setq appt-display-format 'window) ;; YT: show notification in separate window
   (org-agenda-to-appt))
 
 ; Rebuild the reminders everytime the agenda is displayed
@@ -1912,6 +1913,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 ;; add the following 
 (setq org-capture-bookmark nil)
+
+
 
 
 
