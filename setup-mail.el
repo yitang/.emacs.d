@@ -33,12 +33,12 @@
 
 ;; something about ourselves
 (setq
- user-mail-address "yi.tang.uni@gmail.com"
+ user-mail-address "yi.tang.uk@me.com"
  user-full-name  "唐毅 (Yi Tang)"
  message-signature
  (concat
   "唐毅 (Yi Tang)\n"
-  "Email: yi.tang.uni@gmail.com\n"
+  "Email: yi.tang.uk@me.com\n"
   "\n"))
 
 
