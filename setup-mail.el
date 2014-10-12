@@ -50,8 +50,8 @@
 ;; alternatively, for emacs-24 you can use:
 (setq message-send-mail-function 'smtpmail-send-it
       smtpmail-stream-type 'starttls
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-default-smtp-server "smtp.mail.me.com"
+      smtpmail-smtp-server "smtp.mail.me.com"
       smtpmail-smtp-service 587)
 
 ;; don't keep message buffers around
@@ -79,7 +79,6 @@
 					;== M-x org-mu4e-compose-org-mode==
 (setq org-mu4e-convert-to-html t) ;; org -> html
 ; = M-m C-c.= 
-
 
 
 
