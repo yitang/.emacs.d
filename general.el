@@ -190,3 +190,19 @@
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
 (global-set-key (kbd "C-b") 'helm-buffer-list)
+
+
+;; backup git repo automatically 
+(defun yt/git-backup ( )
+  (interactive)
+  (call-process-shell-command "~/git/AutoCommit.sh" nil t t))
+(defun yt/save-all-buffers ()
+  "save all files-visiting buffers without user confirmation"
+  (interactive)
+  (save-some-buffers t nil)
+  (message "save all buffers... done"))
+(defun yt/save-git-backup ()
+  (interactive)
+  (yt/save-all-buffers)
+  (yt/git-backup))
+(run-at-time "05:59" 10800 'yt/save-git-backup) 
