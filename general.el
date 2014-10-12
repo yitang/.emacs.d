@@ -188,3 +188,5 @@
 
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
+
+(global-set-key (kbd "C-b") 'helm-buffer-list)

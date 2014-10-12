@@ -1914,6 +1914,18 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;; add the following 
 (setq org-capture-bookmark nil)
 
+;; http://sachachua.com/blog/2014/03/emacs-tweaks-export-org-checkboxes-using-utf-8-symbols/
+(defun sacha/org-html-checkbox (checkbox)
+  "Format CHECKBOX into HTML."
+  (case checkbox (on "<span class=\"check\">&#x2611;</span>") ; checkbox (checked)
+        (off "<span class=\"checkbox\">&#x2610;</span>")
+        (trans "<code>[-]</code>")
+        (t "")))
+(defadvice org-html-checkbox (around sacha activate)
+  (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
+
+
+
 
 
 
