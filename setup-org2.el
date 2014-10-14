@@ -1925,8 +1925,11 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
 
 
-
-
-
+(defun sacha/yank-more ()
+  (interactive)
+  (insert "[[")
+  (yank)
+  (insert "][more]]"))
+(global-set-key (kbd "<f6>") 'sacha/yank-more)
 
 
