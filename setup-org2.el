@@ -108,26 +108,6 @@
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
 
-;; ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-;; (setq org-capture-templates
-;;       (quote (("t" "todo" entry (file "~/git/org/refile.org")
-;;                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-;;               ("r" "respond" entry (file "~/git/org/refile.org")
-;;                ;; "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-;; 	       "* NEXT Respond to %^{whom} on %^{subject} \nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-;;               ("n" "note" entry (file "~/git/org/refile.org")
-;;                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-;;               ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
-;;                "* %?\n%U\n" :clock-in t :clock-resume t)
-;;               ("w" "org-protocol" entry (file "~/git/org/refile.org")
-;;                "* TODO Review %c\n%U\n" :immediate-finish t)
-;;               ("m" "Meeting" entry (file "~/git/org/refile.org")
-;;                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-;;               ("p" "Phone call" entry (file "~/git/org/refile.org")
-;;                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-;;               ("h" "Habit" entry (file "~/git/org/habits.org")
-;;                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-
 ;; mine modication 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
@@ -149,6 +129,27 @@
 	       "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
 	      ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
 	       "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
+	      ("f" "Food log")
+	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  Cook:Breakfast\tM %^{Time}
+  Eat:Breakfast\tM %^{Time} 
+  Time:Food" :immediate-finish :clock-in t :clock-resume t)
+	      ("fl" "Lunch" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  Cook:Lunch\tM %^{Time}
+  Eat:Lunch\tM %^{Time} 
+  Time:Food" :immediate-finish :clock-in t :clock-resume t)
+	      ("fd" "Dinner" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  Cook:Dinner\tM %^{Time}
+  Eat:Dinner\tM %^{Time} 
+  Time:Food" :immediate-finish :clock-in t :clock-resume t)
+	      ("fs" "Snack" plain (file+olp "~/git/org/refile.org"  "Finance")
+	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  Cook:Snack\tM %^{Time}
+  Eat:Snack\tM %^{Time} 
+  Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      )))
 
 
@@ -1931,5 +1932,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (yank)
   (insert "][more]]"))
 (global-set-key (kbd "<f6>") 'sacha/yank-more)
+
 
 
