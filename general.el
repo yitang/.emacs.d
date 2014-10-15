@@ -206,7 +206,9 @@
   (interactive)
   (yt/save-all-buffers)
   (yt/git-backup))
-(run-at-time "05:59" 10800 'yt/save-git-backup) 
+
+(cond ((eq system-type 'darwin)
+       (run-at-time "05:59" 10800 'yt/save-git-backup)))
 
 
 

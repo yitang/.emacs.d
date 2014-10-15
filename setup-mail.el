@@ -32,14 +32,14 @@
 
 
 ;; something about ourselves
-(setq
- user-mail-address "yi.tang.uk@me.com"
- user-full-name  "唐毅 (Yi Tang)"
- message-signature
- (concat
-  "唐毅 (Yi Tang)\n"
-  "Email: yi.tang.uk@me.com\n"
-  "\n"))
+;; ;; (setq
+;; ;; user-mail-address "yi.tang.uk@me.com"
+;; ;; user-full-name  "唐毅 (Yi Tang)"
+;;  ;; message-signature
+;;  ;; (concat
+;;  ;;  "唐毅 (Yi Tang)\n"
+;;  ;;  "Email: yi.tang.uk@me.com\n"
+;;  ;;  "\n"))
 
 
 ;; sending mail -- replace USERNAME with your gmail username
@@ -48,11 +48,47 @@
 (require 'smtpmail)
 
 ;; alternatively, for emacs-24 you can use:
-(setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-stream-type 'starttls
-      smtpmail-default-smtp-server "smtp.mail.me.com"
-      smtpmail-smtp-server "smtp.mail.me.com"
-      smtpmail-smtp-service 587)
+;; (setq message-send-mail-function 'smtpmail-send-it
+;;       smtpmail-stream-type 'starttls
+;;       smtpmail-default-smtp-server "smtp.mail.me.com"
+;;       smtpmail-smtp-server "smtp.mail.me.com"
+;;       smtpmail-smtp-service 587)
+
+(defun yt/mail-setup () 
+  (interactive)
+  (cond
+   ((eq system-type 'gnu/linux)
+    (setq message-send-mail-function 'smtpmail-send-it
+	  smtpmail-stream-type 'starttls
+	  smtpmail-default-smtp-server "smtp.office365.com"
+	  smtpmail-smtp-server "smtp.office365.com"
+	  smtpmail-smtp-service 587
+	  user-mail-address "yi.tang@jbarisk.com"
+	  user-full-name  "唐毅 (Yi Tang)"
+	  message-signature
+	  (concat
+	   "Yi Tang\n"
+	   "Statistician\n"
+	   "T: +44 (0) 1756 799919\n")
+	  )
+    (message "sent email via office365 email account"))
+   ((eq system-type 'darwin)
+    (setq message-send-mail-function 'smtpmail-send-it
+	  smtpmail-stream-type 'starttls
+	  smtpmail-default-smtp-server "smtp.mail.me.com"
+	  smtpmail-smtp-server "smtp.mail.me.com"
+	  smtpmail-smtp-service 587
+	  user-mail-address "yi.tang.uk@me.com"
+	  user-full-name  "唐毅 (Yi Tang)"
+	  message-signature
+	  (concat
+	   "唐毅 (Yi Tang)\n"
+	   "Email: yi.tang.uk@me.com\n"
+	   "\n")
+	  )   
+    (message "sent email via icloud email account"))
+))
+(yt/mail-setup)
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
