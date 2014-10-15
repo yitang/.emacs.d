@@ -189,13 +189,14 @@
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
-(global-set-key (kbd "C-b") 'helm-buffer-list)
+(global-set-key (kbd "C-b") 'helm-buffers-list)
 
 
 ;; backup git repo automatically 
 (defun yt/git-backup ( )
   (interactive)
-  (call-process-shell-command "~/git/AutoCommit.sh" nil t t))
+  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
+  (message "all git sync... done"))
 (defun yt/save-all-buffers ()
   "save all files-visiting buffers without user confirmation"
   (interactive)
@@ -206,3 +207,6 @@
   (yt/save-all-buffers)
   (yt/git-backup))
 (run-at-time "05:59" 10800 'yt/save-git-backup) 
+
+
+
