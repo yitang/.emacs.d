@@ -214,6 +214,28 @@
 
 
 
+(defun sacha/yank-more ()
+  (interactive)
+  (insert "[[")
+  (yank)
+  (insert "][more]]"))
+(global-set-key (kbd "<f6>") 'sacha/yank-more)
+
+;; osx, work with homebrew 
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell 
+	 (replace-regexp-in-string "[[:space:]\n]*$" "" 
+				   (shell-command-to-string "$SHELL -l -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+(when (equal system-type 'darwin) (set-exec-path-from-shell-PATH))
+
+(cond (eq system-type 'darwin)
+      (fset 'insertPound "#")
+      (global-set-key (kbd "M-3") 'insertPound)
+      )
+
+
+
+
 (message "End of general.el")
-
-

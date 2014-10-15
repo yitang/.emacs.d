@@ -117,6 +117,15 @@
 
 
 
+(require 'org-mime)
+(setq org-mime-library 'mml)
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
 
 ;; (defvar my-mu4e-account-alist
 ;;   '(("Gmail"
