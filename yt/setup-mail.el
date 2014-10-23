@@ -4,6 +4,7 @@
 ;; M-x mu4e
 ;; from mu's official manual 
 ;;----------------------------------------------------------
+ (add-to-list 'load-path "~/mu-master/mu4e")
 (require 'mu4e)
 (setq mu4e-mu-binary "/usr/local/bin/mu")
 ;; default
@@ -13,7 +14,7 @@
 (setq mu4e-trash-folder  "/iCloud.Trash")
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-(setq mu4e-sent-messages-behavior 'delete)
+(setq mu4e-sent-messages-behavior 'sent)
 
 ;; setup some handy shortcuts
 ;; you can quickly switch to your Inbox -- press ``ji''
@@ -171,3 +172,23 @@
 
 
 
+
+
+
+(cond
+ ((eq system-type 'gnu/linux)
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-sent-folder   "/Sent Items")
+  (setq mu4e-trash-folder  "/Trash")
+  (setq mu4e-maildir-shortcuts
+	'( ("/JBA/INBOX"               . ?i)
+	   ("/Sent Items"   . ?s)
+	   ("/Trash"       . ?t)
+	   ("/All Mail"    . ?a)))))
+
+(setq mu4e-compose-signature
+     (concat
+      "Yi Tang\n"
+      "Statistician\n"
+      "T: +44 (0) 1756 799919\n")
+     )
