@@ -1,3 +1,5 @@
+(print "Start of general.el")
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
@@ -211,4 +213,18 @@
        (run-at-time "05:59" 10800 'yt/save-git-backup)))
 
 
+;; osx, work with homebrew 
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell 
+	 (replace-regexp-in-string "[[:space:]\n]*$" "" 
+				   (shell-command-to-string "$SHELL -l -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+(when (equal system-type 'darwin) (set-exec-path-from-shell-PATH))
 
+(cond ((eq system-type 'darwin)
+      (fset 'insertPound "#")
+      (global-set-key (kbd "M-3") 'insertPound)
+      ))
+
+ (print "End of general.el")

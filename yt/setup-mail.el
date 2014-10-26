@@ -8,9 +8,9 @@
 (setq mu4e-mu-binary "/usr/local/bin/mu")
 ;; default
 (setq mu4e-maildir "~/Maildir")
-(setq mu4e-drafts-folder "/iCloud.Drafts")
-(setq mu4e-sent-folder   "/iCloud.Sent Mail")
-(setq mu4e-trash-folder  "/iCloud.Trash")
+(setq mu4e-drafts-folder "/iCloud/Drafts")
+(setq mu4e-sent-folder   "/iCloud/Sent Messages")
+(setq mu4e-trash-folder  "/iCloud/Deleted Messages")
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
@@ -22,9 +22,10 @@
 
 (setq mu4e-maildir-shortcuts
       '( ("/iCloud/INBOX"               . ?i)
-         ("/iCloud.Sent Mail"   . ?s)
-         ("/iCloud.Trash"       . ?t)
-         ("/iCloud.All Mail"    . ?a)))
+         ("/iCloud/Sent Messages"   . ?s)
+         ("/iCloud/Deleted Messages"       . ?t)
+         ;; ("/iCloud.All Mail"    . ?a)
+	 ))
 
 
 ;; allow for updating mail using 'U' in the main view:
@@ -45,14 +46,8 @@
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
 ;; package 'gnutls-bin' in Debian/Ubuntu
+(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
 (require 'smtpmail)
-
-;; alternatively, for emacs-24 you can use:
-;; (setq message-send-mail-function 'smtpmail-send-it
-;;       smtpmail-stream-type 'starttls
-;;       smtpmail-default-smtp-server "smtp.mail.me.com"
-;;       smtpmail-smtp-server "smtp.mail.me.com"
-;;       smtpmail-smtp-service 587)
 
 (defun yt/mail-setup () 
   (interactive)
@@ -63,6 +58,7 @@
 	  smtpmail-default-smtp-server "smtp.office365.com"
 	  smtpmail-smtp-server "smtp.office365.com"
 	  smtpmail-smtp-service 587
+	  smtpmail-smtp-user "yi.tang@jbarisk.com"
 	  user-mail-address "yi.tang@jbarisk.com"
 	  user-full-name  "唐毅 (Yi Tang)"
 	  message-signature
@@ -78,6 +74,7 @@
 	  smtpmail-default-smtp-server "smtp.mail.me.com"
 	  smtpmail-smtp-server "smtp.mail.me.com"
 	  smtpmail-smtp-service 587
+	  smtpmail-smtp-user "yi.tang.uk@me.com"
 	  user-mail-address "yi.tang.uk@me.com"
 	  user-full-name  "唐毅 (Yi Tang)"
 	  message-signature
