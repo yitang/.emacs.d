@@ -132,21 +132,25 @@
 	      ("f" "Food log")
 	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-  Cook:Breakfast\tM %^{Time}
-  Eat:Breakfast\tM %^{Time} 
+  ; %^{What_I_Ate}
+  Cook:Breakfast\t M %^{Time}
+  Eat:Breakfast\t M %^{Time} 
   Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      ("fl" "Lunch" plain (file+olp "~/git/org/refile.org"  "Finance")
 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ; %^{What_I_Ate}
   Cook:Lunch\tM %^{Time}
   Eat:Lunch\tM %^{Time} 
   Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      ("fd" "Dinner" plain (file+olp "~/git/org/refile.org"  "Finance")
 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ; %^{What_I_Ate}
   Cook:Dinner\tM %^{Time}
   Eat:Dinner\tM %^{Time} 
   Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      ("fs" "Snack" plain (file+olp "~/git/org/refile.org"  "Finance")
 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ; %^{What_I_Ate}
   Cook:Snack\tM %^{Time}
   Eat:Snack\tM %^{Time} 
   Time:Food" :immediate-finish :clock-in t :clock-resume t)
@@ -155,11 +159,17 @@
 
 
 ;; Remove empty LOGBOOK drawers on clock out
+;; (defun bh/remove-empty-drawer-on-clock-out ()
+;;   (interactive)
+;;   (save-excursion
+;;     (beginning-of-line 0)
+;;     (org-remove-empty-drawer-at (point))))
+;; replaced above by: http://stackoverflow.com/questions/21767471/org-capture-and-time-clocking-misbehaving
 (defun bh/remove-empty-drawer-on-clock-out ()
   (interactive)
   (save-excursion
     (beginning-of-line 0)
-    (org-remove-empty-drawer-at (point))))
+    (org-remove-empty-drawer-at "LOGBOOK" (point))))
 
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
