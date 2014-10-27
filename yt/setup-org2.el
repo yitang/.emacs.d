@@ -215,7 +215,7 @@
 (setq org-agenda-dim-blocked-tasks nil)
 
 ;; Compact the block agenda view
-(setq org-agenda-compact-blocks t)
+(setq org-agenda-compact-blocks nil)
 
 ;; Custom agenda command definitions
 (setq org-agenda-custom-commands
