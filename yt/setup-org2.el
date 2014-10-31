@@ -1943,6 +1943,4 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (insert "][more]]"))
 (global-set-key (kbd "<f6>") 'sacha/yank-more)
 
-
-
-
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
