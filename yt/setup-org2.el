@@ -125,9 +125,11 @@
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 	      ("l" "Ledger entries")
-	      ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
+	      ;; ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
+	      ("ll" "Lloyas" plain (file "~/ledger")
 	       "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
-	      ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
+	      ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
+	      ("lc" "Cash" plain (file "~/ledger")
 	       "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
 	      ("f" "Food log")
 	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
@@ -1424,6 +1426,7 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-agenda-include-diary nil)
 (setq org-agenda-diary-file "~/git/org/diary.org")
 
+
 (setq org-agenda-insert-diary-extract-time t)
 
 ;; Include agenda archive files when searching for things
@@ -1448,7 +1451,7 @@ so change the default 'F' binding in the agenda to allow both"
 ;; Enable display of the time grid so we can see the marker for the current time
 (setq org-agenda-time-grid (quote ((daily today remove-match)
                                    #("----------------" 0 16 (org-heading t))
-                                   (0900 1100 1300 1500 1700))))
+                                   (0900 1100 1200 1200 1300 1500 1700))))
 
 ;; Display tags farther right
 (setq org-agenda-tags-column -102)
@@ -1557,7 +1560,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
     (add-to-list 'load-path org-mode-user-contrib-lisp-path)
   (add-to-list 'load-path (expand-file-name "~/git/org-mode/contrib/lisp")))
 
-;; (require 'org-checklist) ;; BUG: need org-contrib
+(require 'org-checklist) ;; BUG: need org-contrib
 
 (setq org-enforce-todo-dependencies t)
 
@@ -1943,6 +1946,10 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (insert "][more]]"))
 (global-set-key (kbd "<f6>") 'sacha/yank-more)
 
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
 
 
-
+(defun yt/open-diary ()
+  (interactive)
+  (find-file "~/git/org/diary.org"))
+(global-set-key (kbd "<f9> d") 'yt/open-diary)
