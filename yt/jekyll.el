@@ -84,23 +84,23 @@
 
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 
-;; ;; Improve our blogging experience with Org-Jekyll. This code sets four
-;; ;; functions with corresponding key bindings:
-;; ;;
-;; ;; C-c j n - Create new draft
-;; ;; C-c j P - Post current draft
-;; ;; C-c j d - Show all drafts
-;; ;; C-c j p - Show all posts
-;; ;;
-;; ;; Once a draft has been posted (i.e., moved from the _drafts
-;; ;; directory to _post with the required date prefix in the filename), we
-;; ;; then need to html-export it to the jekyll rootdir (with org-publish).
+;; Improve our blogging experience with Org-Jekyll. This code sets four
+;; functions with corresponding key bindings:
+;;
+;; C-c j n - Create new draft
+;; C-c j P - Post current draft
+;; C-c j d - Show all drafts
+;; C-c j p - Show all posts
+;;
+;; Once a draft has been posted (i.e., moved from the _drafts
+;; directory to _post with the required date prefix in the filename), we
+;; then need to html-export it to the jekyll rootdir (with org-publish).
 
-;; (global-set-key (kbd "C-c j n") 'jekyll-draft-post)
-;; (global-set-key (kbd "C-c j P") 'jekyll-publish-post)
-;; (global-set-key (kbd "C-c j p") (lambda ()
-;; 				  (interactive)
-;; 				  (find-file "~/org-jekyll/org/_posts/")))
-;; (global-set-key (kbd "C-c j d") (lambda ()
-;; 				  (interactive)
-;; 				  (find-file "~/org-jekyll/org/_drafts/")))
+(global-set-key (kbd "C-c j n") 'jekyll-draft-post)
+(global-set-key (kbd "C-c j P") 'jekyll-publish-post)
+(global-set-key (kbd "C-c j p") (lambda ()
+				  (interactive)
+				  (find-file "~/org-jekyll/org/_posts/")))
+(global-set-key (kbd "C-c j d") (lambda ()
+				  (interactive)
+				  (find-file "~/org-jekyll/org/_drafts/")))

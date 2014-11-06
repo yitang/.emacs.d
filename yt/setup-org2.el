@@ -1952,12 +1952,18 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (defun yt/open-diary ()
   (interactive)
   (find-file "~/git/org/diary.org"))
-(global-set-key (kbd "<f9> d") 'yt/open-diary)
-
  
+(defun yt/open-tmp-R ()
+  (interactive)
+  (find-file "~/git/org/tmp.R"))
+(defun yt/open-tmp-el ()
+  (interactive)
+  (find-file "~/git/org/tmp.el"))
+(global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
+(global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
+(global-set-key (kbd "<f9> f d") 'yt/open-diary)
 
-
-
-
+(global-set-key (kbd "<f9> e") 'mu4e)
+(global-set-key (kbd "<f9> g") 'magit-status)
 
 
