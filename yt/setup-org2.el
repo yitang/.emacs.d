@@ -17,7 +17,7 @@
 (global-set-key (kbd "<f9> <f9>") 'bh/show-org-agenda)
 (global-set-key (kbd "<f9> b") 'bbdb)
 (global-set-key (kbd "<f9> c") 'calendar)
-(global-set-key (kbd "<f9> f") 'boxquote-insert-file)
+;; (global-set-key (kbd "<f9> f") 'boxquote-insert-file)
 (global-set-key (kbd "<f9> g") 'gnus)
 (global-set-key (kbd "<f9> h") 'bh/hide-other)
 (global-set-key (kbd "<f9> n") 'bh/toggle-next-task-display)
@@ -1953,3 +1953,11 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (interactive)
   (find-file "~/git/org/diary.org"))
 (global-set-key (kbd "<f9> d") 'yt/open-diary)
+
+ 
+
+
+
+
+
+
