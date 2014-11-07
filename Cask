@@ -1,0 +1,15 @@
+(source org)
+(source melpa)
+
+(depends-on "ess")
+(depends-on "auto-complete")
+(depends-on "nyan-mode")
+(depends-on "yasnippet")
+(depends-on "projectile")
+(depends-on "magit")
+(depends-on "helm-swoop")
+(depends-on "nyan-mode")
+(depends-on "org-jekyll")
+(depends-on "org-plus-contrib")
+
+(depends-on "helm-projectile")
