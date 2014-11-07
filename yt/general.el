@@ -66,8 +66,8 @@
 (ac-config-default)
 
 ;; (add-to-list 'load-path "~/git/.emacs.d/elpa/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
 
 ;; recentf files
 (require 'recentf)
@@ -209,8 +209,8 @@
   (yt/save-all-buffers)
   (yt/git-backup))
 
-(cond ((eq system-type 'darwin)
-       (run-at-time "05:59" 10800 'yt/save-git-backup)))
+;; (cond ((eq system-type 'darwin)
+;;        (run-at-time "05:59" 10800 'yt/save-git-backup)))
 
 
 ;; osx, work with homebrew 
@@ -227,4 +227,5 @@
       (global-set-key (kbd "M-3") 'insertPound)
       ))
 
- (print "End of general.el")
+(print "End of general.el")
+
