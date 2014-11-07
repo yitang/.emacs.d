@@ -499,8 +499,8 @@ A prefix arg forces clock in of the default task."
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
-(require 'bbdb)
-(require 'bbdb-com)
+;; (require 'bbdb)
+;; (require 'bbdb-com)
 
 (global-set-key (kbd "<f9> p") 'bh/phone-call)
 
@@ -1964,4 +1964,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (global-set-key (kbd "<f9> e") 'mu4e)
 (global-set-key (kbd "<f9> g") 'magit-status)
+
+
+
+(setq org-agenda-tags-column 120)
 
