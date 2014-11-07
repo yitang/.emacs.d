@@ -1454,7 +1454,7 @@ so change the default 'F' binding in the agenda to allow both"
                                    (0900 1100 1200 1200 1300 1500 1700))))
 
 ;; Display tags farther right
-(setq org-agenda-tags-column -102)
+;; (setq org-agenda-tags-column -102)
 
 ;;
 ;; Agenda sorting functions
@@ -1952,6 +1952,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (defun yt/open-diary ()
   (interactive)
   (find-file "~/git/org/diary.org"))
+ 
 (defun yt/open-tmp-R ()
   (interactive)
   (find-file "~/git/org/tmp.R"))
@@ -1965,7 +1966,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (global-set-key (kbd "<f9> e") 'mu4e)
 (global-set-key (kbd "<f9> g") 'magit-status)
 
-
-
 (setq org-agenda-tags-column 120)
+
 
