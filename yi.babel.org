@@ -2,7 +2,7 @@
 
 * Update Emacs library
 #+NAME: UpdateEmacsPackages
-#+begin_src sh 
+#+begin_src sh :results scalar 
 cask install --path ~/git/.emacs.d
 cask upgrade-cask --path ~/git/.emacs.d
 git add -A 
@@ -1926,6 +1926,11 @@ git push
 | create  | mode     |   100644 | .cask/25.0.50.1/elpa/zenburn-theme-20140811.754/zenburn-theme.el                                     |                |     |              |          |     |      |
 | create  | mode     |   100644 | yi.babel.org                                                                                         |                |     |              |          |     |      |
 
-#+call: UpdateEmacsPackages
+#+call: UpdateEmacsPackages()
+
+#+results:
+| [master | 6eca3f2] | cask     | update         | Sat            | Nov |           8 | 18:05:42 | GMT | 2014 |
+| 2       | files    | changed, | 1920           | insertions(+), |   1 | deletion(-) |          |     |      |
+| create  | mode     | 120000   | .#yi.babel.org |                |     |             |          |     |      |
 
 * library
