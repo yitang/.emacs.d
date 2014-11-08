@@ -1,0 +1,13 @@
+#+STARTUP:  hideblocks
+
+* Update Emacs library
+#+begin_src sh
+cask install --path ~/git/.emacs.d
+cask upgrade-cask --path ~/git/.emacs.d
+git add -A 
+git commit -m "cask update $(date)"
+git push 
+#+end_src
+
+
+* library

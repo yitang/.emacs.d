@@ -2,6 +2,7 @@
 (source melpa)
 
 (depends-on "ess")
+(depends-on "ssh")
 (depends-on "auto-complete")
 (depends-on "nyan-mode")
 (depends-on "yasnippet")
@@ -11,5 +12,6 @@
 (depends-on "nyan-mode")
 (depends-on "org-jekyll")
 (depends-on "org-plus-contrib")
-
 (depends-on "helm-projectile")
+(depends-on "rainbow-delimiters")
+(depends-on "zenburn-theme")

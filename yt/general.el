@@ -227,5 +227,10 @@
       (global-set-key (kbd "M-3") 'insertPound)
       ))
 
+
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode t) ;for Emacs
+(load-theme 'zenburn t)
 (print "End of general.el")
+
 
