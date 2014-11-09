@@ -465,7 +465,7 @@ A prefix arg forces clock in of the default task."
       (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
 
 ; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %20Mood")
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
 ; global Effort estimate values
 ; global STYLE property values for completion

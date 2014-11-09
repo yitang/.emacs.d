@@ -1,7 +1,8 @@
+;; (org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
 #+STARTUP:  hideblocks
 
 * Update Emacs library
-#+NAME: UpdateEmacsPackages
+#+name: UpdateEmacsPackages
 #+begin_src sh :results scalar 
 cask install --path ~/git/.emacs.d
 cask upgrade-cask --path ~/git/.emacs.d
@@ -1929,8 +1930,137 @@ git push
 #+call: UpdateEmacsPackages()
 
 #+results:
-| [master | 6eca3f2] | cask     | update         | Sat            | Nov |           8 | 18:05:42 | GMT | 2014 |
-| 2       | files    | changed, | 1920           | insertions(+), |   1 | deletion(-) |          |     |      |
-| create  | mode     | 120000   | .#yi.babel.org |                |     |             |          |     |      |
+: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
+:  2 files changed, 7 insertions(+), 3 deletions(-)
+:  delete mode 120000 .#yi.babel.org
+
+* Show expense (Ledger) 
+
+#+name: WeeklyExp
+#+begin_src sh
+ledger --period "this week" --start-of-week=1 -f ~/ledger register Exp -S "date, amount" 
+
+
+
+ledger --period "this week" -f ~/ledger register Exp -S "date, amount" --start-of-week=1 # last week's expense, sort by day, then by amount
+
+
+## Weekly_Exp_Summary
+ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
+
+#+end_src
+
+#+name: Weekly_Exp_Summary
+#+begin_src sh :results scalar 
+## Weekly_Exp_Summary
+ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
+#+end_src
+
+#+name: Monthly_Exp
+#+begin_src sh
+ledger --period "this month" -f ~/ledger register Exp # monthly expense
+#+end_src
+
+#+call: Weekly_Exp_Summary()
+
+#+results:
+: 14-Nov-04 Skipton               Expenses:Transport           £ 2.50       £ 2.50
+: 14-Nov-03 Rebecca-Stroud        Expenses:Transport           £ 3.00       £ 5.50
+: 14-Nov-08 Costa                 <Total>                      £ 4.40       £ 9.90
+: 14-Nov-03 GiffGaff              Expenses:Bill:Phone         £ 12.00      £ 21.90
+: 14-Nov-03 Sky                   Expenses:Bill:Internet      £ 12.70      £ 34.60
+: 14-Nov-06 Morisson              Expenses:Grocery            £ 16.87      £ 51.47
+: 14-Nov-03 UK-GOV                <Total>                    £ 172.35     £ 223.82
 
 * library
+
+
+* R 
+** Time and Date 
+#+NAME: date_before_today_in_this_week
+#+begin_src R :results value
+map <- c("Monday" = 1, 
+         "Tuesday" = 2,
+         "Wednesday" = 3,
+         "Thursday" = 4, 
+         "Friday" = 5, 
+         "Saturday" = 6, 
+         "Sunday" = 7)
+t <- Sys.Date()
+wd <- weekdays(t)
+wdi <- map[wd]
+res <- t + 1:wdi
+res
+#+end_src
+
+#+results: date_before_today_in_this_week
+| 2014-11-10 |
+| 2014-11-11 |
+| 2014-11-12 |
+| 2014-11-13 |
+| 2014-11-14 |
+| 2014-11-15 |
+| 2014-11-16 |
+
+
+
+* Emacs Lisp 
+
+** org-todos 
+#+NAME: todos_summary 
+#+begin_src elisp :results drawer
+(defun sacha/org-count-tasks-by-status ()
+  (interactive)
+  (let ((counts (make-hash-table :test 'equal))
+        (today (format-time-string "%Y-%m-%d" (current-time)))
+        ;; (today ymd)
+        values output)
+    (org-map-entries
+     (lambda ()
+       (let* ((status (elt (org-heading-components) 2)))
+         (when status
+           (puthash status (1+ (or (gethash status counts) 0)) counts))))
+     nil
+     'agenda)
+    (setq values (mapcar (lambda (x)
+                           (or (gethash x counts) 0))
+                         '("DONE" "STARTED" "TODO" "WAITING" "DELEGATED" "CANCELLED" "SOMEDAY")))
+    (setq output
+          (concat "| " today " | "
+                  (mapconcat 'number-to-string values " | ")
+                  " | "
+                  (number-to-string (apply '+ values))
+                  " | "
+                  (number-to-string
+                   (round (/ (* 100.0 (car values)) (apply '+ values))))
+                  "% |"))
+    (if (called-interactively-p 'any)
+        (insert output)
+      output)))
+
+
+(princ "|       Date | DONE | START. | TODO | WAIT. | DELEG. | CANC. | SOMEDAY | Total | % done | + done | +canc. | + total | + t - d - c | Note |")
+(princ "\n")
+(princ "|------------+------+--------+------+-------+--------+-------+---------+-------+--------+--------+--------+---------+-------------+------|")
+(princ "\n")
+(princ (sacha/org-count-tasks-by-status))
+#+end_src
+
+#+results: todos_summary
+:RESULTS:
+| 2014-11-09 | 191 | 0 | 115 | 1 | 0 | 11 | 0 | 318 | 60% |
+:END:
+
+
+
+
+
+(setq i 0)
+(while (<= i  (length x))
+  ;;     (setq elem (elt x i))
+  ;; (print i )
+  ;; (print elem)
+  (princ (sacha/org-count-tasks-by-status (nth i x)))
+  (setq i (+ 1 i))
+  )
+(princ "\n")
