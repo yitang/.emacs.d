@@ -2024,7 +2024,8 @@ res
      'agenda)
     (setq values (mapcar (lambda (x)
                            (or (gethash x counts) 0))
-                         '("DONE" "STARTED" "TODO" "WAITING" "DELEGATED" "CANCELLED" "SOMEDAY")))
+                         '("TODO" "NEXT" "DONE" "WAITING" "HOLD" "CANCELLED" "PHONE" "MEETING")))
+;;'("DONE" "STARTED" "TODO" "WAITING" "DELEGATED" "CANCELLED" "SOMEDAY")))
     (setq output
           (concat "| " today " | "
                   (mapconcat 'number-to-string values " | ")
@@ -2064,3 +2065,25 @@ res
   (setq i (+ 1 i))
   )
 (princ "\n")
+
+
+
+#+call: todos_summary()
+
+#+results:
+: | 2014-11-10 | 109 | 67 | 194 | 1 | 1 | 11 | 0 | 12 | 395 | 28% |
+
+
+|       date | "TODO" | "NEXT" | "DONE" | "WAITING" | "HOLD" | "CANCELLED" | "PHONE" | "MEETING" |     |     |
+|------------+--------+--------+--------+-----------+--------+-------------+---------+-----------+-----+-----|
+| 2014-11-10 |    109 |     67 |    194 |         1 |      1 |          11 |       0 |        12 | 395 | 28% |
+
+ | 2014-11-10 | 194 | 0 | 109 | 1 | 0 | 11 | 0 | 315 | 62% |
+
+| 2014-11-09 | 191 | 0 | 115 | 1 | 0 | 11 | 0 | 318 | 60% |
+
+
+'("DONE" "STARTED" "TODO" "WAITING" "DELEGATED" "CANCELLED" "SOMEDAY")))
+
+
+"TODO" "NEXT" "DONE" "WAITING" "HOLD" "CANCELLED" "PHONE" "MEETING"
