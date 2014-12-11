@@ -15,3 +15,4 @@
 (depends-on "helm-projectile")
 (depends-on "rainbow-delimiters")
 (depends-on "zenburn-theme")
+(depends-on "htmlize")
