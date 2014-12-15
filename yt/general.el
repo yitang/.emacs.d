@@ -195,9 +195,10 @@
 
 
 ;; backup git repo automatically 
-(defun yt/git-backup ( )
+(defun yt/git-backup ()
   (interactive)
-  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
+  ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
+  (start-process-shell-command "git-sync" "~/git/org/sync.log" "~/git/org/AutoSync.sh")
   (message "all git sync... done"))
 (defun yt/save-all-buffers ()
   "save all files-visiting buffers without user confirmation"
@@ -209,9 +210,8 @@
   (yt/save-all-buffers)
   (yt/git-backup))
 
-;; (cond ((eq system-type 'darwin)
-;;        (run-at-time "05:59" 10800 'yt/save-git-backup)))
-
+(cond ((eq system-type 'darwin)
+        (run-at-time "05:59" 10800 'yt/save-git-backup)))
 
 ;; osx, work with homebrew 
 (defun set-exec-path-from-shell-PATH ()
