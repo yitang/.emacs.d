@@ -2037,4 +2037,4 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;; (add-to-list 'my-htmlize-off-modes 'rainbow-delimiters-mode)
 
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
-
+(setq org-image-actual-width '(400))
