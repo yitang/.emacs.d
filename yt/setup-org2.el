@@ -126,7 +126,7 @@
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 	      ("l" "Ledger entries")
 	      ;; ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ("ll" "Lloyas" plain (file "~/ledger")
+	      ("ll" "Lloyas" plain (file "~/ImportantFiles/ledger")
 	       "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
 	      ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
 	      ("lc" "Cash" plain (file "~/ledger")
@@ -2035,3 +2035,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (add-hook 'htmlize-before-hook 'my-htmlize-before-hook-default)
 
 ;; (add-to-list 'my-htmlize-off-modes 'rainbow-delimiters-mode)
+
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
+
