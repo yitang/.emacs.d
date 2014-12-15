@@ -30,7 +30,7 @@
 
 ;; helm 
 (require 'helm-config)
- (helm-mode 1)
+(helm-mode 1)
 (require 'helm-swoop)
 
 ;; Change the keybinds to whatever you like :)
@@ -59,9 +59,9 @@
 (setq helm-swoop-speed-or-color nil)
 ;; ----------------------------------------------------------------------
 
-; start auto-complete with emacs
+					; start auto-complete with emacs
 (require 'auto-complete)
-; do default config for auto-complete
+					; do default config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -211,7 +211,7 @@
   (yt/git-backup))
 
 (cond ((eq system-type 'darwin)
-        (run-at-time "05:59" 10800 'yt/save-git-backup)))
+       (run-at-time "05:59" 10800 'yt/save-git-backup)))
 
 ;; osx, work with homebrew 
 (defun set-exec-path-from-shell-PATH ()
@@ -223,9 +223,9 @@
 (when (equal system-type 'darwin) (set-exec-path-from-shell-PATH))
 
 (cond ((eq system-type 'darwin)
-      (fset 'insertPound "#")
-      (global-set-key (kbd "M-3") 'insertPound)
-      ))
+       (fset 'insertPound "#")
+       (global-set-key (kbd "M-3") 'insertPound)
+       ))
 
 
 ;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -234,3 +234,16 @@
 (print "End of general.el")
 
 
+
+(defun yt/delete-this-buffer-and-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
