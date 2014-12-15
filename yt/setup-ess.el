@@ -66,3 +66,12 @@
 
 
 
+;; edit roxy template
+;; ess-roxy-update-entry
+(setq ess-roxy-template-alist '(("description" . ".. content for \\description{} (no empty lines) ..")
+				("details" . ".. content for \\details{} ..")
+				("title" . "")
+				("param" . "")
+				("return" . "")
+				("export" . "")
+				("author" . "Yi Tang")))
