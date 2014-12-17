@@ -16,3 +16,4 @@
 (depends-on "rainbow-delimiters")
 (depends-on "zenburn-theme")
 (depends-on "htmlize")
+(depends-on "nanowrimo")
