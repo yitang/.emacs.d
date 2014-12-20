@@ -104,10 +104,10 @@
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
 				  (interactive)
-				  (find-file "~/org-jekyll/org/_posts/")))
+				  (find-file "~/git/yi-tang.github.io/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
 				  (interactive)
-				  (find-file "~/org-jekyll/org/_drafts/")))
+				  (find-file "~/git/yi-tang.github.io/org/_drafts/")))
 
 
 
