@@ -126,36 +126,36 @@
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
 	      ("l" "Ledger entries")
 	      ;; ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ("ll" "Lloyas" plain (file "~/ImportantFiles/ledger")
+	      ("ll" "Lloyas" plain (file "~/git/ImportantFiles/ledger")
 	       "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
 	      ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ("lc" "Cash" plain (file "~/ledger")
+	      ("lc" "Cash" plain (file "~/git/ImportantFiles/ledger")
 	       "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
-	      ("f" "Food log")
-	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
-	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-  ; %^{What_I_Ate}
-  Cook:Breakfast\t M %^{Time}
-  Eat:Breakfast\t M %^{Time} 
-  Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ("fl" "Lunch" plain (file+olp "~/git/org/refile.org"  "Finance")
-	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-  ; %^{What_I_Ate}
-  Cook:Lunch\tM %^{Time}
-  Eat:Lunch\tM %^{Time} 
-  Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ("fd" "Dinner" plain (file+olp "~/git/org/refile.org"  "Finance")
-	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-  ; %^{What_I_Ate}
-  Cook:Dinner\tM %^{Time}
-  Eat:Dinner\tM %^{Time} 
-  Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ("fs" "Snack" plain (file+olp "~/git/org/refile.org"  "Finance")
-	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-  ; %^{What_I_Ate}
-  Cook:Snack\tM %^{Time}
-  Eat:Snack\tM %^{Time} 
-  Time:Food" :immediate-finish :clock-in t :clock-resume t)
+  ;; 	      ("f" "Food log")
+  ;; 	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
+  ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ;; ; %^{What_I_Ate}
+  ;; Cook:Breakfast\t M %^{Time}
+  ;; Eat:Breakfast\t M %^{Time} 
+  ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
+  ;; 	      ("fl" "Lunch" plain (file+olp "~/git/org/refile.org"  "Finance")
+  ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ;; ; %^{What_I_Ate}
+  ;; Cook:Lunch\tM %^{Time}
+  ;; Eat:Lunch\tM %^{Time} 
+  ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
+  ;; 	      ("fd" "Dinner" plain (file+olp "~/git/org/refile.org"  "Finance")
+  ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ;; ; %^{What_I_Ate}
+  ;; Cook:Dinner\tM %^{Time}
+  ;; Eat:Dinner\tM %^{Time} 
+  ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
+  ;; 	      ("fs" "Snack" plain (file+olp "~/git/org/refile.org"  "Finance")
+  ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
+  ;; ; %^{What_I_Ate}
+  ;; Cook:Snack\tM %^{Time}
+  ;; Eat:Snack\tM %^{Time} 
+  ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      )))
 
 
@@ -2038,3 +2038,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
 (setq org-image-actual-width '(400))
+
+
+;; add my babel libraries 
+(org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org")

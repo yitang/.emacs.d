@@ -1938,15 +1938,13 @@ git push
 
 #+name: WeeklyExp
 #+begin_src sh
-ledger --period "this week" --start-of-week=1 -f ~/ledger register Exp -S "date, amount" 
+ledger --period "this week" --start-of-week=1 -f ~/git/ImportantFiles/ledger register Exp -S "date, amount" 
 
 
-
-ledger --period "this week" -f ~/ledger register Exp -S "date, amount" --start-of-week=1 # last week's expense, sort by day, then by amount
-
+# ledger --period "this week" -f ~/ledger register Exp -S "date, amount" --start-of-week=1 # last week's expense, sort by day, then by amount
 
 ## Weekly_Exp_Summary
-ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
+# ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
 
 #+end_src
 
@@ -1956,9 +1954,9 @@ ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sor
 ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
 #+end_src
 
-#+name: Monthly_Exp
-#+begin_src sh
-ledger --period "this month" -f ~/ledger register Exp # monthly expense
+#+name: Ledger_Monthly_Balance_Exp
+#+begin_src sh :results scalar
+ledger --period "this month" -f ~/git/ImportantFiles/ledger Bal Exp # monthly expense
 #+end_src
 
 #+call: Weekly_Exp_Summary()

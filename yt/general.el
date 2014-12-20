@@ -247,3 +247,9 @@
         (delete-file filename)
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
+
+;; modify mac keyboard 
+(cond ((eq system-type 'darwin)
+       (global-unset-key (kbd "M-`"))
+       (global-set-key (kbd "M-`") 'other-frame)
+       ))
