@@ -253,3 +253,9 @@
        (global-unset-key (kbd "M-`"))
        (global-set-key (kbd "M-`") 'other-frame)
        ))
+
+;; word count
+;; https://bitbucket.org/gvol/nanowrimo.el
+(require 'org-wc)
+(require 'nanowrimo)
+(setq nanowrimo-today-goal 500)
