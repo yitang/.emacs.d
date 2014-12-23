@@ -91,7 +91,7 @@
 ;; windows path convention
 (setenv "CYGWIN" "nodosfilewarning")
 ;; kill *scratch* buffer if possible
-(kill-buffer "*scratch*")
+;; (kill-buffer "*scratch*")
 ;; (kill-buffer "*GNU Emacs*")
 (setq inhibit-startup-message t)        ; Disable startup message
 
@@ -259,3 +259,16 @@
 (require 'org-wc)
 (require 'nanowrimo)
 (setq nanowrimo-today-goal 500)
+
+
+;; [2014-12-23 Tue 22:06]
+;; Highlight sentence
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Attribute-Functions.html
+(require 'hl-sentence)
+(add-hook 'nanowrimo-mode 'hl-sentence-mode)
+(set-face-attribute 'hl-sentence-face nil
+                    ;; :foreground "black")
+		    :foreground "white")
+(add-hook 'nanowrimo-mode 'variable-pitch-mode)
+(set-face-attribute 'variable-pitch nil
+		    :foreground "gray40")
