@@ -2043,3 +2043,39 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 ;; add my babel libraries 
 (org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org")
+
+;; http://stackoverflow.com/questions/23044588/org-mode-creation-time-range-from-effort-estimate/23067020#23067020
+;; effort + schedule -> schedule with duration 
+(defun yt/org-schedule-effort ()
+(interactive)
+  (save-excursion
+    (org-back-to-heading t)
+    (let* (
+        (element (org-element-at-point))
+        (effort (org-element-property :EFFORT element))
+        (scheduled (org-element-property :scheduled element))
+        (ts-year-start (org-element-property :year-start scheduled))
+        (ts-month-start (org-element-property :month-start scheduled))
+        (ts-day-start (org-element-property :day-start scheduled))
+        (ts-hour-start (org-element-property :hour-start scheduled))
+        (ts-minute-start (org-element-property :minute-start scheduled)) )
+      (org-schedule nil (concat
+        (format "%s" ts-year-start)
+        "-"
+        (if (< ts-month-start 10)
+          (concat "0" (format "%s" ts-month-start))
+          (format "%s" ts-month-start))
+        "-"
+        (if (< ts-day-start 10)
+          (concat "0" (format "%s" ts-day-start))
+          (format "%s" ts-day-start))
+        " "
+        (if (< ts-hour-start 10)
+          (concat "0" (format "%s" ts-hour-start))
+          (format "%s" ts-hour-start))
+        ":"
+        (if (< ts-minute-start 10)
+          (concat "0" (format "%s" ts-minute-start))
+          (format "%s" ts-minute-start))
+        "+"
+        effort)) )))
