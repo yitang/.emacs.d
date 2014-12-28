@@ -2085,3 +2085,16 @@ res
 
 
 "TODO" "NEXT" "DONE" "WAITING" "HOLD" "CANCELLED" "PHONE" "MEETING"
+
+* Blog
+#+name: GetBlogPosts
+#+begin_src R :results org 
+posts.dir <- "~/git/yi-tang.github.io/org/_posts"
+all.posts <- list.files(posts.dir, pattern = ".org$")
+sapply(seq_along(all.posts), function(i){
+headline <- paste0("* ", all.posts[i])
+content <- paste0("#+INCLUDE: ", '"', file.path(posts.dir, all.posts[i]), '"')
+page.break <- "#+latex: \\newpage"
+paste(headline, content, page.break, sep = "\n")
+})
+#+end_src
