@@ -61,7 +61,7 @@
 	  smtpmail-smtp-service 587
 	  smtpmail-smtp-user "yi.tang@jbarisk.com"
 	  user-mail-address "yi.tang@jbarisk.com"
-	  user-full-name  "唐毅 (Yi Tang)"
+	  user-full-name  "Yi Tang"
 	  message-signature
 	  (concat
 	   "Yi Tang\n"
@@ -77,7 +77,7 @@
 	  smtpmail-smtp-service 587
 	  smtpmail-smtp-user "yi.tang.uk@me.com"
 	  user-mail-address "yi.tang.uk@me.com"
-	  user-full-name  "唐毅 (Yi Tang)"
+	  user-full-name  "Yi Tang"
 	  message-signature
 	  (concat
 	   "唐毅 (Yi Tang)\n"
