@@ -65,9 +65,12 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
-;; (add-to-list 'load-path "~/git/.emacs.d/elpa/yasnippet")
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
+(require 'yasnippet)
+(yas-global-mode 1)
+(setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+      "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+      "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+(yas/reload-all)
 
 ;; recentf files
 (require 'recentf)
@@ -271,4 +274,11 @@
 		    :foreground "white")
 (add-hook 'nanowrimo-mode 'variable-pitch-mode)
 (set-face-attribute 'variable-pitch nil
-		    :foreground "gray40")
+ 		    :foreground "gray40")
+
+;; [2014-12-25 Thu 22:21]
+(defun yt/write-mode ()
+  (interactive)
+  (hl-sentence-mode)
+  (variable-pitch-mode)
+  (nanowrimo-mode))
