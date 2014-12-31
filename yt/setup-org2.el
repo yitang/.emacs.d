@@ -2088,13 +2088,64 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq bh/hide-scheduled-and-waiting-next-tasks nil)
 
 
+
+                                                            ; 'djcb-org-article' for export org documents to the LaTex 'article', using
+;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
+(add-to-list 'org-latex-classes
+                 '("yt/org-article"
+                   "\\documentclass[11pt,a4paper]{article}
+\\usepackage{graphicx}    %% demo mode is a must when .img does not exists.
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\usepackage{hyperref}
+\\usepackage{amstext}
+\\usepackage{amssymb} %% checkbox
+\\usepackage{minted}
+\\defaultfontfeatures{Mapping=tex-text}
+\\setromanfont{Gentium}
+\\setromanfont [BoldFont={Gentium Basic Bold},
+                ItalicFont={Gentium Basic Italic}]{Gentium Basic}
+\\setsansfont{Charis SIL}
+\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+\\usepackage{geometry}
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
+\\pagestyle{empty}
+ 
+%% package from org-latex-default-packages-alist
+\\usepackage{setspace}
+\\onehalfspacing
+\\usepackage{textcomp}
+\\usepackage{marvosymb}
+\\usepackage{wasysym}
+\\usepackage{ulem}
+ 
+\\title{}
+      [NO-DEFAULT-PACKAGES]
+      [NO-PACKAGES]"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(setq org-latex-default-class "yt/org-article")
+
+;; code highlights using minted package 
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
       '(("frame" "lines")
 	("fontsize" "\\scriptsize")
 	("linenos" "")))
+;;;; comple pdf 
 (setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+
+
+;; ispell region will skip the sorce code and org drawers.
+;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+ 
