@@ -26,7 +26,8 @@
 (defvar jekyll-post-ext ".org"
   "File extension of Jekyll posts.")
 (defvar jekyll-post-template
-  "#+BEGIN_HTML\n---\nlayout: post\ntitle: %s\nexcerpt: \ncategories:\n  -  \ntags:\n  -  \n---\n#+END_HTML\n\n /Last Updated/: {{ page.path | file_date | date_to_string }}
+  "#+BEGIN_HTML\n---\nlayout: post\ntitle: %s\nexcerpt: \ncategories:\n  -  \ntags:\n  -  \n---\n#+END_HTML\n\n 
+#+call: GetLastUpdatedDate[:exports none]()[:results org]
 \n#+TOC: headlines 4\n"
   "Default template for Jekyll posts. %s will be replace by the post title.")
 
