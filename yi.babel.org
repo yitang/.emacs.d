@@ -1934,7 +1934,7 @@ git push
 :  2 files changed, 7 insertions(+), 3 deletions(-)
 :  delete mode 120000 .#yi.babel.org
 
-* Show expense (Ledger) 
+* Ledger 
 
 #+name: WeeklyExp
 #+begin_src sh
@@ -1956,7 +1956,7 @@ ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sor
 
 #+name: Ledger_Monthly_Balance_Exp
 #+begin_src sh :results scalar
-ledger --period "this month" -f ~/git/ImportantFiles/ledger Bal Exp # monthly expense
+ledger --period "this month" -f ~/git/ImportantFiles/ledger bal Exp # monthly expense
 #+end_src
 
 #+call: Weekly_Exp_Summary()
@@ -2097,4 +2097,16 @@ content <- paste0("#+INCLUDE: ", '"', file.path(posts.dir, all.posts[i]), '"')
 page.break <- "#+latex: \\newpage"
 paste(headline, content, page.break, sep = "\n")
 })
+#+end_src
+
+
+#+name: GetLastUpdatedDate
+#+begin_src emacs-lisp :export none :eval no-export :results raw
+(defun yt/last-updated-date ()
+"return modification time of current file-visitng buffer"
+  (interactive)
+  (setq y (format-time-string "%d %b %Y" (visited-file-modtime)))
+  (setq res (concat  "/Last Updated/: " y))
+  res) ;; print out results 
+(yt/last-updated-date)
 #+end_src
