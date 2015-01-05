@@ -65,12 +65,14 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
-;; (add-to-list 'load-path "~/git/.emacs.d/elpa/yasnippet")
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
+(require 'yasnippet)
+(yas-global-mode 1)
+(setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+      "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+      "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
 
-;; recentf files
-(require 'recentf)
+;; (yas/initialize)
+
 (recentf-mode 1)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
@@ -160,7 +162,7 @@
 				    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;; 
-(nyan-mode 1)
+;; (nyan-mode 1)
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -232,8 +234,15 @@
 ;; (show-paren-mode t) ;for Emacs
 (load-theme 'zenburn t)
 (print "End of general.el")
+(require 'rainbow-delimiters)
 
-
+(require 'cl-lib)
+(require 'color)
+(cl-loop
+ for index from 1 to rainbow-delimiters-max-face-count
+ do
+ (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+   (cl-callf color-saturate-name (face-foreground face) 30)))
 
 (defun yt/delete-this-buffer-and-file ()
   "Removes file connected to current buffer and kills buffer."
@@ -272,3 +281,11 @@
 (add-hook 'nanowrimo-mode 'variable-pitch-mode)
 (set-face-attribute 'variable-pitch nil
 		    :foreground "gray40")
+
+
+
+;; [2015-01-05 Mon 15:52]
+;; guide-key package 
+(require 'guide-key)
+(setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
+(guide-key-mode 1) 
