@@ -508,7 +508,6 @@ A prefix arg forces clock in of the default task."
 
 ;; (require 'bbdb)
 ;; (require 'bbdb-com)
-
 (global-set-key (kbd "<f9> p") 'bh/phone-call)
 
 ;;
@@ -821,7 +820,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (require 'ox-html)
 (require 'ox-latex)
 (require 'ox-ascii)
-
+(require 'ox-md)
 ;; (setq org-ditaa-jar-path "~/git/org-mode/contrib/scripts/ditaa.jar") ;; TODO: remove this, don't use 
 (setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
 
@@ -1846,7 +1845,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
-(add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
+;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
 (add-hook 'message-mode-hook 'orgtbl-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-flyspell 'append)
 (add-hook 'message-mode-hook
@@ -2095,6 +2094,60 @@ Late deadlines first, then scheduled, then non-late deadlines"
 	("fontsize" "\\scriptsize")
 	("linenos" "")))
 (setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+
+
+
+
+					; 'djcb-org-article' for export org documents to the LaTex 'article', using
+;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
+(add-to-list 'org-latex-classes
+	     '("yt/org-article"
+	       "\\documentclass[11pt,a4paper]{article}
+\\usepackage{graphicx}    %% demo mode is a must when .img does not exists. 
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\usepackage{hyperref}
+\\usepackage{amstext}
+\\usepackage{amssymb} %% checkbox
+\\usepackage{minted}
+\\defaultfontfeatures{Mapping=tex-text}
+\\setromanfont{Gentium}
+\\setromanfont [BoldFont={Gentium Basic Bold},
+                ItalicFont={Gentium Basic Italic}]{Gentium Basic}
+\\setsansfont{Charis SIL}
+\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+\\usepackage{geometry}
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
+\\pagestyle{empty}
+
+%% package from org-latex-default-packages-alist 
+\\usepackage{setspace}
+\\onehalfspacing
+\\usepackage{textcomp}
+\\usepackage{marvosymb}
+\\usepackage{wasysym}
+\\usepackage{ulem}
+
+\\title{}
+      [NO-DEFAULT-PACKAGES]
+      [NO-PACKAGES]"
+	       ("\\section{%s}" . "\\section*{%s}")
+	       ("\\subsection{%s}" . "\\subsection*{%s}")
+	       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+	       ("\\paragraph{%s}" . "\\paragraph*{%s}")
+	       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(setq org-latex-default-class "yt/org-article")
+(setq org-export-initial-scope "subtree")
+
+
+;; ispell region will skip the sorce code and org drawers.
+;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+
+
+
