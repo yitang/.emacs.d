@@ -70,8 +70,7 @@
 (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
       "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
       "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
-
-;; (yas/initialize)
+;; (yas/reload-all)
 
 (recentf-mode 1)
 (setq recentf-max-saved-items 200
@@ -289,3 +288,11 @@
 (require 'guide-key)
 (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
 (guide-key-mode 1) 
+
+;; [2014-12-25 Thu 22:21]
+(defun yt/write-mode ()
+  (interactive)
+  (hl-sentence-mode)
+  (variable-pitch-mode)
+  (nanowrimo-mode))
+
