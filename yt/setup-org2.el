@@ -2151,3 +2151,10 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 
 
+(defun yt/mail-subtree ()
+  "email "
+  (interactive)
+  (org-mark-subtree)
+  (org-mime-subtree)
+  (mu4e-compose-mode)
+  )
