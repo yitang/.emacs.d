@@ -508,7 +508,6 @@ A prefix arg forces clock in of the default task."
 
 ;; (require 'bbdb)
 ;; (require 'bbdb-com)
-
 (global-set-key (kbd "<f9> p") 'bh/phone-call)
 
 ;;
@@ -821,7 +820,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (require 'ox-html)
 (require 'ox-latex)
 (require 'ox-ascii)
-
+(require 'ox-md)
 ;; (setq org-ditaa-jar-path "~/git/org-mode/contrib/scripts/ditaa.jar") ;; TODO: remove this, don't use 
 (setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
 
@@ -1846,7 +1845,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
-(add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
+;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
 (add-hook 'message-mode-hook 'orgtbl-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-flyspell 'append)
 (add-hook 'message-mode-hook
@@ -2143,9 +2142,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 
-
 ;; ispell region will skip the sorce code and org drawers.
 ;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
- 
+

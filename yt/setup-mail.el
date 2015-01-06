@@ -189,3 +189,11 @@
       "Statistician\n"
       "T: +44 (0) 1756 799919\n")
      )
+
+
+(require 'org-contacts)
+(setq mu4e-org-contacts-file  "~/git/org/contacts")
+(add-to-list 'mu4e-headers-actions
+  '("org-contact-add" . mu4e-action-add-org-contact) t)
+(add-to-list 'mu4e-view-actions
+  '("org-contact-add" . mu4e-action-add-org-contact) t)
