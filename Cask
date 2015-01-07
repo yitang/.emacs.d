@@ -17,3 +17,6 @@
 (depends-on "zenburn-theme")
 (depends-on "htmlize")
 (depends-on "nanowrimo")
+(depends-on "golden-ratio")
+(depends-on "artbollocks-mode")
+(depends-on "langtool")
