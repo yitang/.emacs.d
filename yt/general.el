@@ -296,3 +296,30 @@
   (variable-pitch-mode)
   (nanowrimo-mode))
 
+
+(require 'golden-ratio)
+(golden-ratio-mode 1)
+
+(require 'artbollocks-mode)
+(add-hook 'text-mode-hook 'artbollocks-mode)
+(setq artbollocks-weasel-words-regex
+      (concat "\\b" (regexp-opt
+		     '("one of the"
+		       "should"
+		       "just"
+		       "sort of"
+		       "a lot"
+		       "probably"
+		       "maybe"
+		       "perhaps"
+		       "I think"
+		       "really"
+		       "pretty"
+		       "nice"
+		       "action"
+		       "utilize"
+		       "leverage") t) "\\b"))
+
+(require 'langtool)
+(setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
+(setq langtool-mother-tongue "en")
