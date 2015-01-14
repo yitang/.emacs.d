@@ -2133,3 +2133,37 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+end_src
 
 #+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
+* Org mode 
+[2015-01-12 Mon 18:29]
+** org contact 
+[2015-01-12 Mon 18:29]
+#+name: GetContactGroup
+#+begin_src elisp :var search-tag="SFG" search-file='("~/git/org/contacts.org")
+(setq h (org-map-entries (lambda ()
+                           (let* ((address (org-entry-get nil "EMAIL"))
+                                  (name (elt (org-heading-components) 4)))
+                             (cons name address)))
+                         search-tag search-file))
+(mapconcat (lambda (a-list)
+              (concat (car a-list) " <" (cdr a-list) ">"))
+           h ", ")
+#+end_src
+
+
+#+call: GetContactGroup()
+
+#+results:
+: Ross Towe <Ross.Towe@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+
+
+#+call: GetContactGroup("JBA&SFG")
+
+#+results:
+: Ross Towe <Ross.Towe@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+
+
+
+#+call: GetContactGroup("Friends&Uni")
+
+#+results:
+
