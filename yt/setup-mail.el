@@ -124,54 +124,6 @@
           (lambda ()
             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
 
-
-;; (defvar my-mu4e-account-alist
-;;   '(("Gmail"
-;;      (mu4e-sent-folder "/Gmail/Saved Items")
-;;      (mu4e-drafts-folder "/Gmail/Drafts")
-;;      (user-mail-address "yi.tang.uni@gmail.com")
-;;      (message-signature-file "Gmail Yi Tang")
-;;      (smtpmail-default-smtp-server "smtp.gmail.com")
-;;      (smtpmail-local-domain "gmail.com")
-;;      (smtpmail-smtp-server "smtp.gmail.com")
-;;      (smtpmail-stream-type starttls)
-;;      (smtpmail-smtp-service 25))
-;;     ("iCloud"
-;;      (mu4e-sent-folder "/iCloud/Saved Items")
-;;      (mu4e-drafts-folder "/iCloud/Drafts")
-;;      (user-mail-address "yi.tang.uk@mail.me.com")
-;;      (message-signature-file "iCloud yi tang")
-;;      (smtpmail-default-smtp-server "smtp.mail.me.com")
-;;      (smtpmail-local-domain "mail.me.com")
-;;      (smtpmail-smtp-server "smtp.mail.me.com")
-;;      (smtpmail-stream-type starttls)
-;;      (smtpmail-smtp-service 587))))
-
-;; (defun my-mu4e-set-account ()
-;;   "Set the account for composing a message."
-;;   (let* ((account
-;;           (if mu4e-compose-parent-message
-;;               (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
-;;                 (string-match "/\\(.*?\\)/" maildir)
-;;                 (match-string 1 maildir))
-;;             (completing-read (format "Compose with account: (%s) "
-;;                                      (mapconcat #'(lambda (var) (car var))
-;;                                                 my-mu4e-account-alist "/"))
-;;                              (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-;;                              nil t nil nil (caar my-mu4e-account-alist))))
-;;          (account-vars (cdr (assoc account my-mu4e-account-alist))))
-;;     (if account-vars
-;;         (mapc #'(lambda (var)
-;;                   (set (car var) (cadr var)))
-;;               account-vars)
-;;       (error "No email account found"))))
-;; (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
-
-
-
-
-
-
 (cond
  ((eq system-type 'gnu/linux)
   (setq mu4e-drafts-folder "/Drafts")
@@ -197,3 +149,5 @@
   '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
   '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+(setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML

@@ -78,8 +78,8 @@
 (global-set-key "\C-r" 'helm-recentf)
 
 ;; prefer horizentally split window
-(setq split-height-threshold nil)
-(setq split-width-threshold 0)
+;; (setq split-height-threshold nil)
+;;  (setq split-width-threshold 0)
 
 ;; font
 (set-default-font "Source Code Pro")

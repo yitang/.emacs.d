@@ -17,3 +17,4 @@
 (depends-on "zenburn-theme")
 (depends-on "htmlize")
 (depends-on "nanowrimo")
+(depends-on "guide-key")
