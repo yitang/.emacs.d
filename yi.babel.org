@@ -2138,32 +2138,19 @@ pdfpextr $pageStart $pageEnd $pdfFile
 ** org contact 
 [2015-01-12 Mon 18:29]
 #+name: GetContactGroup
-#+begin_src elisp :var search-tag="SFG" search-file='("~/git/org/contacts.org")
-(setq h (org-map-entries (lambda ()
-                           (let* ((address (org-entry-get nil "EMAIL"))
-                                  (name (elt (org-heading-components) 4)))
-                             (cons name address)))
-                         search-tag search-file))
-(mapconcat (lambda (a-list)
-              (concat (car a-list) " <" (cdr a-list) ">"))
-           h ", ")
+#+begin_src elisp :var search-tag="SFG" contact-file='("~/git/org/contacts.org") contact-type="EMAIL"
+(defun GetContactGroup (contact-file search-tag contact-type)
+  (interactive)
+  (let ((name-address (org-map-entries (lambda()
+				 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
+				       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
+			       search-tag
+			       contact-file)))
+    (mapconcat (lambda (a-list)
+		  (concat (car a-list) " <" (cdr a-list) ">"))
+		name-address ", ")))
+(GetContactGroup contact-file search-tag contact-type)
 #+end_src
 
-
-#+call: GetContactGroup()
-
-#+results:
-: Ross Towe <Ross.Towe@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
-
-
-#+call: GetContactGroup("JBA&SFG")
-
-#+results:
-: Ross Towe <Ross.Towe@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
-
-
-
-#+call: GetContactGroup("Friends&Uni")
-
-#+results:
+#+call: GetContactGroup("SFG" '("~/git/org/contacts.org") "EMAIL")
 
