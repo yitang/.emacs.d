@@ -115,14 +115,7 @@
 
 
 
-(require 'org-mime)
-(setq org-mime-library 'mml)
-(add-hook 'message-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+
 
 (cond
  ((eq system-type 'gnu/linux)
@@ -140,7 +133,7 @@
       "Yi Tang\n"
       "Statistician\n"
       "T: +44 (0) 1756 799919\n")
-     )
+     )n
 
 
 (require 'org-contacts)
@@ -151,3 +144,24 @@
   '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 (setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
+
+
+
+;;;; [2015-01-14 Wed 22:32]
+;; org-mime
+(require 'org-mime)
+(setq org-mime-library 'mml)
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+(add-hook 'org-mime-html-hook
+	  (lambda ()
+	    (insert-file-contents "~/git/.emacs.d/style/jba.css")
+	    ;; (goto-char 5)
+	    )
+	  t)
+;;
+(setq org-mime-html-hook nil)
