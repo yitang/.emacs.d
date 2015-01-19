@@ -1,3 +1,19 @@
+#+TITLE:   Yi Emacs settings file
+#+AUTHOR:  Yi Tang 
+#+EMAIL:   yi.tang.uk@me.com
+#+LANGUAGE: en
+#+PROPERTY: header-args :tangle yes :eval no-export 
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+OPTIONS: H:4 num:nil toc:t \n:nil @:t ::t |:t ^:{} -:t f:t *:t
+#+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
+#+TODO: SOMEDAY(s) TODO(t) INPROGRESS(i) WAITING(w@/!) NEEDSREVIEW(n@/!) | DONE(d)
+#+TODO: WAITING(w@/!) HOLD(h@/!) | CANCELLED(c@/!)
+#+TAGS: export(e) noexport(n)
+#+STARTUP: align fold nodlcheck lognotestate content
+
+
+
 #+STARTUP:  hideblocks
 
 [2015-01-19 Mon 11:43]
