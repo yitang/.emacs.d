@@ -133,7 +133,7 @@
       "Yi Tang\n"
       "Statistician\n"
       "T: +44 (0) 1756 799919\n")
-     )n
+     )
 
 
 (require 'org-contacts)
