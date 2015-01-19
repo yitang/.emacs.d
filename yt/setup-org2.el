@@ -871,7 +871,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 					; Do not use sub or superscripts - I currently don't need this functionality in my documents
 (setq org-export-with-sub-superscripts nil)
 					; Use org.css from the norang website for export document stylesheets
-(setq org-html-head-extra "<link rel=\"stylesheet\" href=\"http://uce.uniovi.es/tips/Emacs/docs/mystyle.css\" type=\"text/css\" />")
+;; (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"http://uce.uniovi.es/tips/Emacs/docs/mystyle.css\" type=\"text/css\" />")
+
 (setq org-html-head-include-default-style nil)
 					; Do not generate internal css formatting for HTML exports
 (setq org-export-htmlize-output-type (quote css))
@@ -2147,3 +2148,46 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+
+
+
+
+(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\"
+href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
+<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>")
+(setq org-html-htmlize-output-type 'css)
+(setq org-src-fontify-natively t)
+(setq org-html-preamble "<a name=\"top\" id=\"top\"></a>")
+(setq org-html-postamble "
+<style type=\"text/css\">
+.back-to-top {
+    position: fixed;
+    bottom: 2em;
+    right: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+}
+.back-to-top:hover {    
+    background-color: rgba(135, 135, 135, 0.50);
+}
+</style>
+<div class=\"back-to-top\">
+<a href=\"#top\">Back to top</a> | <a href=\"mailto:sacha@sachachua.com\">E-mail me</a>
+</div>
+<script type=\"text/javascript\">
+    var offset = 220;
+    var duration = 500;
+    jQuery(window).scroll(function() {
+        if (jQuery(this).scrollTop() > offset) {
+            jQuery('.back-to-top').fadeIn(duration);
+        } else {
+            jQuery('.back-to-top').fadeOut(duration);
+        }
+    });
+</script>")
