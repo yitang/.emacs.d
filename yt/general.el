@@ -161,7 +161,6 @@
 				    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;; 
-;; (nyan-mode 1)
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -229,12 +228,12 @@
        ))
 
 
-;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;; (show-paren-mode t) ;for Emacs
+
 (load-theme 'zenburn t)
 (print "End of general.el")
 (require 'rainbow-delimiters)
-
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode t) ;for Emacs
 (require 'cl-lib)
 (require 'color)
 (cl-loop
@@ -323,3 +322,7 @@
 (require 'langtool)
 (setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
 (setq langtool-mother-tongue "en")
+
+(require 'nyan-mode)
+(nyan-mode 1)
+
