@@ -1,4 +1,4 @@
-;; (org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
+#;; (org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
 #+STARTUP:  hideblocks
 
 * Update Emacs library
@@ -2138,7 +2138,7 @@ pdfpextr $pageStart $pageEnd $pdfFile
 ** org contact 
 [2015-01-12 Mon 18:29]
 #+name: GetContactGroup
-#+begin_src elisp :var search-tag="SFG" contact-file='("~/git/org/contacts.org") contact-type="EMAIL"
+#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="SFG" contact-type="EMAIL"
 (defun GetContactGroup (contact-file search-tag contact-type)
   (interactive)
   (let ((name-address (org-map-entries (lambda()
@@ -2152,5 +2152,12 @@ pdfpextr $pageStart $pageEnd $pdfFile
 (GetContactGroup contact-file search-tag contact-type)
 #+end_src
 
-#+call: GetContactGroup("SFG" '("~/git/org/contacts.org") "EMAIL")
+#+results: GetContactGroup
+: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+
+#+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
+
+#+results:
+: 
+
 
