@@ -77,11 +77,6 @@ or this
 *** Assorted Pieces 
 [2015-01-19 Mon 12:21]
 #+begin_src emacs-lisp
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  )
 
 ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; save all backup files (foo~) to this directory.
@@ -95,22 +90,15 @@ or this
       auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
       )
 
-;; ;;; winner-mode, undo window configration
-(when (fboundp 'winner-mode)
-  (winner-mode 1))
-;; winner-undo -> C-c <left>
-;; winner-redo -> C-c <right>
 
-
-;; [2015-01-05 Mon 15:52]
 ;; guide-key package 
 (require 'guide-key)
 (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
 (guide-key-mode 1) 
 
-                                        ; start auto-complete with emacs
+                                        ;; start auto-complete with emacs
 (require 'auto-complete)
-                                        ; do default config for auto-complete
+                                        ;; do default config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -132,8 +120,17 @@ or this
 *** Window Navigation 
 [2015-01-19 Mon 12:13]
 #+begin_src emacs-lisp
+
+;; ;;; winner-mode, undo window configration
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
+;; winner-undo -> C-c <left>
+;; winner-redo -> C-c <right>
+
+
 ;; visible notication for invalid options 
 (setq visible-bell t) 
+
 ;; move between windows, alternatives: window_number.el
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
@@ -141,6 +138,11 @@ or this
 (global-set-key (kbd "C-x <left>") 'windmove-left)
 (require 'golden-ratio)
 (golden-ratio-mode 1)
+
+;; prefer horizentally split window
+;; (setq split-height-threshold nil)
+;;  (setq split-width-threshold 0)
+
 
 #+end_src
 *** Utilities
@@ -158,6 +160,7 @@ or this
          (save-buffer (get-file-buffer dot-emacs)))
     (load-file dot-emacs))
   (message "Re-initialized!"))
+
 (defun yt/delete-this-buffer-and-file ()
   "Removes file connected to current buffer and kills buffer."
   (interactive)
@@ -202,6 +205,13 @@ or this
 (prefer-coding-system 'utf-8)
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+
+;; modify mac keyboard 
+(cond ((eq system-type 'darwin)
+       (global-unset-key (kbd "M-`"))
+       (global-set-key (kbd "M-`") 'other-frame)
+       ))
+
 
 ;; windows path convention
 (setenv "CYGWIN" "nodosfilewarning")
@@ -337,8 +347,6 @@ or this
 [2015-01-19 Mon 14:47]
 #+begin_src emacs-lisp
 
-(load-theme 'zenburn t)
-(print "End of general.el")
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -350,15 +358,10 @@ or this
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 30)))
 
-;; modify mac keyboard 
-(cond ((eq system-type 'darwin)
-       (global-unset-key (kbd "M-`"))
-       (global-set-key (kbd "M-`") 'other-frame)
-       ))
 
-;; prefer horizentally split window
-;; (setq split-height-threshold nil)
-;;  (setq split-width-threshold 0)
+(load-theme 'zenburn t)
+
+
 
 ;; font
 (set-default-font "Source Code Pro")
@@ -498,6 +501,7 @@ or this
 ;; backup git repo automatically 
 ;; git
 (require 'magit)
+
 (defun yt/git-backup ()
   (interactive)
   ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
@@ -766,6 +770,7 @@ or this
 				("author" . "Yi Tang")))
 #+end_src
 ** Org mode
+I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]]
 #+begin_src emacs-lisp
 (require 'org)
 (require 'org-habit)
@@ -901,31 +906,6 @@ or this
 	      ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
 	      ("lc" "Cash" plain (file "~/git/ImportantFiles/ledger")
 	       "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
-	      ;; 	      ("f" "Food log")
-	      ;; 	      ("fb" "Breakfast" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-	      ;; ; %^{What_I_Ate}
-	      ;; Cook:Breakfast\t M %^{Time}
-	      ;; Eat:Breakfast\t M %^{Time} 
-	      ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ;; 	      ("fl" "Lunch" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-	      ;; ; %^{What_I_Ate}
-	      ;; Cook:Lunch\tM %^{Time}
-	      ;; Eat:Lunch\tM %^{Time} 
-	      ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ;; 	      ("fd" "Dinner" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-	      ;; ; %^{What_I_Ate}
-	      ;; Cook:Dinner\tM %^{Time}
-	      ;; Eat:Dinner\tM %^{Time} 
-	      ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
-	      ;; 	      ("fs" "Snack" plain (file+olp "~/git/org/refile.org"  "Finance")
-	      ;; 	       "%(org-read-date) * %^{Place|Home|Office|Cafe}
-	      ;; ; %^{What_I_Ate}
-	      ;; Cook:Snack\tM %^{Time}
-	      ;; Eat:Snack\tM %^{Time} 
-	      ;; Time:Food" :immediate-finish :clock-in t :clock-resume t)
 	      )))
 
 
@@ -1590,7 +1570,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (require 'ox-latex)
 (require 'ox-ascii)
 (require 'ox-md)
-;; (setq org-ditaa-jar-path "~/git/org-mode/contrib/scripts/ditaa.jar") ;; TODO: remove this, don't use 
+
 (setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
 
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
@@ -1606,23 +1586,14 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (org-babel-do-load-languages
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
-	 ;;         (dot . t)
-	 ;;       (ditaa . t)
-	 (R . t)
-	 ;;     (python . t)
-	 ;;   (ruby . t)
-	 ;; (gnuplot . t)
-	 ;;         (clojure . t)
+		 (R . t)
 	 (sh . t)
 	 (ledger . t)
 	 (org . t)
 	 (plantuml . t)
 	 (latex . t))))
 
-					; Do not prompt to confirm evaluation
-					; This may be dangerous - make sure you understand the consequences
-					; of setting this -- see the docstring for details
-(setq org-confirm-babel-evaluate nil)
+	(setq org-confirm-babel-evaluate nil)
 
 					; Use fundamental mode when editing plantuml blocks with C-c '
 ;; TODO: what is fundamental mode?? 
@@ -1648,168 +1619,6 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (setq org-export-with-LaTeX-fragments t)
 					; Increase default number of headings to export
 (setq org-export-headline-levels 6)
-
-;; ; List of projects
-;; ; norang       - http://www.norang.ca/
-;; ; doc          - http://doc.norang.ca/
-;; ; org-mode-doc - http://doc.norang.ca/org-mode.html and associated files
-;; ; org          - miscellaneous todo lists for publishing
-;; (setq org-publish-project-alist
-;;       ;
-;;       ; http://www.norang.ca/  (norang website)
-;;       ; norang-org are the org-files that generate the content
-;;       ; norang-extra are images and css files that need to be included
-;;       ; norang is the top-level project that gets published
-;;       (quote (("norang-org"
-;;                :base-directory "~/git/www.norang.ca"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
-;;                :recursive t
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function org-html-publish-to-html
-;;                :style-include-default nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"norang.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("norang-extra"
-;;                :base-directory "~/git/www.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("norang"
-;;                :components ("norang-org" "norang-extra"))
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; doc-org are the org-files that generate the content
-;;               ; doc-extra are images and css files that need to be included
-;;               ; doc is the top-level project that gets published
-;;               ("doc-org"
-;;                :base-directory "~/git/doc.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :recursive nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("doc-extra"
-;;                :base-directory "~/git/doc.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive nil
-;;                :author nil)
-;;               ("doc"
-;;                :components ("doc-org" "doc-extra"))
-;;               ("doc-private-org"
-;;                :base-directory "~/git/doc.norang.ca/private"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
-;;                :recursive nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :auto-sitemap t
-;;                :sitemap-filename "index.html"
-;;                :sitemap-title "Norang Private Documents"
-;;                :sitemap-style "tree"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("doc-private-extra"
-;;                :base-directory "~/git/doc.norang.ca/private"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive nil
-;;                :author nil)
-;;               ("doc-private"
-;;                :components ("doc-private-org" "doc-private-extra"))
-;;               ;
-;;               ; Miscellaneous pages for other websites
-;;               ; org are the org-files that generate the content
-;;               ("org-org"
-;;                :base-directory "~/git/org/"
-;;                :publishing-directory "/ssh:www-data@www:~/org"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function org-html-publish-to-html
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; org-mode-doc-org this document
-;;               ; org-mode-doc-extra are images and css files that need to be included
-;;               ; org-mode-doc is the top-level project that gets published
-;;               ; This uses the same target directory as the 'doc' project
-;;               ("org-mode-doc-org"
-;;                :base-directory "~/git/org-mode-doc/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html)
-;;                :plain-source t
-;;                :htmlized-source t
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("org-mode-doc-extra"
-;;                :base-directory "~/git/org-mode-doc/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif\\|org"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("org-mode-doc"
-;;                :components ("org-mode-doc-org" "org-mode-doc-extra"))
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; org-mode-doc-org this document
-;;               ; org-mode-doc-extra are images and css files that need to be included
-;;               ; org-mode-doc is the top-level project that gets published
-;;               ; This uses the same target directory as the 'doc' project
-;;               ("tmp-org"
-;;                :base-directory "/tmp/publish/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :html-head "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
-;;                :plain-source t
-;;                :htmlized-source t
-;;                :style-include-default nil
-;;                :auto-sitemap t
-;;                :sitemap-filename "index.html"
-;;                :sitemap-title "Test Publishing Area"
-;;                :sitemap-style "tree"
-;;                :author-info t
-;;                :creator-info t)
-;;               ("tmp-extra"
-;;                :base-directory "/tmp/publish/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("tmp"
-;;                :components ("tmp-org" "tmp-extra")))))
 
 					; I'm lazy and don't want to remember the name of the project to publish when I modify
 					; a file that is part of a project.  So this function saves the file, and publishes
@@ -2547,13 +2356,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-agenda-persistent-filter t)
 
 (setq org-link-mailto-program (quote (compose-mail "%a" "%s")))
-;; smex for ido 
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
-;; (require 'smex)
-;; (smex-initialize)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "C-x x") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Bookmark handling
 ;;
@@ -2823,6 +2625,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 #+end_src
 *** PDF Export 
 [2015-01-19 Mon 15:45]
+
 #+begin_src emacs-lisp
 ;; http://emacs-fu.blogspot.co.uk/2011/04/nice-looking-pdfs-with-org-mode-and.html
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
@@ -2883,6 +2686,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 #+end_src
 *** HTML Export 
 [2015-01-19 Mon 15:45]
+
 #+begin_src emacs-lisp
 (setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\"
 href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
@@ -3369,4 +3173,14 @@ paste(headline, content, page.break, sep = "\n")
 #+end_src
 
 #+call: GetLastUpdatedDate()
+* refile n
+[2015-01-20 Tue 07:47]
 
+
+;; smex for ido 
+;; (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+;; (require 'smex)
+;; (smex-initialize)
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "C-x x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
