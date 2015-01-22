@@ -1995,52 +1995,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 
 (require 'htmlize)
-(defadvice htmlize-buffer-1 (around ome-htmlize-buffer-1 disable)
-  (rainbow-delimiters-mode -1)
-  ad-do-it
-  (rainbow-delimiters-mode t))
-
-(defun ome-htmlize-setup ()
-  (if (el-get-read-package-status 'rainbow-delimiters)
-      (progn
-	(ad-enable-advice 'htmlize-buffer-1 'around 'ome-htmlize-buffer-1)
-	(ad-activate 'htmlize-buffer-1))))
-
-
-
-
-(eval-after-load 'htmlize
-  '(progn
-     ;; make htmlize to handle face name strings as well
-     (defadvice htmlize-attrlist-to-fstruct (around my-make-it-accept-string activate)
-       (if (stringp (ad-get-arg 0))
-	   (progn
-	     (setq ad-return-value (htmlize-face-to-fstruct (intern (ad-get-arg 0)))))
-	 ad-do-it))))
-
-(defvar my-htmlize-off-modes nil
-  "list of minor modes to disable when using htmlize")
-
-(defun my-htmlize-before-hook-default ()
-  (dolist (mode my-htmlize-off-modes)
-    (if (fboundp mode)
-	(funcall mode 0)))
-
-  (font-lock-fontify-buffer)
-  (jit-lock-fontify-now)
-
-  ;; copied from font-lock-default-function (make font-lock-face property act as alias for face property)
-  (set (make-local-variable 'char-property-alias-alist)
-       (copy-tree char-property-alias-alist))
-  (let ((elt (assq 'face char-property-alias-alist)))
-    (if elt
-	(unless (memq 'font-lock-face (cdr elt))
-	  (setcdr elt (nconc (cdr elt) (list 'font-lock-face))))
-      (push (list 'face 'font-lock-face) char-property-alias-alist))))
-
-(add-hook 'htmlize-before-hook 'my-htmlize-before-hook-default)
-
-;; (add-to-list 'my-htmlize-off-modes 'rainbow-delimiters-mode)
 
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
 (setq org-image-actual-width '(400))
@@ -2158,6 +2112,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
 <script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>")
+
 (setq org-html-htmlize-output-type 'css)
 (setq org-src-fontify-natively t)
 (setq org-html-preamble "<a name=\"top\" id=\"top\"></a>")
@@ -2192,3 +2147,14 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
         }
     });
 </script>")
+
+
+
+
+(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\"
+href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
+<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>")
+(setq org-html-htmlize-output-type 'css)
+(setq org-src-fontify-natively t)
