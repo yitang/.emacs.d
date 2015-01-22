@@ -10,9 +10,18 @@
 #+TODO: SOMEDAY(s) TODO(t) INPROGRESS(i) WAITING(w@/!) NEEDSREVIEW(n@/!) | DONE(d)
 #+TODO: WAITING(w@/!) HOLD(h@/!) | CANCELLED(c@/!)
 #+TAGS: export(e) noexport(n)
-#+STARTUP: align fold nodlcheck lognotestate content hideblocks
+#+STARTUP: align fold nodlcheck lognotestate content showeverything
 
 [2015-01-19 Mon 11:43]
+
+* Literate Program
+[2015-01-20 Tue 08:09]
+
+question I want to answer 
+
+1. why I need this/that package, what functionality they provide.
+2. how to improve the current work flow,
+3. 
 
 About this file: 
 Use this 
@@ -218,8 +227,9 @@ or this
 #+end_src
 ** Completion and Selection - Helm 
 [2015-01-19 Mon 11:57]
-#+begin_src emacs-lisp
 
+
+#+begin_src emacs-lisp
 ;; helm 
 (require 'helm-config)
 (helm-mode 1)
@@ -256,6 +266,8 @@ or this
 
 ** Multiple Selection - Multi-Cursor
 [2015-01-19 Mon 12:10]
+
+
 #+begin_src emacs-lisp
 
 (require 'multiple-cursors)
@@ -269,67 +281,6 @@ or this
 
 #+end_src
 
-** Word Processor  
-[2015-01-19 Mon 12:11]
-#+begin_src emacs-lisp
-;; spell, grammar 
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
-(setq ispell-dictionary "british"
-      ispell-extra-args '() ;; TeX mode "-t"
-      ispell-silently-savep t)
-
-(require 'artbollocks-mode)
-(add-hook 'text-mode-hook 'artbollocks-mode)
-(setq artbollocks-weasel-words-regex
-      (concat "\\b" (regexp-opt
-                     '("one of the"
-                       "should"
-                       "just"
-                       "sort of"
-                       "a lot"
-                       "probably"
-                       "maybe"
-                       "perhaps"
-                       "I think"
-                       "really"
-                       "pretty"
-                       "nice"
-                       "action"
-                       "utilize"
-                       "leverage") t) "\\b"))
-
-(require 'langtool)
-(setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
-(setq langtool-mother-tongue "en")
-
-;; [2014-12-25 Thu 22:21]
-(defun yt/write-mode ()
-  (interactive)
-  (hl-sentence-mode)
-  (variable-pitch-mode)
-  (nanowrimo-mode))
-
-;; word count
-;; https://bitbucket.org/gvol/nanowrimo.el
-(require 'org-wc)
-(require 'nanowrimo)
-(setq nanowrimo-today-goal 500)
-
-
-;; [2014-12-23 Tue 22:06]
-;; Highlight sentence
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Attribute-Functions.html
-(require 'hl-sentence)
-(add-hook 'nanowrimo-mode 'hl-sentence-mode)
-(set-face-attribute 'hl-sentence-face nil
-                    ;; :foreground "black")
-                    :foreground "white")
-(add-hook 'nanowrimo-mode 'variable-pitch-mode)
-(set-face-attribute 'variable-pitch nil
-                    :foreground "gray40")
-
-#+end_src
 ** Project Management - Projectile 
 [2015-01-19 Mon 12:08]
 #+begin_src emacs-lisp
@@ -496,12 +447,31 @@ or this
 #+end_src
 ** Git Sync
 [2015-01-19 Mon 12:09]
+
+
+Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.  but onec I familaried with it, it is not necessary to do it anymore.  This is why I start to use Magit.  it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a manuam at http://magit.github.io/master/magit.html and cheatsheet http://daemianmack.com/magit-cheatsheet.html
+
 #+begin_src emacs-lisp
 
 ;; backup git repo automatically 
 ;; git
 (require 'magit)
 
+#+end_src 
+
+I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
+
+the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
+1. automatically save all the buffers
+   I have been runing into the sitatuion that my office machine was frzzee, beacuse of Big Data and I push R to the limits, and I potentially will lose the newstest version of sripcts.  which is bit annoy.
+2. office rush,
+   I shared lift with my coluge, and someimes, I just need to go, and go now! than what I did is  to call a function that will deal with commits, update, and upload.
+3. automatically commit 
+   few times I did some work over the weenend and night, and I want to udpate to my colluge, but I gotget to sync, or push to the cloud... which is quit embarralse. 
+
+#+begin_src emacs-lisp
+;; backup git repo automatically 
+;; git
 (defun yt/git-backup ()
   (interactive)
   ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
@@ -520,7 +490,25 @@ or this
 (cond ((eq system-type 'darwin)
        (run-at-time "05:59" 10800 'yt/save-git-backup)))
 #+end_src
-** Email Client - mu4e 
+** Email Client - mu4e
+
+The advantage of use Emacs as an email client: 
+
+1. communication happens at the point where the content is genreated. 
+   as a statisician/programmer, most likely I need to mmunicate with numbers, table, graphs, or snippet.  I could just copy these results from to email, do an quickly editing.  
+2. HTML email with CSS style.  
+   I like to formate my email use headingline, fonts, and highlhgit the code, I used to be write a report in Word/LatEx and write an email with only onbe line, please see the attachment.  which I don't like. 
+3. search properly 
+   I use search all the time, and this functionality is not working at all in outlkooik 2013, it also shows up random info (mail.app in osx did a great job).  
+
+Disadvantage / can;t do: 
+1. don't expect me to reply immediately 
+   this is how does it works: 1. download the email from server, 2) index with head, body, attachment, user name etc.  3) Emacs talk to and show in GUI.  I usually update the meail about 30 imnutes.  but I helps me out of disrupts.
+2. book Meeting/Appointment 
+   I didn't aware that you can do it in emacs, and we need an iterative way to do.  Outlook Schedule Asistant do a good job, it list agenda of all attendence, and I could spot oen time slot that suit for all or most people. 
+3. calendar 
+   I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda. 
+
 #+begin_src emacs-lisp
 ;; usage:
 ;; $ offlineimap
@@ -690,6 +678,27 @@ or this
 
 #+end_src
 ** Emacs Speaks Statistics
+I am a Statistician, runing R and writing scripts is what I do most of the day.  I have tried many oyher way of running R, Rstudio, SublimeText, TextMate, but ended up in use ESS/Emacs.  
+
+There are few killing points of ESS:
+
+1. formatting 
+   
+   it will do the amazing for you, just by hitting TAB, and I will see where I missed a ')', or ']'.  Also, it makes the long function call readable, with spelite it into multiples, but with nice lines.  here's an exmaple 
+   #+begin_src R
+rainfall.subset <- data.table(rainfall.london,
+                              rainfall.pairs,
+                              rainfall.dublin)
+#+end_src
+
+2. search command history
+   
+   imamging you are producing a ggplot, and you realised there was something miss in the data, so you fix the data first, then run the ggplot command again, you press Up buttom many times, or just search once/two times, by =M-x ggplot( =, then press =C-r= to select.  
+
+3. the R session can be accesses by org-mode, 
+   
+   last time I gogoled it about literate program, and the Rmarkdown does not support R session, so evertime you want to run a document, you need to start a new session and run thought everhting agian.  In this case, ESS and org-mode is more freindly to use. 
+
 #+begin_src emacs-lisp
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
@@ -768,6 +777,15 @@ or this
 				("return" . "")
 				("export" . "")
 				("author" . "Yi Tang")))
+#+end_src
+*** Flycheck 
+[2015-01-20 Tue 10:49]
+https://github.com/jimhester/lintr
+#+begin_src emacs-lisp
+(require 'flycheck)
+(add-hook 'ess-mode-hook
+          (lambda () (flycheck-mode t)))
+(load "~/git/.emacs.d/lisp/lintr.el")
 #+end_src
 ** Org mode
 I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]]
@@ -2730,6 +2748,33 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 
 #+end_src
 ** Blogging - Jekyll Implementation  
+I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
+
+Since I've been use org-mode, and did lot of publishing work, either for client, or colluge.  I usually keep learning notes in org-mode, and sometimes want to share with otehrs, and doing it in org-mode make it less hazzord to share with others, via org-mode-publish. 
+
+so the currenlt workflow now is:
+
+1. keep a note
+   
+   I tent to keep notes about creazy ideas I learnt, some tehnical stuff I learnt. if I feel it is necessary to share, either because there's good online material, or I think I shuold standard out and speak, for exmaple, the upcomming artile about intro to data.table in R, and few Emacs's thing.  
+
+2. write & Edit 
+   
+   for a persoal note, I always keep it short, and to the exactly out, and it also fit it the big project that I defined.  if I take it out, one may feel it lost the context.  also, writing is not only about the problem-solutiion, but mora ebout analyse the problem, convicne people etc.  I need to find reference, highlight code, add picture etc. 
+   
+3. share 
+   
+   once I feel the artiel is ready to share, I can run the =org-publish= to generate the html file.  and push it to Github Page. 
+
+4. Render 
+   
+   currently I use Jekyll to build the site, I haven't done any research about other servei, since it is do a very good job, thereisn't necessary to find a better one, as for a blog, the most important thing is the content.
+
+Jeklly have few conventins, like the new, YAML etc, it is better to solve it autoamtilcally and in Emacs, as part of the export process. 
+
+
+First, define a publish project, so that the exported html file will go to certail place, and we can define the styles, and other features for a praticularlly project.  but for Jeklly, it is more about to match the constraints.
+
 #+begin_src emacs-lisp
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
@@ -2741,15 +2786,20 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
          :publishing-function org-html-publish-to-html
          :with-toc nil
          :headline-levels 4
-	 :section-numbers nil
+         :section-numbers nil
          :auto-preamble nil
          :auto-sitemap nil
          :html-extension "html"
-	 :htmlized-source t
+         :htmlized-source t
          :body-only t
-	 :with-toc nil
-	 )))
+         :with-toc nil
+         )))
 
+#+end_src 
+
+For managing a blog, it is good idea to keep the original org file inside of the website.  
+
+#+begin_src emacs-lisp
 (defvar jekyll-directory (expand-file-name "~/git/yi-tang.github.io/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
@@ -2759,7 +2809,8 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 (defvar jekyll-post-ext ".org"
   "File extension of Jekyll posts.")
 (defvar jekyll-post-template
-  " #+BEGIN_HTML
+  " 
+#+BEGIN_HTML
 ---
 layout: post
 title: %s
@@ -2858,19 +2909,87 @@ comments: true
 				  (interactive)
 				  (find-file "~/git/yi-tang.github.io/org/_drafts/")))
 
+#+end_src
+** Word Processor  
+[2015-01-19 Mon 12:11]
+#+begin_src emacs-lisp
+;; spell, grammar 
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+(setq ispell-dictionary "british"
+      ispell-extra-args '() ;; TeX mode "-t"
+      ispell-silently-savep t)
+
+(require 'artbollocks-mode)
+(add-hook 'text-mode-hook 'artbollocks-mode)
+(setq artbollocks-weasel-words-regex
+      (concat "\\b" (regexp-opt
+                     '("one of the"
+                       "should"
+                       "just"
+                       "sort of"
+                       "a lot"
+                       "probably"
+                       "maybe"
+                       "perhaps"
+                       "I think"
+                       "really"
+                       "pretty"
+                       "nice"
+                       "action"
+                       "utilize"
+                       "leverage") t) "\\b"))
+
+(require 'langtool)
+(setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
+(setq langtool-mother-tongue "en")
+
+;; [2014-12-25 Thu 22:21]
+(defun yt/write-mode ()
+  (interactive)
+  (hl-sentence-mode)
+  (variable-pitch-mode)
+  (nanowrimo-mode))
+
+;; word count
+;; https://bitbucket.org/gvol/nanowrimo.el
+(require 'org-wc)
+(require 'nanowrimo)
+(setq nanowrimo-today-goal 500)
 
 
+;; [2014-12-23 Tue 22:06]
+;; Highlight sentence
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Attribute-Functions.html
+(require 'hl-sentence)
+(add-hook 'nanowrimo-mode 'hl-sentence-mode)
+(set-face-attribute 'hl-sentence-face nil
+                    ;; :foreground "black")
+                    :foreground "white")
+(add-hook 'nanowrimo-mode 'variable-pitch-mode)
+(set-face-attribute 'variable-pitch nil
+                    :foreground "gray40")
 
 #+end_src
 ** Programming Mode 
-#+begin_src emacs-lisp
+After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
 
+One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
+
+#+begin_src emacs-lisp
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
+#+end_src 
+
+we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
+
+one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
+
+#+begin_src emacs-lisp 
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
 (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
@@ -3094,10 +3213,68 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+end_example
 
 
-* End here
+* End here - test 
 [2015-01-19 Mon 11:43]
-** Test
-[2015-01-19 Mon 11:44]
+** Abbreviation 
+#+NAME: my-text-abbrevs
+| name      | expand            | Category |
+|-----------+-------------------+----------|
+| i         | I                 | write    |
+| amax      | annual maximum    | stat     |
+| gmap      | google map        | website  |
+| mailme    | yi.tang.uk@me.com | aboutme  |
+| twitterme | @yi_tang_uk       | aboutme  |
+
+
+#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no 
+(defun my-text-abbrev-expand-p ()
+  "Return t if the abbrev is in a text context, which is: in
+ comments and strings only when in a prog-mode derived-mode or
+ src block in org-mode, and anywhere else."
+  (if (or (derived-mode-p 'prog-mode)
+          (and (eq major-mode 'org-mode)
+               (org-in-src-block-p 'inside)))
+      (nth 8 (syntax-ppss))
+    t))
+
+(define-abbrev-table 'my-text-abbrev-table ()
+  "Abbrev table for text-only abbrevs. Expands only in comments and strings."
+  :enable-function #'my-text-abbrev-expand-p)
+
+(dolist (table (list text-mode-abbrev-table
+                     prog-mode-abbrev-table))
+  (abbrev-table-put table
+                    :parents (list my-text-abbrev-table)))
+
+;; Bug fix for python and lisp modes who's abbrev tables aren't set up correctly:
+
+;; (eval-after-load "python"
+;;   (abbrev-table-put python-mode-abbrev-table
+;;                     :parents (list my-text-abbrev-table
+;;                                    python-mode-skeleton-abbrev-table)))
+
+;; (eval-after-load "lisp-mode"
+;;   (abbrev-table-put lisp-mode-abbrev-table
+;;                     :parents (list my-text-abbrev-table)))
+
+;; Our only expansion, so far...
+
+;; (define-abbrev my-text-abbrev-table "i" "I" nil :system t)
+
+
+(defun my-text-abbrev-table-init (abbrevs-org-list)
+  "Parse 'name: expansion' pairs from an org list and insert into abbrev table."
+  (message "Creating text-abbrev table...")
+  (dolist (abbrev abbrevs-org-list)
+    (let ((name (nth 0 abbrev))
+          (expansion (nth 1 abbrev)))
+      ;; (print (cons name expansion))
+      (define-abbrev my-text-abbrev-table name expansion nil :system t))))
+(my-text-abbrev-table-init my-text-abbrevs)
+#+end_src
+
+
+
 ** C++
 #+begin_src emacs-lisp
 ;; (global-set-key [(f9)] 'compile)
@@ -3176,6 +3353,13 @@ paste(headline, content, page.break, sep = "\n")
 * refile n
 [2015-01-20 Tue 07:47]
 
+#+begin_src emacs-lisp
+;; [[https://github.com/magnars/expand-region.el][expand-region]]
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+#+end_src
+
 
 ;; smex for ido 
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
@@ -3184,3 +3368,56 @@ paste(headline, content, page.break, sep = "\n")
 ;; (global-set-key (kbd "M-x") 'smex)
 ;; (global-set-key (kbd "C-x x") 'smex)
 ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+* open stree map 
+[2015-01-21 Wed 14:39]
+
+#+begin_src emacs-lisp
+
+(defun omap_bbox (minlon minlat maxlon maxlat)
+  "generate to hyperlink and also view an area in openstreemap.  
+the area is defined by the bounding box. "
+;;   (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+           "minlon=" (number-to-string minlon) "&"
+           "minlat=" (number-to-string minlat) "&"
+           "maxlon=" (number-to-string maxlon) "&"
+           "maxlat=" (number-to-string maxlat) "&")))
+    (browse-url address)
+    (kill-new address)))
+
+
+(defun omap_point (lon lat)
+;;  (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+                          "mlat=" (number-to-string lat) "&"
+                          "mlon=" (number-to-string lon))))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap_site (site)
+;;  (interactive)
+  (let ((address (concat "http://nominatim.openstreetmap.org/search.php?q=" site)))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap (arg)
+;;  (interactive)
+  (cond ((= 1 (length arg))
+         (omap_site (nth 0 arg)))
+        ((= 2 (length arg))
+         (omap_point (nth 0 arg) (nth 1 arg)))
+        ((= 4 (length arg))
+         (omap_bbox (nth 0 arg)
+                     (nth 1 arg)
+                     (nth 2 arg)
+                     (nth 3 arg)))
+        (t "nope")))
+
+;; (omap '(-0.489 51.28 0.236 51.686)) ;; london area
+;; http://www.openstreetmap.org/?minlon=-0.489&minlat=51.28&maxlon=0.236&maxlat=51.686&
+;; (omap '(-76.3412 38.6710)) ;; New york 
+;; http://www.openstreetmap.org/?mlat=38.671&mlon=-76.3412
+;; (omap '("UK"))  ;; UK, obvs 
+;; http://nominatim.openstreetmap.org/search.php?q=UK
+         
+#+end_src
