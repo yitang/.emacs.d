@@ -1814,6 +1814,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
 	      ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
+	      ("el" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
 	      ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
 	      ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
 	      ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")

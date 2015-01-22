@@ -158,9 +158,8 @@
             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
 (add-hook 'org-mime-html-hook
 	  (lambda ()
-	    (insert-file-contents "~/git/.emacs.d/style/jba.css")
+	    (insert-file-contents "~/git/.emacs.d/style/office.css")
 	    ;; (goto-char 5)
 	    )
 	  t)
-;;
-(setq org-mime-html-hook nil)
+;; (setq org-mime-html-hook nil)
