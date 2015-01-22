@@ -3055,7 +3055,88 @@ comments: true
 				  (find-file "~/git/yi-tang.github.io/org/_drafts/")))
 
 
-
+(defun org-to-jekyll-src (lang)
+  " change src block heading to {% highlight %} "
+  ;; (with-temp-buffer
+  ;; (insert-file "current buffer name")
+  (interactive)
+  (goto-char (point-min))
+  (while (not (eobp))
+    (forward-line 1)
+    (cond
+     ((looking-at (concat "^#\\+BEGIN_SRC " lang ".*$"))
+      (goto-char (match-beginning 0))
+      (kill-line)
+      (insert "#+begin_html")
+      (insert (concat "{% highlight " lang " linenos %}")))
+     ((looking-at "^#\\+END_SRC")
+      (goto-char (match-beginning 0))
+      (kill-line)
+      (insert "{% highlight %}")
+      (insert "#+end_html")))))
+(defun org-src-jekyll ()
+  "use jekyll highlight style"
+  (interactive)
+  (org-to-jekyll-src "R")
+  (org-to-jekyll-src "C++")
+  (org-to-jekyll-src "emacs-lisp")
+  (org-to-jekyll-src "CSS")
+  (org-to-jekyll-src "html")
+  )
+#+name: language supported by Babel 
+| Language   | Identifier | Documentation        | Requirements      |                   |              |           |            |       |      |
+|------------+------------+----------------------+-------------------+-------------------+--------------+-----------+------------+-------+------|
+| ABC        | abc        | ob-doc-abc           | abcm2ps,          | abc-mode          |              |           |            |       |      |
+| Asymptote  | asymptote  | ob-doc-asymptote     | asymptote,        | asy-mode          |              |           |            |       |      |
+| Awk        | awk        | ob-doc-awk           | awk               |                   |              |           |            |       |      |
+| C          | C          | ob-doc-C             | none              |                   |              |           |            |       |      |
+| C++        | cpp        | ob-doc-C             | none              |                   |              |           |            |       |      |
+| Calc       | calc       |                      | none              |                   |              |           |            |       |      |
+| Clojure    | clojure    | ob-doc-clojure       | Clojure,          | Clojure           | Mode,        | CIDER,    | Leiningen  |       |      |
+| CSS        | css        | ob-doc-css           | none              |                   |              |           |            |       |      |
+| D          | D          | ob-doc-D             | D                 |                   |              |           |            |       |      |
+| Ditaa      | ditaa      | ob-doc-ditaa         | ditaa             | (bundled          | with         | Org-mode) |            |       |      |
+| Dot        | (Graphviz) | dot                  | og-doc-dot        | dot               |              |           |            |       |      |
+| Emacs      | Lisp       | emacs-lisp           |                   | none              |              |           |            |       |      |
+| Eukleides  | eukleides  | (contrib)            | ob-doc-eukleides  | eukleides         |              |           |            |       |      |
+| Fomus      | fomus      | (contrib)            |                   | fomus             | (music       | notation) |            |       |      |
+| Forth      | forth      |                      | gforth            |                   |              |           |            |       |      |
+| Fortran    | F90        |                      | fortran           |                   |              |           |            |       |      |
+| Gnuplot    | gnuplot    | ob-doc-gnuplot       | gnuplot,          | gnuplot-mode      |              |           |            |       |      |
+| Groovy     | groovy     | (contrib)            |                   | Emacs-Groovy-Mode |              |           |            |       |      |
+| Haskell    | haskell    |                      | haskell,          | haskell-mode,     | inf-haskell, | lhs2tex   |            |       |      |
+| J          | J          | ob-doc-J             | J,                | j-mode            |              |           |            |       |      |
+| Java       | java       |                      | java              |                   |              |           |            |       |      |
+| Javascript | js         |                      | node.js           |                   |              |           |            |       |      |
+| Julia      | julia      | (contrib)            | ob-julia-doc      | ess               |              |           |            |       |      |
+| LaTeX      | latex      | ob-doc-latex         | latex,            | auctex,           | reftex       |           |            |       |      |
+| Ledger     | ledger     | ob-doc-ledger        | ledger            |                   |              |           |            |       |      |
+| Lilypond   | ly         | ob-doc-lilypond      | lilypond          | music             | notation     |           |            |       |      |
+| Lisp       | lisp       | ob-doc-lisp          | slime             |                   |              |           |            |       |      |
+| Make       | makefile   | ob-doc-makefile      | none              |                   |              |           |            |       |      |
+| Mathomatic | mathomatic | (contrib)            | ob-doc-mathomatic | Mathomatic        |              |           |            |       |      |
+| Matlab     | matlab     | ob-doc-octave-matlab | matlab,           | matlab.el         |              |           |            |       |      |
+| Maxima     | max        | ob-doc-maxima        | maxima,           | Common            | Lisp,        | gnuplot   | (optional) |       |      |
+| Mscgen     | mscgen     | ob-doc-mscgen        | Mscgen            |                   |              |           |            |       |      |
+| Objective  | Caml       | ocaml                |                   | ocaml,            | tuareg-mode  |           |            |       |      |
+| Octave     | octave     | ob-doc-octave-matlab | octave            |                   |              |           |            |       |      |
+| Org        | org        |                      | none              |                   |              |           |            |       |      |
+| OZ         | oz         | (contrib)            | ob-doc-oz         | Mozart            | which        | includes  | a          | major | mode |
+| Perl       | perl       |                      | perl,             | cperl-mode        | (optional)   |           |            |       |      |
+| Picolisp   | picolisp   | ob-doc-picolisp      | PicoLisp          |                   |              |           |            |       |      |
+| PlantUML   | plantuml   |                      |                   |                   |              |           |            |       |      |
+| Python     | python     | ob-doc-python        | python,           | python-mode       | (optional)   |           |            |       |      |
+| R          | R          | ob-doc-R             | R,                | ess-mode,         | tikzDevice   |           |            |       |      |
+| Ruby       | ruby       |                      | ruby,             | irb,              | ruby-mode,   | inf-ruby  | mode       |       |      |
+| Sass       | sass       |                      | sass,             | sass-mode         |              |           |            |       |      |
+| Scala      | scala      |                      | scala             |                   |              |           |            |       |      |
+| Scheme     | scheme     |                      | none              |                   |              |           |            |       |      |
+| Shen       | shen       |                      | shen              |                   |              |           |            |       |      |
+| shell      | sh         |                      | a                 | shell             |              |           |            |       |      |
+| SQL        | sql        | ob-doc-sql           | an                | RDBMS             |              |           |            |       |      |
+| SQLite     | sqlite     | ob-doc-sqlite        | SQLite,           | sqlite3,          | SQL          | mode      |            |       |      |
+| Stata      | stata      | ob-doc-stata         | Stata,            | ess-mode          |              |           |            |       |      |
+| Tcl        | tcl        | (contrib)            | ob-doc-tcl        | tclsh             |              |           |            |       |      |
 
 #+end_src
 ** Programming Mode 

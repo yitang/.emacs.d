@@ -4,7 +4,6 @@
 ;; M-x mu4e
 ;; from mu's official manual 
 ;;----------------------------------------------------------
- (add-to-list 'load-path "~/mu-master/mu4e")
 (require 'mu4e)
 (setq mu4e-mu-binary "/usr/local/bin/mu")
 ;; default
@@ -129,19 +128,19 @@
 	   ("/All Mail"    . ?a)))))
 
 (setq mu4e-compose-signature
-     (concat
-      "Yi Tang\n"
-      "Statistician\n"
-      "T: +44 (0) 1756 799919\n")
-     )
+      (concat
+       "Yi Tang\n"
+       "Statistician\n"
+       "T: +44 (0) 1756 799919\n")
+      )
 
 
 (require 'org-contacts)
 (setq mu4e-org-contacts-file  "~/git/org/contacts")
 (add-to-list 'mu4e-headers-actions
-  '("org-contact-add" . mu4e-action-add-org-contact) t)
+	     '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
-  '("org-contact-add" . mu4e-action-add-org-contact) t)
+	     '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 (setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
 
