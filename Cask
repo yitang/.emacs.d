@@ -1,3 +1,4 @@
+(source gnu)
 (source org)
 (source melpa)
 
@@ -20,4 +21,6 @@
 (depends-on "golden-ratio")
 (depends-on "artbollocks-mode")
 (depends-on "langtool")
-
+(depends-on "flycheck")
+(depends-on "expand-region")
+(depends-on "guide-key")
