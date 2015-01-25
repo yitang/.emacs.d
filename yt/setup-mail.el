@@ -7,26 +7,9 @@
 (require 'mu4e)
 (setq mu4e-mu-binary "/usr/local/bin/mu")
 ;; default
-(setq mu4e-maildir "~/Maildir")
-(setq mu4e-drafts-folder "/iCloud/Drafts")
-(setq mu4e-sent-folder   "/iCloud/Sent Messages")
-(setq mu4e-trash-folder  "/iCloud/Deleted Messages")
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'sent)
-
-;; setup some handy shortcuts
-;; you can quickly switch to your Inbox -- press ``ji''
-;; then, when you want archive some messages, move them to
-;; the 'All Mail' folder by pressing ``ma''.
-
-(setq mu4e-maildir-shortcuts
-      '( ("/iCloud/INBOX"               . ?i)
-         ("/iCloud/Sent Messages"   . ?s)
-         ("/iCloud/Deleted Messages"       . ?t)
-         ;; ("/iCloud.All Mail"    . ?a)
-	 ))
-
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
@@ -61,6 +44,13 @@
 	  smtpmail-smtp-user "yi.tang@jbarisk.com"
 	  user-mail-address "yi.tang@jbarisk.com"
 	  user-full-name  "Yi Tang"
+	  mu4e-drafts-folder "/Drafts"
+	  mu4e-sent-folder   "/Sent Items"
+	  mu4e-trash-folder  "/Trash"
+	  mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+				    ("/Sent Items"   . ?s)
+				    ("/Trash"        . ?t)
+				    ("/All Mail"     . ?a))
 	  message-signature
 	  (concat
 	   "Yi Tang\n"
@@ -82,7 +72,19 @@
 	   "唐毅 (Yi Tang)\n"
 	   "Email: yi.tang.uk@me.com\n"
 	   "\n")
-	  )   
+	  )
+    (setq mu4e-maildir "~/Maildir")
+    (setq mu4e-drafts-folder "/iCloud/Drafts")
+    (setq mu4e-sent-folder   "/iCloud/Sent Messages")
+    (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
+    
+    (setq mu4e-maildir-shortcuts
+	  '( ("/iCloud/INBOX"               . ?i)
+         ("/iCloud/Sent Messages"   . ?s)
+         ("/iCloud/Deleted Messages"       . ?t)
+         ;; ("/iCloud.All Mail"    . ?a)
+	 ))
+    
     (message "sent email via icloud email account"))
    ))
 (yt/mail-setup)
@@ -114,25 +116,6 @@
 
 
 
-
-
-(cond
- ((eq system-type 'gnu/linux)
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-sent-folder   "/Sent Items")
-  (setq mu4e-trash-folder  "/Trash")
-  (setq mu4e-maildir-shortcuts
-	'( ("/JBA/INBOX"               . ?i)
-	   ("/Sent Items"   . ?s)
-	   ("/Trash"       . ?t)
-	   ("/All Mail"    . ?a)))))
-
-(setq mu4e-compose-signature
-      (concat
-       "Yi Tang\n"
-       "Statistician\n"
-       "T: +44 (0) 1756 799919\n")
-      )
 
 
 (require 'org-contacts)
