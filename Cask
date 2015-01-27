@@ -24,3 +24,7 @@
 (depends-on "flycheck")
 (depends-on "expand-region")
 (depends-on "guide-key")
+(depends-on "exec-path-from-shell")
+;; (depends-on "winner-mode")
+
+;; cask --path ~/git/.emacs.d install

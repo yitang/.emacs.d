@@ -120,6 +120,10 @@ or this
 #+end_src
 
 * Emacs Configuration
+:LOGBOOK:  
+CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
+CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
+:END:      
 [2015-01-19 Mon 11:42]
 
 ** General
@@ -192,7 +196,7 @@ or this
 #+begin_src emacs-lisp
 
 ;; ;;; winner-mode, undo window configration
-(require 'winner-mode)
+;; (require 'winner-mode) ;; default package
 (winner-mode 1)
 ;; winner-undo -> C-c <left>
 ;; winner-redo -> C-c <right>
@@ -442,6 +446,9 @@ does not support the ther way"
 
 #+end_src
 *** Git Sync
+:LOGBOOK:  
+CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
+:END:      
 [2015-01-19 Mon 12:09]
 
 
@@ -468,10 +475,33 @@ the good thing about Git is that yoou can see what exactlly has been changed by 
 #+begin_src emacs-lisp
 ;; backup git repo automatically 
 ;; git
+(setq git-sh-scripts "
+echo Start to Sync: $(date) 
+
+REPOS=\"org jbarm\"
+for REPO in $REPOS
+do
+    echo
+    echo \"Repository: $REPO\"
+    cd ~/git/$REPO
+    # update
+    git pull 
+    # Remove deleted files
+    git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
+    # Add new files
+    git add -A . >/dev/null 2>&1
+    git commit -m \"$(date)\"
+    git push origin master 
+done
+
+echo Finished Sync: $(date)
+")
+
 (defun yt/git-backup ()
   (interactive)
   ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
-  (start-process-shell-command "git-sync" "~/git/org/sync.log" "~/git/org/AutoSync.sh")
+  ;; (start-process-shell-command "git-sync" "*AutoSync*" "~/git/org/AutoSync.sh")
+  (async-shell-command git-sh-scripts)
   (message "all git sync... done"))
 (defun yt/save-all-buffers ()
   "save all files-visiting buffers without user confirmation"
@@ -481,10 +511,17 @@ the good thing about Git is that yoou can see what exactlly has been changed by 
 (defun yt/save-git-backup ()
   (interactive)
   (yt/save-all-buffers)
+;;  (display-buffer "*AutoSync*")
   (yt/git-backup))
 
 (cond ((eq system-type 'darwin)
        (run-at-time "05:59" 10800 'yt/save-git-backup)))
+
+
+
+
+
+
 #+end_src
 ** ESS - Emacs Speaks Statistics
 I am a Statistician, runing R and writing scripts is what I do most of the day.  I have tried many oyher way of running R, Rstudio, SublimeText, TextMate, but ended up in use ESS/Emacs.  
@@ -510,71 +547,71 @@ There are few killing points of ESS:
    last time I gogoled it about literate program, and the Rmarkdown does not support R session, so evertime you want to run a document, you need to start a new session and run thought everhting agian.  In this case, ESS and org-mode is more freindly to use. 
 
   #+begin_src emacs-lisp
-;; Adapted with one minor change from Felipe Salazar at
-;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-;; (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
-(require 'ess-site)
-(setq ess-ask-for-ess-directory nil) ;; start R on default folder
-(setq ess-local-process-name "R")
-(setq ansi-color-for-comint-mode 'filter) ;;
-(setq comint-scroll-to-bottom-on-input t)
-(setq comint-scroll-to-bottom-on-output t)
-(setq comint-move-point-for-output t)
-(setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
-(defun my-ess-start-R ()
-  (interactive)
-  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
-        (R)
-        (set-window-buffer w2 "*R*")
-        (set-window-buffer w1 w1name))))
-(defun my-ess-eval ()
-  (interactive)
-  (my-ess-start-R)
-  (if (and transient-mark-mode mark-active)
-      (call-interactively 'ess-eval-region)
-    (call-interactively 'ess-eval-line-and-step)))
-(add-hook 'ess-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
-(add-hook 'inferior-ess-mode-hook
-          '(lambda()
-             (local-set-key [C-up] 'comint-previous-input)
-             (local-set-key [C-down] 'comint-next-input)))
-(add-hook 'Rnw-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
-(add-hook 'ess-mode-hook
-          (lambda ()
-            (flyspell-prog-mode)
-            (run-hooks 'prog-mode-hook)
-            ;; (prog-mode)
-                                        ; ...
-            ))
-;; (require 'ess-site)
+  ;; Adapted with one minor change from Felipe Salazar at
+  ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
+  ;; (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
+  (require 'ess-site)
+  (setq ess-ask-for-ess-directory nil) ;; start R on default folder
+  (setq ess-local-process-name "R")
+  (setq ansi-color-for-comint-mode 'filter) ;;
+  (setq comint-scroll-to-bottom-on-input t)
+  (setq comint-scroll-to-bottom-on-output t)
+  (setq comint-move-point-for-output t)
+  (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
+  (defun my-ess-start-R ()
+    (interactive)
+    (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+        (progn
+          (delete-other-windows)
+          (setq w1 (selected-window))
+          (setq w1name (buffer-name))
+          (setq w2 (split-window w1 nil t))
+          (R)
+          (set-window-buffer w2 "*R*")
+          (set-window-buffer w1 w1name))))
+  (defun my-ess-eval ()
+    (interactive)
+    (my-ess-start-R)
+    (if (and transient-mark-mode mark-active)
+        (call-interactively 'ess-eval-region)
+      (call-interactively 'ess-eval-line-and-step)))
+  (add-hook 'ess-mode-hook
+            '(lambda()
+               (local-set-key [(shift return)] 'my-ess-eval)))
+  (add-hook 'inferior-ess-mode-hook
+            '(lambda()
+               (local-set-key [C-up] 'comint-previous-input)
+               (local-set-key [C-down] 'comint-next-input)))
+  (add-hook 'Rnw-mode-hook
+            '(lambda()
+               (local-set-key [(shift return)] 'my-ess-eval)))
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (flyspell-prog-mode)
+              (run-hooks 'prog-mode-hook)
+              ;; (prog-mode)
+                                          ; ...
+              ))
+  ;; (require 'ess-site)
 
-;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
-;; Control and up/down arrow keys to search history with matching what you've already typed:
-(define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
-(define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
-
-
-;; C-b = list buffers
-;; (global-set-key (kbd "C-b") 'bs-show)
-
-;; ;; ESS Mode (.R file)
-;;   (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
-;;   (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
-;;   (define-key ess-mode-map "\C-r" 'ess-eval-region)
+  ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
+  ;; Control and up/down arrow keys to search history with matching what you've already typed:
+  (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
+  (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
 
-;; use ess-transcript-clean-buffer to
-;; 1. clean *R* buffer, remove all outputs
-;; 2. save commands history
+  ;; C-b = list buffers
+  ;; (global-set-key (kbd "C-b") 'bs-show)
+
+  ;; ;; ESS Mode (.R file)
+  ;;   (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
+  ;;   (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
+  ;;   (define-key ess-mode-map "\C-r" 'ess-eval-region)
+
+
+  ;; use ess-transcript-clean-buffer to
+  ;; 1. clean *R* buffer, remove all outputs
+  ;; 2. save commands history
 
 #+end_src
 
@@ -723,62 +760,108 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
 set up email account, use office 365 in the office, and iCloud at macbook por. 
 
 #+begin_src emacs-lisp 
-(defun yt/mail-setup () 
-  (interactive)
-  (cond
-   ((eq system-type 'gnu/linux)
-    (setq message-send-mail-function 'smtpmail-send-it
-          smtpmail-stream-type 'starttls
-          smtpmail-default-smtp-server "smtp.office365.com"
-          smtpmail-smtp-server "smtp.office365.com"
-          smtpmail-smtp-service 587
-          smtpmail-smtp-user "yi.tang@jbarisk.com"
-          user-mail-address "yi.tang@jbarisk.com"
-          user-full-name  "Yi Tang"
-          mu4e-drafts-folder "/Drafts"
-          mu4e-sent-folder   "/Sent Items"
-          mu4e-trash-folder  "/Trash"
-          mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-                                    ("/Sent Items"   . ?s)
-                                    ("/Trash"        . ?t)
-                                    ("/All Mail"     . ?a))
-          message-signature
-          (concat
-           "Yi Tang\n"
-           "Statistician\n"
-           "T: +44 (0) 1756 799919\n")
-          )
-    (message "sent email via office365 email account"))
-   ((eq system-type 'darwin)
-    (setq message-send-mail-function 'smtpmail-send-it
-          smtpmail-stream-type 'starttls
-          smtpmail-default-smtp-server "smtp.mail.me.com"
-          smtpmail-smtp-server "smtp.mail.me.com"
-          smtpmail-smtp-service 587
-          smtpmail-smtp-user "yi.tang.uk@me.com"
-          user-mail-address "yi.tang.uk@me.com"
-          user-full-name  "Yi Tang"
-          message-signature
-          (concat
-           "唐毅 (Yi Tang)\n"
-           "Email: yi.tang.uk@me.com\n"
-           "\n")
-          )
-    (setq mu4e-maildir "~/Maildir")
-    (setq mu4e-drafts-folder "/iCloud/Drafts")
-    (setq mu4e-sent-folder   "/iCloud/Sent Messages")
-    (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
-    
-    (setq mu4e-maildir-shortcuts
-          '( ("/iCloud/INBOX"               . ?i)
-         ("/iCloud/Sent Messages"   . ?s)
-         ("/iCloud/Deleted Messages"       . ?t)
-         ;; ("/iCloud.All Mail"    . ?a)
-         ))
-    
-    (message "sent email via icloud email account"))
-   ))
-(yt/mail-setup)
+;;;
+(defun yt/mail-office-setting ()
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type 'starttls
+        smtpmail-default-smtp-server "smtp.office365.com"
+        smtpmail-smtp-server "smtp.office365.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang@jbarisk.com"
+        user-mail-address "yi.tang@jbarisk.com"
+        user-full-name  "Yi Tang"
+        mu4e-drafts-folder "/JBA/Drafts"
+        mu4e-sent-folder   "/JBA/Sent Items"
+        mu4e-trash-folder  "/JBA/Trash"
+        mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+                                  ("/Sent Items"   . ?s)
+                                  ("/Trash"        . ?t)
+                                  ("/All Mail"     . ?a))
+        mu4e-compose-signature (concat
+                                "Yi Tang\n"
+                                "Statistician\n"
+                                "T: +44 (0) 1756 799919\n")))
+
+(defun yt/mail-home-setting ()
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type 'starttls
+        smtpmail-default-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang.uk@me.com"
+        user-mail-address "yi.tang.uk@me.com"
+        user-full-name  "Yi Tang"
+        mu4e-compose-signature (concat
+                                "唐毅 (Yi Tang)\n"
+                                "Email: yi.tang.uk@me.com\n"
+                                "\n")
+        )
+  (setq mu4e-maildir "~/Maildir")
+  (setq mu4e-drafts-folder "/iCloud/Drafts")
+  (setq mu4e-sent-folder   "/iCloud/Sent Messages")
+  (setq mu4e-trash-folder  "/iCloud/Deleted Messages"))
+
+(cond ((eq system-type 'darwin)
+       (yt/mail-home-setting))
+      ((eq system-type 'gnu/linux)
+       (yt/mail-office-setting)))
+
+;; (defun yt/mail-setup () 
+;;   (interactive)
+;;   (cond
+;;    ((eq system-type 'gnu/linux)
+;;     (setq message-send-mail-function 'smtpmail-send-it
+;;           smtpmail-stream-type 'starttls
+;;           smtpmail-default-smtp-server "smtp.office365.com"
+;;           smtpmail-smtp-server "smtp.office365.com"
+;;           smtpmail-smtp-service 587
+;;           smtpmail-smtp-user "yi.tang@jbarisk.com"
+;;           user-mail-address "yi.tang@jbarisk.com"
+;;           user-full-name  "Yi Tang"
+;;           mu4e-drafts-folder "/Drafts"
+;;           mu4e-sent-folder   "/Sent Items"
+;;           mu4e-trash-folder  "/Trash"
+;;           mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+;;                                     ("/Sent Items"   . ?s)
+;;                                     ("/Trash"        . ?t)
+;;                                     ("/All Mail"     . ?a))
+;;           message-signature
+;;           (concat
+;;            "Yi Tang\n"
+;;            "Statistician\n"
+;;            "T: +44 (0) 1756 799919\n")
+;;           )
+;;     (message "sent email via office365 email account"))
+;;    ((eq system-type 'darwin)
+;;     (setq message-send-mail-function 'smtpmail-send-it
+;;           smtpmail-stream-type 'starttls
+;;           smtpmail-default-smtp-server "smtp.mail.me.com"
+;;           smtpmail-smtp-server "smtp.mail.me.com"
+;;           smtpmail-smtp-service 587
+;;           smtpmail-smtp-user "yi.tang.uk@me.com"
+;;           user-mail-address "yi.tang.uk@me.com"
+;;           user-full-name  "Yi Tang"
+;;           message-signature
+;;           (concat
+;;            "唐毅 (Yi Tang)\n"
+;;            "Email: yi.tang.uk@me.com\n"
+;;            "\n")
+;;           )
+;;     (setq mu4e-maildir "~/Maildir")
+;;     (setq mu4e-drafts-folder "/iCloud/Drafts")
+;;     (setq mu4e-sent-folder   "/iCloud/Sent Messages")
+;;     (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
+
+;;     (setq mu4e-maildir-shortcuts
+;;           '( ("/iCloud/INBOX"               . ?i)
+;;          ("/iCloud/Sent Messages"   . ?s)
+;;          ("/iCloud/Deleted Messages"       . ?t)
+;;          ;; ("/iCloud.All Mail"    . ?a)
+;;          ))
+
+;;     (message "sent email via icloud email account"))
+;;    ))
+;; (yt/mail-setup)
 
 
 #+end_src 
@@ -791,11 +874,14 @@ have problem with BBDB installtion, and use org-contact.el to manage contact.  a
 #+begin_src emacs-lisp
 (require 'org-contacts)
 (setq mu4e-org-contacts-file  "~/git/org/contacts.org")
-(add-to-list 'mu4e-headers-actions
-             '("org-contact-add" . mu4e-action-add-org-contact) t)
-(add-to-list 'mu4e-view-actions
-             '("org-contact-add" . mu4e-action-add-org-contact) t)
+;; (add-to-list 'mu4e-headers-actions
+;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+;; (add-to-list 'mu4e-view-actions
+;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
 #+end_src 
+
+#+results:
+
 *** Workflow
 [2015-01-23 Fri 17:28]
 
@@ -814,10 +900,11 @@ I am trying to avoid use =C-x m= to write/sent email directy, unless it is reall
             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
 (add-hook 'org-mime-html-hook
           (lambda ()
-            (insert-file-contents "~/git/.emacs.d/style/ofice.css")
+            (insert-file-contents "~/git/.emacs.d/style/office.css")
             ;; (goto-char 5)
             )
           t)
+
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -835,7 +922,7 @@ just in case I didn't get the format right at the first place and need some quic
 (add-hook 'message-mode-hook 'orgtbl-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-flyspell 'append)
 ;; (add-hook 'message-mode-hook
-;;           '(lambda () (setq fill-column 72))
+;;           '(lambda () (setq fill-column 270))
 ;;           'append)
 
 #+end_src
@@ -1311,6 +1398,41 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
               ("lc" "Cash" plain (file "~/git/ImportantFiles/ledger")
                "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
+              ;; quantified self 
+
+              ("f" "Quantified Self")
+              ("fp" "Personal Care")
+              ("fps" "Shower" entry (file+olp "~/git/org/qs.org" "Personal Care" "Shower")
+               "* %u Shower %? \n%U" :clock-in t :clock-resume t)
+              ("fpo" "Others" entry (file+olp "~/git/org/qs.org" "Personal Care" "Others")
+               "* %u Others %? \n%U" :clock-in t :clock-resume t)
+                      
+              ("fr" "Rest")
+              ("frs" "Sleep" entry (file+olp "~/git/org/qs.org" "Rest" "Sleep")
+               "* %u Sleep %? \n%U" :clock-in t :clock-resume t)
+              ("frn" "Nap" entry (file+olp "~/git/org/qs.org" "Rest" "Nap")
+               "* %u Nap %? \n%U" :clock-in t :clock-resume t)
+              
+              ;; ("fw" "Shower" entry(file+olp "~/git/org/qs.org" "Personal Care" "Shower")
+              ;;  "* %u Shower %? \n%U" :clock-in t :clock-resume t)
+              ("fe" "Eat")
+              ("feb" "Eat Breakfast" entry (file+olp "~/git/org/qs.org" "Eat" "Breakfast")
+               "* %u Eat Breakfast %? \n%U" :clock-in t :clock-resume t)
+              ("fel" "Eat Lunch" entry (file+olp "~/git/org/qs.org" "Eat" "Lunch")
+               "* %u Eat Lunch %? \n%U" :clock-in t :clock-resume t)
+              ("fed" "Eat Dinner" entry (file+olp "~/git/org/qs.org" "Eat" "Dinner")
+               "* %u Eat Dinner %? \n%U" :clock-in t :clock-resume t)
+              ("fc" "Commute")
+              ("fco" "Commute from/to Office" entry (file+olp "~/git/org/qs.org" "From/To Office")
+               "* %u Commute from/to Office %? \n%U" :clock-in t :clock-resume t)
+              ("fcg" "Commute General" entry (file+olp "~/git/org/qs.org" "General")
+               "* %u Commute General %? \n%U" :clock-in t :clock-resume t)
+
+              ;; fitness 
+              ("ff" "Fitness")
+              ("ffr" "Run" entry (file+olp "~/git/org/qs.org" "Fitness" "Run")
+               "* %u Run %? \n%U" :clock-in t :clock-resume t)
+              
               )))
 
 
@@ -3506,6 +3628,15 @@ paste(headline, content, page.break, sep = "\n")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c++-mode-common-hook 'google-make-newline-indent)
 #+end_src
+* test 
+[2015-01-26 Mon 01:16]
 
+#+begin_src R
+alalalal <rnorm(1e3)
+#+end_src
+
+#+begin_src r
+rnorm(1e3)
+#+end_src
 
 
