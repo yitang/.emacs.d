@@ -25,6 +25,7 @@
 (depends-on "expand-region")
 (depends-on "guide-key")
 (depends-on "exec-path-from-shell")
-;; (depends-on "winner-mode")
-
+(depends-on "smart-mode-line")
+(depends-on "synosaurus")
+(depends-on "hydra")
 ;; cask --path ~/git/.emacs.d install

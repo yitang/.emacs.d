@@ -65,11 +65,11 @@
 (require 'auto-complete-config)
 (ac-config-default)
 
-(require 'yasnippet)
-(yas-global-mode 1)
-(setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
-      "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
-      "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
+;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+;;       "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+;;       "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
 ;; (yas/reload-all)
 
 (recentf-mode 1)
