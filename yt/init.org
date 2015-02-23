@@ -12,62 +12,59 @@
 #+TAGS: export(e) noexport(n)
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
 
-[2015-01-19 Mon 11:43]
 
 * About This Document 
-[2015-01-23 Fri 10:58]
-
-I have tried to use Emacs for many years, and really start to use it at 2014-Jun.  I would recommand Emacs for normal usage, but for me, there are few milestphone.  
-
-first, I find myself spent more and more time in scaning the documents I write and deprised about lossing lecture notes, but on the otherhand, it imporrsible to get the notes immediately when I needed it.  
-
-second, after I start to work as an Statisticiain, due to the workload, I need an system to keep project log, include decisoin made, code, progress report, email or meeting discussion etc.  I was adviced to use Office to do it, but it such a pain, and I find most of people don't do it.  
-
-third, when I find the solution for the second problem, using org-mode to implememnt Literate Data Analysis, I am happy about norang's setting for a long time, and try to avoid dig into Emacs.  but when the data becomes physically big, it won't able to practise it locally, and I realise the ESS provide remote session, and it completely blow my mind.  I can run a R seesion on the server just like it was on my computer, how fanstatistic is that?  everything is the same.  
-
-then I deivided to learn Emacs Lisp langauge to build a unified system that I can use on my personal PC, VM, server, and they are all the same!  
-
-As my ocnifigration grows bigger and bigger, I deifinidelty need an way to orgnise, test and expand it.  previously, I have about 7 =.el= file, for exmaple, =setup-org.el=, =setup-email.el=, and I document on each file.  the downside of physcially separete is that I cannot modulate it easily.  Inpisraed by Sachua's new posts, I think it would be an brilliant idea to org emac configration code into one single org file, letting along the conviencen of orgnising and share my seetting, the precious thing I would appreciate is it provide an way I could start with a long comments, thoughts or workflow.  in this way, the code becomes less important as it should be.  
-
-Normally you could tangle a org file to extract all the source code into one file, that you could use.  But I would like to push liteartpr programming furture in two aspects:  1) the source code takes input from this org file, I.e. table.  2) it facility Babel Library to integrate not only Emacs Lisp, but also sh and R functions that could be run in Emacs, and I found it particullary useful. 
-
-but yo could still use most of the settings.  
+  [2015-01-23 Fri 10:58]
+  
+  I have tried to use Emacs for many years, and really start to use it at 2014-Jun.  I would recommand Emacs for normal usage, but for me, there are few milestphone.  
+  
+  first, I find myself spent more and more time in scaning the documents I write and deprised about lossing lecture notes, but on the otherhand, it imporrsible to get the notes immediately when I needed it.  
+  
+  second, after I start to work as an Statisticiain, due to the workload, I need an system to keep project log, include decisoin made, code, progress report, email or meeting discussion etc.  I was adviced to use Office to do it, but it such a pain, and I find most of people don't do it.  
+  
+  third, when I find the solution for the second problem, using org-mode to implememnt Literate Data Analysis, I am happy about norang's setting for a long time, and try to avoid dig into Emacs.  but when the data becomes physically big, it won't able to practise it locally, and I realise the ESS provide remote session, and it completely blow my mind.  I can run a R seesion on the server just like it was on my computer, how fanstatistic is that?  everything is the same.  
+  
+  then I deivided to learn Emacs Lisp langauge to build a unified system that I can use on my personal PC, VM, server, and they are all the same!  
+  
+  As my ocnifigration grows bigger and bigger, I deifinidelty need an way to orgnise, test and expand it.  previously, I have about 7 =.el= file, for exmaple, =setup-org.el=, =setup-email.el=, and I document on each file.  the downside of physcially separete is that I cannot modulate it easily.  Inpisraed by Sachua's new posts, I think it would be an brilliant idea to org emac configration code into one single org file, letting along the conviencen of orgnising and share my seetting, the precious thing I would appreciate is it provide an way I could start with a long comments, thoughts or workflow.  in this way, the code becomes less important as it should be.  
+  
+  Normally you could tangle a org file to extract all the source code into one file, that you could use.  But I would like to push liteartpr programming furture in two aspects:  1) the source code takes input from this org file, I.e. table.  2) it facility Babel Library to integrate not only Emacs Lisp, but also sh and R functions that could be run in Emacs, and I found it particullary useful. 
+  
+  but yo could still use most of the settings.  
 * Licence 
-[2015-01-23 Fri 10:58]
-
-#+begin_example
-Copyright (C)  2013  Yi Tang
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.3
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+  [2015-01-23 Fri 10:58]
   
-Code in this document is free software: you can redistribute it
-and/or modify it under the terms of the GNU General Public
-License as published by the Free Software Foundation, either
-version 3 of the License, or (at your option) any later version.
+  #+begin_example
+  Copyright (C)  2013  Yi Tang
+  Permission is granted to copy, distribute and/or modify this document
+  under the terms of the GNU Free Documentation License, Version 1.3
+  or any later version published by the Free Software Foundation;
+  with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
   
-This code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-#+end_example
-
-This document http://yi-tang.github.io/org-mode.html (either in its HTML format or in its Org format) is licensed under the GNU Free Documentation License version 1.3 or later (http://www.gnu.org/copyleft/fdl.html).
-
-The code examples and CSS stylesheets are licensed under the GNU General Public License v3 or later (http://www.gnu.org/licenses/gpl.html).
-
-
-
+  Code in this document is free software: you can redistribute it
+  and/or modify it under the terms of the GNU General Public
+  License as published by the Free Software Foundation, either
+  version 3 of the License, or (at your option) any later version.
+  
+  This code is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  #+end_example
+  
+  This document http://yi-tang.github.io/org-mode.html (either in its HTML format or in its Org format) is licensed under the GNU Free Documentation License version 1.3 or later (http://www.gnu.org/copyleft/fdl.html).
+  
+  The code examples and CSS stylesheets are licensed under the GNU General Public License v3 or later (http://www.gnu.org/licenses/gpl.html).
+  
 * Getting Started  
-[2015-01-20 Tue 08:09]
-
-question I want to answer 
-
+  [2015-01-20 Tue 08:09]
+  
+  question I want to answer 
+  
 1. why I need this/that package, what functionality they provide.
 2. how to improve the current work flow,
 3. 
-
+   
 About this file: 
 Use this 
 #+begin_src emacs-lisp :eval no 
@@ -91,7 +88,7 @@ Use this
 
   ;; emacs lisp functions 
   (goto-char (point-min))
-  (search-forward "\n* init.el")
+  (search-forward "\n* Emacs Configuration")
   (while (not (eobp))
     (forward-line 1)
     (cond
@@ -100,13 +97,16 @@ Use this
        (format "\\*\\{2,%s\\} +.*$" 
                endless/init.org-message-depth))
       (message "%s" (match-string 0)))
+      ;; (message (format (current-time-string))))
      ;; Evaluate Code Blocks
-     ((looking-at "^#\\+BEGIN_SRC +emacs-lisp.*$")
+     ((looking-at "[\s]*\\#\\+begin_src\semacs-lisp")
+      ;; ((looking-at "#\\+BEGIN_SRC +emacs-lisp.*$")
       ;; ((looking-at "^#\\+BEGIN_SRC +.*$")
       (org-babel-execute-src-block))
      ;; Finish on the next level-1 header
      ((looking-at "^\\* End")
       (goto-char (point-max))))))
+
 #+end_src
 
 or this 
@@ -118,17 +118,22 @@ or this
  (expand-file-name "init.org"
                    user-emacs-directory))
 #+end_src
-
+** Testsing 
+   [2015-02-12 Thu 18:51]
+   
+- unload-feature :: unload functions, remove hooks, variable, functions etc.
 * Emacs Configuration
-:LOGBOOK:  
-CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
-CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
-:END:      
-[2015-01-19 Mon 11:42]
+  :LOGBOOK:  
+  CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
+  CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
+  CLOCK: [2015-01-23 Fri 10:15]--[2015-01-23 Fri 11:47] =>  1:32
+  CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
+  :END:      
+  [2015-01-19 Mon 11:42]
 
-** General
+** General 
 *** Initialise 
-[2015-01-19 Mon 12:46]
+    [2015-01-19 Mon 12:46]
 #+begin_src emacs-lisp 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -141,59 +146,57 @@ CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
   (normal-top-level-add-subdirs-to-load-path))
 
 #+end_src
-
-#+results:
-
+    
+    
 *** Assorted Pieces 
-[2015-01-19 Mon 12:21]
-#+begin_src emacs-lisp
+    [2015-01-19 Mon 12:21]
+    #+begin_src emacs-lisp
 
-;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-;; save all backup files (foo~) to this directory.
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-      auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
-      auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
-      )
-
-
-;; guide-key package 
-(require 'guide-key)
-(setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
-(guide-key-mode 1) 
-
-                                        ;; start auto-complete with emacs
-(require 'auto-complete)
-                                        ;; do default config for auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
-;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
-;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
-;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
-
-(recentf-mode 1)
-(setq recentf-max-saved-items 200
-      recentf-max-menu-items 15)
-(global-set-key "\C-r" 'helm-recentf)
+    ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+    ;; save all backup files (foo~) to this directory.
+    (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+          backup-by-copying t    ; Don't delink hardlinks
+          version-control t      ; Use version numbers on backups
+          delete-old-versions t  ; Automatically delete excess backups
+          kept-new-versions 20   ; how many of the newest versions to keep
+          kept-old-versions 5    ; and how many of the old
+          auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
+          auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
+          )
 
 
-(setq inhibit-startup-message t)        ; Disable startup message
+    ;; guide-key package 
+    (require 'guide-key)
+    (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
+    (guide-key-mode 1) 
 
-#+end_src 
+                                            ;; start auto-complete with emacs
+    (require 'auto-complete)
+                                            ;; do default config for auto-complete
+    (require 'auto-complete-config)
+    (ac-config-default)
 
-#+results:
-: t
+    ;; (require 'yasnippet)
+    ;; (yas-global-mode 1)
+    ;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+    ;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+    ;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+
+    (recentf-mode 1)
+    (setq recentf-max-saved-items 200
+          recentf-max-menu-items 15)
+;;     (global-set-key "\C-r" 'helm-recentf) ;; helm-mini handle this
+
+
+    (setq inhibit-startup-message t)        ; Disable startup message
+
+    #+end_src 
+    
+    #+results:
 
 *** Window Navigation 
-[2015-01-19 Mon 12:13]
-#+begin_src emacs-lisp
+    [2015-01-19 Mon 12:13]
+    #+begin_src emacs-lisp
 
 ;; ;;; winner-mode, undo window configration
 ;; (require 'winner-mode) ;; default package
@@ -218,11 +221,15 @@ CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
 ;;  (setq split-width-threshold 0)
 
 
-#+end_src
-*** Utilities
-[2015-01-19 Mon 12:14]
+    #+end_src
 
-#+begin_src emacs-lisp
+    #+results:
+    : t
+
+*** Utilities
+    [2015-01-19 Mon 12:14]
+    
+    #+begin_src emacs-lisp
 ;; Change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -257,10 +264,14 @@ CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
 (global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) 
 
 
-#+end_src
+    #+end_src
+
+    #+RESULTS:
+    : yt/copy-full-path-to-kill-ring
+
 *** System Path
-[2015-01-19 Mon 12:15]
-#+begin_src emacs-lisp
+    [2015-01-19 Mon 12:15]
+    #+begin_src emacs-lisp
 
 ;; osx, work with homebrew 
 (defun set-exec-path-from-shell-PATH ()
@@ -289,11 +300,15 @@ CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
 
 ;; windows path convention
 (setenv "CYGWIN" "nodosfilewarning")
-#+end_src
-*** open stree map 
-[2015-01-21 Wed 14:39]
+    #+end_src
 
-#+begin_src emacs-lisp
+    #+RESULTS:
+    : nodosfilewarning
+
+*** open stree map 
+    [2015-01-21 Wed 14:39]
+    
+    #+begin_src emacs-lisp
 
 (defun omap_bbox (minlon minlat maxlon maxlat)
   "generate to hyperlink and also view an area in openstreemap.  
@@ -342,19 +357,99 @@ the area is defined by the bounding box. "
 ;; (omap '("UK"))  ;; UK, obvs 
 ;; http://nominatim.openstreetmap.org/search.php?q=UK
          
+    #+end_src
+** Emacs Looks Cool
+   [2015-01-19 Mon 12:16]
+*** Modeline
+
+#+begin_src emacs-lisp 
+(setq powerline-arrow-shape 'curve)
+(setq powerline-default-separator-dir '(right . left))
+;; These two lines you really need.
+(setq sml/theme 'powerline)
+(sml/setup)
+
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode t) ;for Emacs
+(require 'cl-lib)
+(require 'color)
+(cl-loop
+ for index from 1 to rainbow-delimiters-max-face-count
+ do
+ (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+   (cl-callf color-saturate-name (face-foreground face) 30)))
 #+end_src
+
+#+results:
+
+    #+begin_src emacs-lisp 
+
+;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
+;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(load-theme 'zenburn t)
+;; font
+(set-default-font "Source Code Pro")
+(set-face-attribute 'default nil :height 140)
+
+
+    #+end_src
+
+    #+results:
+
+    
+    
+    
+    
+    
+    
+    #+end_src
 ** Completion and Selection 
-[2015-01-23 Fri 18:44]
-*** Helm - Partial-match Selection 
-[2015-01-19 Mon 11:57]
+   [2015-01-23 Fri 18:44]
+*** Helm - Fuzzy Match  
+[2015-02-22 Sun 11:40]
 
-
-#+begin_src emacs-lisp
-;; helm 
+#+begin_src emacs-lisp 
+(require 'helm)
 (require 'helm-config)
-(helm-mode 1)
-(require 'helm-swoop)
 
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+(global-set-key (kbd "C-x b") 'helm-mini)
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match    t)
+
+(global-set-key (kbd "C-c h o") 'helm-occur)
+
+
+(global-set-key (kbd "C-h a") 'helm-apropos)
+(setq helm-apropos-fuzzy-match t)
+
+(setq helm-semantic-fuzzy-match t
+      helm-imenu-fuzzy-match    t)
+
+(helm-mode 1)
+
+
+;;;; helm-swoop 
+(require 'helm-swoop)
 ;; Change the keybinds to whatever you like :)
 ;; (global-set-key (kbd "M-i") 'helm-swoop)
 ;; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
@@ -362,9 +457,9 @@ the area is defined by the bounding box. "
 ;; (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 (global-set-key (kbd "<f1>") 'helm-swoop)
 ;; When doing isearch, hand the word over to helm-swoop
-(define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+;; (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
 ;; From helm-swoop to helm-multi-swoop-all
-(define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+;; (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
 ;; When doing evil-search, hand the word over to helm-swoop
 ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
 
@@ -380,18 +475,63 @@ the area is defined by the bounding box. "
 ;; If nil, you can slightly boost invoke speed in exchange for text color
 (setq helm-swoop-speed-or-color nil)
 ;; ----------------------------------------------------------------------
-(global-set-key (kbd "C-b") 'helm-buffers-list)
+
+    #+end_src
+
+**** The Helm Way - What I learnt today  
+:LOGBOOK:  
+CLOCK: [2015-02-22 Sun 13:00]--[2015-02-22 Sun 15:19] =>  2:19
+:END:      
+[2015-02-22 Sun 13:51]
+
+What I learnt today 
+
+- helm-mini :: what I wanted, combine recentf with opening buffers.  so that I don't need to swithc between C-b or C-r to find a file.  
+               (global-set-key (kbd "C-x b") 'helm-mini)
+(setq helm-buffers-fuzzy-matching t
+helm-recentf-fuzzy-match    t)
+- helm-find-files :: it is better than what I have been using and don't know that find-file with helm completion.  it provides the full functionality of Helm framework.  it is now bind with =C-x C-f=
+                    
+- helm-show-king-ring :: shows all the kill-ring so that I can see and select, and avoid working with invisiable kill-ring.  also,  I can filter and then select.
+- helm-occur :: a alternative to helm-swoop, haven't figure out which is fits in better in current workflow and it will changed by sematics.
+- helm-semantic-or-imenu :: tells vairbale, functions, dependeices etc for a langauge.  it is really powerful:  shows types function headers in a minibuffer and I can glismps the interface of the all the functions, dependences etc.  
+     haven't tried it yet in R.  previouslh, I use helm-swoop on /library/, /<- function(.)/, /save/ to do that.  the advantange of semantic is that 1) do it once, 2) tags are grouped, 3) jump quickly 4) helm framework.  I would like to have a Sematic works in R langauge, and configure it to have
+  - dependence section, highlight lines with =library=, =sfLibrary=.
+  - function section, highlight lines with /. <- function( . )/
+  - variable section, highlight lines with /xxx <- yyy/ 
+  - I/O section, that highlights =load=, =read.csv= etc and =save=, =write.csv= etc.
+- helm-top :: it provides Helm interface for =top= program.  I don't need to fire up a shell buffer.  handy key-bindings to sort by CPU/Memory/user.  It would be nice to have run this function on a remote serer.
+- helm-google-suggest :: search on google in Emacs.  I don't need to swtich to browser app as it will do it autoamticlaly.
+- helm-man-woman :: view the man page for a command in Emacs.  the command is selected by Helm.  it's nice to expand it to R/Emacs-Lisp language. 
+  1. invoke helm-man-women,
+  2. it shows up all the commands that is in the source,
+  3. filter out all except R command by type =*R=,
+  4. select a particular command, see =library=, 
+
+  it's likely for someone use same langauge over a time period, 2-3 hours, then it is useful to keep the prefix =*R= from last call, by provide a variable, say =helm-man-women-remember=, and set it to true. 
+- helm-apropos :: it able me to search for funciton, variable, faces in one command but for key-bindings, I still need to use =C-h k=.
+- helm-info-* :: want to know what options I have to generate a clock-table in org-mode? invoke helm-info-org and search pattern /clocktable/ and it brings me exactly the line that has /clocktable/! how convinenty is that? it will change my workflow in referencing, and no need to googling and navigate in the org-mode manual.
+- helm-calcul-expression :: a handy calculator in Emacs, the results shows in the echo area.  
+
+There are two commands I wold like to use in the future, =helm-find= and =helm-locate= to find/locate files.  
+
+
+
+
+*** ace-jump 
+
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-c w") 'ace-jump-word-mode)
 #+end_src
 
 #+results:
-: helm-buffers-list
 
 
 *** Multi-Cursor - Multiple Selection 
-[2015-01-19 Mon 12:10]
-
-
-#+begin_src emacs-lisp
+    [2015-01-19 Mon 12:10]
+    
+    
+    #+begin_src emacs-lisp
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -402,154 +542,56 @@ the area is defined by the bounding box. "
 (global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-#+end_src
-
+    #+end_src
+    
 *** Expand-Region - Incremental Selection
-[2015-01-20 Tue 07:47]
-
-#+begin_src emacs-lisp
+    [2015-01-20 Tue 07:47]
+    
+    #+begin_src emacs-lisp
 ;; [[https://github.com/magnars/expand-region.el][expand-region]]
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-#+end_src
-** File Manager 
-[2015-01-23 Fri 18:52]
-*** Projectile - Directory Access 
-[2015-01-19 Mon 12:08]
-#+begin_src emacs-lisp
-(require 'projectile)
-(require 'helm-projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-remember-window-configs t )
-(setq projectile-completion-system 'helm)
-#+end_src
-*** dired - File Operation 
-[2015-01-23 Fri 18:53]
-*** Remote (SSH)
-[2015-01-22 Thu 23:11]
-#+begin_src emacs-lisp
-(require 'tramp)
-(require 'ssh)
-(defun yt/sync-local-remote ()
-  (interactive)
-  "copy all files in remote:~/LR_share to local:~/LR_share,
-does not support the ther way"
-  (find-file "/ssh:JBA28:/home/local/JBANORTHWEST/yitang/LR_share")
-  ;; (mark-whole-buffer)
-  (dired-mark-subdir-files)
-  ;; (find-file "~/LR_share")
-  ;; (setq-local dirqed-dwim-target t)
-  (dired-do-copy))
-
-#+end_src
-*** Git Sync
-:LOGBOOK:  
-CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
-:END:      
-[2015-01-19 Mon 12:09]
-
-
-Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.  but onec I familaried with it, it is not necessary to do it anymore.  This is why I start to use Magit.  it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a manuam at http://magit.github.io/master/magit.html and cheatsheet http://daemianmack.com/magit-cheatsheet.html
-
-#+begin_src emacs-lisp
-
-;; backup git repo automatically 
-;; git
-(require 'magit)
-
-#+end_src 
-
-I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
-
-the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
-1. automatically save all the buffers
-   I have been runing into the sitatuion that my office machine was frzzee, beacuse of Big Data and I push R to the limits, and I potentially will lose the newstest version of sripcts.  which is bit annoy.
-2. office rush,
-   I shared lift with my coluge, and someimes, I just need to go, and go now! than what I did is  to call a function that will deal with commits, update, and upload.
-3. automatically commit 
-   few times I did some work over the weenend and night, and I want to udpate to my colluge, but I gotget to sync, or push to the cloud... which is quit embarralse. 
-
-#+begin_src emacs-lisp
-;; backup git repo automatically 
-;; git
-(setq git-sh-scripts "
-echo Start to Sync: $(date) 
-
-REPOS=\"org jbarm\"
-for REPO in $REPOS
-do
-    echo
-    echo \"Repository: $REPO\"
-    cd ~/git/$REPO
-    # update
-    git pull 
-    # Remove deleted files
-    git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
-    # Add new files
-    git add -A . >/dev/null 2>&1
-    git commit -m \"$(date)\"
-    git push origin master 
-done
-
-echo Finished Sync: $(date)
-")
-
-(defun yt/git-backup ()
-  (interactive)
-  ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
-  ;; (start-process-shell-command "git-sync" "*AutoSync*" "~/git/org/AutoSync.sh")
-  (async-shell-command git-sh-scripts)
-  (message "all git sync... done"))
-(defun yt/save-all-buffers ()
-  "save all files-visiting buffers without user confirmation"
-  (interactive)
-  (save-some-buffers t nil)
-  (message "save all buffers... done"))
-(defun yt/save-git-backup ()
-  (interactive)
-  (yt/save-all-buffers)
-;;  (display-buffer "*AutoSync*")
-  (yt/git-backup))
-
-(cond ((eq system-type 'darwin)
-       (run-at-time "05:59" 10800 'yt/save-git-backup)))
-
-
-
-
-
-
-#+end_src
+    #+end_src
 ** ESS - Emacs Speaks Statistics
-I am a Statistician, runing R and writing scripts is what I do most of the day.  I have tried many oyher way of running R, Rstudio, SublimeText, TextMate, but ended up in use ESS/Emacs.  
-
-There are few killing points of ESS:
-
-1. formatting 
+   :LOGBOOK:  
+   CLOCK: [2015-01-28 Wed 06:09]--[2015-01-28 Wed 07:55] =>  1:46
+   :END:      
+   :PROPERTIES: 
+   :EXPORT_TITLE: Why Use Emacs 1 - Emacs Speaks Statistics (ESS)
+   :END:      
    
-   it will do the amazing for you, just by hitting TAB, and I will see where I missed a ')', or ']'.  Also, it makes the long function call readable, with spelite it into multiples, but with nice lines.  here's an exmaple 
-   #+begin_src r :eval no
+   I am a Statistician, coding in R and write report is what I do most of the day.  I have been though a long way of searching the perfect editor for me, tried Rstudio, SublimeText, TextMate and settled down happily with ESS/Emacs, for both coding and writing. 
+   
+   There three features that have me made the decision: 
+   
+1. Auto Formatting 
+   
+   Scientists has reputation of being bad programmers, who wrote the code that is unreadable and therefore incomprehensible to others.  I have intention to become top level programmer and followed a style guide strictly.  It means I have to spent sometime in adding and removing space in the code.
+   
+   To my surprise, Emacs will do it for me automatically, just by hitting the TAB and it also indent smartly, which make me conformable to write long function call and split it into multiple lines.  Here's an example.  Also if I miss placed a ')' or ']' the formatting will become strange and it reminders me to check.   
+   
+   #+begin_src R :eval no
    rainfall.subset <- data.table(rainfall.london,
                                  rainfall.pairs,
                                  rainfall.dublin)
-#+end_src
 
-
-1. search command history
+   #+end_src
    
-   imamging you are producing a ggplot, and you realised there was something miss in the data, so you fix the data first, then run the ggplot command again, you press Up buttom many times, or just search once/two times, by =M-x ggplot( =, then press =C-r= to select.  
-
-2. the R session can be accesses by org-mode, 
+1. Search Command History
    
-   last time I gogoled it about literate program, and the Rmarkdown does not support R session, so evertime you want to run a document, you need to start a new session and run thought everhting agian.  In this case, ESS and org-mode is more freindly to use. 
-
-  #+begin_src emacs-lisp
+   I frequently search the command history. Imaging I was produce a plot and I realised there was something miss in the data, so I go back and  fix the data first, then run the ggplot command again, I press Up/Down bottom many times, or just search once/two times. =M-x ggplot(=  will gives me the most recent command I typed containing the keyword /ggplot(/, then I press =RET= to select the command, which might be =ggplot(gg.df, aes(lon, lat, col = city)) + geom_line() + .....=.  If it is not I want, I press =C-r= again to choose the second most recent one and repeat until I find right one.  
+   
+2. Literate Programming 
+   
+   I am an supporter of literate statistical analysis and believe we should put code, results and discoveries together in developing models. Rstudio provides an easy to use tool for this purpose, but it does not support different R sessions, so if I need to generate a report, I have to re-run all the code from beginning, which isn't particle for me with volumes data because it will take quit long. 
+   
+   ESS and org-mode works really well via Babel, which is more friendly to use.  I can choose to run only part of the code and have the output being inserted automatically, no need to copy/paste.  Also, I can choose where to execute the code, on my local machine or the remote server, or both at the same time.
+   
+These are only the surface of ESS and there are lot more useful features like spell checking for comments and documentation templates, that makes me productive and I would recommend anyone use R to learn ESS/Emacs.  The following is my current setting. 
+#+begin_src emacs-lisp
   ;; Adapted with one minor change from Felipe Salazar at
   ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-  ;; (add-to-list 'load-path "~/git/.emacs.d/elpa/ess-13.09-1/lisp")
   (require 'ess-site)
   (setq ess-ask-for-ess-directory nil) ;; start R on default folder
   (setq ess-local-process-name "R")
@@ -582,58 +624,51 @@ There are few killing points of ESS:
             '(lambda()
                (local-set-key [C-up] 'comint-previous-input)
                (local-set-key [C-down] 'comint-next-input)))
-  (add-hook 'Rnw-mode-hook
-            '(lambda()
-               (local-set-key [(shift return)] 'my-ess-eval)))
   (add-hook 'ess-mode-hook
             (lambda ()
               (flyspell-prog-mode)
               (run-hooks 'prog-mode-hook)
               ;; (prog-mode)
-                                          ; ...
               ))
-  ;; (require 'ess-site)
 
   ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
   ;; Control and up/down arrow keys to search history with matching what you've already typed:
   (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
   (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
-
-  ;; C-b = list buffers
-  ;; (global-set-key (kbd "C-b") 'bs-show)
-
-  ;; ;; ESS Mode (.R file)
-  ;;   (define-key ess-mode-map "\C-l" 'ess-eval-line-and-step)
-  ;;   (define-key ess-mode-map "\C-p" 'ess-eval-function-or-paragraph-and-step)
-  ;;   (define-key ess-mode-map "\C-r" 'ess-eval-region)
-
-
-  ;; use ess-transcript-clean-buffer to
-  ;; 1. clean *R* buffer, remove all outputs
-  ;; 2. save commands history
-
+  ;; edit roxy template
+  ;; ess-roxy-update-entry
+  ;; (add-to-list ess-roxy-template-alist '(("description" . "content for description")
+  ;;                                 ("details" . "content for details")
+  ;;                                 ("title" . "")
+  ;;                                 ("param" . "")
+  ;;                                 ("return" . "")
+  ;;                                 ("export" . "")
+  ;;                                 ("author" . "Yi Tang")))
 #+end_src
 
+#+RESULTS:
+: comint-next-matching-input-from-input
+
 *** Programming Mode 
-After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
-
-One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
-
-#+begin_src emacs-lisp
+    After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
+    
+    One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
+    
+    #+begin_src emacs-lisp
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
-#+end_src 
-
-we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
-
-one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
-
-#+begin_src emacs-lisp 
+    #+end_src 
+    
+    we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
+    
+    one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
+    
+    #+begin_src emacs-lisp 
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
 (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
@@ -650,11 +685,11 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
-#+end_src
-
+    #+end_src
+    
 *** Documentation  
-[2015-01-23 Fri 17:53]
-#+begin_src emacs-lisp
+    [2015-01-23 Fri 17:53]
+    #+begin_src emacs-lisp
 ;; edit roxy template
 ;; ess-roxy-update-entry
 ;; (setq ess-roxy-template-alist '(("description" . " content for description")
@@ -664,33 +699,174 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 ;;                                 ("return" . "")
 ;;                                 ("export" . "")
 ;;                                 ("author" . "Yi Tang")))
-#+end_src
-
-
+    #+end_src
+    
+    
 *** R Style Check - Flycheck 
-[2015-01-20 Tue 10:49]
-
-https://github.com/jimhester/lintr
-
-#+begin_src emacs-lisp
+    [2015-01-20 Tue 10:49]
+    
+    https://github.com/jimhester/lintr
+    
+    #+begin_src emacs-lisp
 (require 'flycheck)
 (add-hook 'ess-mode-hook
           (lambda () (flycheck-mode t)))
 (load "~/git/.emacs.d/lisp/lintr.el")
-#+end_src
+    #+end_src
 *** Remote R Sessions 
-[2015-01-23 Fri 19:00]
+    [2015-01-23 Fri 19:00]
+*** R code oranise
+    [2015-02-12 Thu 20:39]
+    
+
+    
+
+** File Manager 
+   [2015-01-23 Fri 18:52]
+*** Alternative to shell 
+    [2015-01-28 Wed 07:46]
+    
+    #+begin_src emacs-lisp
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+    #+end_src
+*** Projectile - Directory Access 
+    [2015-01-19 Mon 12:08]
+
+    #+begin_src emacs-lisp
+(require 'projectile)
+(require 'helm-projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-remember-window-configs t )
+(setq projectile-completion-system 'helm)
+    #+end_src
+*** dired - File Operation 
+    [2015-01-23 Fri 18:53]
+*** Remote (SSH)
+    [2015-01-22 Thu 23:11]
+
+    #+begin_src emacs-lisp
+(require 'tramp)
+(require 'ssh)
+(defun yt/sync-local-remote ()
+  (interactive)
+  "copy all files in remote:~/LR_share to local:~/LR_share,
+does not support the ther way"
+  (find-file "/ssh:JBA28:/home/local/JBANORTHWEST/yitang/LR_share")
+  ;; (mark-whole-buffer)
+  (dired-mark-subdir-files)
+  ;; (find-file "~/LR_share")
+  ;; (setq-local dirqed-dwim-target t)
+  (dired-do-copy))
+
+    #+end_src
+*** Git Sync
+    :LOGBOOK:  
+    CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
+    :END:      
+    [2015-01-19 Mon 12:09]
+    
+    
+    Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.  but onec I familaried with it, it is not necessary to do it anymore.  This is why I start to use Magit.  it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a manuam at http://magit.github.io/master/magit.html and cheatsheet http://daemianmack.com/magit-cheatsheet.html
+    
+    #+begin_src emacs-lisp
+
+;; backup git repo automatically 
+;; git
+(require 'magit)
+
+    #+end_src 
+    
+    I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
+    
+    the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
+1. automatically save all the buffers
+   I have been runing into the sitatuion that my office machine was frzzee, beacuse of Big Data and I push R to the limits, and I potentially will lose the newstest version of sripcts.  which is bit annoy.
+2. office rush,
+   I shared lift with my coluge, and someimes, I just need to go, and go now! than what I did is  to call a function that will deal with commits, update, and upload.
+3. automatically commit 
+   few times I did some work over the weenend and night, and I want to udpate to my colluge, but I gotget to sync, or push to the cloud... which is quit embarralse. 
+   
+#+begin_src emacs-lisp
+  ;; backup git repo automatically 
+  ;; git
+  (setq git-sh-scripts "
+  echo Start to Sync: $(date) 
+
+  REPOS=\"org jbarm\"
+  for REPO in $REPOS
+  do
+      echo
+      echo \"Repository: $REPO\"
+      cd ~/git/$REPO
+      # update
+      git pull 
+      # Remove deleted files
+      git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
+      # Add new files
+      git add -A . >/dev/null 2>&1
+      git commit -m \"$(date)\"
+      git push origin master 
+  done
+
+  echo Finished Sync: $(date)
+  ")
+
+  (defun yt/git-backup ()
+    (interactive)
+    ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
+    ;; (start-process-shell-command "git-sync" "*AutoSync*" "~/git/org/AutoSync.sh")
+    (async-shell-command git-sh-scripts)
+    (message "all git sync... done"))
+  (defun yt/save-all-buffers ()
+    "save all files-visiting buffers without user confirmation"
+    (interactive)
+    (save-some-buffers t nil)
+    (message "save all buffers... done"))
+  (defun yt/save-git-backup ()
+    (interactive)
+    (yt/save-all-buffers)
+  ;;  (display-buffer "*AutoSync*")
+    (yt/git-backup))
+
+  ;; (cond ((eq system-type 'darwin)
+  ;; (run-at-time "05:59" 10800 'yt/save-git-backup)))
+
+
+
+
+
+
+#+end_src
+
 ** mu4e - Email Client
-
-The advantage of use Emacs as an email client: 
-
+   
+   The advantage of use Emacs as an email client: 
+   
 1. communication happens at the point where the content is genreated. 
    as a statisician/programmer, most likely I need to mmunicate with numbers, table, graphs, or snippet.  I could just copy these results from to email, do an quickly editing.  
 2. HTML email with CSS style.  
    I like to formate my email use headingline, fonts, and highlhgit the code, I used to be write a report in Word/LatEx and write an email with only onbe line, please see the attachment.  which I don't like. 
 3. search properly 
    I use search all the time, and this functionality is not working at all in outlkooik 2013, it also shows up random info (mail.app in osx did a great job).  
-
+   
 Disadvantage / can;t do: 
 1. don't expect me to reply immediately 
    this is how does it works: 1. download the email from server, 2) index with head, body, attachment, user name etc.  3) Emacs talk to and show in GUI.  I usually update the meail about 30 imnutes.  but I helps me out of disrupts.
@@ -698,7 +874,7 @@ Disadvantage / can;t do:
    I didn't aware that you can do it in emacs, and we need an iterative way to do.  Outlook Schedule Asistant do a good job, it list agenda of all attendence, and I could spot oen time slot that suit for all or most people. 
 3. calendar 
    I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda. 
-
+   
 This setting need two programms to work: 1) mu, 2) offlineimap. 
 
 #+begin_src emacs-lisp
@@ -717,7 +893,7 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
 (setq mu4e-sent-messages-behavior 'sent)
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-get-mail-command "offlineimap -a JBA")
 (setq mu4e-update-interval 300)
 
 ;; sending mail -- replace USERNAME with your gmail username
@@ -937,159 +1113,6 @@ I got an email from an estate agency where there are few images are inlined, but
 *Render LaTeX code as image*
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
 
-** Emacs Looks Cool
-[2015-01-19 Mon 12:16]
-*** Theme
-[2015-01-19 Mon 14:47]
-#+begin_src emacs-lisp
-
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(show-paren-mode t) ;for Emacs
-(require 'cl-lib)
-(require 'color)
-(cl-loop
- for index from 1 to rainbow-delimiters-max-face-count
- do
- (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-   (cl-callf color-saturate-name (face-foreground face) 30)))
-
-
-(load-theme 'zenburn t)
-
-
-
-;; font
-(set-default-font "Source Code Pro")
-(set-face-attribute 'default nil :height 140)
-
-
-#+end_src
-
-
-
-
-
-
-#+end_src
-*** Modeline
-#+begin_src emacs-lisp
-
-(require 'nyan-mode)
-(nyan-mode 1)
-
-
-;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
-;; Mode line setup
-(setq-default
- mode-line-format
- '(; Position, including warning for 80 columns
-   (:propertize "%4l:" face mode-line-position-face)
-   (:eval (propertize "%3c" 'face
-                      (if (>= (current-column) 80)
-                          'mode-line-80col-face
-                        'mode-line-position-face)))
-					; emacsclient [default -- keep?]
-   mode-line-client
-   "  "
-					; read-only or modified status
-   (:eval
-    (cond (buffer-read-only
-           (propertize " RO " 'face 'mode-line-read-only-face))
-          ((buffer-modified-p)
-           (propertize " ** " 'face 'mode-line-modified-face))
-          (t "      ")))
-   "    "
-					; directory and buffer/file name
-   (:propertize (:eval (shorten-directory default-directory 30))
-                face mode-line-folder-face)
-   (:propertize "%b"
-                face mode-line-filename-face)
-					; narrow [default -- keep?]
-   " %n "
-					; mode indicators: vc, recursive edit, major mode, minor modes, process, global
-   (vc-mode vc-mode)
-   "  %["
-   (:propertize mode-name
-                face mode-line-mode-face)
-   "%] "
-   ;; (:eval (propertize (format-mode-line minor-mode-alist)
-   ;;                    'face 'mode-line-minor-mode-face))
-   (:propertize mode-line-process
-                face mode-line-process-face)
-   (global-mode-string global-mode-string)
-   "    "
-					; nyan-mode uses nyan cat as an alternative to %p
-   (:eval (when nyan-mode (list (nyan-create))))
-   ))
-
-;; Helper function
-(defun shorten-directory (dir max-length)
-  "Show up to `max-length' characters of a directory name `dir'."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
-
-;; Extra mode line faces
-(make-face 'mode-line-read-only-face)
-(make-face 'mode-line-modified-face)
-(make-face 'mode-line-folder-face)
-(make-face 'mode-line-filename-face)
-(make-face 'mode-line-position-face)
-(make-face 'mode-line-mode-face)
-(make-face 'mode-line-minor-mode-face)
-(make-face 'mode-line-process-face)
-(make-face 'mode-line-80col-face)
-
-(set-face-attribute 'mode-line nil
-		    :foreground "gray60" :background "gray20"
-		    :inverse-video nil
-		    :box '(:line-width 6 :color "gray20" :style nil))
-(set-face-attribute 'mode-line-inactive nil
-		    :foreground "gray80" :background "gray40"
-		    :inverse-video nil
-		    :box '(:line-width 6 :color "gray40" :style nil))
-
-(set-face-attribute 'mode-line-read-only-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#4271ae"
-		    :box '(:line-width 2 :color "#4271ae"))
-(set-face-attribute 'mode-line-modified-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#c82829"
-		    :background "#ffffff"
-		    :box '(:line-width 2 :color "#c82829"))
-(set-face-attribute 'mode-line-folder-face nil
-		    :inherit 'mode-line-face
-		    :foreground "gray60")
-(set-face-attribute 'mode-line-filename-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#eab700"
-		    :weight 'bold)
-(set-face-attribute 'mode-line-position-face nil
-		    :inherit 'mode-line-face
-		    :family "Menlo" :height 100)
-(set-face-attribute 'mode-line-mode-face nil
-		    :inherit 'mode-line-face
-		    :foreground "gray80")
-(set-face-attribute 'mode-line-minor-mode-face nil
-		    :inherit 'mode-line-mode-face
-		    :foreground "gray40"
-		    :height 110)
-(set-face-attribute 'mode-line-process-face nil
-		    :inherit 'mode-line-face
-		    :foreground "#718c00")
-(set-face-attribute 'mode-line-80col-face nil
-		    :inherit 'mode-line-position-face
-		    :foreground "black" :background "#eab700")
-#+end_src
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
 *** English Language 
@@ -1120,27 +1143,25 @@ is wrong, and also tell me why and which is right.  =langtool= can do be the job
 (setq langtool-mother-tongue "en")
 
 ;; avoid xxx words 
-(require 'artbollocks-mode)
-(add-hook 'text-mode-hook 'artbollocks-mode)
-(setq artbollocks-weasel-words-regex
-      (concat "\\b" (regexp-opt
-                     '("one of the"
-                       "should"
-                       "just"
-                       "sort of"
-                       "a lot"
-                       "probably"
-                       "maybe"
-                       "perhaps"
-                       "I think"
-                       "really"
-                       "pretty"
-                       "nice"
-                       "action"
-                       "utilize"
-                       "leverage") t) "\\b"))
-
-
+;; (require 'artbollocks-mode)
+;; (add-hook 'text-mode-hook 'artbollocks-mode)
+;; (setq artbollocks-weasel-words-regex
+;;       (concat "\\b" (regexp-opt
+;;                      '("one of the"
+;;                        "should"
+;;                        "just"
+;;                        "sort of"
+;;                        "a lot"
+;;                        "probably"
+;;                        "maybe"
+;;                        "perhaps"
+;;                        "I think"
+;;                        "really"
+;;                        "pretty"
+;;                        "nice"
+;;                        "action"
+;;                        "utilize"
+;;                        "leverage") t) "\\b"))
 
 
 ;; [2014-12-25 Thu 22:21]
@@ -1169,6 +1190,13 @@ is wrong, and also tell me why and which is right.  =langtool= can do be the job
 (set-face-attribute 'variable-pitch nil
                     :foreground "gray40")
 
+;; [2015-02-12 Thu 21:14]
+;; https://github.com/rootzlevel/synosaurus
+;; synosaurus-lookup
+;; synosaurus-choose-and-replace
+;; brew install wordnet
+(require 'synosaurus)
+(setq synosaurus-choose-method "popup")
 
 #+end_src
 
@@ -1203,6 +1231,7 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
 | gmap      | google map        | website  |
 | mailme    | yi.tang.uk@me.com | aboutme  |
 | twitterme | @yi_tang_uk       | aboutme  |
+| iif       | if and only if    | maths    |
 
 
 #+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no 
@@ -1258,7 +1287,7 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
 
 ** Org mode
 I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]]
-*** Bernt Hansen's Setting
+*** Bernt Hansen's Setting                                       :noexport:
 :LOGBOOK:  
 CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 :END:      
@@ -1267,6 +1296,17 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 (require 'org)
 (require 'org-habit)
 (setq org-agenda-files '("~/git/org/" "~/git/jbarm"))
+
+(defun yt/setup-office-agenda ()
+  (interactive)
+  (setq org-agenda-files '("~/git/jbarm")))
+(defun yt/setup-home-agenda ()
+  (interactive)
+  (setq org-agenda-files '("~/git/org")))
+(defun yt/setup-home-and-office-agenda ()
+  (interactive)
+  (setq org-agenda-files '("~/git/org/" "~/git/jbarm")))
+
 
 ;; Standard key bindings
 (global-set-key "\C-c l" 'org-store-link);; C-c C-l is defualt, 
@@ -1339,7 +1379,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
   (switch-to-buffer "*scratch*"))
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+      (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
 (setq org-todo-keyword-faces
@@ -1425,14 +1465,16 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               ("fc" "Commute")
               ("fco" "Commute from/to Office" entry (file+olp "~/git/org/qs.org" "From/To Office")
                "* %u Commute from/to Office %? \n%U" :clock-in t :clock-resume t)
-              ("fcg" "Commute General" entry (file+olp "~/git/org/qs.org" "General")
+              ("fcg" "Commute General" entry (file+olp "~/git/org/qs.org" "Commuting" "General")
                "* %u Commute General %? \n%U" :clock-in t :clock-resume t)
 
               ;; fitness 
               ("ff" "Fitness")
               ("ffr" "Run" entry (file+olp "~/git/org/qs.org" "Fitness" "Run")
                "* %u Run %? \n%U" :clock-in t :clock-resume t)
-              
+              ("ffw" "Walk" entry (file+olp "~/git/org/qs.org" "Fitness" "Walk")
+               "* %u Walk %? \n%U" :clock-in t :clock-resume t)
+                            
               )))
 
 
@@ -2009,11 +2051,13 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (org-babel-do-load-languages
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
-                 (R . t)
+         (R . t)
          (sh . t)
          (ledger . t)
          (org . t)
          (plantuml . t)
+(dot . t)
+         (octave . t)
          (latex . t))))
 
         (setq org-confirm-babel-evaluate nil)
@@ -2586,13 +2630,16 @@ so change the default 'F' binding in the agenda to allow both"
 
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
+              ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
               ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
               ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
               ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n</center>")
               ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
-              ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+              ;;  ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+              ("L" "#+begin_src emacs-lisp \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
               ("H" "#+html: " "<literal style=\"html\">?</literal>")
               ("a" "#+begin_ascii\n?\n#+end_ascii")
@@ -2791,10 +2838,6 @@ so change the default 'F' binding in the agenda to allow both"
 ;;                          effort)) )))
 
 (setq bh/hide-scheduled-and-waiting-next-tasks nil)
-
-
-
-(message "end of org")
 
 ;; ispell region will skip the sorce code and org drawers.
 ;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
@@ -3098,6 +3141,18 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (require 'org-checklist) 
 #+end_src
+*** Babel
+[2015-01-29 Thu 14:16]
+
+#+begin_src emacs-lisp
+
+#+end_src
+*** Export 
+[2015-02-04 Wed 12:23]
+
+#+begin_src emacs-lisp
+(setq org-export-with-section-numbers nil)
+#+end_src
 *** PDF Export 
 [2015-01-19 Mon 15:45]
 
@@ -3160,6 +3215,10 @@ Late deadlines first, then scheduled, then non-late deadlines"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 #+end_src
+
+#+results:
+| xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f |
+
 **** TODO fix xelatex compilation problem 
 [2015-01-23 Fri 17:01]
 *** HTML Export 
@@ -3203,7 +3262,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 }
 </style>
 <div class=\"back-to-top\">
-<a href=\"#top\">Back to top</a> | <a href=\"mailto:sacha@sachachua.com\">E-mail me</a>
+<a href=\"#top\">Back to top</a> | <a href=\"mailto:yi.tang.uk@me.com\">E-mail me</a>
 </div>
 <script type=\"text/javascript\">
     var offset = 220;
@@ -3228,6 +3287,10 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 (setq org-export-headline-levels 6)
 
 #+end_src
+
+#+results:
+: 6
+
 *** Blogging with Jekyll
 I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
 
@@ -3391,6 +3454,10 @@ comments: true
 				  (find-file "~/git/yi-tang.github.io/org/_drafts/")))
 
 #+end_src
+
+#+RESULTS:
+| lambda | nil | (interactive) | (find-file ~/git/yi-tang.github.io/org/_drafts/) |
+
 **** code highlight 
 [2015-01-23 Fri 17:47]
 
@@ -3424,9 +3491,12 @@ comments: true
   (org-to-jekyll-src "html")
   )
 #+end_src
+
+#+results:
+=org-src-jekyll
+=      
 ** Initialisation Completed
 [2015-01-22 Thu 23:05]
-
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
@@ -3577,6 +3647,7 @@ paste(headline, content, page.break, sep = "\n")
 
 #+results: GetLastUpdatedDate
 
+
 * End 
 [2015-01-19 Mon 11:43]
 
@@ -3628,15 +3699,127 @@ paste(headline, content, page.break, sep = "\n")
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 (add-hook 'c++-mode-common-hook 'google-make-newline-indent)
 #+end_src
-* test 
-[2015-01-26 Mon 01:16]
+* The Emacs Way 
+[2015-02-22 Sun 07:59]
 
-#+begin_src R
-alalalal <rnorm(1e3)
+helm-show-kill-ring 
+ 
+helm-google-suggest 
+
+* Try-Out 
+[2015-02-22 Sun 08:19]
+
+define a group of keybinds together in [[https://github.com/abo-abo/hydra][hydra]] package. 
+#+begin_src emacs-lisp 
+(require 'hydra)
+(hydra-create "<f2>"
+  '(("g" text-scale-increase)
+    ("l" text-scale-decrease)))
+(require 'hydra-examples)
+(hydra-create "C-M-o" hydra-example-move-window-splitter)
+(hydra-create "C-M-o"
+  '(("h" hydra-move-splitter-left)
+    ("j" hydra-move-splitter-down)
+    ("k" hydra-move-splitter-up)
+    ("l" hydra-move-splitter-right)))
+
 #+end_src
 
-#+begin_src r
-rnorm(1e3)
+ [[https://github.com/kiwanami/emacs-calfw][calfw]] display a calendar view in Emacs buffer.  this package has a good API, can integrate various calendar resources, iCal, Google Calendar and Org-mode etc into one calendar.  
+
+#+begin_src emacs-lisp 
+(require 'calfw-cal)
+;; (require 'calfw-ical)
+;; (require 'calfw-howm)
+(require 'calfw-org)
+
+(defun my-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "Green")  ; orgmode source
+;;    (cfw:howm-create-source "Blue")  ; howm source
+;;    (cfw:cal-create-source "Orange") ; diary source
+;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
+;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
+   ))) 
+
+;;;; customization 
+;; Month
+(setq calendar-month-name-array
+  ["January" "February" "March"     "April"   "May"      "June"
+   "July"    "August"   "September" "October" "November" "December"])
+
+;; Week days
+(setq calendar-day-name-array
+      ["Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"])
+
+;; First day of the week
+(setq calendar-week-start-day 1) ; 0:Sunday, 1:Monday
+
+(custom-set-faces
+ '(cfw:face-title ((t (:foreground "#f0dfaf" :weight bold :height 2.0 :inherit variable-pitch))))
+ '(cfw:face-header ((t (:foreground "#d0bf8f" :weight bold))))
+ '(cfw:face-sunday ((t :foreground "#cc9393" :background "grey10" :weight bold)))
+ '(cfw:face-saturday ((t :foreground "#8cd0d3" :background "grey10" :weight bold)))
+ '(cfw:face-holiday ((t :background "grey10" :foreground "#8c5353" :weight bold)))
+ '(cfw:face-grid ((t :foreground "DarkGrey")))
+ '(cfw:face-default-content ((t :foreground "#bfebbf")))
+ '(cfw:face-periods ((t :foreground "cyan")))
+ '(cfw:face-day-title ((t :background "grey10")))
+ '(cfw:face-default-day ((t :weight bold :inherit cfw:face-day-title)))
+ '(cfw:face-annotation ((t :foreground "RosyBrown" :inherit cfw:face-day-title)))
+ '(cfw:face-disable ((t :foreground "DarkGray" :inherit cfw:face-day-title)))
+ '(cfw:face-today-title ((t :background "#7f9f7f" :weight bold)))
+ '(cfw:face-today ((t :background: "grey10" :weight bold)))
+ '(cfw:face-select ((t :background "#2f2f2f")))
+ '(cfw:face-toolbar ((t :foreground "Steelblue4" :background "Steelblue4")))
+ '(cfw:face-toolbar-button-off ((t :foreground "Gray10" :weight bold)))
+ '(cfw:face-toolbar-button-on ((t :foreground "Gray50" :weight bold))))
+
+;; Default setting
+(setq cfw:fchar-junction ?+
+      cfw:fchar-vertical-line ?|
+      cfw:fchar-horizontal-line ?-
+      cfw:fchar-left-junction ?+
+      cfw:fchar-right-junction ?+
+      cfw:fchar-top-junction ?+
+      cfw:fchar-top-left-corner ?+
+      cfw:fchar-top-right-corner ?+ )
+
+;; Unicode characters
+(setq cfw:fchar-junction ?╋
+      cfw:fchar-vertical-line ?┃
+      cfw:fchar-horizontal-line ?━
+      cfw:fchar-left-junction ?┣
+      cfw:fchar-right-junction ?┫
+      cfw:fchar-top-junction ?┯
+      cfw:fchar-top-left-corner ?┏
+      cfw:fchar-top-right-corner ?┓)
+
+;; Another unicode chars
+(setq cfw:fchar-junction ?╬
+      cfw:fchar-vertical-line ?║
+      cfw:fchar-horizontal-line ?═
+      cfw:fchar-left-junction ?╠
+      cfw:fchar-right-junction ?╣
+      cfw:fchar-top-junction ?╦
+      cfw:fchar-top-left-corner ?╔
+      cfw:fchar-top-right-corner ?╗)
+
 #+end_src
 
+#+results:
+: 9559
+
+
+** Bug 
+   - [ ] can't find the path of ess-site 
+     - [ ] download ess from elmpa
+   - [ ] can't find org-contacts 
+     - [ ] download from elmpa
+       not on 
+     - [ ] specify the path.
+   - [ ] watch out for local variable 
 
