@@ -1283,8 +1283,6 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
 
 #+results:
 
-
-
 ** Org mode
 I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]]
 *** Bernt Hansen's Setting                                       :noexport:
@@ -2798,45 +2796,6 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-image-actual-width '(400))
 
 
-;; ;; add my babel libraries 
-;; (org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org")
-
-;; ;; http://stackoverflow.com/questions/23044588/org-mode-creation-time-range-from-effort-estimate/23067020#23067020
-;; ;; effort + schedule -> schedule with duration 
-;; (defun yt/org-schedule-effort ()
-;;   (interactive)
-;;   (save-excursion
-;;     (org-back-to-heading t)
-;;     (let* (
-;;            (element (org-element-at-point))
-;;            (effort (org-element-property :EFFORT element))
-;;            (scheduled (org-element-property :scheduled element))
-;;            (ts-year-start (org-element-property :year-start scheduled))
-;;            (ts-month-start (org-element-property :month-start scheduled))
-;;            (ts-day-start (org-element-property :day-start scheduled))
-;;            (ts-hour-start (org-element-property :hour-start scheduled))
-;;            (ts-minute-start (org-element-property :minute-start scheduled)) )
-;;       (org-schedule nil (concat
-;;                          (format "%s" ts-year-start)
-;;                          "-"
-;;                          (if (< ts-month-start 10)
-;;                              (concat "0" (format "%s" ts-month-start))
-;;                            (format "%s" ts-month-start))
-;;                          "-"
-;;                          (if (< ts-day-start 10)
-;;                              (concat "0" (format "%s" ts-day-start))
-;;                            (format "%s" ts-day-start))
-;;                          " "
-;;                          (if (< ts-hour-start 10)
-;;                              (concat "0" (format "%s" ts-hour-start))
-;;                            (format "%s" ts-hour-start))
-;;                          ":"
-;;                          (if (< ts-minute-start 10)
-;;                              (concat "0" (format "%s" ts-minute-start))
-;;                            (format "%s" ts-minute-start))
-;;                          "+"
-;;                          effort)) )))
-
 (setq bh/hide-scheduled-and-waiting-next-tasks nil)
 
 ;; ispell region will skip the sorce code and org drawers.
@@ -3141,6 +3100,96 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (require 'org-checklist) 
 #+end_src
+*** Calendar
+[2015-02-23 Mon 10:20]
+[[https://github.com/kiwanami/emacs-calfw][calfw]] display a calendar view in Emacs buffer.  this package has a good API, can integrate various calendar resources, iCal, Google Calendar and Org-mode etc into one calendar.  
+ 
+#+begin_src emacs-lisp 
+(require 'calfw-cal)
+;; (require 'calfw-ical)
+;; (require 'calfw-howm)
+(require 'calfw-org)
+
+(defun my-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "Green")  ; orgmode source
+;;    (cfw:howm-create-source "Blue")  ; howm source
+;;    (cfw:cal-create-source "Orange") ; diary source
+;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
+;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
+   ))) 
+
+;;;; customization 
+;; Month
+(setq calendar-month-name-array
+  ["January" "February" "March"     "April"   "May"      "June"
+   "July"    "August"   "September" "October" "November" "December"])
+
+;; Week days
+(setq calendar-day-name-array
+      ["Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"])
+
+;; First day of the week
+(setq calendar-week-start-day 1) ; 0:Sunday, 1:Monday
+
+(custom-set-faces
+ '(cfw:face-title ((t (:foreground "#f0dfaf" :weight bold :height 2.0 :inherit variable-pitch))))
+ '(cfw:face-header ((t (:foreground "#d0bf8f" :weight bold))))
+ '(cfw:face-sunday ((t :foreground "#cc9393" :background "grey10" :weight bold)))
+ '(cfw:face-saturday ((t :foreground "#8cd0d3" :background "grey10" :weight bold)))
+ '(cfw:face-holiday ((t :background "grey10" :foreground "#8c5353" :weight bold)))
+ '(cfw:face-grid ((t :foreground "DarkGrey")))
+ '(cfw:face-default-content ((t :foreground "#bfebbf")))
+ '(cfw:face-periods ((t :foreground "cyan")))
+ '(cfw:face-day-title ((t :background "grey10")))
+ '(cfw:face-default-day ((t :weight bold :inherit cfw:face-day-title)))
+ '(cfw:face-annotation ((t :foreground "RosyBrown" :inherit cfw:face-day-title)))
+ '(cfw:face-disable ((t :foreground "DarkGray" :inherit cfw:face-day-title)))
+ '(cfw:face-today-title ((t :background "#7f9f7f" :weight bold)))
+ '(cfw:face-today ((t :background: "grey10" :weight bold)))
+ '(cfw:face-select ((t :background "#2f2f2f")))
+ '(cfw:face-toolbar ((t :foreground "Steelblue4" :background "Steelblue4")))
+ '(cfw:face-toolbar-button-off ((t :foreground "Gray10" :weight bold)))
+ '(cfw:face-toolbar-button-on ((t :foreground "Gray50" :weight bold))))
+
+;; Default setting
+(setq cfw:fchar-junction ?+
+      cfw:fchar-vertical-line ?|
+      cfw:fchar-horizontal-line ?-
+      cfw:fchar-left-junction ?+
+      cfw:fchar-right-junction ?+
+      cfw:fchar-top-junction ?+
+      cfw:fchar-top-left-corner ?+
+      cfw:fchar-top-right-corner ?+ )
+
+;; Unicode characters
+(setq cfw:fchar-junction ?╋
+      cfw:fchar-vertical-line ?┃
+      cfw:fchar-horizontal-line ?━
+      cfw:fchar-left-junction ?┣
+      cfw:fchar-right-junction ?┫
+      cfw:fchar-top-junction ?┯
+      cfw:fchar-top-left-corner ?┏
+      cfw:fchar-top-right-corner ?┓)
+
+;; Another unicode chars
+(setq cfw:fchar-junction ?╬
+      cfw:fchar-vertical-line ?║
+      cfw:fchar-horizontal-line ?═
+      cfw:fchar-left-junction ?╠
+      cfw:fchar-right-junction ?╣
+      cfw:fchar-top-junction ?╦
+      cfw:fchar-top-left-corner ?╔
+      cfw:fchar-top-right-corner ?╗)
+
+#+end_src
+#+results:
+: 9559
+
+
 *** Babel
 [2015-01-29 Thu 14:16]
 
@@ -3706,120 +3755,4 @@ helm-show-kill-ring
  
 helm-google-suggest 
 
-* Try-Out 
-[2015-02-22 Sun 08:19]
-
-define a group of keybinds together in [[https://github.com/abo-abo/hydra][hydra]] package. 
-#+begin_src emacs-lisp 
-(require 'hydra)
-(hydra-create "<f2>"
-  '(("g" text-scale-increase)
-    ("l" text-scale-decrease)))
-(require 'hydra-examples)
-(hydra-create "C-M-o" hydra-example-move-window-splitter)
-(hydra-create "C-M-o"
-  '(("h" hydra-move-splitter-left)
-    ("j" hydra-move-splitter-down)
-    ("k" hydra-move-splitter-up)
-    ("l" hydra-move-splitter-right)))
-
-#+end_src
-
- [[https://github.com/kiwanami/emacs-calfw][calfw]] display a calendar view in Emacs buffer.  this package has a good API, can integrate various calendar resources, iCal, Google Calendar and Org-mode etc into one calendar.  
-
-#+begin_src emacs-lisp 
-(require 'calfw-cal)
-;; (require 'calfw-ical)
-;; (require 'calfw-howm)
-(require 'calfw-org)
-
-(defun my-open-calendar ()
-  (interactive)
-  (cfw:open-calendar-buffer
-   :contents-sources
-   (list
-    (cfw:org-create-source "Green")  ; orgmode source
-;;    (cfw:howm-create-source "Blue")  ; howm source
-;;    (cfw:cal-create-source "Orange") ; diary source
-;;    (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")  ; ICS source1
-;;    (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed") ; google calendar ICS
-   ))) 
-
-;;;; customization 
-;; Month
-(setq calendar-month-name-array
-  ["January" "February" "March"     "April"   "May"      "June"
-   "July"    "August"   "September" "October" "November" "December"])
-
-;; Week days
-(setq calendar-day-name-array
-      ["Sunday" "Monday" "Tuesday" "Wednesday" "Thursday" "Friday" "Saturday"])
-
-;; First day of the week
-(setq calendar-week-start-day 1) ; 0:Sunday, 1:Monday
-
-(custom-set-faces
- '(cfw:face-title ((t (:foreground "#f0dfaf" :weight bold :height 2.0 :inherit variable-pitch))))
- '(cfw:face-header ((t (:foreground "#d0bf8f" :weight bold))))
- '(cfw:face-sunday ((t :foreground "#cc9393" :background "grey10" :weight bold)))
- '(cfw:face-saturday ((t :foreground "#8cd0d3" :background "grey10" :weight bold)))
- '(cfw:face-holiday ((t :background "grey10" :foreground "#8c5353" :weight bold)))
- '(cfw:face-grid ((t :foreground "DarkGrey")))
- '(cfw:face-default-content ((t :foreground "#bfebbf")))
- '(cfw:face-periods ((t :foreground "cyan")))
- '(cfw:face-day-title ((t :background "grey10")))
- '(cfw:face-default-day ((t :weight bold :inherit cfw:face-day-title)))
- '(cfw:face-annotation ((t :foreground "RosyBrown" :inherit cfw:face-day-title)))
- '(cfw:face-disable ((t :foreground "DarkGray" :inherit cfw:face-day-title)))
- '(cfw:face-today-title ((t :background "#7f9f7f" :weight bold)))
- '(cfw:face-today ((t :background: "grey10" :weight bold)))
- '(cfw:face-select ((t :background "#2f2f2f")))
- '(cfw:face-toolbar ((t :foreground "Steelblue4" :background "Steelblue4")))
- '(cfw:face-toolbar-button-off ((t :foreground "Gray10" :weight bold)))
- '(cfw:face-toolbar-button-on ((t :foreground "Gray50" :weight bold))))
-
-;; Default setting
-(setq cfw:fchar-junction ?+
-      cfw:fchar-vertical-line ?|
-      cfw:fchar-horizontal-line ?-
-      cfw:fchar-left-junction ?+
-      cfw:fchar-right-junction ?+
-      cfw:fchar-top-junction ?+
-      cfw:fchar-top-left-corner ?+
-      cfw:fchar-top-right-corner ?+ )
-
-;; Unicode characters
-(setq cfw:fchar-junction ?╋
-      cfw:fchar-vertical-line ?┃
-      cfw:fchar-horizontal-line ?━
-      cfw:fchar-left-junction ?┣
-      cfw:fchar-right-junction ?┫
-      cfw:fchar-top-junction ?┯
-      cfw:fchar-top-left-corner ?┏
-      cfw:fchar-top-right-corner ?┓)
-
-;; Another unicode chars
-(setq cfw:fchar-junction ?╬
-      cfw:fchar-vertical-line ?║
-      cfw:fchar-horizontal-line ?═
-      cfw:fchar-left-junction ?╠
-      cfw:fchar-right-junction ?╣
-      cfw:fchar-top-junction ?╦
-      cfw:fchar-top-left-corner ?╔
-      cfw:fchar-top-right-corner ?╗)
-
-#+end_src
-
-#+results:
-: 9559
-
-
-** Bug 
-   - [ ] can't find the path of ess-site 
-     - [ ] download ess from elmpa
-   - [ ] can't find org-contacts 
-     - [ ] download from elmpa
-       not on 
-     - [ ] specify the path.
-   - [ ] watch out for local variable 
 
