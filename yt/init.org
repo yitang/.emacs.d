@@ -1411,7 +1411,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
-
+(setq org-refile-use-cache t) ;; speed up the process by using cache.
 ;; mine modication 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
@@ -1498,8 +1498,8 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 ;; (setq org-completion-handler to 'helm)
 ;; actually, the following setting is mimic the helm behavoir, why not we just use helm, instead of making ido helm 
 
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+(setq org-refile-targets (quote ((nil :maxlevel . 6)
+                                 (org-agenda-files :maxlevel . 6))))
 
 (setq org-completion-handler 'helm)
 

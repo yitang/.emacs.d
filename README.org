@@ -22,6 +22,11 @@ define a group of keybinds together in [[https://github.com/abo-abo/hydra][hydra
     ("l" hydra-move-splitter-right)))
 
 #+end_src
+** TODO View Images in Emacs
+[2015-02-23 Mon 16:59]
+- [ ] png
+- [ ] pdf
+- [ ] svg 
 
 * Bug Log
 [2015-02-23 Mon 10:09]
