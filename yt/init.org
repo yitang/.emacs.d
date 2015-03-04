@@ -20,7 +20,7 @@
   
   first, I find myself spent more and more time in scaning the documents I write and deprised about lossing lecture notes, but on the otherhand, it imporrsible to get the notes immediately when I needed it.  
   
-  second, after I start to work as an Statisticiain, due to the workload, I need an system to keep project log, include decisoin made, code, progress report, email or meeting discussion etc.  I was adviced to use Office to do it, but it such a pain, and I find most of people don't do it.  
+  second, er I start to work as an Statisticiain, due to the workload, I need an system to keep project log, include decisoin made, code, progress report, email or meeting discussion etc.  I was adviced to use Office to do it, but it such a pain, and I find most of people don't do it.  
   
   third, when I find the solution for the second problem, using org-mode to implememnt Literate Data Analysis, I am happy about norang's setting for a long time, and try to avoid dig into Emacs.  but when the data becomes physically big, it won't able to practise it locally, and I realise the ESS provide remote session, and it completely blow my mind.  I can run a R seesion on the server just like it was on my computer, how fanstatistic is that?  everything is the same.  
   
@@ -146,6 +146,9 @@ or this
   (normal-top-level-add-subdirs-to-load-path))
 
 #+end_src
+
+#+results:
+
     
     
 *** Assorted Pieces 
@@ -193,6 +196,7 @@ or this
     #+end_src 
     
     #+results:
+    : t
 
 *** Window Navigation 
     [2015-01-19 Mon 12:13]
@@ -358,6 +362,10 @@ the area is defined by the bounding box. "
 ;; http://nominatim.openstreetmap.org/search.php?q=UK
          
     #+end_src
+
+    #+results:
+    : omap
+
 ** Emacs Looks Cool
    [2015-01-19 Mon 12:16]
 *** Modeline
@@ -392,7 +400,11 @@ the area is defined by the bounding box. "
 (load-theme 'zenburn t)
 ;; font
 (set-default-font "Source Code Pro")
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 90)
+
+(tool-bar-mode -1)
+ (menu-bar-mode -1)
+ (scroll-bar-mode -1)
 
 
     #+end_src
@@ -457,7 +469,7 @@ the area is defined by the bounding box. "
 ;; (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 (global-set-key (kbd "<f1>") 'helm-swoop)
 ;; When doing isearch, hand the word over to helm-swoop
-;; (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+;; (define-key isearchp-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
 ;; From helm-swoop to helm-multi-swoop-all
 ;; (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
 ;; When doing evil-search, hand the word over to helm-swoop
