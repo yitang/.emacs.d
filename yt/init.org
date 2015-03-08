@@ -1429,14 +1429,12 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-              ("l" "Ledger entries")
-              ;; ("ll" "Lloyas" plain (file+olp "~/git/org/refile.org"  "Finance")
-              ("ll" "Lloyas" plain (file "~/git/ImportantFiles/ledger")
-               "%(org-read-date) %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Lloyds" :immediate-finish :clock-in t :clock-resume t)
-              ;; ("lc" "Cash" plain (file+olp "~/git/org/refile.org"  "Finance")
-              ("lc" "Cash" plain (file "~/git/ImportantFiles/ledger")
-               "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Cash" :immediate-finish :clock-in t :clock-resume t)
+              
+              ("l" "Ledger Journal" plain (file "~/git/ImportantFiles/ledger")
+               "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
+
               ;; quantified self 
+              
 
               ("f" "Quantified Self")
               ("fp" "Personal Care")
@@ -1472,7 +1470,11 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
                "* %u Run %? \n%U" :clock-in t :clock-resume t)
               ("ffw" "Walk" entry (file+olp "~/git/org/qs.org" "Fitness" "Walk")
                "* %u Walk %? \n%U" :clock-in t :clock-resume t)
-                            
+
+              ("v" "Vocabulary" entry (file "~/git/org/Vocabulary.org")
+               "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+
+              
               )))
 
 
