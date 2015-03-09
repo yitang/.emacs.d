@@ -1223,6 +1223,8 @@ If I run out of idea, and I didn't write anthing for 1 minutes, Emacs will pop a
 (defconst yt/quotes
   '("You can't see paradise, if you don't pedal.  - Chicken Run "
     "He who who says he can and he who says he can’t are both usually right ― Confucius"
+"Why waste time proving over and over how great you are when you could be getting better? - Dweck The Mindset"
+"You’re not a failure until you start to assign blame. - The legendary basketball coach John Wooden" 
     )
   "Good quotes 
    they can be useful for creative writers as well.")
@@ -3677,7 +3679,7 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+end_src
 
 #+results: GetContactGroup
-: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Ye Liu <Ye.Liu@jbarisk.com>, Yi Tang <yi.tang@jbarisk.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Ye Liu <Ye.Liu@jbarisk.com>, Yi Tang <yi.tang@jbarisk.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>fo
 
 #+begin_example
 #+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
