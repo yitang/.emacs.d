@@ -2633,6 +2633,7 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-table-use-standard-references (quote from))
 
 (setq org-file-apps (quote ((auto-mode . emacs)
+("
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
                             ("\\.pdf\\'" . system))))
