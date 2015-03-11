@@ -1223,9 +1223,11 @@ If I run out of idea, and I didn't write anthing for 1 minutes, Emacs will pop a
 (defconst yt/quotes
   '("You can't see paradise, if you don't pedal.  - Chicken Run "
     "He who who says he can and he who says he can’t are both usually right ― Confucius"
-"Why waste time proving over and over how great you are when you could be getting better? - Dweck The Mindset"
-"You’re not a failure until you start to assign blame. - The legendary basketball coach John Wooden" 
-    )
+    "Why waste time proving over and over how great you are when you could be getting better? - Dweck The Mindset"
+    "You’re not a failure until you start to assign blame. - The legendary basketball coach John Wooden"
+    "I could hear my heart beating. I could hear everyone's heart. I could hear the human noise we sat there making, not one of us moving, not even when the room went dark. - Raymond Carver"
+    "A writer is a sum of their experiences. Go get some - Stuck in Love (2012)" 
+)
   "Good quotes 
    they can be useful for creative writers as well.")
 (defun yt/show-random-quotes ()
@@ -1435,16 +1437,11 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
                "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
-               ;; "* NEXT Respond to %^{whom} on %^{subject} \n %? \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t :immediate-finish t)
-               "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+                              "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("m" "Meeting" entry (file "~/git/org/refile.org")
-               "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-              ("p" "Phone call" entry (file "~/git/org/refile.org")
-               "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
               
@@ -1489,7 +1486,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               ("ffw" "Walk" entry (file+olp "~/git/org/qs.org" "Fitness" "Walk")
                "* %u Walk %? \n%U" :clock-in t :clock-resume t)
 
-              ("v" "Vocabulary" entry (file "~/git/org/Vocabulary.org")
+              ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
               
