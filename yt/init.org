@@ -725,7 +725,7 @@ These are only the surface of ESS and there are lot more useful features like sp
     
     #+begin_src emacs-lisp
 (require 'flycheck)
-(add-hook 'ess-mode-hook
+ (add-hook 'ess-mode-hook
           (lambda () (flycheck-mode t)))
 (load "~/git/.emacs.d/lisp/lintr.el")
     #+end_src
@@ -1460,7 +1460,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
                "* %u Shower %? \n%U" :clock-in t :clock-resume t)
               ("fpo" "Others" entry (file+olp "~/git/org/qs.org" "Personal Care" "Others")
                "* %u Others %? \n%U" :clock-in t :clock-resume t)
-                      
+              
               ("fr" "Rest")
               ("frs" "Sleep" entry (file+olp "~/git/org/qs.org" "Rest" "Sleep")
                "* %u Sleep %? \n%U" :clock-in t :clock-resume t)
@@ -2074,11 +2074,16 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
          (ledger . t)
          (org . t)
          (plantuml . t)
-(dot . t)
+         (dot . t)
          (octave . t)
          (latex . t))))
 
-        (setq org-confirm-babel-evaluate nil)
+(add-to-list 'org-babel-default-header-args:R
+             '(:session . "*R-main*")
+             '((:width . 640) (:height . 640)))
+
+
+(setq org-confirm-babel-evaluate nil)
 
                                         ; Use fundamental mode when editing plantuml blocks with C-c '
 ;; TODO: what is fundamental mode?? 
@@ -2633,7 +2638,8 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-table-use-standard-references (quote from))
 
 (setq org-file-apps (quote ((auto-mode . emacs)
-("
+                            ("\\.png\\'" . system)
+                            ("\\.svg\\'" . system)
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
                             ("\\.pdf\\'" . system))))
