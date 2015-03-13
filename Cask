@@ -28,6 +28,7 @@
 (depends-on "smart-mode-line")
 (depends-on "synosaurus")
 (depends-on "hydra")
-
+(depends-on "purpose")
+(depends-on "w3m")
 
 ;; cask --path ~/git/.emacs.d install
