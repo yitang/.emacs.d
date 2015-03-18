@@ -30,5 +30,5 @@
 (depends-on "hydra")
 (depends-on "purpose")
 (depends-on "w3m")
-
+(depends-on "ace-window")
 ;; cask --path ~/git/.emacs.d install

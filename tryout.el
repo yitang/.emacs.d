@@ -32,3 +32,42 @@
 
 
 
+
+
+(setq popup (popup-create (point) 10 10)) ;; where's the popup ?
+(popup-set-list popup '("Foo" "Bar" "Baz")) ;; what's the content of the opoup? 
+(popup-draw popup)
+;; do something here
+(popup-delete popup)
+(popup-tip "Hello, World!")
+
+(defun xx ()
+  "print current word."
+  (interactive)
+  (message "%s" (thing-at-point 'sentence)))
+
+
+
+
+
+(defun my/voca-lookup (word)
+  (setq url (concat "www.vocabulary.com/dictionary/" word))
+  (setq meaningRegx (shell-quote-argument "<p class=\"long\">"))
+  (w3m-pipe-source url (concat "grep " meaningRegx))
+  (setq meaning (with-current-buffer "*Shell Command Output*"
+		  (buffer-string )))
+  
+  (setq orgRegx (shell-quote-argument "<p class=\"short\">"))
+  (w3m-pipe-source url (concat "grep " orgRegx))
+  (setq origin (with-current-buffer "*Shell Command Output*"
+		 (buffer-string )))
+  (cons meaning origin)
+  )
+
+(my/voca-lookup "father")
+(my/voca-lookup "mother")
+(setq test (my/voca-lookup "father"))
+
+(popup-tip (car test))
+
+
