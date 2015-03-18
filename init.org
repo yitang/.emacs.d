@@ -58,7 +58,64 @@
   
 * Getting Started  
   [2015-01-20 Tue 08:09]
-  
+** install al lthe packages 
+[2015-03-18 Wed 15:32]
+
+#+begin_src emacs-lisp
+(setq my-package-list '(ess
+                        ssh
+                        auto-complete
+                        nyan-mode
+                        yasnippet
+                        projectile
+                        magit
+                        helm-swoop
+                        nyan-mode
+                        org-jekyll
+                        org-plus-contrib
+                        helm-projectile
+                        rainbow-delimiters
+                        zenburn-theme
+                        htmlize
+                        nanowrimo
+                        golden-ratio
+                        artbollocks-mode
+                        langtool
+                        flycheck
+                        expand-region
+                        guide-key
+                        exec-path-from-shell
+                        smart-mode-line
+                        smart-mode-line-powerline-theme
+                        synosaurus
+                        hydra
+                        purpose
+                        w3m
+                        ace-window
+                        calfw
+                        ))
+;; cask --path ~/git/.emacs.d install
+
+
+(require 'package)
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+(package-initialize)
+
+;; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+;; install 
+(dolist (i-package my-package-list)
+  (unless (package-installed-p i-package)
+    (package-install i-package)))
+
+
+#+end_src
+** load all the packages 
+[2015-03-18 Wed 15:33]
   question I want to answer 
   
 1. why I need this/that package, what functionality they provide.
@@ -136,10 +193,10 @@ or this
     [2015-01-19 Mon 12:46]
 #+begin_src emacs-lisp 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 (add-to-list 'load-path "~/git/.emacs.d/lisp")
 (let ((default-directory "~/git/.emacs.d/.cask"))
@@ -214,7 +271,7 @@ or this
 
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
-    (global-set-key (kbd "M-p") 'ace-window)
+    (global-set-key (kbd "<f8>") 'ace-window)
 
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
     ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
@@ -375,6 +432,7 @@ the area is defined by the bounding box. "
 *** Modeline
 
 #+begin_src emacs-lisp 
+(require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
 ;; These two lines you really need.
