@@ -1,5 +1,5 @@
 ;; use F8 for ace-window 
-(global-set-key [f8] 'ace-window)
+(global-set-key [f1] 'ace-window)
 
 (require 'hydra)
 (defhydra hydra-zoom (global-map "<f2>")
