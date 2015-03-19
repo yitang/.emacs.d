@@ -456,17 +456,17 @@ the area is defined by the bounding box. "
 
     #+begin_src emacs-lisp 
 
-;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
-;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
+    ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
+    ;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
 
-(load-theme 'zenburn t)
-;; font
-(set-default-font "Source Code Pro")
-(set-face-attribute 'default nil :height 90)
+    (load-theme 'zenburn t)
+    ;; font
+    (set-default-font "Source Code Pro")
+    (set-face-attribute 'default nil :height 100)
 
-(tool-bar-mode -1)
- (menu-bar-mode -1)
- (scroll-bar-mode -1)
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
 
 
     #+end_src
@@ -823,13 +823,16 @@ These are only the surface of ESS and there are lot more useful features like sp
     [2015-01-19 Mon 12:08]
 
     #+begin_src emacs-lisp
-(require 'projectile)
-(require 'helm-projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-remember-window-configs t )
-(setq projectile-completion-system 'helm)
+    (require 'projectile)
+    (require 'helm-projectile)
+    (projectile-global-mode)
+    (setq projectile-enable-caching t)
+    (setq projectile-switch-project-action 'projectile-dired)
+    (setq projectile-remember-window-configs t )
+    (setq projectile-completion-system 'helm)
+
+    (setq projectile-switch-project-action 'helm-projectile)
+
     #+end_src
 *** dired - File Operation 
     [2015-01-23 Fri 18:53]
