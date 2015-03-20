@@ -61,7 +61,7 @@
 ** install al lthe packages 
 [2015-03-18 Wed 15:32]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :eval no
 (setq my-package-list '(ess
                         ssh
                         auto-complete
@@ -93,6 +93,7 @@
                         w3m
                         ace-window
                         calfw
+                        multiple-cursors
                         ))
 ;; cask --path ~/git/.emacs.d install
 
@@ -187,20 +188,19 @@ or this
   CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
   :END:      
   [2015-01-19 Mon 11:42]
-
 ** General 
 *** Initialise 
     [2015-01-19 Mon 12:46]
 #+begin_src emacs-lisp 
-(require 'package)
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+;; (require 'package)
+;; (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+;;                          ("org" . "http://orgmode.org/elpa/")
+;;                          ("gnu" . "http://elpa.gnu.org/packages/")
+;;                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 
-(add-to-list 'load-path "~/git/.emacs.d/lisp")
-(let ((default-directory "~/git/.emacs.d/.cask"))
-  (normal-top-level-add-subdirs-to-load-path))
+;; (add-to-list 'load-path "~/git/.emacs.d/lisp")
+;; (let ((default-directory "~/git/.emacs.d/.cask"))
+;;   (normal-top-level-add-subdirs-to-load-path))
 
 #+end_src
 
@@ -271,7 +271,7 @@ or this
 
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
-    (global-set-key (kbd "<f8>") 'ace-window)
+    (global-set-key (kbd "<f1>") 'ace-window)
 
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
     ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
@@ -456,17 +456,17 @@ the area is defined by the bounding box. "
 
     #+begin_src emacs-lisp 
 
-;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
-;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
+    ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
+    ;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
 
-(load-theme 'zenburn t)
-;; font
-(set-default-font "Source Code Pro")
-(set-face-attribute 'default nil :height 90)
+    (load-theme 'zenburn t)
+    ;; font
+    (set-default-font "Source Code Pro")
+    (set-face-attribute 'default nil :height 100)
 
-(tool-bar-mode -1)
- (menu-bar-mode -1)
- (scroll-bar-mode -1)
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
 
 
     #+end_src
@@ -823,13 +823,16 @@ These are only the surface of ESS and there are lot more useful features like sp
     [2015-01-19 Mon 12:08]
 
     #+begin_src emacs-lisp
-(require 'projectile)
-(require 'helm-projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-remember-window-configs t )
-(setq projectile-completion-system 'helm)
+    (require 'projectile)
+    (require 'helm-projectile)
+    (projectile-global-mode)
+    (setq projectile-enable-caching t)
+    (setq projectile-switch-project-action 'projectile-dired)
+    (setq projectile-remember-window-configs t )
+    (setq projectile-completion-system 'helm)
+
+    (setq projectile-switch-project-action 'helm-projectile)
+
     #+end_src
 *** dired - File Operation 
     [2015-01-23 Fri 18:53]
@@ -958,7 +961,7 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
 ;; M-x mu4e
 ;; from mu's official manual 
 ;;----------------------------------------------------------
-(add-to-list 'load-path "~/mu-master/mu4e")
+(add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
 (require 'mu4e)
 (setq mu4e-mu-binary "/usr/local/bin/mu")
 ;; default
@@ -1373,17 +1376,6 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 (require 'org-habit)
 (setq org-agenda-files '("~/git/org/" "~/git/jbarm"))
 
-(defun yt/setup-office-agenda ()
-  (interactive)
-  (setq org-agenda-files '("~/git/jbarm")))
-(defun yt/setup-home-agenda ()
-  (interactive)
-  (setq org-agenda-files '("~/git/org")))
-(defun yt/setup-home-and-office-agenda ()
-  (interactive)
-  (setq org-agenda-files '("~/git/org/" "~/git/jbarm")))
-
-
 ;; Standard key bindings
 (global-set-key "\C-c l" 'org-store-link);; C-c C-l is defualt, 
 (global-set-key "\C-c a" 'org-agenda)
@@ -1495,7 +1487,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
                "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
-                              "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+               "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
@@ -3626,6 +3618,51 @@ comments: true
 #+results:
 =org-src-jekyll
 =      
+** Office Setting 
+[2015-03-18 Wed 18:32]
+
+#+begin_src emacs-lisp 
+;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
+
+(defun my/Office-p ()
+  (if (equal "Office" WhereAmI)
+      'true
+    nil)
+  )
+
+
+(defun yt/office-org-agenda-file ()
+  (setq org-agenda-files '("~/git/jbarm" )))
+
+(defun my/office-org-capture-temp ()
+  (setq org-capture-templates
+        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
+                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
+                 "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
+                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+                ))))
+
+
+
+(defun my/all-office-settings ()
+  (interactive)
+  (my/office-org-agenda-file)
+  (my/office-org-capture-temp))
+
+(if (my/Office-p)
+    (my/all-office-settings)
+  )
+  
+
+#+end_src
 ** Initialisation Completed
 [2015-01-22 Thu 23:05]
 * Babel Library 
