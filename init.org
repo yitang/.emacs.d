@@ -933,262 +933,6 @@ does not support the ther way"
 
 #+end_src
 
-** mu4e - Email Client
-   
-   The advantage of use Emacs as an email client: 
-   
-1. communication happens at the point where the content is genreated. 
-   as a statisician/programmer, most likely I need to mmunicate with numbers, table, graphs, or snippet.  I could just copy these results from to email, do an quickly editing.  
-2. HTML email with CSS style.  
-   I like to formate my email use headingline, fonts, and highlhgit the code, I used to be write a report in Word/LatEx and write an email with only onbe line, please see the attachment.  which I don't like. 
-3. search properly 
-   I use search all the time, and this functionality is not working at all in outlkooik 2013, it also shows up random info (mail.app in osx did a great job).  
-   
-Disadvantage / can;t do: 
-1. don't expect me to reply immediately 
-   this is how does it works: 1. download the email from server, 2) index with head, body, attachment, user name etc.  3) Emacs talk to and show in GUI.  I usually update the meail about 30 imnutes.  but I helps me out of disrupts.
-2. book Meeting/Appointment 
-   I didn't aware that you can do it in emacs, and we need an iterative way to do.  Outlook Schedule Asistant do a good job, it list agenda of all attendence, and I could spot oen time slot that suit for all or most people. 
-3. calendar 
-   I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda. 
-   
-This setting need two programms to work: 1) mu, 2) offlineimap. 
-
-#+begin_src emacs-lisp
-;; usage:
-;; $ offlineimap
-;; $ mu index
-;; M-x mu4e
-;; from mu's official manual 
-;;----------------------------------------------------------
-(add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
-(require 'mu4e)
-(setq mu4e-mu-binary "/usr/local/bin/mu")
-;; default
-
-;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-(setq mu4e-sent-messages-behavior 'sent)
-
-;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap -a JBA")
-(setq mu4e-update-interval 300)
-
-;; sending mail -- replace USERNAME with your gmail username
-;; also, make sure the gnutls command line utils are installed
-;; package 'gnutls-bin' in Debian/Ubuntu
-(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
-(require 'smtpmail)
-
-
-;; don't keep message buffers around
-(setq message-kill-buffer-on-exit t)
-
-;; use 'fancy' non-ascii characters in various places in mu4e
-(setq mu4e-use-fancy-chars t)
-;; save attachment to my desktop (this can also be a function)
-(setq mu4e-attachment-dir "~/Desktop")
-;; attempt to show images when viewing messages
-(setq mu4e-view-show-images t
-      mu4e-show-images t
-      mu4e-view-image-max-width 800)
-
-
-(setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
-;; yt
-(setq mu4e-view-prefer-html t) ;; try to render 
-(add-to-list 'mu4e-view-actions 
-             '("ViewInBrowser" . mu4e-action-view-in-browser) t) ;; read in browser 
-;; mu4e as default email agent in emacs
-(setq mail-user-agent 'mu4e-user-agent)
-(require 'org-mu4e)
-                                        ;== M-x org-mu4e-compose-org-mode==
-(setq org-mu4e-convert-to-html t) ;; org -> html
-                                        ; = M-m C-c.= 
-
-#+end_src 
-
-
-*** Account 
-[2015-01-23 Fri 17:32]
-set up email account, use office 365 in the office, and iCloud at macbook por. 
-
-#+begin_src emacs-lisp 
-;;;
-(defun yt/mail-office-setting ()
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.office365.com"
-        smtpmail-smtp-server "smtp.office365.com"
-        smtpmail-smtp-service 587
-        smtpmail-smtp-user "yi.tang@jbarisk.com"
-        user-mail-address "yi.tang@jbarisk.com"
-        user-full-name  "Yi Tang"
-        mu4e-drafts-folder "/JBA/Drafts"
-        mu4e-sent-folder   "/JBA/Sent Items"
-        mu4e-trash-folder  "/JBA/Trash"
-        mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-                                  ("/Sent Items"   . ?s)
-                                  ("/Trash"        . ?t)
-                                  ("/All Mail"     . ?a))
-        mu4e-compose-signature (concat
-                                "Yi Tang\n"
-                                "Statistician\n"
-                                "T: +44 (0) 1756 799919\n")))
-
-(defun yt/mail-home-setting ()
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.mail.me.com"
-        smtpmail-smtp-server "smtp.mail.me.com"
-        smtpmail-smtp-service 587
-        smtpmail-smtp-user "yi.tang.uk@me.com"
-        user-mail-address "yi.tang.uk@me.com"
-        user-full-name  "Yi Tang"
-        mu4e-compose-signature (concat
-                                "唐毅 (Yi Tang)\n"
-                                "Email: yi.tang.uk@me.com\n"
-                                "\n")
-        )
-  (setq mu4e-maildir "~/Maildir")
-  (setq mu4e-drafts-folder "/iCloud/Drafts")
-  (setq mu4e-sent-folder   "/iCloud/Sent Messages")
-  (setq mu4e-trash-folder  "/iCloud/Deleted Messages"))
-
-(cond ((eq system-type 'darwin)
-       (yt/mail-home-setting))
-      ((eq system-type 'gnu/linux)
-       (yt/mail-office-setting)))
-
-;; (defun yt/mail-setup () 
-;;   (interactive)
-;;   (cond
-;;    ((eq system-type 'gnu/linux)
-;;     (setq message-send-mail-function 'smtpmail-send-it
-;;           smtpmail-stream-type 'starttls
-;;           smtpmail-default-smtp-server "smtp.office365.com"
-;;           smtpmail-smtp-server "smtp.office365.com"
-;;           smtpmail-smtp-service 587
-;;           smtpmail-smtp-user "yi.tang@jbarisk.com"
-;;           user-mail-address "yi.tang@jbarisk.com"
-;;           user-full-name  "Yi Tang"
-;;           mu4e-drafts-folder "/Drafts"
-;;           mu4e-sent-folder   "/Sent Items"
-;;           mu4e-trash-folder  "/Trash"
-;;           mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-;;                                     ("/Sent Items"   . ?s)
-;;                                     ("/Trash"        . ?t)
-;;                                     ("/All Mail"     . ?a))
-;;           message-signature
-;;           (concat
-;;            "Yi Tang\n"
-;;            "Statistician\n"
-;;            "T: +44 (0) 1756 799919\n")
-;;           )
-;;     (message "sent email via office365 email account"))
-;;    ((eq system-type 'darwin)
-;;     (setq message-send-mail-function 'smtpmail-send-it
-;;           smtpmail-stream-type 'starttls
-;;           smtpmail-default-smtp-server "smtp.mail.me.com"
-;;           smtpmail-smtp-server "smtp.mail.me.com"
-;;           smtpmail-smtp-service 587
-;;           smtpmail-smtp-user "yi.tang.uk@me.com"
-;;           user-mail-address "yi.tang.uk@me.com"
-;;           user-full-name  "Yi Tang"
-;;           message-signature
-;;           (concat
-;;            "唐毅 (Yi Tang)\n"
-;;            "Email: yi.tang.uk@me.com\n"
-;;            "\n")
-;;           )
-;;     (setq mu4e-maildir "~/Maildir")
-;;     (setq mu4e-drafts-folder "/iCloud/Drafts")
-;;     (setq mu4e-sent-folder   "/iCloud/Sent Messages")
-;;     (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
-
-;;     (setq mu4e-maildir-shortcuts
-;;           '( ("/iCloud/INBOX"               . ?i)
-;;          ("/iCloud/Sent Messages"   . ?s)
-;;          ("/iCloud/Deleted Messages"       . ?t)
-;;          ;; ("/iCloud.All Mail"    . ?a)
-;;          ))
-
-;;     (message "sent email via icloud email account"))
-;;    ))
-;; (yt/mail-setup)
-
-
-#+end_src 
-
-when I sent an email, it will promote and ask for email, I only need type once per Emacs session, also, I can save the password to an /.authoty/ file. 
-*** Contacts 
-[2015-01-23 Fri 17:28]
-have problem with BBDB installtion, and use org-contact.el to manage contact.  add contactor very easy. I cna use tab to completet contacts, which is really handy.
-
-#+begin_src emacs-lisp
-(require 'org-contacts)
-(setq mu4e-org-contacts-file  "~/git/org/contacts.org")
-;; (add-to-list 'mu4e-headers-actions
-;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
-;; (add-to-list 'mu4e-view-actions
-;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
-#+end_src 
-
-#+results:
-
-*** Workflow
-[2015-01-23 Fri 17:28]
-
-I am trying to avoid use =C-x m= to write/sent email directy, unless it is really short. otherwise, if it relates to a project, I will make an org headline to keep track the project communciation, to do that,  I compose email/message in org mode, then sent the whole subtree by =C-c M-o=.
-#+begin_src emacs-lisp
-
-;;;; [2015-01-14 Wed 22:32]
-;; org-mime
-(require 'org-mime)
-(setq org-mime-library 'mml)
-(add-hook 'message-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (insert-file-contents "~/git/.emacs.d/style/office.css")
-            ;; (goto-char 5)
-            )
-          t)
-
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c M-o") 'org-mime-subtree))
-          'append)
-
-#+end_src
-
-just in case I didn't get the format right at the first place and need some quick fix in message mode, save me few seconds in going back to org-mode.
-
-#+begin_src emacs-lisp
-(add-hook 'message-mode-hook 'orgstruct++-mode 'append)
-(add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
-;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
-(add-hook 'message-mode-hook 'orgtbl-mode 'append)
-(add-hook 'message-mode-hook 'turn-on-flyspell 'append)
-;; (add-hook 'message-mode-hook
-;;           '(lambda () (setq fill-column 270))
-;;           'append)
-
-#+end_src
-*** TODO Comprehensive Email   
-[2015-01-23 Fri 14:36]
-
-*Attach and Inline Image* 
-I got an email from an estate agency where there are few images are inlined, but also in the attachment.  why not just save the attachment online and inline the image as a normal HTML do? 
-
-1) add an png attachment, display it as inline image.  
-
-*Render LaTeX code as image*
-currently it is broken.  the error message is the path issues, and seems the file is not generated. 
 
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
@@ -3616,53 +3360,8 @@ comments: true
 #+end_src
 
 #+results:
-=org-src-jekyll
-=      
-** Office Setting 
-[2015-03-18 Wed 18:32]
-
-#+begin_src emacs-lisp 
-;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
-
-(defun my/Office-p ()
-  (if (equal "Office" WhereAmI)
-      'true
-    nil)
-  )
 
 
-(defun yt/office-org-agenda-file ()
-  (setq org-agenda-files '("~/git/jbarm" )))
-
-(defun my/office-org-capture-temp ()
-  (setq org-capture-templates
-        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
-                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
-                 "* %?\n%U\n" :clock-in t :clock-resume t)
-                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
-                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
-                ))))
-
-
-
-(defun my/all-office-settings ()
-  (interactive)
-  (my/office-org-agenda-file)
-  (my/office-org-capture-temp))
-
-(if (my/Office-p)
-    (my/all-office-settings)
-  )
-  
-
-#+end_src
 ** Initialisation Completed
 [2015-01-22 Thu 23:05]
 * Babel Library 
@@ -3873,3 +3572,307 @@ paste(headline, content, page.break, sep = "\n")
 helm-show-kill-ring 
  
 helm-google-suggest 
+* arhiceve  
+[2015-03-20 Fri 08:25]
+** mu4e - Email Client
+   
+   The advantage of use Emacs as an email client: 
+   
+1. communication happens at the point where the content is genreated. 
+   as a statisician/programmer, most likely I need to mmunicate with numbers, table, graphs, or snippet.  I could just copy these results from to email, do an quickly editing.  
+2. HTML email with CSS style.  
+   I like to formate my email use headingline, fonts, and highlhgit the code, I used to be write a report in Word/LatEx and write an email with only onbe line, please see the attachment.  which I don't like. 
+3. search properly 
+   I use search all the time, and this functionality is not working at all in outlkooik 2013, it also shows up random info (mail.app in osx did a great job).  
+   
+Disadvantage / can;t do: 
+1. don't expect me to reply immediately 
+   this is how does it works: 1. download the email from server, 2) index with head, body, attachment, user name etc.  3) Emacs talk to and show in GUI.  I usually update the meail about 30 imnutes.  but I helps me out of disrupts.
+2. book Meeting/Appointment 
+   I didn't aware that you can do it in emacs, and we need an iterative way to do.  Outlook Schedule Asistant do a good job, it list agenda of all attendence, and I could spot oen time slot that suit for all or most people. 
+3. calendar 
+   I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda. 
+   
+This setting need two programms to work: 1) mu, 2) offlineimap. 
+
+#+begin_src emacs-lisp
+;; usage:
+;; $ offlineimap
+;; $ mu index
+;; M-x mu4e
+;; from mu's official manual 
+;;----------------------------------------------------------
+(add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
+(require 'mu4e)
+(setq mu4e-mu-binary "/usr/local/bin/mu")
+;; default
+
+;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+(setq mu4e-sent-messages-behavior 'sent)
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap -a JBA")
+(setq mu4e-update-interval 300)
+
+;; sending mail -- replace USERNAME with your gmail username
+;; also, make sure the gnutls command line utils are installed
+;; package 'gnutls-bin' in Debian/Ubuntu
+(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
+(require 'smtpmail)
+
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
+
+;; use 'fancy' non-ascii characters in various places in mu4e
+(setq mu4e-use-fancy-chars t)
+;; save attachment to my desktop (this can also be a function)
+(setq mu4e-attachment-dir "~/Desktop")
+;; attempt to show images when viewing messages
+(setq mu4e-view-show-images t
+      mu4e-show-images t
+      mu4e-view-image-max-width 800)
+
+
+(setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
+;; yt
+(setq mu4e-view-prefer-html t) ;; try to render 
+(add-to-list 'mu4e-view-actions 
+             '("ViewInBrowser" . mu4e-action-view-in-browser) t) ;; read in browser 
+;; mu4e as default email agent in emacs
+(setq mail-user-agent 'mu4e-user-agent)
+(require 'org-mu4e)
+                                        ;== M-x org-mu4e-compose-org-mode==
+(setq org-mu4e-convert-to-html t) ;; org -> html
+                                        ; = M-m C-c.= 
+
+#+end_src 
+
+
+*** Account 
+[2015-01-23 Fri 17:32]
+set up email account, use office 365 in the office, and iCloud at macbook por. 
+
+#+begin_src emacs-lisp 
+;;;
+(defun yt/mail-office-setting ()
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type 'starttls
+        smtpmail-default-smtp-server "smtp.office365.com"
+        smtpmail-smtp-server "smtp.office365.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang@jbarisk.com"
+        user-mail-address "yi.tang@jbarisk.com"
+        user-full-name  "Yi Tang"
+        mu4e-drafts-folder "/JBA/Drafts"
+        mu4e-sent-folder   "/JBA/Sent Items"
+        mu4e-trash-folder  "/JBA/Trash"
+        mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+                                  ("/Sent Items"   . ?s)
+                                  ("/Trash"        . ?t)
+                                  ("/All Mail"     . ?a))
+        mu4e-compose-signature (concat
+                                "Yi Tang\n"
+                                "Statistician\n"
+                                "T: +44 (0) 1756 799919\n")))
+
+(defun yt/mail-home-setting ()
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type 'starttls
+        smtpmail-default-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang.uk@me.com"
+        user-mail-address "yi.tang.uk@me.com"
+        user-full-name  "Yi Tang"
+        mu4e-compose-signature (concat
+                                "唐毅 (Yi Tang)\n"
+                                "Email: yi.tang.uk@me.com\n"
+                                "\n")
+        )
+  (setq mu4e-maildir "~/Maildir")
+  (setq mu4e-drafts-folder "/iCloud/Drafts")
+  (setq mu4e-sent-folder   "/iCloud/Sent Messages")
+  (setq mu4e-trash-folder  "/iCloud/Deleted Messages"))
+
+(cond ((eq system-type 'darwin)
+       (yt/mail-home-setting))
+      ((eq system-type 'gnu/linux)
+       (yt/mail-office-setting)))
+
+;; (defun yt/mail-setup () 
+;;   (interactive)
+;;   (cond
+;;    ((eq system-type 'gnu/linux)
+;;     (setq message-send-mail-function 'smtpmail-send-it
+;;           smtpmail-stream-type 'starttls
+;;           smtpmail-default-smtp-server "smtp.office365.com"
+;;           smtpmail-smtp-server "smtp.office365.com"
+;;           smtpmail-smtp-service 587
+;;           smtpmail-smtp-user "yi.tang@jbarisk.com"
+;;           user-mail-address "yi.tang@jbarisk.com"
+;;           user-full-name  "Yi Tang"
+;;           mu4e-drafts-folder "/Drafts"
+;;           mu4e-sent-folder   "/Sent Items"
+;;           mu4e-trash-folder  "/Trash"
+;;           mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+;;                                     ("/Sent Items"   . ?s)
+;;                                     ("/Trash"        . ?t)
+;;                                     ("/All Mail"     . ?a))
+;;           message-signature
+;;           (concat
+;;            "Yi Tang\n"
+;;            "Statistician\n"
+;;            "T: +44 (0) 1756 799919\n")
+;;           )
+;;     (message "sent email via office365 email account"))
+;;    ((eq system-type 'darwin)
+;;     (setq message-send-mail-function 'smtpmail-send-it
+;;           smtpmail-stream-type 'starttls
+;;           smtpmail-default-smtp-server "smtp.mail.me.com"
+;;           smtpmail-smtp-server "smtp.mail.me.com"
+;;           smtpmail-smtp-service 587
+;;           smtpmail-smtp-user "yi.tang.uk@me.com"
+;;           user-mail-address "yi.tang.uk@me.com"
+;;           user-full-name  "Yi Tang"
+;;           message-signature
+;;           (concat
+;;            "唐毅 (Yi Tang)\n"
+;;            "Email: yi.tang.uk@me.com\n"
+;;            "\n")
+;;           )
+;;     (setq mu4e-maildir "~/Maildir")
+;;     (setq mu4e-drafts-folder "/iCloud/Drafts")
+;;     (setq mu4e-sent-folder   "/iCloud/Sent Messages")
+;;     (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
+
+;;     (setq mu4e-maildir-shortcuts
+;;           '( ("/iCloud/INBOX"               . ?i)
+;;          ("/iCloud/Sent Messages"   . ?s)
+;;          ("/iCloud/Deleted Messages"       . ?t)
+;;          ;; ("/iCloud.All Mail"    . ?a)
+;;          ))
+
+;;     (message "sent email via icloud email account"))
+;;    ))
+;; (yt/mail-setup)
+
+
+#+end_src 
+
+when I sent an email, it will promote and ask for email, I only need type once per Emacs session, also, I can save the password to an /.authoty/ file. 
+*** Contacts 
+[2015-01-23 Fri 17:28]
+have problem with BBDB installtion, and use org-contact.el to manage contact.  add contactor very easy. I cna use tab to completet contacts, which is really handy.
+
+#+begin_src emacs-lisp
+(require 'org-contacts)
+(setq mu4e-org-contacts-file  "~/git/org/contacts.org")
+;; (add-to-list 'mu4e-headers-actions
+;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+;; (add-to-list 'mu4e-view-actions
+;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+#+end_src 
+
+#+results:
+
+*** Workflow
+[2015-01-23 Fri 17:28]
+
+I am trying to avoid use =C-x m= to write/sent email directy, unless it is really short. otherwise, if it relates to a project, I will make an org headline to keep track the project communciation, to do that,  I compose email/message in org mode, then sent the whole subtree by =C-c M-o=.
+#+begin_src emacs-lisp
+
+;;;; [2015-01-14 Wed 22:32]
+;; org-mime
+(require 'org-mime)
+(setq org-mime-library 'mml)
+(add-hook 'message-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
+(add-hook 'org-mime-html-hook
+          (lambda ()
+            (insert-file-contents "~/git/.emacs.d/style/office.css")
+            ;; (goto-char 5)
+            )
+          t)
+
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c M-o") 'org-mime-subtree))
+          'append)
+
+#+end_src
+
+just in case I didn't get the format right at the first place and need some quick fix in message mode, save me few seconds in going back to org-mode.
+
+#+begin_src emacs-lisp
+(add-hook 'message-mode-hook 'orgstruct++-mode 'append)
+(add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
+;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
+(add-hook 'message-mode-hook 'orgtbl-mode 'append)
+(add-hook 'message-mode-hook 'turn-on-flyspell 'append)
+;; (add-hook 'message-mode-hook
+;;           '(lambda () (setq fill-column 270))
+;;           'append)
+
+#+end_src
+*** TODO Comprehensive Email   
+[2015-01-23 Fri 14:36]
+
+*Attach and Inline Image* 
+I got an email from an estate agency where there are few images are inlined, but also in the attachment.  why not just save the attachment online and inline the image as a normal HTML do? 
+
+1) add an png attachment, display it as inline image.  
+
+*Render LaTeX code as image*
+currently it is broken.  the error message is the path issues, and seems the file is not generated. 
+
+** Office Setting 
+[2015-03-18 Wed 18:32]
+
+#+begin_src emacs-lisp 
+;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
+
+(defun my/Office-p ()
+  (if (equal "Office" WhereAmI)
+      'true
+    nil)
+  )
+
+
+(defun my/office-org-agenda-file ()
+  (setq org-agenda-files '("~/git/jbarm" )))
+
+(defun my/office-org-capture-temp ()
+  (setq org-capture-templates
+        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
+                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
+                 "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
+                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+                ))))
+
+
+
+(defun my/all-office-settings ()
+  (interactive)
+  (my/office-org-agenda-file)
+  (my/office-org-capture-temp))
+
+(if (my/Office-p)
+    (my/all-office-settings)
+  )
+  
+
+#+end_src
