@@ -3836,5 +3836,3 @@ paste(headline, content, page.break, sep = "\n")
 helm-show-kill-ring 
  
 helm-google-suggest 
-
-
