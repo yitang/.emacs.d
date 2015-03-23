@@ -2633,10 +2633,13 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
                                         ; Use fundamental mode when editing plantuml blocks with C-c '
 ;; TODO: what is fundamental mode?? 
-(add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+;; (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 
 
 #+end_src
+
+#+results:
+
 *** Export 
 [2015-02-04 Wed 12:23]
 
