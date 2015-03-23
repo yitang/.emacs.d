@@ -272,6 +272,8 @@ or this
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
     (global-set-key (kbd "<f1>") 'ace-window)
+(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+
 
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
     ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
@@ -505,22 +507,15 @@ the area is defined by the bounding box. "
 (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-
 (global-set-key (kbd "C-x b") 'helm-mini)
 (setq helm-buffers-fuzzy-matching t
       helm-recentf-fuzzy-match    t)
-
 (global-set-key (kbd "C-c h o") 'helm-occur)
-
-
 (global-set-key (kbd "C-h a") 'helm-apropos)
 (setq helm-apropos-fuzzy-match t)
-
 (setq helm-semantic-fuzzy-match t
       helm-imenu-fuzzy-match    t)
-
 (helm-mode 1)
-
 
 ;;;; helm-swoop 
 (require 'helm-swoop)
@@ -539,13 +534,10 @@ the area is defined by the bounding box. "
 
 ;; Save buffer when helm-multi-swoop-edit complete
 (setq helm-multi-swoop-edit-save t)
-
 ;; If this value is t, split window inside the current window
 (setq helm-swoop-split-with-multiple-windows nil)
-
 ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
 (setq helm-swoop-split-direction 'split-window-vertically)
-
 ;; If nil, you can slightly boost invoke speed in exchange for text color
 (setq helm-swoop-speed-or-color nil)
 ;; ----------------------------------------------------------------------
