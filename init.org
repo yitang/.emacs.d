@@ -2,7 +2,7 @@
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
-#+PROPERTY: header-args :tangle yes 
+#+PROPERTY: header-args :tangle yes :results silent 
 #+EXPORT_SELECT_TAGS: export
 #+EXPORT_EXCLUDE_TAGS: noexport
 #+OPTIONS: H:4 num:nil toc:t \n:nil @:t ::t |:t ^:{} -:t f:t *:t
@@ -655,62 +655,63 @@ There are two commands I wold like to use in the future, =helm-find= and =helm-l
    ESS and org-mode works really well via Babel, which is more friendly to use.  I can choose to run only part of the code and have the output being inserted automatically, no need to copy/paste.  Also, I can choose where to execute the code, on my local machine or the remote server, or both at the same time.
    
 These are only the surface of ESS and there are lot more useful features like spell checking for comments and documentation templates, that makes me productive and I would recommend anyone use R to learn ESS/Emacs.  The following is my current setting. 
-#+begin_src emacs-lisp
-  ;; Adapted with one minor change from Felipe Salazar at
-  ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-  (require 'ess-site)
-  (setq ess-ask-for-ess-directory nil) ;; start R on default folder
-  (setq ess-local-process-name "R")
-  (setq ansi-color-for-comint-mode 'filter) ;;
-  (setq comint-scroll-to-bottom-on-input t)
-  (setq comint-scroll-to-bottom-on-output t)
-  (setq comint-move-point-for-output t)
-  (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
-  (defun my-ess-start-R ()
-    (interactive)
-    (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-        (progn
-          (delete-other-windows)
-          (setq w1 (selected-window))
-          (setq w1name (buffer-name))
-          (setq w2 (split-window w1 nil t))
-          (R)
-          (set-window-buffer w2 "*R*")
-          (set-window-buffer w1 w1name))))
-  (defun my-ess-eval ()
-    (interactive)
-    (my-ess-start-R)
-    (if (and transient-mark-mode mark-active)
-        (call-interactively 'ess-eval-region)
-      (call-interactively 'ess-eval-line-and-step)))
-  (add-hook 'ess-mode-hook
-            '(lambda()
-               (local-set-key [(shift return)] 'my-ess-eval)))
-  (add-hook 'inferior-ess-mode-hook
-            '(lambda()
-               (local-set-key [C-up] 'comint-previous-input)
-               (local-set-key [C-down] 'comint-next-input)))
-  (add-hook 'ess-mode-hook
-            (lambda ()
-              (flyspell-prog-mode)
-              (run-hooks 'prog-mode-hook)
-              ;; (prog-mode)
-              ))
+#+begin_src emacs-lisp :results silent
+;; Adapted with one minor change from Felipe Salazar at
+;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
+(require 'ess-site)
+(setq ess-ask-for-ess-directory nil) ;; start R on default folder
+(setq ess-local-process-name "R")
+(setq ansi-color-for-comint-mode 'filter) ;;
+(setq comint-scroll-to-bottom-on-input t)
+(setq comint-scroll-to-bottom-on-output t)
+(setq comint-move-point-for-output t)
+(setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
+(defun my-ess-start-R ()
+  (interactive)
+  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (R)
+        (set-window-buffer w2 "*R*")
+        (set-window-buffer w1 w1name))))
+(defun my-ess-eval ()
+  (interactive)
+  (my-ess-start-R)
+  (if (and transient-mark-mode mark-active)
+      (call-interactively 'ess-eval-region)
+    (call-interactively 'ess-eval-line-and-step)))
+(add-hook 'ess-mode-hook
+          '(lambda()
+             (local-set-key [(shift return)] 'my-ess-eval)))
+(add-hook 'inferior-ess-mode-hook
+          '(lambda()
+             (local-set-key [C-up] 'comint-previous-input)
+             (local-set-key [C-down] 'comint-next-input)))
+(add-hook 'ess-mode-hook
+          (lambda ()
+            (flyspell-prog-mode)
+            (run-hooks 'prog-mode-hook)
+            ;; (prog-mode)
+            ))
 
-  ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
-  ;; Control and up/down arrow keys to search history with matching what you've already typed:
-  (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
-  (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
+;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
+;; Control and up/down arrow keys to search history with matching what you've already typed:
+(define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
+(define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
-  ;; edit roxy template
-  ;; ess-roxy-update-entry
-  ;; (add-to-list ess-roxy-template-alist '(("description" . "content for description")
-  ;;                                 ("details" . "content for details")
-  ;;                                 ("title" . "")
-  ;;                                 ("param" . "")
-  ;;                                 ("return" . "")
-  ;;                                 ("export" . "")
-  ;;                                 ("author" . "Yi Tang")))
+;; edit roxy template
+;; ess-roxy-update-entry
+(add-to-list ess-roxy-template-alist '(("description" . "content for description")
+                                ("details" . "content for details")
+                                ("title" . "")
+                                ("param" . "")
+                                ("return" . "")
+                                ("export" . "")
+                                ("author" . "Yi Tang")))
+
 #+end_src
 
 #+RESULTS:
@@ -2606,7 +2607,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 *** Babel
 [2015-01-29 Thu 14:16]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp 
 (setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
 
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
@@ -2633,7 +2634,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
                                         ; Use fundamental mode when editing plantuml blocks with C-c '
 ;; TODO: what is fundamental mode?? 
-;; (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+ (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 
 
 #+end_src
@@ -3340,10 +3341,11 @@ have problem with BBDB installtion, and use org-contact.el to manage contact.  a
 #+begin_src emacs-lisp
 (require 'org-contacts)
 (setq mu4e-org-contacts-file  "~/git/org/contacts.org")
-;; (add-to-list 'mu4e-headers-actions
-;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
-;; (add-to-list 'mu4e-view-actions
-;;              '("org-contact-add" . mu4e-action-add-org-contact) t)
+(add-to-list 'mu4e-headers-actions
+             '("org-contact-add" . mu4e-action-add-org-contact) t)
+(add-to-list 'mu4e-view-actions
+             '("org-contact-add" . mu4e-action-add-org-contact) t)
+
 #+end_src 
 
 #+results:
