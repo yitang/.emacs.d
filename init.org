@@ -3866,6 +3866,7 @@ currently it is broken.  the error message is the path issues, and seems the fil
 (if (my/Office-p)
     (my/all-office-settings)
   )
+
   
 (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />")
 (setq org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
