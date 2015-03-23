@@ -272,7 +272,6 @@ or this
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
     (global-set-key (kbd "<f1>") 'ace-window)
-    (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 
 
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
@@ -282,6 +281,7 @@ or this
 
     (require 'golden-ratio)
     (golden-ratio-mode 1)
+    (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 
     ;; prefer horizentally split window
     ;; (setq split-height-threshold nil)
@@ -3867,5 +3867,11 @@ currently it is broken.  the error message is the path issues, and seems the fil
     (my/all-office-settings)
   )
   
+(setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />")
+(setq org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
 
 #+end_src
+
+#+results:
+: <link rel="stylesheet" href="\SKI-CQV5LZ1 taticyi_report.css" type="text/css" />
+
