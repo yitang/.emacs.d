@@ -950,7 +950,7 @@ Have you done ...
 is wrong, and also tell me why and which is right.  =langtool= can do be the job, but currently I don't understand how to get it works. 
 
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :eval no
 ;; check grammar 
 (require 'langtool)
 (setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
@@ -1126,10 +1126,8 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 (global-set-key (kbd "<f7>") 'bh/set-truncate-lines)
 (global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
 (global-set-key (kbd "<f9> <f9>") 'bh/show-org-agenda)
-(global-set-key (kbd "<f9> b") 'bbdb)
 (global-set-key (kbd "<f9> c") 'calendar)
 ;; (global-set-key (kbd "<f9> f") 'boxquote-insert-file)
-(global-set-key (kbd "<f9> g") 'gnus)
 (global-set-key (kbd "<f9> h") 'bh/hide-other)
 (global-set-key (kbd "<f9> n") 'bh/toggle-next-task-display)
 
@@ -1138,7 +1136,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 
 (global-set-key (kbd "<f9> o") 'bh/make-org-scratch)
 
-(global-set-key (kbd "<f9> r") 'boxquote-region)
+
 (global-set-key (kbd "<f9> s") 'bh/switch-to-scratch)
 
 (global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
@@ -1234,60 +1232,10 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               
               ("l" "Ledger Journal" plain (file "~/git/ImportantFiles/ledger")
                "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
-
-              ;; quantified self 
-              
-
-              ("f" "Quantified Self")
-              ("fp" "Personal Care")
-              ("fps" "Shower" entry (file+olp "~/git/org/qs.org" "Personal Care" "Shower")
-               "* %u Shower %? \n%U" :clock-in t :clock-resume t)
-              ("fpo" "Others" entry (file+olp "~/git/org/qs.org" "Personal Care" "Others")
-               "* %u Others %? \n%U" :clock-in t :clock-resume t)
-              
-              ("fr" "Rest")
-              ("frs" "Sleep" entry (file+olp "~/git/org/qs.org" "Rest" "Sleep")
-               "* %u Sleep %? \n%U" :clock-in t :clock-resume t)
-              ("frn" "Nap" entry (file+olp "~/git/org/qs.org" "Rest" "Nap")
-               "* %u Nap %? \n%U" :clock-in t :clock-resume t)
-              
-              ;; ("fw" "Shower" entry(file+olp "~/git/org/qs.org" "Personal Care" "Shower")
-              ;;  "* %u Shower %? \n%U" :clock-in t :clock-resume t)
-              ("fe" "Eat")
-              ("feb" "Eat Breakfast" entry (file+olp "~/git/org/qs.org" "Eat" "Breakfast")
-               "* %u Eat Breakfast %? \n%U" :clock-in t :clock-resume t)
-              ("fel" "Eat Lunch" entry (file+olp "~/git/org/qs.org" "Eat" "Lunch")
-               "* %u Eat Lunch %? \n%U" :clock-in t :clock-resume t)
-              ("fed" "Eat Dinner" entry (file+olp "~/git/org/qs.org" "Eat" "Dinner")
-               "* %u Eat Dinner %? \n%U" :clock-in t :clock-resume t)
-              ("fc" "Commute")
-              ("fco" "Commute from/to Office" entry (file+olp "~/git/org/qs.org" "From/To Office")
-               "* %u Commute from/to Office %? \n%U" :clock-in t :clock-resume t)
-              ("fcg" "Commute General" entry (file+olp "~/git/org/qs.org" "Commuting" "General")
-               "* %u Commute General %? \n%U" :clock-in t :clock-resume t)
-
-              ;; fitness 
-              ("ff" "Fitness")
-              ("ffr" "Run" entry (file+olp "~/git/org/qs.org" "Fitness" "Run")
-               "* %u Run %? \n%U" :clock-in t :clock-resume t)
-              ("ffw" "Walk" entry (file+olp "~/git/org/qs.org" "Fitness" "Walk")
-               "* %u Walk %? \n%U" :clock-in t :clock-resume t)
-
               ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
-
-              
               )))
 
-
-
-;; Remove empty LOGBOOK drawers on clock out
-;; (defun bh/remove-empty-drawer-on-clock-out ()
-;;   (interactive)
-;;   (save-excursion
-;;     (beginning-of-line 0)
-;;     (org-remove-empty-drawer-at (point))))
-;; replaced above by: http://stackoverflow.com/questions/21767471/org-capture-and-time-clocking-misbehaving
 (defun bh/remove-empty-drawer-on-clock-out ()
   (interactive)
   (save-excursion
@@ -1522,44 +1470,511 @@ A prefix arg forces clock in of the default task."
                                         ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
-;; (require 'bbdb)
-;; (require 'bbdb-com)
-(global-set-key (kbd "<f9> p") 'bh/phone-call)
-
-;;
-;; Phone capture template handling with BBDB lookup
-;; Adapted from code by Gregory J. Grubbs
-(defun bh/phone-call ()
-  "Return name and company info for caller from bbdb lookup"
-  (interactive)
-  (let* (name rec caller)
-    (setq name (completing-read "Who is calling? "
-                                (bbdb-hashtable)
-                                'bbdb-completion-predicate
-                                'confirm))
-    (when (> (length name) 0)
-                                        ; Something was supplied - look it up in bbdb
-      (setq rec
-            (or (first
-                 (or (bbdb-search (bbdb-records) name nil nil)
-                     (bbdb-search (bbdb-records) nil name nil)))
-                name)))
-
-                                        ; Build the bbdb link if we have a bbdb record, otherwise just return the name
-    (setq caller (cond ((and rec (vectorp rec))
-                        (let ((name (bbdb-record-name rec))
-                              (company (bbdb-record-company rec)))
-                          (concat "[[bbdb:"
-                                  name "]["
-                                  name "]]"
-                                  (when company
-                                    (concat " - " company)))))
-                       (rec)
-                       (t "NameOfCaller")))
-    (insert caller)))
-
 (setq org-agenda-span 'day)
 
+(setq org-archive-mark-done nil)
+(setq org-archive-location "%s_archive::* Archived Tasks")
+
+(defun bh/skip-non-archivable-tasks ()
+  "Skip trees that are not available for archiving"
+  (save-restriction
+    (widen)
+    ;; Consider only tasks with done todo headings as archivable candidates
+    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+          (subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (member (org-get-todo-state) org-todo-keywords-1)
+          (if (member (org-get-todo-state) org-done-keywords)
+              (let* ((daynr (string-to-int (format-time-string "%d" (current-time))))
+                     (a-month-ago (* 60 60 24 7 (+ daynr 1)))
+                     (last-month (format-time-string "%Y-%m-" (time-subtract (current-time) (seconds-to-time a-month-ago))))
+                     (this-month (format-time-string "%Y-%m-" (current-time)))
+                     (subtree-is-current (save-excursion
+                                           (forward-line 1)
+                                           (and (< (point) subtree-end)
+                                                (re-search-forward (concat last-month "\\|" this-month) subtree-end t)))))
+                (if subtree-is-current
+                    subtree-end ; Has a date in this month or last month, skip it
+                  nil))  ; available to archive
+            (or subtree-end (point-max)))
+        next-headline))))
+
+(setq org-alphabetical-lists t)
+
+;;;; section: others
+;; Explicitly load required exporters
+(require 'ox-html)
+(require 'ox-latex)
+(require 'ox-ascii)
+(require 'ox-md)
+
+
+(defun bh/display-inline-images ()
+  (condition-case nil
+      (org-display-inline-images)
+    (error nil)))
+
+;; (setq org-export-allow-BIND t)
+                                        ; Erase all reminders and rebuilt reminders for today from the agenda
+(defun bh/org-agenda-to-appt ()
+  (interactive)
+  (setq appt-time-msg-list nil)
+  (setq appt-display-format 'window) ;; YT: show notification in separate window
+  (org-agenda-to-appt))
+
+                                        ; Rebuild the reminders everytime the agenda is displayed
+(add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
+
+                                        ; This is at the end of my .emacs - so appointments are set up when Emacs starts
+(bh/org-agenda-to-appt)
+
+                                        ; Activate appointments so we get notifications
+(appt-activate t)
+
+                                        ; If we leave Emacs running overnight - reset the appointments one minute after midnight
+(run-at-time "24:01" nil 'bh/org-agenda-to-appt)
+
+;; Enable abbrev-mode
+(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
+
+
+;;;; section: narrow/wide/subtree
+
+(global-set-key (kbd "<f5>") 'bh/org-todo)
+
+(defun bh/org-todo (arg)
+  (interactive "p")
+  (if (equal arg 4)
+      (save-restriction
+        (bh/narrow-to-org-subtree)
+        (org-show-todo-tree nil))
+    (bh/narrow-to-org-subtree)
+    (org-show-todo-tree nil)))
+
+(global-set-key (kbd "<S-f5>") 'bh/widen)
+
+(defun bh/widen ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-agenda-remove-restriction-lock)
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (widen)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
+          'append)
+
+(defun bh/narrow-to-org-subtree ()
+  (widen)
+  (org-narrow-to-subtree)
+  (save-restriction
+    (org-agenda-set-restriction-lock)))
+
+(defun bh/narrow-to-subtree ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+          (bh/narrow-to-org-subtree))
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (bh/narrow-to-org-subtree)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
+          'append)
+
+(defun bh/narrow-up-one-org-level ()
+  (widen)
+  (save-excursion
+    (outline-up-heading 1 'invisible-ok)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/get-pom-from-agenda-restriction-or-point ()
+  (or (and (marker-position org-agenda-restrict-begin) org-agenda-restrict-begin)
+      (org-get-at-bol 'org-hd-marker)
+      (and (equal major-mode 'org-mode) (point))
+      org-clock-marker))
+
+(defun bh/narrow-up-one-level ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-up-one-org-level))
+        (org-agenda-redo))
+    (bh/narrow-up-one-org-level)))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
+          'append)
+
+(defun bh/narrow-to-org-project ()
+  (widen)
+  (save-excursion
+    (bh/find-project-task)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-to-project ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-to-org-project)
+          (save-excursion
+            (bh/find-project-task)
+            (org-agenda-set-restriction-lock)))
+        (org-agenda-redo)
+        (beginning-of-buffer))
+    (bh/narrow-to-org-project)
+    (save-restriction
+      (org-agenda-set-restriction-lock))))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
+          'append)
+
+(defvar bh/project-list nil)
+
+(defun bh/view-next-project ()
+  (interactive)
+  (let (num-project-left current-project)
+    (unless (marker-position org-agenda-restrict-begin)
+      (goto-char (point-min))
+                                        ; Clear all of the existing markers on the list
+      (while bh/project-list
+        (set-marker (pop bh/project-list) nil))
+      (re-search-forward "Tasks to Refile")
+      (forward-visible-line 1))
+
+                                        ; Build a new project marker list
+    (unless bh/project-list
+      (while (< (point) (point-max))
+        (while (and (< (point) (point-max))
+                    (or (not (org-get-at-bol 'org-hd-marker))
+                        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+                          (or (not (bh/is-project-p))
+                              (bh/is-project-subtree-p)))))
+          (forward-visible-line 1))
+        (when (< (point) (point-max))
+          (add-to-list 'bh/project-list (copy-marker (org-get-at-bol 'org-hd-marker)) 'append))
+        (forward-visible-line 1)))
+
+                                        ; Pop off the first marker on the list and display
+    (setq current-project (pop bh/project-list))
+    (when current-project
+      (org-with-point-at current-project
+        (setq bh/hide-scheduled-and-waiting-next-tasks nil)
+        (bh/narrow-to-project))
+                                        ; Remove the marker
+      (setq current-project nil)
+      (org-agenda-redo)
+      (beginning-of-buffer)
+      (setq num-projects-left (length bh/project-list))
+      (if (> num-projects-left 0)
+          (message "%s projects left to view" num-projects-left)
+        (beginning-of-buffer)
+        (setq bh/hide-scheduled-and-waiting-next-tasks t)
+        (error "All projects viewed.")))))
+
+
+
+(setq org-enforce-todo-dependencies t)
+
+(setq org-hide-leading-stars nil)
+
+(setq org-startup-indented t)
+
+(setq org-cycle-separator-lines 0)
+
+(setq org-blank-before-new-entry (quote ((heading)
+                                         (plain-list-item . auto))))
+
+(setq org-insert-heading-respect-content nil)
+
+(setq org-reverse-note-order nil)
+
+(setq org-show-following-heading t)
+(setq org-show-hierarchy-above t)
+(setq org-show-siblings (quote ((default))))
+
+(setq org-special-ctrl-a/e t)
+(setq org-special-ctrl-k t)
+(setq org-yank-adjusted-subtrees t)
+
+(setq org-id-method (quote uuidgen))
+
+(setq org-deadline-warning-days 30)
+
+(setq org-table-export-default-format "orgtbl-to-csv")
+
+(setq org-link-frame-setup (quote ((vm . vm-visit-folder)
+                                   (gnus . org-gnus-no-new-news)
+                                   (file . find-file))))
+
+                                        ; Use the current window for C-c ' source editing
+(setq org-src-window-setup 'current-window)
+
+(setq org-log-done (quote time))
+(setq org-log-into-drawer t)
+(setq org-log-state-notes-insert-after-drawers nil)
+
+(setq org-clock-sound "/usr/local/lib/tngchime.wav")
+
+                                        ; Enable habit tracking (and a bunch of other modules)
+(setq org-modules (quote (org-bbdb
+                          org-bibtex
+                          org-crypt
+                          org-gnus
+                          org-id
+                          org-info
+                          org-jsinfo
+                          org-habit
+                          org-inlinetask
+                          org-irc
+                          org-mew
+                          org-mhe
+                          org-protocol
+                          org-rmail
+                          org-vm
+                          org-wl
+                          org-w3m)))
+
+                                        ; position the habit graph on the agenda to the right of the default
+(setq org-habit-graph-column 50)
+
+(run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
+
+(global-auto-revert-mode t)
+
+(require 'org-crypt)
+                                        ; Encrypt all entries before saving
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+                                        ; GPG key to use for encryption
+(setq org-crypt-key "F0B66B40")
+
+(setq org-crypt-disable-auto-save nil)
+
+(setq org-use-speed-commands t)
+
+(defun bh/show-org-agenda ()
+  (interactive)
+  (if org-agenda-sticky
+      (switch-to-buffer "*Org Agenda( )*")
+    (switch-to-buffer "*Org Agenda*"))
+  (delete-other-windows))
+
+(require 'org-protocol)
+
+(setq require-final-newline t)
+
+(defvar bh/insert-inactive-timestamp t)
+
+(defun bh/toggle-insert-inactive-timestamp ()
+  (interactive)
+  (setq bh/insert-inactive-timestamp (not bh/insert-inactive-timestamp))
+  (message "Heading timestamps are %s" (if bh/insert-inactive-timestamp "ON" "OFF")))
+
+(defun bh/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+
+(defun bh/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (when bh/insert-inactive-timestamp
+      (org-return)
+      (org-cycle)
+      (bh/insert-inactive-timestamp))))
+
+;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+
+(setq org-export-with-timestamps nil)
+
+(setq org-return-follows-link t)
+
+(setq org-remove-highlights-with-change t)
+
+(setq org-read-date-prefer-future 'time)
+
+
+(setq org-tags-match-list-sublevels t)
+
+(setq org-agenda-persistent-filter t)
+
+(setq org-link-mailto-program (quote (compose-mail "%a" "%s")))
+
+
+(setq org-agenda-skip-additional-timestamps-same-entry t)
+
+(setq org-table-use-standard-references (quote from))
+
+(setq org-file-apps (quote ((auto-mode . emacs)
+                            ("\\.png\\'" . system)
+                            ("\\.svg\\'" . system)
+                            ("\\.mm\\'" . system)
+                            ("\\.x?html?\\'" . system)
+                            ("\\.pdf\\'" . system))))
+
+                                        ; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
+
+(setq org-clone-delete-id t)
+
+(setq org-cycle-include-plain-lists t)
+
+(setq org-src-fontify-natively t)
+
+(setq org-structure-template-alist
+      (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
+              ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
+              ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
+              ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
+              ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
+              ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
+              ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n</center>")
+              ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
+              ;;  ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+              ("L" "#+begin_src emacs-lisp \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
+              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
+              ("H" "#+html: " "<literal style=\"html\">?</literal>")
+              ("a" "#+begin_ascii\n?\n#+end_ascii")
+              ("A" "#+ascii: ")
+              ("i" "#+index: ?" "#+index: ?")
+              ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
+
+(defun bh/mark-next-parent-tasks-todo ()
+  "Visit each parent task and change NEXT states to TODO"
+  (let ((mystate (or (and (fboundp 'org-state)
+                          state)
+                     (nth 2 (org-heading-components)))))
+    (when mystate
+      (save-excursion
+        (while (org-up-heading-safe)
+          (when (member (nth 2 (org-heading-components)) (list "NEXT"))
+            (org-todo "TODO")))))))
+
+(add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
+(add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
+
+(setq org-startup-folded t)
+
+
+;; flyspell mode for spell checking everywhere
+(add-hook 'org-mode-hook 'turn-on-flyspell 'append)
+
+(setq org-src-preserve-indentation nil)
+(setq org-edit-src-content-indentation 0)
+
+(setq org-catch-invisible-edits 'error)
+
+(setq org-export-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(set-charset-priority 'unicode)
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+
+(setq org-time-clocksum-format
+      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+
+(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+
+(setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
+                                 ("/" italic "<i>" "</i>")
+                                 ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
+                                 ("=" org-code "<code>" "</code>" verbatim)
+                                 ("~" org-verbatim "<code>" "</code>" verbatim))))
+
+(setq org-use-sub-superscripts nil)
+
+(setq org-odd-levels-only nil)
+
+(run-at-time "00:59" 3600 'org-save-all-org-buffers)
+
+;;;;;; my config 
+;; remove C-TAB
+(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(org-defkey org-mode-map (kbd "C-c [") nil)
+(org-defkey org-mode-map (kbd "C-c ]") nil)
+(org-defkey org-mode-map (kbd "C-TAB") nil)
+(org-defkey org-mode-map (kbd "<f8>") nil)
+;; use helm iwth org
+;; (setq org-completion-handler 'helm)
+
+;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
+(defun yt/org-clock-in-select ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ;; C-u, 
+  (call-interactively 'org-clock-in))
+(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
+
+;; add the following 
+(setq org-capture-bookmark nil)
+
+(defun sacha/yank-more ()
+  (interactive)
+  (insert "[[")
+  (yank)
+  (insert "][more]]"))
+(global-set-key (kbd "<f6>") 'sacha/yank-more)
+
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
+
+(defun yt/open-diary ()
+  (interactive)
+  (find-file "~/git/org/diary.org"))
+
+(defun yt/open-tmp-R ()
+  (interactive)
+  (find-file "~/git/org/tmp.R"))
+(defun yt/open-tmp-el ()
+  (interactive)
+  (find-file "~/git/org/tmp.el"))
+(defun yt/open-tmp-org ()
+  (interactive)
+  (find-file "~/git/org/tmp.org"))
+(global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
+(global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
+(global-set-key (kbd "<f9> f d") 'yt/open-diary)
+(global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
+
+
+;; (global-set-key (kbd "<f9> e") 'mu4e)
+(global-set-key (kbd "<f9> g") 'magit-status)
+
+(setq org-agenda-tags-column 120)
+
+
+(defun yt/timeline-for-subtree ()
+  "make a timeline view in agenda for current tree"
+  (interactive)
+  (org-copy-subtree)
+  (find-file "~/tmp/agenda_tmp.org")
+  (beginning-of-buffer)
+  (let ((beg (point))) (end-of-buffer) (delete-region beg (point)))
+  (org-paste-subtree)
+  (save-buffer)
+  (org-timeline)
+  )
+
+
+(require 'htmlize)
+
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
+(setq org-image-actual-width '(400))
+
+(setq bh/hide-scheduled-and-waiting-next-tasks nil)
+
+
+#+end_src
+**** Agenda 
+[2015-01-23 Fri 16:54]
+
+#+name: projects 
+#+begin_src emacs-lisp
+;;;; section: projects 
 (setq org-stuck-projects (quote ("" nil nil "")))
 
 (defun bh/is-project-p ()
@@ -1804,821 +2219,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
         nil
       next-headline)))
 
-(setq org-archive-mark-done nil)
-(setq org-archive-location "%s_archive::* Archived Tasks")
-
-(defun bh/skip-non-archivable-tasks ()
-  "Skip trees that are not available for archiving"
-  (save-restriction
-    (widen)
-    ;; Consider only tasks with done todo headings as archivable candidates
-    (let ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-          (subtree-end (save-excursion (org-end-of-subtree t))))
-      (if (member (org-get-todo-state) org-todo-keywords-1)
-          (if (member (org-get-todo-state) org-done-keywords)
-              (let* ((daynr (string-to-int (format-time-string "%d" (current-time))))
-                     (a-month-ago (* 60 60 24 7 (+ daynr 1)))
-                     (last-month (format-time-string "%Y-%m-" (time-subtract (current-time) (seconds-to-time a-month-ago))))
-                     (this-month (format-time-string "%Y-%m-" (current-time)))
-                     (subtree-is-current (save-excursion
-                                           (forward-line 1)
-                                           (and (< (point) subtree-end)
-                                                (re-search-forward (concat last-month "\\|" this-month) subtree-end t)))))
-                (if subtree-is-current
-                    subtree-end ; Has a date in this month or last month, skip it
-                  nil))  ; available to archive
-            (or subtree-end (point-max)))
-        next-headline))))
-
-(setq org-alphabetical-lists t)
-
-;; Explicitly load required exporters
-(require 'ox-html)
-(require 'ox-latex)
-(require 'ox-ascii)
-(require 'ox-md)
-
-(setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
-
-(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
-
-                                        ; Make babel results blocks lowercase
-(setq org-babel-results-keyword "results")
-
-(defun bh/display-inline-images ()
-  (condition-case nil
-      (org-display-inline-images)
-    (error nil)))
-
-(org-babel-do-load-languages
- (quote org-babel-load-languages)
- (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
-         (R . t)
-         (sh . t)
-         (ledger . t)
-         (org . t)
-         (plantuml . t)
-         (dot . t)
-         (octave . t)
-         (latex . t))))
-
-(add-to-list 'org-babel-default-header-args:R
-             '(:session . "*R-main*")
-             '((:width . 640) (:height . 640)))
-
-
-(setq org-confirm-babel-evaluate nil)
-
-                                        ; Use fundamental mode when editing plantuml blocks with C-c '
-;; TODO: what is fundamental mode?? 
-(add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
-
-
-                                        ; I'm lazy and don't want to remember the name of the project to publish when I modify
-                                        ; a file that is part of a project.  So this function saves the file, and publishes
-                                        ; the project that includes this file
-                                        ;
-                                        ; It's bound to C-S-F12 so I just edit and hit C-S-F12 when I'm done and move on to the next thing
-(defun bh/save-then-publish (&optional force)
-  (interactive "P")
-  (save-buffer)
-  (org-save-all-org-buffers)
-  (let ((org-html-head-extra)
-        (org-html-validation-link "<a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a>"))
-    (org-publish-current-project force)))
-
-(global-set-key (kbd "C-s-<f12>") 'bh/save-then-publish)
-
-(setq org-latex-listings t)
-
-(setq org-html-xml-declaration (quote (("html" . "")
-                                       ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
-                                       ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>"))))
-
-(setq org-export-allow-BIND t)
-
-                                        ; Erase all reminders and rebuilt reminders for today from the agenda
-(defun bh/org-agenda-to-appt ()
-  (interactive)
-  (setq appt-time-msg-list nil)
-  (setq appt-display-format 'window) ;; YT: show notification in separate window
-  (org-agenda-to-appt))
-
-                                        ; Rebuild the reminders everytime the agenda is displayed
-(add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
-
-                                        ; This is at the end of my .emacs - so appointments are set up when Emacs starts
-(bh/org-agenda-to-appt)
-
-                                        ; Activate appointments so we get notifications
-(appt-activate t)
-
-                                        ; If we leave Emacs running overnight - reset the appointments one minute after midnight
-(run-at-time "24:01" nil 'bh/org-agenda-to-appt)
-
-;; Enable abbrev-mode
-(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
-
-;; Skeletons
-;;
-;; sblk - Generic block #+begin_FOO .. #+end_FOO
-(define-skeleton skel-org-block
-  "Insert an org block, querying for type."
-  "Type: "
-  "#+begin_" str "\n"
-  _ - \n
-  "#+end_" str "\n")
-
-(define-abbrev org-mode-abbrev-table "sblk" "" 'skel-org-block)
-
-;; splantuml - PlantUML Source block
-(define-skeleton skel-org-block-plantuml
-  "Insert a org plantuml block, querying for filename."
-  "File (no extension): "
-  "#+begin_src plantuml :file " str ".png :cache yes\n"
-  _ - \n
-  "#+end_src\n")
-
-(define-abbrev org-mode-abbrev-table "splantuml" "" 'skel-org-block-plantuml)
-
-(define-skeleton skel-org-block-plantuml-activity
-  "Insert a org plantuml block, querying for filename."
-  "File (no extension): "
-  "#+begin_src plantuml :file " str "-act.png :cache yes :tangle " str "-act.txt\n"
-  (bh/plantuml-reset-counters)
-  "@startuml\n"
-  "skinparam activity {\n"
-  "BackgroundColor<<New>> Cyan\n"
-  "}\n\n"
-  "title " str " - \n"
-  "note left: " str "\n"
-  "(*) --> \"" str "\"\n"
-  "--> (*)\n"
-  _ - \n
-  "@enduml\n"
-  "#+end_src\n")
-
-(defvar bh/plantuml-if-count 0)
-
-(defun bh/plantuml-if () 
-  (incf bh/plantuml-if-count)
-  (number-to-string bh/plantuml-if-count))
-
-(defvar bh/plantuml-loop-count 0)
-
-(defun bh/plantuml-loop () 
-  (incf bh/plantuml-loop-count)
-  (number-to-string bh/plantuml-loop-count))
-
-(defun bh/plantuml-reset-counters ()
-  (setq bh/plantuml-if-count 0
-        bh/plantuml-loop-count 0)
-  "")
-
-(define-abbrev org-mode-abbrev-table "sact" "" 'skel-org-block-plantuml-activity)
-
-(define-skeleton skel-org-block-plantuml-activity-if
-  "Insert a org plantuml block activity if statement"
-  "" 
-  "if \"\" then\n"
-  "  -> [condition] ==IF" (setq ifn (bh/plantuml-if)) "==\n"
-  "  --> ==IF" ifn "M1==\n"
-  "  -left-> ==IF" ifn "M2==\n"
-  "else\n"
-  "end if\n"
-  "--> ==IF" ifn "M2==")
-
-(define-abbrev org-mode-abbrev-table "sif" "" 'skel-org-block-plantuml-activity-if)
-
-(define-skeleton skel-org-block-plantuml-activity-for
-  "Insert a org plantuml block activity for statement"
-  "Loop for each: " 
-  "--> ==LOOP" (setq loopn (bh/plantuml-loop)) "==\n"
-  "note left: Loop" loopn ": For each " str "\n"
-  "--> ==ENDLOOP" loopn "==\n"
-  "note left: Loop" loopn ": End for each " str "\n" )
-
-(define-abbrev org-mode-abbrev-table "sfor" "" 'skel-org-block-plantuml-activity-for)
-
-(define-skeleton skel-org-block-plantuml-sequence
-  "Insert a org plantuml activity diagram block, querying for filename."
-  "File appends (no extension): "
-  "#+begin_src plantuml :file " str "-seq.png :cache yes :tangle " str "-seq.txt\n"
-  "@startuml\n"
-  "title " str " - \n"
-  "actor CSR as \"Customer Service Representative\"\n"
-  "participant CSMO as \"CSM Online\"\n"
-  "participant CSMU as \"CSM Unix\"\n"
-  "participant NRIS\n"
-  "actor Customer"
-  _ - \n
-  "@enduml\n"
-  "#+end_src\n")
-
-(define-abbrev org-mode-abbrev-table "sseq" "" 'skel-org-block-plantuml-sequence)
-
-;; sdot - Graphviz DOT block
-(define-skeleton skel-org-block-dot
-  "Insert a org graphviz dot block, querying for filename."
-  "File (no extension): "
-  "#+begin_src dot :file " str ".png :cache yes :cmdline -Kdot -Tpng\n"
-  "graph G {\n"
-  _ - \n
-  "}\n"
-  "#+end_src\n")
-
-(define-abbrev org-mode-abbrev-table "sdot" "" 'skel-org-block-dot)
-
-;; sditaa - Ditaa source block
-(define-skeleton skel-org-block-ditaa
-  "Insert a org ditaa block, querying for filename."
-  "File (no extension): "
-  "#+begin_src ditaa :file " str ".png :cache yes\n"
-  _ - \n
-  "#+end_src\n")
-
-(define-abbrev org-mode-abbrev-table "sditaa" "" 'skel-org-block-ditaa)
-
-;; selisp - Emacs Lisp source block
-(define-skeleton skel-org-block-elisp
-  "Insert a org emacs-lisp block"
-  ""
-  "#+begin_src emacs-lisp\n"
-  _ - \n
-  "#+end_src\n")
-
-(define-abbrev org-mode-abbrev-table "selisp" "" 'skel-org-block-elisp)
-
-(global-set-key (kbd "<f5>") 'bh/org-todo)
-
-(defun bh/org-todo (arg)
-  (interactive "p")
-  (if (equal arg 4)
-      (save-restriction
-        (bh/narrow-to-org-subtree)
-        (org-show-todo-tree nil))
-    (bh/narrow-to-org-subtree)
-    (org-show-todo-tree nil)))
-
-(global-set-key (kbd "<S-f5>") 'bh/widen)
-
-(defun bh/widen ()
-  (interactive)
-  (if (equal major-mode 'org-agenda-mode)
-      (progn
-        (org-agenda-remove-restriction-lock)
-        (when org-agenda-sticky
-          (org-agenda-redo)))
-    (widen)))
-
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
-          'append)
-
-(defun bh/restrict-to-file-or-follow (arg)
-  "Set agenda restriction to 'file or with argument invoke follow mode.
-I don't use follow mode very often but I restrict to file all the time
-so change the default 'F' binding in the agenda to allow both"
-  (interactive "p")
-  (if (equal arg 4)
-      (org-agenda-follow-mode)
-    (widen)
-    (bh/set-agenda-restriction-lock 4)
-    (org-agenda-redo)
-    (beginning-of-buffer)))
-
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
-          'append)
-
-(defun bh/narrow-to-org-subtree ()
-  (widen)
-  (org-narrow-to-subtree)
-  (save-restriction
-    (org-agenda-set-restriction-lock)))
-
-(defun bh/narrow-to-subtree ()
-  (interactive)
-  (if (equal major-mode 'org-agenda-mode)
-      (progn
-        (org-with-point-at (org-get-at-bol 'org-hd-marker)
-          (bh/narrow-to-org-subtree))
-        (when org-agenda-sticky
-          (org-agenda-redo)))
-    (bh/narrow-to-org-subtree)))
-
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
-          'append)
-
-(defun bh/narrow-up-one-org-level ()
-  (widen)
-  (save-excursion
-    (outline-up-heading 1 'invisible-ok)
-    (bh/narrow-to-org-subtree)))
-
-(defun bh/get-pom-from-agenda-restriction-or-point ()
-  (or (and (marker-position org-agenda-restrict-begin) org-agenda-restrict-begin)
-      (org-get-at-bol 'org-hd-marker)
-      (and (equal major-mode 'org-mode) (point))
-      org-clock-marker))
-
-(defun bh/narrow-up-one-level ()
-  (interactive)
-  (if (equal major-mode 'org-agenda-mode)
-      (progn
-        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
-          (bh/narrow-up-one-org-level))
-        (org-agenda-redo))
-    (bh/narrow-up-one-org-level)))
-
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
-          'append)
-
-(defun bh/narrow-to-org-project ()
-  (widen)
-  (save-excursion
-    (bh/find-project-task)
-    (bh/narrow-to-org-subtree)))
-
-(defun bh/narrow-to-project ()
-  (interactive)
-  (if (equal major-mode 'org-agenda-mode)
-      (progn
-        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
-          (bh/narrow-to-org-project)
-          (save-excursion
-            (bh/find-project-task)
-            (org-agenda-set-restriction-lock)))
-        (org-agenda-redo)
-        (beginning-of-buffer))
-    (bh/narrow-to-org-project)
-    (save-restriction
-      (org-agenda-set-restriction-lock))))
-
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
-          'append)
-
-(defvar bh/project-list nil)
-
-(defun bh/view-next-project ()
-  (interactive)
-  (let (num-project-left current-project)
-    (unless (marker-position org-agenda-restrict-begin)
-      (goto-char (point-min))
-                                        ; Clear all of the existing markers on the list
-      (while bh/project-list
-        (set-marker (pop bh/project-list) nil))
-      (re-search-forward "Tasks to Refile")
-      (forward-visible-line 1))
-
-                                        ; Build a new project marker list
-    (unless bh/project-list
-      (while (< (point) (point-max))
-        (while (and (< (point) (point-max))
-                    (or (not (org-get-at-bol 'org-hd-marker))
-                        (org-with-point-at (org-get-at-bol 'org-hd-marker)
-                          (or (not (bh/is-project-p))
-                              (bh/is-project-subtree-p)))))
-          (forward-visible-line 1))
-        (when (< (point) (point-max))
-          (add-to-list 'bh/project-list (copy-marker (org-get-at-bol 'org-hd-marker)) 'append))
-        (forward-visible-line 1)))
-
-                                        ; Pop off the first marker on the list and display
-    (setq current-project (pop bh/project-list))
-    (when current-project
-      (org-with-point-at current-project
-        (setq bh/hide-scheduled-and-waiting-next-tasks nil)
-        (bh/narrow-to-project))
-                                        ; Remove the marker
-      (setq current-project nil)
-      (org-agenda-redo)
-      (beginning-of-buffer)
-      (setq num-projects-left (length bh/project-list))
-      (if (> num-projects-left 0)
-          (message "%s projects left to view" num-projects-left)
-        (beginning-of-buffer)
-        (setq bh/hide-scheduled-and-waiting-next-tasks t)
-        (error "All projects viewed.")))))
-
-
-
-(setq org-enforce-todo-dependencies t)
-
-(setq org-hide-leading-stars nil)
-
-(setq org-startup-indented t)
-
-(setq org-cycle-separator-lines 0)
-
-(setq org-blank-before-new-entry (quote ((heading)
-                                         (plain-list-item . auto))))
-
-(setq org-insert-heading-respect-content nil)
-
-(setq org-reverse-note-order nil)
-
-(setq org-show-following-heading t)
-(setq org-show-hierarchy-above t)
-(setq org-show-siblings (quote ((default))))
-
-(setq org-special-ctrl-a/e t)
-(setq org-special-ctrl-k t)
-(setq org-yank-adjusted-subtrees t)
-
-(setq org-id-method (quote uuidgen))
-
-(setq org-deadline-warning-days 30)
-
-(setq org-table-export-default-format "orgtbl-to-csv")
-
-(setq org-link-frame-setup (quote ((vm . vm-visit-folder)
-                                   (gnus . org-gnus-no-new-news)
-                                   (file . find-file))))
-
-                                        ; Use the current window for C-c ' source editing
-(setq org-src-window-setup 'current-window)
-
-(setq org-log-done (quote time))
-(setq org-log-into-drawer t)
-(setq org-log-state-notes-insert-after-drawers nil)
-
-(setq org-clock-sound "/usr/local/lib/tngchime.wav")
-
-                                        ; Enable habit tracking (and a bunch of other modules)
-(setq org-modules (quote (org-bbdb
-                          org-bibtex
-                          org-crypt
-                          org-gnus
-                          org-id
-                          org-info
-                          org-jsinfo
-                          org-habit
-                          org-inlinetask
-                          org-irc
-                          org-mew
-                          org-mhe
-                          org-protocol
-                          org-rmail
-                          org-vm
-                          org-wl
-                          org-w3m)))
-
-                                        ; position the habit graph on the agenda to the right of the default
-(setq org-habit-graph-column 50)
-
-(run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
-
-(global-auto-revert-mode t)
-
-(require 'org-crypt)
-                                        ; Encrypt all entries before saving
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-                                        ; GPG key to use for encryption
-(setq org-crypt-key "F0B66B40")
-
-(setq org-crypt-disable-auto-save nil)
-
-(setq org-use-speed-commands t)
-(setq org-speed-commands-user (quote (("0" . ignore)
-                                      ("1" . ignore)
-                                      ("2" . ignore)
-                                      ("3" . ignore)
-                                      ("4" . ignore)
-                                      ("5" . ignore)
-                                      ("6" . ignore)
-                                      ("7" . ignore)
-                                      ("8" . ignore)
-                                      ("9" . ignore)
-
-                                      ("a" . ignore)
-                                      ("d" . ignore)
-                                      ("h" . bh/hide-other)
-                                      ("i" progn
-                                       (forward-char 1)
-                                       (call-interactively 'org-insert-heading-respect-content))
-                                      ("k" . org-kill-note-or-show-branches)
-                                      ("l" . ignore)
-                                      ("m" . ignore)
-                                      ("q" . bh/show-org-agenda)
-                                      ("r" . ignore)
-                                      ("s" . org-save-all-org-buffers)
-                                      ("w" . org-refile)
-                                      ("x" . ignore)
-                                      ("y" . ignore)
-                                      ("z" . org-add-note)
-
-                                      ("A" . ignore)
-                                      ("B" . ignore)
-                                      ("E" . ignore)
-                                      ("F" . bh/restrict-to-file-or-follow)
-                                      ("G" . ignore)
-                                      ("H" . ignore)
-                                      ("J" . org-clock-goto)
-                                      ("K" . ignore)
-                                      ("L" . ignore)
-                                      ("M" . ignore)
-                                      ("N" . bh/narrow-to-org-subtree)
-                                      ("P" . bh/narrow-to-org-project)
-                                      ("Q" . ignore)
-                                      ("R" . ignore)
-                                      ("S" . ignore)
-                                      ("T" . bh/org-todo)
-                                      ("U" . bh/narrow-up-one-org-level)
-                                      ("V" . ignore)
-                                      ("W" . bh/widen)
-                                      ("X" . ignore)
-                                      ("Y" . ignore)
-                                      ("Z" . ignore))))
-
-(defun bh/show-org-agenda ()
-  (interactive)
-  (if org-agenda-sticky
-      (switch-to-buffer "*Org Agenda( )*")
-    (switch-to-buffer "*Org Agenda*"))
-  (delete-other-windows))
-
-(require 'org-protocol)
-
-(setq require-final-newline t)
-
-(defvar bh/insert-inactive-timestamp t)
-
-(defun bh/toggle-insert-inactive-timestamp ()
-  (interactive)
-  (setq bh/insert-inactive-timestamp (not bh/insert-inactive-timestamp))
-  (message "Heading timestamps are %s" (if bh/insert-inactive-timestamp "ON" "OFF")))
-
-(defun bh/insert-inactive-timestamp ()
-  (interactive)
-  (org-insert-time-stamp nil t t nil nil nil))
-
-(defun bh/insert-heading-inactive-timestamp ()
-  (save-excursion
-    (when bh/insert-inactive-timestamp
-      (org-return)
-      (org-cycle)
-      (bh/insert-inactive-timestamp))))
-
-(add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
-
-(setq org-export-with-timestamps nil)
-
-(setq org-return-follows-link t)
-
-
-(defun bh/prepare-meeting-notes ()
-  "Prepare meeting notes for email
-   Take selected region and convert tabs to spaces, mark TODOs with leading >>>, and copy to kill ring for pasting"
-  (interactive)
-  (let (prefix)
-    (save-excursion
-      (save-restriction
-        (narrow-to-region (region-beginning) (region-end))
-        (untabify (point-min) (point-max))
-        (goto-char (point-min))
-        (while (re-search-forward "^\\( *-\\\) \\(TODO\\|DONE\\): " (point-max) t)
-          (replace-match (concat (make-string (length (match-string 1)) ?>) " " (match-string 2) ": ")))
-        (goto-char (point-min))
-        (kill-ring-save (point-min) (point-max))))))
-
-(setq org-remove-highlights-with-change t)
-
-(add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
-
-(setq org-read-date-prefer-future 'time)
-
-(setq org-list-demote-modify-bullet (quote (("+" . "-")
-                                            ("*" . "-")
-                                            ("1." . "-")
-                                            ("1)" . "-")
-                                            ("A)" . "-")
-                                            ("B)" . "-")
-                                            ("a)" . "-")
-                                            ("b)" . "-")
-                                            ("A." . "-")
-                                            ("B." . "-")
-                                            ("a." . "-")
-                                            ("b." . "-"))))
-
-(setq org-tags-match-list-sublevels t)
-
-(setq org-agenda-persistent-filter t)
-
-(setq org-link-mailto-program (quote (compose-mail "%a" "%s")))
-
-;; Bookmark handling
-;;
-(global-set-key (kbd "<C-f6>") '(lambda () (interactive) (bookmark-set "SAVED")))
-(global-set-key (kbd "<f6>") '(lambda () (interactive) (bookmark-jump "SAVED")))
-
-
-(setq org-agenda-skip-additional-timestamps-same-entry t)
-
-(setq org-table-use-standard-references (quote from))
-
-(setq org-file-apps (quote ((auto-mode . emacs)
-                            ("\\.png\\'" . system)
-                            ("\\.svg\\'" . system)
-                            ("\\.mm\\'" . system)
-                            ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . system))))
-
-                                        ; Overwrite the current window with the agenda
-(setq org-agenda-window-setup 'current-window)
-
-(setq org-clone-delete-id t)
-
-(setq org-cycle-include-plain-lists t)
-
-(setq org-src-fontify-natively t)
-
-(setq org-structure-template-alist
-      (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
-              ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
-              ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
-              ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
-              ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
-              ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
-              ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n</center>")
-              ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
-              ;;  ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
-              ("L" "#+begin_src emacs-lisp \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
-              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
-              ("H" "#+html: " "<literal style=\"html\">?</literal>")
-              ("a" "#+begin_ascii\n?\n#+end_ascii")
-              ("A" "#+ascii: ")
-              ("i" "#+index: ?" "#+index: ?")
-              ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
-
-(defun bh/mark-next-parent-tasks-todo ()
-  "Visit each parent task and change NEXT states to TODO"
-  (let ((mystate (or (and (fboundp 'org-state)
-                          state)
-                     (nth 2 (org-heading-components)))))
-    (when mystate
-      (save-excursion
-        (while (org-up-heading-safe)
-          (when (member (nth 2 (org-heading-components)) (list "NEXT"))
-            (org-todo "TODO")))))))
-
-(add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
-(add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
-
-(setq org-startup-folded t)
-
-
-;; flyspell mode for spell checking everywhere
-(add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-
-
-
-(setq org-src-preserve-indentation nil)
-(setq org-edit-src-content-indentation 0)
-
-(setq org-catch-invisible-edits 'error)
-
-(setq org-export-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(set-charset-priority 'unicode)
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
-(setq org-time-clocksum-format
-      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
-
-(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
-
-(setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
-                                 ("/" italic "<i>" "</i>")
-                                 ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
-                                 ("=" org-code "<code>" "</code>" verbatim)
-                                 ("~" org-verbatim "<code>" "</code>" verbatim))))
-
-(setq org-use-sub-superscripts nil)
-
-(setq org-odd-levels-only nil)
-
-(run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-
-
-;;;;;; my config 
-;; remove C-TAB
-(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(org-defkey org-mode-map (kbd "C-c [") nil)
-(org-defkey org-mode-map (kbd "C-c ]") nil)
-(org-defkey org-mode-map (kbd "C-TAB") nil)
-(org-defkey org-mode-map (kbd "<f8>") nil)
-;; use helm iwth org
-;; (setq org-completion-handler 'helm)
-
-;; ;; Disable keys in org-mode
-;; ;;    C-c [ 
-;; ;;    C-c ]
-;; ;;    C-c ;
-;; ;;    C-c C-x C-q  cancelling the clock (we never want this)
-;; (add-hook 'org-mode-hook
-;;           '(lambda ()
-;;              ;; Undefine C-c [ and C-c ] since this breaks my
-;;              ;; org-agenda files when directories are include It
-;;              ;; expands the files in the directories individually
-;;              (org-defkey org-mode-map "\C-c[" 'undefined)
-;;              (org-defkey org-mode-map "\C-c]" 'undefined)
-;;              (org-defkey org-mode-map "\C-c;" 'undefined)
-;;              (org-defkey org-mode-map "\C-c\C-x\C-q" 'undefined))
-;;           'append)
-
-
-
-;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
-(defun yt/org-clock-in-select ()
-  (interactive)
-  (setq current-prefix-arg '(4)) ;; C-u, 
-  (call-interactively 'org-clock-in))
-(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
-
-
-;; add the following 
-(setq org-capture-bookmark nil)
-
-
-
-(defun sacha/yank-more ()
-  (interactive)
-  (insert "[[")
-  (yank)
-  (insert "][more]]"))
-(global-set-key (kbd "<f6>") 'sacha/yank-more)
-
-(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
-
-
-(defun yt/open-diary ()
-  (interactive)
-  (find-file "~/git/org/diary.org"))
-
-(defun yt/open-tmp-R ()
-  (interactive)
-  (find-file "~/git/org/tmp.R"))
-(defun yt/open-tmp-el ()
-  (interactive)
-  (find-file "~/git/org/tmp.el"))
-(defun yt/open-tmp-org ()
-  (interactive)
-  (find-file "~/git/org/tmp.org"))
-(global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
-(global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
-(global-set-key (kbd "<f9> f d") 'yt/open-diary)
-(global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
-
-
-(global-set-key (kbd "<f9> e") 'mu4e)
-(global-set-key (kbd "<f9> g") 'magit-status)
-
-(setq org-agenda-tags-column 120)
-
-
-(defun yt/timeline-for-subtree ()
-  "make a timeline view in agenda for current tree"
-  (interactive)
-  (org-copy-subtree)
-  (find-file "~/tmp/agenda_tmp.org")
-  (beginning-of-buffer)
-  (let ((beg (point))) (end-of-buffer) (delete-region beg (point)))
-  (org-paste-subtree)
-  (save-buffer)
-  (org-timeline)
-  )
-
-
-(require 'htmlize)
-
-
-
-
-
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
-(setq org-image-actual-width '(400))
-
-
-(setq bh/hide-scheduled-and-waiting-next-tasks nil)
-
-;; ispell region will skip the sorce code and org drawers.
-;; http://emacs.stackexchange.com/questions/450/intelligent-spell-checking-in-org-mode
-;; (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
-;; (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
-
 
 #+end_src
-**** Agenda 
-[2015-01-23 Fri 16:54]
-
 #+begin_src emacs-lisp
 ;; Do not dim blocked tasks
 (setq org-agenda-dim-blocked-tasks nil)
@@ -3005,6 +2607,34 @@ Late deadlines first, then scheduled, then non-late deadlines"
 [2015-01-29 Thu 14:16]
 
 #+begin_src emacs-lisp
+(setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
+
+(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
+
+(setq org-babel-results-keyword "results")
+(org-babel-do-load-languages
+ (quote org-babel-load-languages)
+ (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
+         (R . t)
+         (sh . t)
+         (ledger . t)
+         (org . t)
+         (plantuml . t)
+         (dot . t)
+         (octave . t)
+         (latex . t))))
+
+(add-to-list 'org-babel-default-header-args:R
+             '(:session . "*R-main*")
+             '((:width . 640) (:height . 640)))
+
+
+(setq org-confirm-babel-evaluate nil)
+
+                                        ; Use fundamental mode when editing plantuml blocks with C-c '
+;; TODO: what is fundamental mode?? 
+(add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+
 
 #+end_src
 *** Export 
@@ -3511,60 +3141,6 @@ paste(headline, content, page.break, sep = "\n")
 * End 
 [2015-01-19 Mon 11:43]
 
-* C++
-#+begin_src emacs-lisp
-;; (global-set-key [(f9)] 'compile)
-(setq compilation-window-height 2)
-(setq compilation-finish-function
-      (lambda (buf str)
-
-        (if (string-match "exited abnormally" str)
-
-            ;;there were errors
-            (message "compilation errors, press C-x ` to visit")
-
-          ;;no errors, make the compilation window go away in 0.5 seconds
-          (run-at-time 0.5 nil 'delete-windows-on buf)
-          (message "NO COMPILATION ERRORS!"))))
-
-
-
-(defun indent-buffer-ask()
-   (when (y-or-n-p "Indent buffer before saving? ")
-     (indent-region (point-min) (point-max))))
-
-(defun indent-buffer-no-ask()
-  (indent-region (point-min) (point-max)))
-
-(setq c++-mode-hook
-      '(lambda ()
-         (c-set-style "cc-mode")
-         (define-key c++-mode-map "\C-c\C-c" 'compile)
-         (define-key c++-mode-map "\C-c\C-e" 'next-error)
-;        (add-hook 'before-save-hook 'indent-buffer-ask nil t)                  
-	 (add-hook 'before-save-hook 'indent-buffer-no-ask nil t)  ;; indent c++ files after save.
-))
-
-
-
-
-(require 'flymake-google-cpplint)
-(add-hook 'c++-mode-hook 'flymake-google-cpplint-load)
-;; (custom-set-variables
-;; '(flymake-google-cpplint-command "/Library/Python/2.7/site-packages/cpplint/cpplint.py"))
-;"/usr/local/bin/cpplint"))
-
-; start google-c-style with emacs
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c++-mode-common-hook 'google-make-newline-indent)
-#+end_src
-* The Emacs Way 
-[2015-02-22 Sun 07:59]
-
-helm-show-kill-ring 
- 
-helm-google-suggest 
 * arhiceve  
 [2015-03-20 Fri 08:25]
 ** mu4e - Email Client
@@ -3873,6 +3449,57 @@ currently it is broken.  the error message is the path issues, and seems the fil
 
 #+end_src
 
+
 #+results:
 : <link rel="stylesheet" href="\SKI-CQV5LZ1 taticyi_report.css" type="text/css" />
+
+
+** C++
+#+begin_src emacs-lisp
+;; (global-set-key [(f9)] 'compile)
+(setq compilation-window-height 2)
+(setq compilation-finish-function
+      (lambda (buf str)
+
+        (if (string-match "exited abnormally" str)
+
+            ;;there were errors
+            (message "compilation errors, press C-x ` to visit")
+
+          ;;no errors, make the compilation window go away in 0.5 seconds
+          (run-at-time 0.5 nil 'delete-windows-on buf)
+          (message "NO COMPILATION ERRORS!"))))
+
+
+
+(defun indent-buffer-ask()
+   (when (y-or-n-p "Indent buffer before saving? ")
+     (indent-region (point-min) (point-max))))
+
+(defun indent-buffer-no-ask()
+  (indent-region (point-min) (point-max)))
+
+(setq c++-mode-hook
+      '(lambda ()
+         (c-set-style "cc-mode")
+         (define-key c++-mode-map "\C-c\C-c" 'compile)
+         (define-key c++-mode-map "\C-c\C-e" 'next-error)
+;        (add-hook 'before-save-hook 'indent-buffer-ask nil t)                  
+	 (add-hook 'before-save-hook 'indent-buffer-no-ask nil t)  ;; indent c++ files after save.
+))
+
+
+
+
+(require 'flymake-google-cpplint)
+(add-hook 'c++-mode-hook 'flymake-google-cpplint-load)
+;; (custom-set-variables
+;; '(flymake-google-cpplint-command "/Library/Python/2.7/site-packages/cpplint/cpplint.py"))
+;"/usr/local/bin/cpplint"))
+
+; start google-c-style with emacs
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c++-mode-common-hook 'google-make-newline-indent)
+#+end_src
 
