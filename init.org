@@ -272,7 +272,7 @@ or this
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
     (global-set-key (kbd "<f1>") 'ace-window)
-(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+    (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 
 
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
@@ -940,6 +940,7 @@ I type quit fast with lots of misspell and in writing, I don't need to correct e
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
       ispell-silently-savep t)
+(setq ispell-personal-dictionary "~/git/.emacs.d/personal-dict") ;; add personal dictionary 
 #+end_src 
 
 I need an grammar check to let me know that 
