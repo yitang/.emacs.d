@@ -3424,7 +3424,7 @@ currently it is broken.  the error message is the path issues, and seems the fil
 (defun my/office-org-capture-temp ()
   (setq org-capture-templates
         (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+                 "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
                 ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
                  "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
                 ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
