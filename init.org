@@ -829,80 +829,72 @@ CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
 :END:      
 [2015-01-19 Mon 12:09]
     
-I use git and Github a lot, and usually in =shell-mode=, but I just can't remember all the commands.  Magit provides an interface to Git, and it is really pleasant to use.  
-
-Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  
-it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.
-but onec I familaried with it, it is not necessary to do it anymore.  
-This is why I start to use Magit.  
-it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  
-I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a [[http://magit.github.io/master/magit.html][manual]] at and [[http://daemianmack.com/magit-cheatsheet.html][cheatsheet]]
+I use git and Github a lot, and usually in =shell-mode=, but I just can't remember all the commands.  Magit provides an interface to Git, and it is really pleasant to use.  So I don't need to remmeber all the commands, also it comes with excellent [[http://magit.github.io/master/magit.html][manual]] and [[http://daemianmack.com/magit-cheatsheet.html][cheatsheet]].
     
  #+begin_src emacs-lisp
  (require 'magit)
  #+end_src 
             
- I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
+ I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally sync the files on multiple machines, but this workflows seems dangous, image if I was editing same files on two machines at the same time, then I can't track which is which. 
     
- the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
+ The good thing about Git is that you can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do it conviently but I need 3 more features: 
 1. automatically save all the buffers
-   I have been runing into the sitatuion that my office machine was frzzee, beacuse of Big Data and I push R to the limits, and I potentially will lose the newstest version of sripcts.  which is bit annoy.
-2. office rush,
-   I shared lift with my coluge, and someimes, I just need to go, and go now! than what I did is  to call a function that will deal with commits, update, and upload.
-3. automatically commit 
-   few times I did some work over the weenend and night, and I want to udpate to my colluge, but I gotget to sync, or push to the cloud... which is quit embarralse. 
    
-#+begin_src emacs-lisp
-  ;; backup git repo automatically 
-  ;; git
-  (setq git-sh-scripts "
-  echo Start to Sync: $(date) 
+   Ocanationally my office machine goes down because I run R with big data, and it commused all the memoery. If that happens, I potentially lose the newstest version of sripcts, which is bit annoy. The following snippets will save all buffers in every hours. 
 
-  REPOS=\"org jbarm\"
-  for REPO in $REPOS
-  do
-      echo
-      echo \"Repository: $REPO\"
-      cd ~/git/$REPO
-      # update
-      git pull 
-      # Remove deleted files
-      git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
-      # Add new files
-      git add -A . >/dev/null 2>&1
-      git commit -m \"$(date)\"
-      git push origin master 
-  done
-
-  echo Finished Sync: $(date)
-  ")
-
-  (defun yt/git-backup ()
-    (interactive)
-    ;;  (call-process-shell-command "~/git/AutoCommit.sh" nil nil t)
-    ;; (start-process-shell-command "git-sync" "*AutoSync*" "~/git/org/AutoSync.sh")
-    (async-shell-command git-sh-scripts)
-    (message "all git sync... done"))
+  #+begin_src emacs-lisp :results silent 
   (defun yt/save-all-buffers ()
     "save all files-visiting buffers without user confirmation"
     (interactive)
     (save-some-buffers t nil)
     (message "save all buffers... done"))
-  (defun yt/save-git-backup ()
-    (interactive)
-    (yt/save-all-buffers)
-  ;;  (display-buffer "*AutoSync*")
-    (yt/git-backup))
+  (run-at-time "05:59" 3600 'yt/save-all-buffers)))
+   #+end_src
+2. quick rush
 
-  ;; (cond ((eq system-type 'darwin)
-  ;; (run-at-time "05:59" 10800 'yt/save-git-backup)))
+   I shared lift with my colluge, and someimes I left at the last minutes, then what I do is call the =yt/save-git-backup= functions that commits and upload to the repo so that I can continue work at home.
 
+   #+begin_src emacs-lisp :results silent 
+   (defun yt/git-backup ()
+     (interactive)
+     (let ((git-sh-scripts "
+   echo Start to Sync: $(date) 
 
+   REPOS=\"org jbarm\"
+   for REPO in $REPOS
+   do
+       echo
+       echo \"Repository: $REPO\"
+       cd ~/git/$REPO
+       # update
+       git pull 
+       # Remove deleted files
+       git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
+       # Add new files
+       git add -A . >/dev/null 2>&1
+       git commit -m \"$(date)\"
+       git push origin master 
+   done
 
+   echo Finished Sync: $(date)
+   "))
+       (async-shell-command git-sh-scripts))
+     (message "all git sync... done"))
 
+   (defun yt/save-git-backup ()
+     (interactive)
+     (yt/save-all-buffers)
+     (yt/git-backup))
 
-
-#+end_src
+   #+end_src
+3. automatically commit 
+   
+   Few times I did some important work over the weenend, but once I arrived office I realised I forgot uploading, These situations are quick fraustrative. The following snnipets will start to uploads once every three hours on my MacbookPro, but I don't use it anymore, since I can get most of my work done in the office.
+   
+   #+begin_src emacs-lisp
+   ;; (cond ((eq system-type 'darwin)
+   ;;        (run-at-time "05:59" 10800 'yt/save-git-backup)))
+  #+end_src
 
 
 ** Writing in Emacs 
