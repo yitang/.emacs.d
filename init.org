@@ -116,7 +116,7 @@
 
 #+end_src
 ** load all the packages 
-[2015-03-18 Wed 15:33]
+   [2015-03-18 Wed 15:33]
   question I want to answer 
   
 1. why I need this/that package, what functionality they provide.
@@ -189,25 +189,6 @@ or this
   :END:      
   [2015-01-19 Mon 11:42]
 ** General 
-*** Initialise 
-    [2015-01-19 Mon 12:46]
-#+begin_src emacs-lisp 
-;; (require 'package)
-;; (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-;;                          ("org" . "http://orgmode.org/elpa/")
-;;                          ("gnu" . "http://elpa.gnu.org/packages/")
-;;                          ("marmalade" . "http://marmalade-repo.org/packages/")))
-
-;; (add-to-list 'load-path "~/git/.emacs.d/lisp")
-;; (let ((default-directory "~/git/.emacs.d/.cask"))
-;;   (normal-top-level-add-subdirs-to-load-path))
-
-#+end_src
-
-#+results:
-
-    
-    
 *** Assorted Pieces 
     [2015-01-19 Mon 12:21]
     #+begin_src emacs-lisp
