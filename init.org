@@ -852,8 +852,14 @@ I use git and Github a lot, and usually in =shell-mode=, but I just can't rememb
    #+end_src
 2. quick rush
 
-   I shared lift with my colluge, and someimes I left at the last minutes, then what I do is call the =yt/save-git-backup= functions that commits and upload to the repo so that I can continue work at home.
+   I shared lift with my colluge, and someimes I left at the last minutes, then what I do is call a  functions that commits and upload to the repo so that I can continue work at home.
 
+   The =yt/save-git-backup= function will do 
+   1. pull from the cloud, and make sure the local repo is always up-to-date.
+   2. add everything and commit with a timesamp.
+   3. push local changes to the cloud.
+
+   Here is the snippts. 
    #+begin_src emacs-lisp :results silent 
    (defun yt/git-backup ()
      (interactive)
@@ -902,7 +908,7 @@ I use git and Github a lot, and usually in =shell-mode=, but I just can't rememb
 *** English Language 
 [2015-01-23 Fri 17:43]
 
-I type quit fast with lots of misspell and in writing, I don't need to correct every single one when writing, which will stop the flow.  I will do it afterwards in editing, I will press =C-,= to move the cursor to next misspelled word, and press =C-.= to correcct it, press it again, to correct it to another words.  
+I type quit fast with lots of misspell and in writing, I don't need to correct every single one when writing, which will stop the flow.  I will do it afterwards in editing, I will press C-, to move the cursor to next misspelled word, and press =C-.= to correcct it, press it again, to correct it to another words.  
 
 #+begin_src emacs-lisp
 ;; check spelling  
@@ -916,39 +922,39 @@ I type quit fast with lots of misspell and in writing, I don't need to correct e
 
 I need an grammar check to let me know that 
 #+begin_example
-Have you done ...
+Have you do ...
 #+end_example
-is wrong, and also tell me why and which is right.  =langtool= can do be the job, but currently I don't understand how to get it works. 
-
+is wrong, and also tell me to change /do/ to /done/, and also why.  =langtool= can do be the job, but currently I don't understand how to get it works, so I am not using it anymore. 
 
 #+begin_src emacs-lisp :eval no
 ;; check grammar 
 (require 'langtool)
 (setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
 (setq langtool-mother-tongue "en")
+#+end_src 
 
-;; avoid xxx words 
-;; (require 'artbollocks-mode)
-;; (add-hook 'text-mode-hook 'artbollocks-mode)
-;; (setq artbollocks-weasel-words-regex
-;;       (concat "\\b" (regexp-opt
-;;                      '("one of the"
-;;                        "should"
-;;                        "just"
-;;                        "sort of"
-;;                        "a lot"
-;;                        "probably"
-;;                        "maybe"
-;;                        "perhaps"
-;;                        "I think"
-;;                        "really"
-;;                        "pretty"
-;;                        "nice"
-;;                        "action"
-;;                        "utilize"
-;;                        "leverage") t) "\\b"))
+English is my second language, and I am trying to avoid certain guarding term in writing.  The following snipts I get it from Sachua will highlight the word like /shuold/ or /I think/, which reminds to confirm with what I am not sure about, and have more confidence in what I am saying. 
 
+#+begin_src emacs-lisp :results silent 
+(require 'artbollocks-mode)
+(add-hook 'text-mode-hook 'artbollocks-mode)
+(setq artbollocks-weasel-words-regex
+      (concat "\\b" (regexp-opt
+                     '("should"
+                       "just"
+                       "sort of"
+                       "a lot"
+                       "probably"
+                       "maybe"
+                       "perhaps"
+                       "I think"
+                       "really"
+                       "nice") t) "\\b"))
+#+end_src
 
+For about one month, I tried to write at least 500 words per day.  I also set up a special =write-mode= that has different color scheldules that helps me to set the moode.
+
+#+begin_src emacs-lisp :results silent :eval no
 ;; [2014-12-25 Thu 22:21]
 (defun yt/write-mode ()
   (interactive)
@@ -982,12 +988,13 @@ is wrong, and also tell me why and which is right.  =langtool= can do be the job
 ;; brew install wordnet
 (require 'synosaurus)
 (setq synosaurus-choose-method "popup")
-
 #+end_src
 
 *** Random Quotes 
 [2015-01-22 Thu 23:14]
-If I run out of idea, and I didn't write anthing for 1 minutes, Emacs will pop a quote that I collected in the echo area.  the random quotes may gives me some inpisration sometimes.  
+
+If I run out of idea, and I didn't write anything for 1 minutes, Emacs will pop a random quote that I collected in the echo area. The random quotes can inspire me sometimes.  
+
 #+begin_src emacs-lisp
 (defconst yt/quotes
   '("You can't see paradise, if you don't pedal.  - Chicken Run "
@@ -1010,7 +1017,7 @@ If I run out of idea, and I didn't write anthing for 1 minutes, Emacs will pop a
 #+end_src
 
 *** Abbreviation 
-I have been writing in Emacs/org-mode a lot, have been really tired of capitalise I to I, so I use abbrevitation table, 
+I have been writing in Emacs/org-mode a lot, have been really tired of capitalise i to I, so I use abbrevitation table, 
 
 #+NAME: my-text-abbrevs
 | name      | expand            | Category |
