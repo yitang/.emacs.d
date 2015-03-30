@@ -539,11 +539,11 @@ CLOCK: [2015-01-28 Wed 06:09]--[2015-01-28 Wed 07:55] =>  1:46
 :EXPORT_TITLE: Why Use Emacs 1 - Emacs Speaks Statistics (ESS)
 :END:      
 
-I am a Statistician, coding in R and write report is what I do most of the day.  I have been though a long way of searching the perfect editor for me, tried Rstudio, SublimeText, TextMate and settled down happily with ESS/Emacs, for both coding and writing. 
+As Statistician, coding in R and writing report is what I do most of the day.  I have been though a long way of searching the perfect editor for me, tried Rstudio, SublimeText, TextMate and settled down happily with ESS/Emacs, for both coding and writing. 
    
 There three features that have me made the decision: 
    
-1. Auto Formatting 
+1) Auto Formatting 
    
    Scientists has reputation of being bad programmers, who wrote the code that is unreadable and therefore incomprehensible to others.  I have intention to become top level programmer and followed a style guide strictly.  It means I have to spent sometime in adding and removing space in the code.
    
@@ -556,11 +556,11 @@ There three features that have me made the decision:
 
    #+end_src
    
-1. Search Command History
+2) Search Command History
    
    I frequently search the command history. Imaging I was produce a plot and I realised there was something miss in the data, so I go back and  fix the data first, then run the ggplot command again, I press Up/Down bottom many times, or just search once/two times. =M-x ggplot(=  will gives me the most recent command I typed containing the keyword /ggplot(/, then I press =RET= to select the command, which might be =ggplot(gg.df, aes(lon, lat, col = city)) + geom_line() + .....=.  If it is not I want, I press =C-r= again to choose the second most recent one and repeat until I find right one.  
    
-2. Literate Programming 
+3) Literate Programming 
    
    I am an supporter of literate statistical analysis and believe we should put code, results and discoveries together in developing models. Rstudio provides an easy to use tool for this purpose, but it does not support different R sessions, so if I need to generate a report, I have to re-run all the code from beginning, which isn't particle for me with volumes data because it will take quit long. 
    
@@ -619,11 +619,11 @@ These are only the surface of ESS and there are lot more useful features like sp
 #+end_src
 
 *** Programming Mode 
-    After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
+After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
-    One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
+One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
     
-    #+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
@@ -632,11 +632,11 @@ These are only the surface of ESS and there are lot more useful features like sp
 
     #+end_src 
     
-    we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
+we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
     
-    one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
+one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
     
-    #+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
 (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
@@ -649,10 +649,8 @@ These are only the surface of ESS and there are lot more useful features like sp
 ;;   hs-toggle-hiding 
 ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
 ;;   hs-hide-initial-comment-block
-
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
-
     #+end_src
     
 *** Documentation  
@@ -675,19 +673,12 @@ These are only the surface of ESS and there are lot more useful features like sp
     
 https://github.com/jimhester/lintr
     
-    #+begin_src emacs-lisp
-    (require 'flycheck)
- (add-hook 'ess-mode-hook
+#+begin_src emacs-lisp
+(require 'flycheck)
+(add-hook 'ess-mode-hook
           (lambda () (flycheck-mode t)))
 (load "~/git/.emacs.d/lisp/lintr.el")
     #+end_src
-*** Remote R Sessions 
-    [2015-01-23 Fri 19:00]
-*** R code oranise
-    [2015-02-12 Thu 20:39]
-    
-
-    
 
 ** File Manager 
    [2015-01-23 Fri 18:52]
