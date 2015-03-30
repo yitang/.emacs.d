@@ -257,7 +257,7 @@ or this
 
 *** Window Navigation 
     [2015-01-19 Mon 12:13]
-    #+begin_src emacs-lisp
+    #+begin_src emacs-lisp :results silent
 
     ;; ;;; winner-mode, undo window configration
     ;; (require 'winner-mode) ;; default package
@@ -432,7 +432,7 @@ the area is defined by the bounding box. "
    [2015-01-19 Mon 12:16]
 *** Modeline
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :results silent
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
@@ -724,7 +724,7 @@ These are only the surface of ESS and there are lot more useful features like sp
     
     One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
     
-    #+begin_src emacs-lisp
+    #+begin_src emacs-lisp :results silent
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
@@ -737,7 +737,7 @@ These are only the surface of ESS and there are lot more useful features like sp
     
     one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
     
-    #+begin_src emacs-lisp 
+    #+begin_src emacs-lisp :results silent
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
 (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
@@ -2814,7 +2814,7 @@ Jeklly have few conventins, like the new, YAML etc, it is better to solve it aut
 
 First, define a publish project, so that the exported html file will go to certail place, and we can define the styles, and other features for a praticularlly project.  but for Jeklly, it is more about to match the constraints.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
       '(("yi-tang-github-io" ;; settings for cute-jumper.github.io
@@ -2838,7 +2838,7 @@ First, define a publish project, so that the exported html file will go to certa
 
 For managing a blog, it is good idea to keep the original org file inside of the website.  
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (defvar jekyll-directory (expand-file-name "~/git/yi-tang.github.io/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
@@ -2950,13 +2950,12 @@ comments: true
 
 #+end_src
 
-#+RESULTS:
-| lambda | nil | (interactive) | (find-file ~/git/yi-tang.github.io/org/_drafts/) |
+
 
 **** code highlight 
 [2015-01-23 Fri 17:47]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (defun org-to-jekyll-src (lang)
   " change src block heading to {% highlight %} "
   ;; (with-temp-buffer
@@ -3456,8 +3455,8 @@ currently it is broken.  the error message is the path issues, and seems the fil
 #+end_src
 
 
-#+results:
-: <link rel="stylesheet" href="\SKI-CQV5LZ1 taticyi_report.css" type="text/css" />
+
+
 
 
 ** C++
