@@ -192,7 +192,6 @@ or this
 *** Assorted Pieces 
     [2015-01-19 Mon 12:21]
     #+begin_src emacs-lisp
-
     ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
     ;; save all backup files (foo~) to this directory.
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -205,15 +204,14 @@ or this
           auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
           )
 
-
     ;; guide-key package 
     (require 'guide-key)
     (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
     (guide-key-mode 1) 
 
-                                            ;; start auto-complete with emacs
+    ;; start auto-complete with emacs
     (require 'auto-complete)
-                                            ;; do default config for auto-complete
+    ;; do default config for auto-complete
     (require 'auto-complete-config)
     (ac-config-default)
 
@@ -226,9 +224,6 @@ or this
     (recentf-mode 1)
     (setq recentf-max-saved-items 200
           recentf-max-menu-items 15)
-;;     (global-set-key "\C-r" 'helm-recentf) ;; helm-mini handle this
-
-
     (setq inhibit-startup-message t)        ; Disable startup message
 
     #+end_src 
@@ -236,8 +231,10 @@ or this
     #+results:
     : t
 
-*** Window Navigation 
+*** Window Layout/Navigation 
     [2015-01-19 Mon 12:13]
+    
+    =C-c <left>= to undo window layout changes, and =C-c <right>= to redo. 
     #+begin_src emacs-lisp :results silent
 
     ;; ;;; winner-mode, undo window configration
@@ -245,29 +242,29 @@ or this
     (winner-mode 1)
     ;; winner-undo -> C-c <left>
     ;; winner-redo -> C-c <right>
-
-
+    
+    
     ;; visible notication for invalid options 
     (setq visible-bell t) 
-
+    
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
     (global-set-key (kbd "<f1>") 'ace-window)
-
-
+    
+    
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
     ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
     ;; (global-set-key (kbd "C-x <right>") 'windmove-right)
     ;; (global-set-key (kbd "C-x <left>") 'windmove-left)
-
+    
     (require 'golden-ratio)
     (golden-ratio-mode 1)
     (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
-
+    
     ;; prefer horizentally split window
     ;; (setq split-height-threshold nil)
     ;;  (setq split-width-threshold 0)
-
+    
 
     #+end_src
 
@@ -288,28 +285,6 @@ or this
          (save-buffer (get-file-buffer dot-emacs)))
     (load-file dot-emacs))
   (message "Re-initialized!"))
-
-(defun yt/delete-this-buffer-and-file ()
-  "Removes file connected to current buffer and kills buffer."
-  (interactive)
-  (let ((filename (buffer-file-name))
-        (buffer (current-buffer))
-        (name (buffer-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (when (yes-or-no-p "Are you sure you want to remove this file? ")
-        (delete-file filename)
-        (kill-buffer buffer)
-        (message "File '%s' successfully removed" filename)))))
-
-;; full path of current buffer
-(defun yt/copy-full-path-to-kill-ring ()
-  "copy buffer's full path to kill ring"
-  (interactive)
-  (when buffer-file-name
-    (kill-new (file-truename buffer-file-name))))
-(global-set-key [C-f1] 'yt/copy-full-path-to-kill-ring) 
-
 
     #+end_src
 
@@ -776,23 +751,45 @@ These are only the surface of ESS and there are lot more useful features like sp
 *** Alternative to shell 
     [2015-01-28 Wed 07:46]
     
-    #+begin_src emacs-lisp
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting."
-  (interactive)
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
+    #+begin_src emacs-lisp 
+    ;; full path of current buffer
+    (defun yt/copy-full-path-to-kill-ring ()
+      "copy buffer's full path to kill ring"
+      (interactive)
+      (when buffer-file-name
+        (kill-new (file-truename buffer-file-name))))
+
+    ;; rename current buffer-visiting file
+    (defun yt/rename-current-buffer-file ()
+      "Renames current buffer and file it is visiting."
+      (interactive)
+      (let ((name (buffer-name))
+            (filename (buffer-file-name)))
+        (if (not (and filename (file-exists-p filename)))
+            (error "Buffer '%s' is not visiting a file!" name)
+          (let ((new-name (read-file-name "New name: " filename)))
+            (if (get-buffer new-name)
+                (error "A buffer named '%s' already exists!" new-name)
+              (rename-file filename new-name 1)
+              (rename-buffer new-name)
+              (set-visited-file-name new-name)
+              (set-buffer-modified-p nil)
+              (message "File '%s' successfully renamed to '%s'"
+                       name (file-name-nondirectory new-name)))))))
+
+    (defun yt/delete-this-buffer-and-file ()
+      "Removes file connected to current buffer and kills buffer."
+      (interactive)
+      (let ((filename (buffer-file-name))
+            (buffer (current-buffer))
+            (name (buffer-name)))
+        (if (not (and filename (file-exists-p filename)))
+            (error "Buffer '%s' is not visiting a file!" name)
+          (when (yes-or-no-p "Are you sure you want to remove this file? ")
+            (delete-file filename)
+            (kill-buffer buffer)
+            (message "File '%s' successfully removed" filename)))))
+
 
     #+end_src
 *** Projectile - Directory Access 
@@ -806,50 +803,48 @@ These are only the surface of ESS and there are lot more useful features like sp
     (setq projectile-switch-project-action 'projectile-dired)
     (setq projectile-remember-window-configs t )
     (setq projectile-completion-system 'helm)
-
     (setq projectile-switch-project-action 'helm-projectile)
-
     #+end_src
-*** dired - File Operation 
-    [2015-01-23 Fri 18:53]
 *** Remote (SSH)
     [2015-01-22 Thu 23:11]
-
+    Sometimes, I need to sync between local and remote machine, I can do it in termnial or in Emacs. 
     #+begin_src emacs-lisp
-(require 'tramp)
-(require 'ssh)
-(defun yt/sync-local-remote ()
-  (interactive)
-  "copy all files in remote:~/LR_share to local:~/LR_share,
-does not support the ther way"
-  (find-file "/ssh:JBA28:/home/local/JBANORTHWEST/yitang/LR_share")
-  ;; (mark-whole-buffer)
-  (dired-mark-subdir-files)
-  ;; (find-file "~/LR_share")
-  ;; (setq-local dirqed-dwim-target t)
-  (dired-do-copy))
+    (require 'tramp)
+    (require 'ssh)
+    ;; (defun yt/sync-local-remote ()
+    ;;   (interactive)
+    ;;   "copy all files in remote:~/LR_share to local:~/LR_share,
+    ;; does not support the ther way"
+    ;;   (find-file "/ssh:JBA28:/home/local/JBANORTHWEST/yitang/LR_share")
+    ;;   ;; (mark-whole-buffer)
+    ;;   (dired-mark-subdir-files)
+    ;;   ;; (find-file "~/LR_share")
+    ;;   ;; (setq-local dirqed-dwim-target t)
+    ;;   (dired-do-copy))
 
     #+end_src
 *** Git Sync
-    :LOGBOOK:  
-    CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
-    :END:      
-    [2015-01-19 Mon 12:09]
+:LOGBOOK:  
+CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
+:END:      
+[2015-01-19 Mon 12:09]
     
-    
-    Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.  but onec I familaried with it, it is not necessary to do it anymore.  This is why I start to use Magit.  it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a manuam at http://magit.github.io/master/magit.html and cheatsheet http://daemianmack.com/magit-cheatsheet.html
-    
-    #+begin_src emacs-lisp
+I use git and Github a lot, and usually in =shell-mode=, but I just can't remember all the commands.  Magit provides an interface to Git, and it is really pleasant to use.  
 
-;; backup git repo automatically 
-;; git
-(require 'magit)
-
-    #+end_src 
+Magit is an amazing package, it used to use command line for lal git work, and usually a task involve a series of command.  
+it good for a beginning to learn, by repeat each command agaigna and aigagnain, and hwo to combine them and do a complex task.
+but onec I familaried with it, it is not necessary to do it anymore.  
+This is why I start to use Magit.  
+it is an absolute aamzing package, it is intuitive, it is the GUI, the command to use etc.  
+I would highly recommand it, even to someone has very bsic knowldege of Git, you can find a [[http://magit.github.io/master/magit.html][manual]] at and [[http://daemianmack.com/magit-cheatsheet.html][cheatsheet]]
     
-    I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
+ #+begin_src emacs-lisp
+ (require 'magit)
+ #+end_src 
+            
+ I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally synised the files onm ulti machine, and oceanally I used the time machine feature to find missing files, and also, files are got overwritted, I lose track.
     
-    the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
+ the good thing about Git is that yoou can see what exactlly has been changed by each version, and auto log, with commit information and timesatmp.  Magit helps me to do ti conviently but I need 3 more features: 
 1. automatically save all the buffers
    I have been runing into the sitatuion that my office machine was frzzee, beacuse of Big Data and I push R to the limits, and I potentially will lose the newstest version of sripcts.  which is bit annoy.
 2. office rush,
@@ -1092,6 +1087,7 @@ I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-m
 CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 :END:      
 [2015-01-23 Fri 10:32]
+
 #+begin_src emacs-lisp
 (require 'org)
 (require 'org-habit)
@@ -1812,10 +1808,12 @@ A prefix arg forces clock in of the default task."
 
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
+      ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
+              ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
+
               ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
               ("v" "#+begin_verse\n?\n#+end_verse" "<verse>\n?\n</verse>")
               ("c" "#+begin_center\n?\n#+end_center" "<center>\n?\n</center>")
