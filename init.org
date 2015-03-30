@@ -679,7 +679,7 @@ https://github.com/jimhester/lintr
           (lambda () (flycheck-mode t)))
 (load "~/git/.emacs.d/lisp/lintr.el")
     #+end_src
-
+    
 ** File Manager 
    [2015-01-23 Fri 18:52]
 *** Alternative to shell 
