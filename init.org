@@ -938,6 +938,7 @@ If I run out of idea, and I didn't write anything for 1 minutes, Emacs will pop 
     "I could hear my heart beating. I could hear everyone's heart. I could hear the human noise we sat there making, not one of us moving, not even when the room went dark. - Raymond Carver"
     "A writer is a sum of their experiences. Go get some - Stuck in Love (2012)"
     "If there is any one secret of success, it lies in the ability to get the other person's point of view and see things from that person's angle as well as from your own. - Henry Ford"
+    "People who can put themselves in the place of other people who can understand the workings of their minds, need never worry about what the future has in store for them. - Owen D. Young"
     )
   "Good quotes 
    they can be useful for creative writers as well.")
