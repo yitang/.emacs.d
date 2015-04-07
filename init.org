@@ -14,9 +14,28 @@
 
 
 * About This Document 
-  [2015-01-23 Fri 10:58]
+[2015-01-23 Fri 10:58]
   
-  I have tried to use Emacs for many years, and really start to use it at 2014-Jun.  I would recommand Emacs for normal usage, but for me, there are few milestphone.  
+The road to Emacs is not easy: I have tried to use Emacs for many years, and started using on daily basis from Jun 2014. The transitioon is diffulcty, and full of tears and bloody, and about Jan 2015, I won this batter, and conquered Emacs, and it now becomes a symbol of me, and I use it do most of productive work. 
+
+As my ocnifigration grows bigger and bigger, I deifinidelty need an way to orgnise, test and expand it.  Previously, I have about 7 =.el= file, for exmaple, =setup-org.el=, =setup-email.el=, and I document on each file.  the downside of physcially separete is that I cannot modulate it easily.  Inpisraed by Sachua's new posts, I think it would be an brilliant idea to org emac configration code into one single org file, letting along the conviencen of orgnising and share my seetting, the precious thing I would appreciate is it provide an way I could start with a long comments, thoughts or workflow.  in this way, the code becomes less important as it should be.  
+
+my configration file is initally seaprated by differnt purpose or mode, but as it gorwths, it bcaem inconicient in tracking, and, As for other Emacs user, my configration is keep growthing, and This documents is first combined by 5 configration files, and it keep expanding, I use liteature programming to includes all the notes, and keep a log of how I use themn
+
+This Emacs configuration is free of bug and fully tested on Ubuntu and OS X. 
+
+
+
+Normally you could tangle a org file to extract all the source code into one file, that you could use.  But I would like to push liteartpr programming furture in two aspects:  1) the source code takes input from this org file, I.e. table.  2) it facility Babel Library to integrate not only Emacs Lisp, but also sh and R functions that could be run in Emacs, and I found it particullary useful. 
+
+
+
+
+
+* About this document (old version )                               :noexport:
+
+
+  I would recommend Emacs for normal usage, but for me, there are few milestphone.  
   
   first, I find myself spent more and more time in scaning the documents I write and deprised about lossing lecture notes, but on the otherhand, it imporrsible to get the notes immediately when I needed it.  
   
@@ -24,7 +43,7 @@
   
   third, when I find the solution for the second problem, using org-mode to implememnt Literate Data Analysis, I am happy about norang's setting for a long time, and try to avoid dig into Emacs.  but when the data becomes physically big, it won't able to practise it locally, and I realise the ESS provide remote session, and it completely blow my mind.  I can run a R seesion on the server just like it was on my computer, how fanstatistic is that?  everything is the same.  
   
-  then I deivided to learn Emacs Lisp langauge to build a unified system that I can use on my personal PC, VM, server, and they are all the same!  
+  then I deivided to learn Emacs Lisp langauge to build a unified system that I can use on my personal PC, VM, server, and they are all the same!
   
   As my ocnifigration grows bigger and bigger, I deifinidelty need an way to orgnise, test and expand it.  previously, I have about 7 =.el= file, for exmaple, =setup-org.el=, =setup-email.el=, and I document on each file.  the downside of physcially separete is that I cannot modulate it easily.  Inpisraed by Sachua's new posts, I think it would be an brilliant idea to org emac configration code into one single org file, letting along the conviencen of orgnising and share my seetting, the precious thing I would appreciate is it provide an way I could start with a long comments, thoughts or workflow.  in this way, the code becomes less important as it should be.  
   
@@ -52,9 +71,7 @@
   GNU General Public License for more details.
   #+end_example
   
-  This document http://yi-tang.github.io/org-mode.html (either in its HTML format or in its Org format) is licensed under the GNU Free Documentation License version 1.3 or later (http://www.gnu.org/copyleft/fdl.html).
-  
-  The code examples and CSS stylesheets are licensed under the GNU General Public License v3 or later (http://www.gnu.org/licenses/gpl.html).
+  This document [[http://yitang.github.io/emacs.d/init.html]] (either in its HTML format or in its Org format) is licensed under the GNU Free Documentation License version 1.3 or later (http://www.gnu.org/copyleft/fdl.html).
   
 * Getting Started  
   [2015-01-20 Tue 08:09]
@@ -3040,7 +3057,7 @@ paste(headline, content, page.break, sep = "\n")
 * End 
 [2015-01-19 Mon 11:43]
 
-* arhiceve  
+* Archive   
 [2015-03-20 Fri 08:25]
 ** mu4e - Email Client
    
@@ -3404,7 +3421,7 @@ currently it is broken.  the error message is the path issues, and seems the fil
 #+end_src
 
 
-** The Helm Way - What I learnt today  
+** The Helm Way - What I learnt today                             :noexport:
 :LOGBOOK:  
 CLOCK: [2015-02-22 Sun 13:00]--[2015-02-22 Sun 15:19] =>  2:19
 :END:      
