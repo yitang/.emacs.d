@@ -489,7 +489,17 @@ the area is defined by the bounding box. "
 (setq helm-apropos-fuzzy-match t)
 (setq helm-semantic-fuzzy-match t
       helm-imenu-fuzzy-match    t)
+
+(helm-autoresize-mode t)
+(defun pl/helm-alive-p ()
+  (if (boundp 'helm-alive-p)
+      (symbol-value 'helm-alive-p)))
+(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+
 (helm-mode 1)
+
+
+
 
 ;;;; helm-swoop 
 (require 'helm-swoop)
@@ -3527,3 +3537,4 @@ There are two commands I wold like to use in the future, =helm-find= and =helm-l
 
 
 
+e
