@@ -3150,10 +3150,7 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
 
-;; use 'fancy' non-ascii characters in various places in mu4e
-(setq mu4e-use-fancy-chars t)
-;; save attachment to my desktop (this can also be a function)
-(setq mu4e-attachment-dir "~/Desktop")
+
 ;; attempt to show images when viewing messages
 (setq mu4e-view-show-images t
       mu4e-show-images t
@@ -3171,6 +3168,33 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
                                         ;== M-x org-mu4e-compose-org-mode==
 (setq org-mu4e-convert-to-html t) ;; org -> html
                                         ; = M-m C-c.= 
+
+;; give me ISO(ish) format date-time stamps in the header list
+(setq  mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
+;; customize the reply-quote-string
+;; M-x find-function RET message-citation-line-format for docs
+(setq message-citation-line-format "%N @ %Y-%m-%d %H:%M %Z:\n")
+(setq message-citation-line-function 'message-insert-formatted-citation-line)
+
+;; the headers to show in the headers list -- a pair of a field
+;; and its width, with `nil' meaning 'unlimited'
+;; (better only use that for the last field.
+;; These are the defaults:
+(setq mu4e-headers-fields
+    '( (:date          .  25)
+       (:flags         .   6)
+       (:from          .  22)
+       (:subject       .  nil)))
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
+;; attachments go here
+(setq mu4e-attachment-dir  "~/Downloads")
+
+;; should mu4e use fancy utf characters? NO. they're ugly.
+;;(setq mu4e-use-fancy-chars 't)
+
 
 #+end_src 
 
