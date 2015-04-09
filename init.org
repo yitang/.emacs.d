@@ -753,7 +753,11 @@ https://github.com/jimhester/lintr
             (kill-buffer buffer)
             (message "File '%s' successfully removed" filename)))))
 
-
+    (defun sudo-find-file (file-name)
+      "Like find file, but opens the file as root."
+      (interactive "FSudo Find File: ")
+      (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
+        (find-file tramp-file-name)))
     #+end_src
 *** Projectile - Directory Access 
     [2015-01-19 Mon 12:08]
