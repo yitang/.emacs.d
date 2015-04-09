@@ -114,6 +114,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         multiple-cursors
                         org-download
                         paradox
+                        smartparens
                         ))
 
 (require 'package)
