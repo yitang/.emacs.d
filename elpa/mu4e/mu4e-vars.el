@@ -61,7 +61,7 @@ Common values are \"offlineimap\", \"fetchmail\" and \"mbsync\",
 but you use arbitrary shell-commands. If you set it to
 \"true\" (the default), the command won't don't anything, which is
 useful if you get your mail without the need to explicitly run any
-scripts, for example when running yout own mail-server."
+scripts, for example when running your own mail-server."
   :type 'string
   :group 'mu4e
   :safe 'stringp)
@@ -270,8 +270,8 @@ Set to nil to not have any time-based restriction."
 ;;; function for mapping a contact onto the canonical one.
 (defun mu4e-contact-identity (contact)
   "This returns the name and the mail-address of a contact.
-It's used as an identity function for converting contacts to their
-canonical counterpart."
+It is used as the identity function for converting contacts to
+their canonical counterpart; useful as an example."
     (let ((name (plist-get contact :name))
           (mail (plist-get contact :mail)))
       (list :name name :mail mail)))
@@ -279,7 +279,7 @@ canonical counterpart."
 (defcustom mu4e-contact-rewrite-function nil
   "Function to be used for when processing contacts and rewrite
 them, for example you may use this for correcting typo's, changed
-names and adapting addresses or names to company policies. As as
+names and adapting addresses or names to company policies. As an
 example of this, see `mu4e-contact-identity'."
   :type 'function
   :group 'mu4e-compose)
@@ -658,6 +658,11 @@ mu4e-compose-mode."
 	 :shortname "Tags"
 	 :help "Tags for the message"
 	 :sortable nil))
+     (:thread-subject .
+       ( :name "Subject"
+	 :shortname "Subject"
+	 :help "Subject of the thread"
+	 :sortable :subject))
      (:to .
        ( :name "To"
 	 :shortname "T"
