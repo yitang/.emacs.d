@@ -87,6 +87,7 @@
                         exec-path-from-shell
                         smart-mode-line
                         smart-mode-line-powerline-theme
+                        powerline
                         synosaurus
                         hydra
                         purpose
@@ -94,9 +95,9 @@
                         ace-window
                         calfw
                         multiple-cursors
+                        org-download
+                        paradox
                         ))
-;; cask --path ~/git/.emacs.d install
-
 
 (require 'package)
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
