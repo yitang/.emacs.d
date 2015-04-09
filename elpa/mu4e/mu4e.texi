@@ -482,7 +482,7 @@ update at all. After you make changes to @code{mu4e-update-interval},
 If the mail-retrieval process returns with a non-zero exit code,
 @t{mu4e} will show a warning (unless
 @code{mu4e-index-update-error-warning} is set to @code{nil}), but then
-try to index your maildirs anyway (unlesds
+try to index your maildirs anyway (unless
 @code{mu4e-index-update-error-continue} is set to @code{nil}).
 
 Reason for these defaults is that some of the mail-retrieval programs
@@ -565,7 +565,7 @@ happens with sent messages. The default is the symbol @code{sent} which, as
 mentioned, causes the message to be copied to your sent-messages folder. Other
 possible values are the symbols @code{trash} (the sent message is moved to the
 trash-folder (@code{mu4e-trash-folder}), and @code{delete} to simply discard
-the sent message altogether (so GMail can deal with it).
+the sent message altogether (so Gmail can deal with it).
 
 For Gmail-over-@abbr{IMAP}, you could add the following to your settings:
 @verbatim
@@ -574,16 +574,16 @@ For Gmail-over-@abbr{IMAP}, you could add the following to your settings:
 @end verbatim
 And that's it! We should now be ready to go.
 
-For more complex needs, @code{mu4e-sent-messages-behavior} can also be a
-a parameter-less function that returns one of the metioned symbols; see the
-built-in documentation for the variable.
+For more complex needs, @code{mu4e-sent-messages-behavior} can also be
+a a parameter-less function that returns one of the mentioned symbols;
+see the built-in documentation for the variable.
 
 @node Running mu4e
 @section Running mu4e
 
-After following the steps in this chapter, we hopely now have a working
-@t{mu4e} setup. Great! In the next chapters, we walk you through the various
-views in @t{mu4e}.
+After following the steps in this chapter, we now (hopefully!) have a
+working @t{mu4e} setup. Great! In the next chapters, we walk you
+through the various views in @t{mu4e}.
 
 For your orientation, the diagram below shows how the views relate to each
 other, and the default key-bindings to navigate between them.
@@ -728,10 +728,10 @@ if you have actually set up mail-queuing. @ref{Queuing mail}
 @node Headers view
 @chapter The headers view
 
-The headers view shows the results of a query. The topline shows the names of
-the fields. Below that, there is a line with those fields, for each matching
-message, followed by a footer line. The major-mode for the headers view is
-@code{mu4e-headers-mode}.
+The headers view shows the results of a query. The header-line shows
+the names of the fields. Below that, there is a line with those
+fields, for each matching message, followed by a footer line. The
+major-mode for the headers view is @code{mu4e-headers-mode}.
 
 @menu
 * Overview: HV Overview.
@@ -779,11 +779,15 @@ the @t{:date} field instead.
 @code{mu4e-headers-date-format} and @code{mu4e-headers-time-format},
 respectively. In the example, we use @code{:human-date}, which shows when the
 time when the message was sent today, and the date otherwise.
+@item By default, the subject is shown using the @t{:subject} field;
+however, it is also possible to use @t{:thread-subject}, which shows
+the subject of a thread only once, similar to the display of the
+@t{mutt} e-mail client.
 @item The header field used for sorting is indicated by ``@t{V}'' or
-``@t{^}''@footnote{or you can use little graphical triangles; see variable
-@code{mu4e-use-fancy-chars}}, corresponding to the sort order (descending or
-ascending, respectively). You can influence this by a mouse click, or
-@key{O}. Not all fields allow sorting.
+``@t{^}''@footnote{or you can use little graphical triangles; see
+variable @code{mu4e-use-fancy-chars}}, corresponding to the sort order
+(descending or ascending, respectively). You can influence this by a
+mouse click, or @key{O}. Not all fields allow sorting.
 @item Instead of showing the @t{From:} and @t{To:} fields separately, you
 can use From/To (@t{:from-or-to} in @code{mu4e-headers-fields} as a more
 compact way to convey the most important information: it shows @t{From:}
@@ -1157,6 +1161,9 @@ actions
 g            go to (visit) numbered URL (using `browse-url')
              (or: <mouse-1> or M-RET with point on url)
              C-u g visits multiple URLs
+k            save the numbered URL in the kill-ring.
+             C-u k saves multiple URLs
+
 e            extract (save) attachment (asks for number)
              (or: <mouse-2> or S-RET with point on attachment)
              C-u e extracts multiple attachments
@@ -1900,7 +1907,7 @@ client. By default, maildir searches are available in the @ref{Main view},
 
 @subsection Setting up maildir shortcuts
 
-You can search for maildirs like can for any other messsage property
+You can search for maildirs like can for any other message property
 (e.g. with a query like @t{maildir:/myfolder}), but since it is so common,
 @t{mu4e} offers a shortcut for this.
 
@@ -2497,6 +2504,7 @@ guidelines for doing so.
 * Extension points::
 * Available functions::
 * Message functions::
+* Contact functions::
 * Utility functions::
 @end menu
 
@@ -2528,9 +2536,13 @@ action}
 @noindent
 You can also write your own functions without using the above. If you
 want to do so, key useful functions are @code{mu4e-message-at-point}
-(see below), @code{mu4e-headers-for-each} (to iterate over all headers,
-see its docstring) and @code{mu4e-view-for-each-part} (to iterate over
-all parts/attachments, see its docstring). Another useful function is
+(see below), @code{mu4e-headers-for-each} (to iterate over all
+headers, see its docstring) and @code{mu4e-view-for-each-part} (to
+iterate over all parts/attachments, see its docstring). There is also
+@code{mu4e-view-for-each-uri} to iterate of all the URIs in the
+current message.
+
+Another useful function is
 @code{mu4e-headers-find-if} which searches for a message matching a
 certain pattern; again, see its docstring.
 
@@ -2602,6 +2614,31 @@ point. Requires the 'formail' tool from procmail."
 	 (shell-quote-argument (mu4e-message-field-at-point :path))))))
 @end lisp
 
+
+@node Contact functions
+@section Contact functions
+
+It can be useful to rewrite the contact information that @t{mu4e}
+provides, for example to convert them to some standardized format, or
+to fix spelling errors.
+
+You can do this by setting @code{mu4e-contact-rewrite-function} to
+your function, for example:
+
+@lisp
+(defun my-rewrite-function (contact)
+   (let* ((name (plist-get contact :name))
+	   (mail (plist-get contact :mail))
+	   (actual-name
+	     (cond
+	       ((string= name "jonh smiht") "John Smith")
+	       ;; other replacements
+	       (t name))))
+     (list :name actual-name :mail mail)))
+(setq mu4e-contact-rewrite-function 'my-rewrite-function)
+@end lisp
+
+This function is called for each of your contacts.
 
 @node Utility functions
 @section Utility functions
@@ -2951,10 +2988,10 @@ customize.
 ;; (better only use that for the last field.
 ;; These are the defaults:
 (setq mu4e-headers-fields
-    '( (:date          .  25)
+    '( (:date          .  25)    ;; alternatively, use :human-date
        (:flags         .   6)
        (:from          .  22)
-       (:subject       .  nil)))
+       (:subject       .  nil))) ;; alternatively, use :thread-subject
 
 ;; program to get mail; alternatives are 'fetchmail', 'getmail'
 ;; isync or your own shellscript. called when 'U' is pressed in
@@ -3082,7 +3119,7 @@ We can run both the @t{offlineimap} and the @t{mu index} from within
 @t{mu4e}, but running it from the command line makes it a bit easier to
 troubleshoot as we are setting things up.
 
-NOte: when using encryption, you probably do @emph{not} want to
+Note: when using encryption, you probably do @emph{not} want to
 synchronize your Drafts-folder, since it contains the unencrypted
 messages. You can use OfflineIMAP's @t{folderfilter} for that.
 
@@ -3262,7 +3299,7 @@ prefix-argument (@key{C-u}), @t{mu4e} starts, but does not show the
 main-window.
 @item @emph{Some IMAP-synchronization programs such as @t{mbsync} (but not
 @t{offlineimap}) don't like it when message files do not change their names
-when they are moved to different folders. Can @t{mu4e} somehow accomodate
+when they are moved to different folders. Can @t{mu4e} somehow accommodate
 this?} Yes - you can set the variable @code{mu4e-change-filenames-when-moving}
 to non-nil.
 @item @emph{@command{offlineimap} uses IMAP's UTF-7 for encoding
@@ -3389,6 +3426,34 @@ Sending...done
 @end verbatim
 The first and final messages are the most important, and there may be
 considerable time between them, depending on the size of the message.
+@item @emph{How can I apply format=flowed to my outgoing messages, enabling
+receiving clients that support this feature to reflow my paragraphs?}
+Plain text emails with @t{Content-Type: text/plain; format=flowed} can
+be reflowed (i.e. line endings removed, paragraphs refilled) by
+receiving clients that support this standard. Clients that don't support
+this, show them as is, which means this feature is truly non-invasive.
+
+Here's an explanatory blog post which also shows why this is a desirable
+feature: @url{https://mathiasbynens.be/notes/gmail-plain-text} (if you
+don't have it, your mails mostly look quite bad especially on mobile
+devices) and here's the RFC with all the details:
+@url{http://www.ietf.org/rfc/rfc2646.txt}.
+
+To add this to outgoing mu4e emails, activate @t{use-hard-newlines} and
+use only @t{M-q} or @t{fill-paragraph} for your paragraphs, Emacs will
+indicate intra-paragraph breaks with soft newlines and inter-paragraph
+breaks with hard newlines. When the Gnus code sees these on outgoing
+emails, it will automatically set @t{format=flowed}.
+
+To enable this, you can use something like this in your init.el:
+
+@lisp
+;; tip submitted by mu4e user cpbotha
+(add-hook 'mu4e-compose-mode-hook
+          "Outgoing mails get format=flowed."
+          (defun cpb-compose-setup ()
+            (use-hard-newlines t 'guess)))
+@end lisp
 @end enumerate
 
 @node Known issues
