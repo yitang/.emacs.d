@@ -707,6 +707,7 @@ https://github.com/jimhester/lintr
     
 #+begin_src emacs-lisp
 (require 'flycheck)
+;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
 (add-hook 'ess-mode-hook
           (lambda () (flycheck-mode t)))
 #+end_src
