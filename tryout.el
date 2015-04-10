@@ -19,3 +19,26 @@
 
 
 
+(setq org-download-image-dir "~/Downloads/org-downloads/")
+
+
+
+(set-face-attribute 'mode-line nil
+                    :foreground "Black"
+                    :background "DarkOrange"
+                    :box nil)
+(setq powerline-arrow-shape 'arrow)
+(setq sml/mode-width 30)
+(rich-minority-mode 1)
+
+(smartparens-global-mode 1)
+;; (add-hook 'ess-R-post-run-hook (lambda () (smartparens-mode 1))) ;; already done in init.org 
+
+(defcustom org-download-screenshot-method "gnome-screenshot -a -f %s"
+  "The tool to capture screenshots."
+  :type '(choice
+          (const :tag "gnome-screenshot" "gnome-screenshot -w -f %s -d 1")
+          (const :tag "scrot" "scrot -s %s")
+          (const :tag "gm" "gm import %s"))
+  :group 'org-download)
+
