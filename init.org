@@ -115,6 +115,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         org-download
                         paradox
                         smartparens
+                        ace-jump-mode
                         ))
 
 (require 'package)
