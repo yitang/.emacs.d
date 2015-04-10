@@ -706,11 +706,10 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 https://github.com/jimhester/lintr
     
 #+begin_src emacs-lisp
-;; (require 'flycheck)
-;; (add-hook 'ess-mode-hook
-;;           (lambda () (flycheck-mode t)))
-;; (load "~/git/.emacs.d/lisp/lintr.el")
-    #+end_src
+(require 'flycheck)
+(add-hook 'ess-mode-hook
+          (lambda () (flycheck-mode t)))
+#+end_src
     
 ** File Manager 
    [2015-01-23 Fri 18:52]
