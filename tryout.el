@@ -19,3 +19,22 @@
 
 
 
+
+
+(defun my/modify-org-done-face ()
+  (setq org-fontify-done-headline t)
+  (set-face-attribute 'org-done nil :strike-through t)
+  (set-face-attribute 'org-headline-done nil
+                      :strike-through t
+                      :foreground "light gray"))
+
+(add-hook 'org-add-hook 'my/modify-org-done-face)
+
+;; (require 'smartparens-config)
+(smartparens-global-mode 1)
+
+
+
+(set-face-attribute 'org-done nil :strike-through t)
+(set-face-attribute 'org-headline-done nil :strike-through t)
+

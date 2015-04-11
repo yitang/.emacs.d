@@ -764,6 +764,7 @@ https://github.com/jimhester/lintr
 
     #+begin_src emacs-lisp
     (require 'projectile)
+    (helm-projectile-on)
     (require 'helm-projectile)
     (projectile-global-mode)
     (setq projectile-enable-caching t)
@@ -771,6 +772,7 @@ https://github.com/jimhester/lintr
     (setq projectile-remember-window-configs t )
     (setq projectile-completion-system 'helm)
     (setq projectile-switch-project-action 'helm-projectile)
+
     #+end_src
 *** Remote (SSH)
     [2015-01-22 Thu 23:11]
@@ -2991,42 +2993,28 @@ git push
 #+end_example
 ** Ledger 
 
-#+name: WeeklyExp
-#+begin_src sh
+
+#+name: Weekly_Transaction 
+#+begin_src sh :eval yes :results raw
 ledger --period "this week" --start-of-week=1 -f ~/git/ImportantFiles/ledger register Exp -S "date, amount" 
-
-
-# ledger --period "this week" -f ~/ledger register Exp -S "date, amount" --start-of-week=1 # last week's expense, sort by day, then by amount
-
-## Weekly_Exp_Summary
-# ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
-
 #+end_src
 
-#+name: Weekly_Exp_Summary
-#+begin_src sh :results scalar 
-## Weekly_Exp_Summary
-ledger --period "this week" -f ~/ledger register Exp --by-payee --collapse --sort "amount" --start-of-week=1  ## this week's expense, grouped by payee with sum, 
-#+end_src
-
-#+name: Ledger_Monthly_Balance_Exp
-#+begin_src sh :results scalar
-ledger --period "this month" -f ~/git/ImportantFiles/ledger bal Exp # monthly expense
-#+end_src
-
+#+NAME: Weekly_Balance_Sheet 
+#+begin_src sh :evla yes :results raw
+ledger --period "this week" --start-of-week=1 -f ~/git/ImportantFiles/ledger bal Exp
+#+end_src 
 
 #+begin_example
+#+call: Weekly_Transaction() 
 
-#+call: Weekly_Exp_Summary()
+#+results: Weekly_Transaction
+15-Apr-06 GiffGaff              Expenses:Bill:Phone         £ 10.00      £ 10.00
+15-Apr-06 Tesco                 Expenses:Food:Grocery       £ 15.25      £ 25.25
+15-Apr-08 HS                    Expenses:Transport           £ 4.20      £ 29.45
+15-Apr-08 Tesco                 Expenses:Food:Grocery       £ 14.11      £ 43.56
+15-Apr-10 HS                    Expenses:Food:Lunch          £ 2.50      £ 46.06
+15-Apr-10 Tesco                 Expenses:Speical:Cig         £ 5.48      £ 51.54
 
-#+results:
-: 14-Nov-04 Skipton               Expenses:Transport           £ 2.50       £ 2.50
-: 14-Nov-03 Rebecca-Stroud        Expenses:Transport           £ 3.00       £ 5.50
-: 14-Nov-08 Costa                 <Total>                      £ 4.40       £ 9.90
-: 14-Nov-03 GiffGaff              Expenses:Bill:Phone         £ 12.00      £ 21.90
-: 14-Nov-03 Sky                   Expenses:Bill:Internet      £ 12.70      £ 34.60
-: 14-Nov-06 Morisson              Expenses:Grocery            £ 16.87      £ 51.47
-: 14-Nov-03 UK-GOV                <Total>                    £ 172.35     £ 223.82
 
 #+end_example
 
