@@ -115,6 +115,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         org-download
                         paradox
                         smartparens
+                        ace-jump-mode
                         ))
 
 (require 'package)
@@ -597,52 +598,54 @@ There three features that have me made the decision:
    
 These are only the surface of ESS and there are lot more useful features like spell checking for comments and documentation templates, that makes me productive and I would recommend anyone use R to learn ESS/Emacs.  The following is my current setting. 
 #+begin_src emacs-lisp :results silent
-  ;; Adapted with one minor change from Felipe Salazar at
-  ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-  (require 'ess-site)
-  (setq ess-ask-for-ess-directory nil) ;; start R on default folder
-  (setq ess-local-process-name "R")
-  (setq ansi-color-for-comint-mode 'filter) ;;
-  (setq comint-scroll-to-bottom-on-input t)
-  (setq comint-scroll-to-bottom-on-output t)
-  (setq comint-move-point-for-output t)
-  (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
-  (defun my-ess-start-R ()
-    (interactive)
-    (if (not (member "*R-main*" (mapcar (function buffer-name) (buffer-list))))
-        (progn
-          (delete-other-windows)
-          (setq w1 (selected-window))
-          (setq w1name (buffer-name))
-          (setq w2 (split-window w1 nil t))
-          (R)
-          (set-window-buffer w2 "*R*")
-(rename-buffer "*R-main*")
-          (set-window-buffer w1 w1name))))
-  (defun my-ess-eval ()
-    (interactive)
-    (my-ess-start-R)
-    (if (and transient-mark-mode mark-active)
-        (call-interactively 'ess-eval-region)
-      (call-interactively 'ess-eval-line-and-step)))
-  (add-hook 'ess-mode-hook
-            '(lambda()
-               (local-set-key [(shift return)] 'my-ess-eval)))
-  (add-hook 'inferior-ess-mode-hook
-            '(lambda()
-               (local-set-key [C-up] 'comint-previous-input)
-               (local-set-key [C-down] 'comint-next-input)))
-  (add-hook 'ess-mode-hook
-            (lambda ()
-              (flyspell-prog-mode)
-              (run-hooks 'prog-mode-hook)
-              ;; (prog-mode)
-              ))
+;; Adapted with one minor change from Felipe Salazar at
+;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
+(require 'ess-site)
+(setq ess-ask-for-ess-directory nil) ;; start R on default folder
+(setq ess-local-process-name "R")
+(setq ansi-color-for-comint-mode 'filter) ;;
+(setq comint-scroll-to-bottom-on-input t)
+(setq comint-scroll-to-bottom-on-output t)
+(setq comint-move-point-for-output t)
+(setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
+(defun my-ess-start-R ()
+  (interactive)
+  (if (not (member "*R-main*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1 nil t))
+        (R)
+        (set-window-buffer w2 "*R*")
+        (rename-buffer "*R-main*")
+        (set-window-buffer w1 w1name))))
+(defun my-ess-eval ()
+  (interactive)
+  (my-ess-start-R)
+  (if (and transient-mark-mode mark-active)
+      (call-interactively 'ess-eval-region)
+    (call-interactively 'ess-eval-line-and-step)))
+(add-hook 'ess-mode-hook
+          '(lambda()
+             (local-set-key [(shift return)] 'my-ess-eval)))
+(add-hook 'inferior-ess-mode-hook
+          '(lambda()
+             (local-set-key [C-up] 'comint-previous-input)
+             (local-set-key [C-down] 'comint-next-input)))
+(add-hook 'ess-mode-hook
+          (lambda ()
+            (flyspell-prog-mode)
+            (run-hooks 'prog-mode-hook)
+            ;; (prog-mode)
+            ))
+(add-hook 'ess-R-post-run-hook (lambda () (smartparens-mode 1)))
 
-  ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
-  ;; Control and up/down arrow keys to search history with matching what you've already typed:
-  (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
-  (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
+
+;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
+;; Control and up/down arrow keys to search history with matching what you've already typed:
+(define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
+(define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
 
 #+end_src
@@ -704,10 +707,10 @@ https://github.com/jimhester/lintr
     
 #+begin_src emacs-lisp
 (require 'flycheck)
+;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
 (add-hook 'ess-mode-hook
           (lambda () (flycheck-mode t)))
-(load "~/git/.emacs.d/lisp/lintr.el")
-    #+end_src
+#+end_src
     
 ** File Manager 
    [2015-01-23 Fri 18:52]

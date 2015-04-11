@@ -19,6 +19,7 @@
 
 
 
+<<<<<<< HEAD
 
 
 (defun my/modify-org-done-face ()
@@ -37,4 +38,28 @@
 
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
+=======
+(setq org-download-image-dir "~/Downloads/org-downloads/")
+
+
+
+(set-face-attribute 'mode-line nil
+                    :foreground "Black"
+                    :background "DarkOrange"
+                    :box nil)
+(setq powerline-arrow-shape 'arrow)
+(setq sml/mode-width 30)
+(rich-minority-mode 1)
+
+(smartparens-global-mode 1)
+;; (add-hook 'ess-R-post-run-hook (lambda () (smartparens-mode 1))) ;; already done in init.org 
+
+(defcustom org-download-screenshot-method "gnome-screenshot -a -f %s"
+  "The tool to capture screenshots."
+  :type '(choice
+          (const :tag "gnome-screenshot" "gnome-screenshot -w -f %s -d 1")
+          (const :tag "scrot" "scrot -s %s")
+          (const :tag "gm" "gm import %s"))
+  :group 'org-download)
+>>>>>>> b6f4c341f852a6706123acbac5cd5573b821c7f9
 

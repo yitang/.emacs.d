@@ -96,7 +96,9 @@ See `org-download--dir-1' for more info."
 (defcustom org-download-heading-lvl 0
   "Heading level to be used in `org-download--dir-2'."
   :group 'org-download)
-(make-variable-buffer-local 'org-download-heading-lvl)
+(setq org-download-image-dir "~/Desktop")
+
+
 
 (defcustom org-download-backend t
   "Method to use for downloading."
@@ -149,6 +151,8 @@ will be used."
   "Return the first part of the directory path for `org-download--dir'.
 It's `org-download-image-dir', unless it's nil.  Then it's \".\"."
   (or org-download-image-dir "."))
+
+
 
 (defun org-download--dir-2 ()
   "Return the second part of the directory path for `org-download--dir'.
