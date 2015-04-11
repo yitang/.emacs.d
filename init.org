@@ -2996,15 +2996,18 @@ git push
 #+end_example
 ** Ledger 
 
+add the following to .ledgerrc 
+
+--start-of-week=1 -f ~/git/ImportantFiles/ledger
 
 #+name: Weekly_Transaction 
 #+begin_src sh :eval yes :results raw
-ledger --period "this week" --start-of-week=1 -f ~/git/ImportantFiles/ledger register Exp -S "date, amount" 
+ledger --period "this week"  register Exp -S "date, amount" 
 #+end_src
 
 #+NAME: Weekly_Balance_Sheet 
 #+begin_src sh :evla yes :results raw
-ledger --period "this week" --start-of-week=1 -f ~/git/ImportantFiles/ledger bal Exp
+ledger --period "this week"  bal Exp
 #+end_src 
 
 #+begin_example
