@@ -19,8 +19,6 @@
 
 
 
-<<<<<<< HEAD
-
 
 (defun my/modify-org-done-face ()
   (setq org-fontify-done-headline t)
@@ -38,7 +36,7 @@
 
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
-=======
+
 (setq org-download-image-dir "~/Downloads/org-downloads/")
 
 
@@ -61,5 +59,18 @@
           (const :tag "scrot" "scrot -s %s")
           (const :tag "gm" "gm import %s"))
   :group 'org-download)
->>>>>>> b6f4c341f852a6706123acbac5cd5573b821c7f9
 
+
+
+
+
+
+(olivetti-mode)
+
+
+
+(require 'voca-builder)
+(setq voca-builder/voca-file "~/.vocabulary.org")
+(setq voca-builder/current-tag "WinFriend")
+(global-set-key (kbd "<f4>") 'voca-builder/search-popup)
+(setq sentence-end-double-space nil)
