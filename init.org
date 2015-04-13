@@ -2965,151 +2965,6 @@ comments: true
 
 ** Initialisation Completed
 [2015-01-22 Thu 23:05]
-* Babel Library 
-:PROPERTIES:
-:header-args: :eval no
-:END:
-to load a 
-#+begin_example 
-(org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
-#+end_example
-
-** Update Emacs library
-#+name: UpdateEmacsPackages
-#+begin_src sh :results scalar 
-cask install --path ~/git/.emacs.d
-cask upgrade-cask --path ~/git/.emacs.d
-git add -A 
-git commit -m "cask update $(date)"
-git push 
-#+end_src
-
-#+begin_example
-
-#+call: UpdateEmacsPackages()
-
-#+results:
-: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
-:  2 files changed, 7 insertions(+), 3 deletions(-)
-:  delete mode 120000 .#yi.babel.org
-
-#+end_example
-** Ledger 
-
-add the following to .ledgerrc 
-
---start-of-week=1 -f ~/git/ImportantFiles/ledger
-
-#+name: Weekly_Transaction 
-#+begin_src sh :eval yes :results raw
-ledger --period "this week"  register Exp -S "date, amount" 
-#+end_src
-
-#+NAME: Weekly_Balance_Sheet 
-#+begin_src sh :evla yes :results raw
-ledger --period "this week"  bal Exp
-#+end_src 
-
-#+begin_example
-#+call: Weekly_Transaction() 
-
-#+results: Weekly_Transaction
-15-Apr-06 GiffGaff              Expenses:Bill:Phone         £ 10.00      £ 10.00
-15-Apr-06 Tesco                 Expenses:Food:Grocery       £ 15.25      £ 25.25
-15-Apr-08 HS                    Expenses:Transport           £ 4.20      £ 29.45
-15-Apr-08 Tesco                 Expenses:Food:Grocery       £ 14.11      £ 43.56
-15-Apr-10 HS                    Expenses:Food:Lunch          £ 2.50      £ 46.06
-15-Apr-10 Tesco                 Expenses:Speical:Cig         £ 5.48      £ 51.54
-
-
-#+end_example
-
-** image process 
-#+name: Extract_PDF_Pages
-#+begin_src sh :var pageStart=5 pageEnd=10 pdfFile="CompareWithCFSRDataset_final.pdf.pdf"
-## http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
-function pdfpextr() 
-{
-    # this function uses 3 arguments:
-    #     $1 is the first page of the range to extract
-    #     $2 is the last page of the range to extract
-    #     $3 is the input file
-    #     output file will be named "inputfile_pXX-pYY.pdf"
-    # TODO: add format=png option 
-    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-       -dFirstPage=${1} \
-       -dLastPage=${2} \
-       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
-       ${3}
-}
-pdfpextr $pageStart $pageEnd $pdfFile 
-#+end_src
-
-#+begin_example
-#+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
-#+end_example
-
-** org contact 
-[2015-01-12 Mon 18:29]
-#+name: GetContactGroup
-#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="SFG" contact-type="EMAIL" :eval no
-(defun GetContactGroup (contact-file search-tag contact-type)
-  (interactive)
-  (let ((name-address (org-map-entries (lambda()
-				 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
-				       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
-			       search-tag
-			       contact-file)))
-    (mapconcat (lambda (a-list)
-		  (concat (car a-list) " <" (cdr a-list) ">"))
-		name-address ", ")))
-(GetContactGroup contact-file search-tag contact-type)
-#+end_src
-
-#+results: GetContactGroup
-: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Ye Liu <Ye.Liu@jbarisk.com>, Yi Tang <yi.tang@jbarisk.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>fo
-
-#+begin_example
-#+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
-#+results:
-: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
-
-#+end_example
-
-** Blog
-#+name: GetBlogPosts
-#+begin_src R :results org :eval no
-posts.dir <- "~/git/yi-tang.github.io/org/_posts"
-all.posts <- list.files(posts.dir, pattern = ".org$")
-sapply(seq_along(all.posts), function(i){
-headline <- paste0("* ", all.posts[i])
-content <- paste0("#+INCLUDE: ", '"', file.path(posts.dir, all.posts[i]), '"')
-page.break <- "#+latex: \\newpage"
-paste(headline, content, page.break, sep = "\n")
-})
-#+end_src
-
-#+results: GetBlogPosts
-
-
-#+name: GetLastUpdatedDate :eval no 
-#+begin_src emacs-lisp :export none :results raw
-;; (defun yt/last-updated-date ()
-;; "return modification time of current file-visitng buffer"
-;;   (interactive)
-;;   (let ((y (format-time-string "%d %b %Y" (visited-file-modtime))))
-;;    (concat  "/Last Updated/: " y))) ;; print out results 
-;; (yt/last-updated-date)
-#+end_src
-
-#+results: GetLastUpdatedDate
-
-
-* End 
-[2015-01-19 Mon 11:43]
-
-* Archive   
-[2015-03-20 Fri 08:25]
 ** mu4e - Email Client
    
    The advantage of use Emacs as an email client: 
@@ -3391,6 +3246,152 @@ I got an email from an estate agency where there are few images are inlined, but
 
 *Render LaTeX code as image*
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
+
+* Babel Library 
+:PROPERTIES:
+:header-args: :eval no
+:END:
+to load a 
+#+begin_example 
+(org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
+#+end_example
+
+** Update Emacs library
+#+name: UpdateEmacsPackages
+#+begin_src sh :results scalar 
+cask install --path ~/git/.emacs.d
+cask upgrade-cask --path ~/git/.emacs.d
+git add -A 
+git commit -m "cask update $(date)"
+git push 
+#+end_src
+
+#+begin_example
+
+#+call: UpdateEmacsPackages()
+
+#+results:
+: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
+:  2 files changed, 7 insertions(+), 3 deletions(-)
+:  delete mode 120000 .#yi.babel.org
+
+#+end_example
+** Ledger 
+
+add the following to .ledgerrc 
+
+--start-of-week=1 -f ~/git/ImportantFiles/ledger
+
+#+name: Weekly_Transaction 
+#+begin_src sh :eval yes :results raw
+ledger --period "this week"  register Exp -S "date, amount" 
+#+end_src
+
+#+NAME: Weekly_Balance_Sheet 
+#+begin_src sh :evla yes :results raw
+ledger --period "this week"  bal Exp
+#+end_src 
+
+#+begin_example
+#+call: Weekly_Transaction() 
+
+#+results: Weekly_Transaction
+15-Apr-06 GiffGaff              Expenses:Bill:Phone         £ 10.00      £ 10.00
+15-Apr-06 Tesco                 Expenses:Food:Grocery       £ 15.25      £ 25.25
+15-Apr-08 HS                    Expenses:Transport           £ 4.20      £ 29.45
+15-Apr-08 Tesco                 Expenses:Food:Grocery       £ 14.11      £ 43.56
+15-Apr-10 HS                    Expenses:Food:Lunch          £ 2.50      £ 46.06
+15-Apr-10 Tesco                 Expenses:Speical:Cig         £ 5.48      £ 51.54
+
+
+#+end_example
+
+** image process 
+#+name: Extract_PDF_Pages
+#+begin_src sh :var pageStart=5 pageEnd=10 pdfFile="CompareWithCFSRDataset_final.pdf.pdf"
+## http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
+function pdfpextr() 
+{
+    # this function uses 3 arguments:
+    #     $1 is the first page of the range to extract
+    #     $2 is the last page of the range to extract
+    #     $3 is the input file
+    #     output file will be named "inputfile_pXX-pYY.pdf"
+    # TODO: add format=png option 
+    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+       -dFirstPage=${1} \
+       -dLastPage=${2} \
+       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
+       ${3}
+}
+pdfpextr $pageStart $pageEnd $pdfFile 
+#+end_src
+
+#+begin_example
+#+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
+#+end_example
+
+** org contact 
+[2015-01-12 Mon 18:29]
+#+name: GetContactGroup
+#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="SFG" contact-type="EMAIL" :eval no
+(defun GetContactGroup (contact-file search-tag contact-type)
+  (interactive)
+  (let ((name-address (org-map-entries (lambda()
+				 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
+				       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
+			       search-tag
+			       contact-file)))
+    (mapconcat (lambda (a-list)
+		  (concat (car a-list) " <" (cdr a-list) ">"))
+		name-address ", ")))
+(GetContactGroup contact-file search-tag contact-type)
+#+end_src
+
+#+results: GetContactGroup
+: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Ye Liu <Ye.Liu@jbarisk.com>, Yi Tang <yi.tang@jbarisk.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>fo
+
+#+begin_example
+#+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
+#+results:
+: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+
+#+end_example
+
+** Blog
+#+name: GetBlogPosts
+#+begin_src R :results org :eval no
+posts.dir <- "~/git/yi-tang.github.io/org/_posts"
+all.posts <- list.files(posts.dir, pattern = ".org$")
+sapply(seq_along(all.posts), function(i){
+headline <- paste0("* ", all.posts[i])
+content <- paste0("#+INCLUDE: ", '"', file.path(posts.dir, all.posts[i]), '"')
+page.break <- "#+latex: \\newpage"
+paste(headline, content, page.break, sep = "\n")
+})
+#+end_src
+
+#+results: GetBlogPosts
+
+
+#+name: GetLastUpdatedDate :eval no 
+#+begin_src emacs-lisp :export none :results raw
+;; (defun yt/last-updated-date ()
+;; "return modification time of current file-visitng buffer"
+;;   (interactive)
+;;   (let ((y (format-time-string "%d %b %Y" (visited-file-modtime))))
+;;    (concat  "/Last Updated/: " y))) ;; print out results 
+;; (yt/last-updated-date)
+#+end_src
+
+#+results: GetLastUpdatedDate
+
+
+* End 
+[2015-01-19 Mon 11:43]
+
+* Archive   
+[2015-03-20 Fri 08:25]
 
 ** Office Setting 
 [2015-03-18 Wed 18:32]
