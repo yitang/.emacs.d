@@ -2502,6 +2502,28 @@ Late deadlines first, then scheduled, then non-late deadlines"
                       :foreground "light gray"))
 (add-hook 'org-mode-hook 'my/modify-org-done-face)
 #+end_src
+*** contribute libraries 
+
+Show org-mode bullets as UTF-8 characters.
+#+begin_src emacs-lisp :results silent 
+(require 'org-bullets)
+(setq org-bullets-bullet-list '(;;; Large
+				"◉" "○" ;"◎" "◌"
+				"◈" "◇"
+				"◼" "◻"
+				"▲" "△"
+				"❀" "✿" ;"✸"
+				"✚" "✜" 
+				"●" "☯" ;"☢" 
+				"♠" "♣" "♦" "♥"))
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+#+end_src
+
+org-download 
+#+begin_src emacs-lisp :results silent 
+(setq-default org-download-image-dir "~/Downloads/img")
+(setq-default org-download-heading-lvl nil)
+#+end_src
 
 *** Calendar
 [2015-02-23 Mon 10:20]
