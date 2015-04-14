@@ -116,6 +116,8 @@ Normally you could tangle a org file to extract all the source code into one fil
                         paradox
                         smartparens
                         ace-jump-mode
+                        voca-builder
+                        org-download
                         ))
 
 (require 'package)
@@ -2492,8 +2494,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
 (defun my/modify-org-done-face ()
   (setq org-fontify-done-headline t)
   (set-face-attribute 'org-done nil :strike-through t)
@@ -2501,21 +2501,26 @@ Late deadlines first, then scheduled, then non-late deadlines"
                       :strike-through t
                       :foreground "light gray"))
 (add-hook 'org-mode-hook 'my/modify-org-done-face)
+
+(setq org-fontify-done-headline t)
+(set-face-attribute 'org-done nil :strike-through t)
+(set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
 *** contribute libraries 
 
 Show org-mode bullets as UTF-8 characters.
 #+begin_src emacs-lisp :results silent 
 (require 'org-bullets)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (setq org-bullets-bullet-list '(;;; Large
-				"◉" "○" ;"◎" "◌"
-				"◈" "◇"
-				"◼" "◻"
-				"▲" "△"
-				"❀" "✿" ;"✸"
-				"✚" "✜" 
-				"●" "☯" ;"☢" 
-				"♠" "♣" "♦" "♥"))
+                                "◉" "○" ;"◎" "◌"
+                                "◈" "◇"
+                                "◼" "◻"
+                                "▲" "△"
+                                "❀" "✿" ;"✸"
+                                "✚" "✜" 
+                                "●" "☯" ;"☢" 
+                                "♠" "♣" "♦" "♥"))
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
@@ -3255,7 +3260,7 @@ when I sent an email, it will promote and ask for email, I only need type once p
 [2015-01-23 Fri 17:28]
 have problem with BBDB installtion, and use org-contact.el to manage contact.  add contactor very easy. I cna use tab to completet contacts, which is really handy.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (require 'org-contacts)
 (setq mu4e-org-contacts-file  "~/git/org/contacts.org")
 (add-to-list 'mu4e-headers-actions
