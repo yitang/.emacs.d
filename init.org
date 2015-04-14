@@ -2520,6 +2520,7 @@ Show org-mode bullets as UTF-8 characters.
 #+end_src
 
 org-download 
+
 #+begin_src emacs-lisp :results silent 
 (setq-default org-download-image-dir "~/Downloads/img")
 (setq-default org-download-heading-lvl nil)
@@ -3000,6 +3001,44 @@ comments: true
 
 ** Initialisation Completed
 [2015-01-22 Thu 23:05]
+** Refile 
+
+smartparens mode 
+#+begin_src emacs-lisp :results silent 
+;; (require 'smartparens-config)
+(smartparens-global-mode 1)
+#+end_src
+
+hydra 
+#+begin_src emacs-lisp :results silent 
+(require 'hydra)
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+#+end_src
+
+smart-line-mode 
+#+begin_src emacs-lisp :results silent 
+(set-face-attribute 'mode-line nil
+                    :foreground "Black"
+                    :background "DarkOrange"
+                    :box nil)
+(setq powerline-arrow-shape 'arrow)
+(setq sml/mode-width 30)
+(rich-minority-mode 1)
+#+end_src
+
+voca-builde 
+
+#+begin_src emacs-lisp :results silent 
+(require 'voca-builder)
+(setq voca-builder/voca-file "~/.vocabulary.org")
+(setq voca-builder/current-tag "WinFriend")
+(global-set-key (kbd "<f4>") 'voca-builder/search-popup)
+(setq sentence-end-double-space nil)
+
+#+end_src
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
