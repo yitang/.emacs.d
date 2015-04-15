@@ -1,4 +1,4 @@
-(require 'hydra)
+ (require 'hydra)
 (defhydra hydra-zoom (global-map "<f2>")
   "zoom"
   ("g" text-scale-increase "in")
@@ -64,6 +64,8 @@
 
 
 
+(setq sml/mode-width 10)
+(setq sml/name-wdith 10)
 
 (olivetti-mode)
 

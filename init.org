@@ -2630,13 +2630,14 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
 ;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
 (add-to-list 'org-latex-classes
-                 '("yt/org-article"
-                   "
+             '("yt/org-article"
+               "
 \\documentclass[11pt,a4paper]{article}
 \\usepackage{graphicx}    %% demo mode is a must when .img does not exists.
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
 \\usepackage{hyperref}
+\\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
 \\usepackage{minted}
@@ -2644,7 +2645,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 \\setromanfont{Gentium}
 \\setromanfont [BoldFont={Gentium Basic Bold},
                 ItalicFont={Gentium Basic Italic}]{Gentium Basic}
-\\setsansfont{Charis SIL}
+%% \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
@@ -2655,7 +2656,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 \\usepackage{setspace}
 \\onehalfspacing
 \\usepackage{textcomp}
-\\usepackage{marvosymb}
+\\usepackage{marvosym}
 \\usepackage{wasysym}
 \\usepackage{ulem}
 
@@ -2664,11 +2665,11 @@ Late deadlines first, then scheduled, then non-late deadlines"
 \\title{}
       [NO-DEFAULT-PACKAGES]
       [NO-PACKAGES]"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (setq org-latex-default-class "yt/org-article")
 
 ;; code highlights using minted package 
@@ -2676,8 +2677,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
       '(("frame" "lines")
-	("fontsize" "\\scriptsize")
-	("linenos" "")))
+        ("fontsize" "\\scriptsize")
+        ("linenos" "")))
 ;;;; comple pdf 
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
