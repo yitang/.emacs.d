@@ -2748,7 +2748,8 @@ org-download
 (defadvice org-html-checkbox (around sacha activate)
   (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
 
-(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\"
+(setq org-html-head
+      "<link rel=\"stylesheet\" type=\"text/css\"
 href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
@@ -2803,6 +2804,18 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 #+results:
 : 6
 
+like the fontified area for key-bindings. 
+
+#+begin_src emacs-lisp :results silent 
+(setq org-html-text-markup-alist
+      '((bold . "<b>%s</b>")
+	 (code . "<kbd>%s</kbd>")
+	 (italic . "<i>%s</i>")
+	 (strike-through . "<del>%s</del>")
+	 (underline . "<span class=\"underline\">%s</span>")
+	 (verbatim . "<code>%s</code>")))
+
+#+end_src
 *** Blogging with Jekyll
 I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
 
@@ -2985,7 +2998,7 @@ comments: true
      ((looking-at (concat "^#\\+BEGIN_SRC " lang ".*$"))
       (goto-char (match-beginning 0))
       (kill-line)
-      (insert "#+begin_html")
+      (insert "#+begin_html\n")
       (insert (concat "{% highlight " lang " linenos %}")))
      ((looking-at "^#\\+END_SRC")
       (goto-char (match-beginning 0))
@@ -3305,6 +3318,22 @@ hydra
   "zoom"
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
+
+(defhydra hydra-search (:color blue
+			       :hint nil)
+  "
+Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
+Multiple Buffers : helm-multi-_S_woop 
+Project Directory: projectile-_g_rep  helm-projectile-_G_rep
+"
+  ("i" isearch-forward)
+  ("s" helm-swoop)
+  ("a" ace-jump-word-mode)
+  ("S" helm-multi-swoop)
+  ("g" projectile-grep)
+  ("G" helm-projectile-grep))
+(global-set-key [f4] 'hydra-search/body)
+
 #+end_src
 
 smart-line-mode 
