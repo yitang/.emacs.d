@@ -3004,8 +3004,8 @@ comments: true
       (goto-char (match-beginning 0))
       (kill-line)
       (insert "{% highlight %}")
-      (insert "#+end_html")))))
-(defun org-src-jekyll ()
+      (insert "\#+end_html")))))
+(defun jekyll-highlight-converter ()
   "use jekyll highlight style"
   (interactive)
   (org-to-jekyll-src "R")
