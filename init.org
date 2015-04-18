@@ -957,6 +957,16 @@ For about one month, I tried to write at least 500 words per day.  I also set up
 (set-face-attribute 'variable-pitch nil
                     :foreground "gray40")
 
+#+end_src
+
+
+
+
+
+
+add synosaurus
+#+begin_src emacs-lisp :results silent 
+
 ;; [2015-02-12 Thu 21:14]
 ;; https://github.com/rootzlevel/synosaurus
 ;; synosaurus-lookup
@@ -964,8 +974,12 @@ For about one month, I tried to write at least 500 words per day.  I also set up
 ;; brew install wordnet
 (require 'synosaurus)
 (setq synosaurus-choose-method "popup")
-#+end_src
 
+;; synosaurus-lookup C-c s l
+;; synosaurus-choose-and-replace C-c s r	
+(setq synosaurus-backend 'synosaurus-backend-wordnet)
+(setq synosaurus-choose-method 'popup)
+#+end_src
 *** Random Quotes 
 [2015-01-22 Thu 23:14]
 
@@ -2810,11 +2824,11 @@ like the fontified area for key-bindings.
 #+begin_src emacs-lisp :results silent 
 (setq org-html-text-markup-alist
       '((bold . "<b>%s</b>")
-	 (code . "<kbd>%s</kbd>")
-	 (italic . "<i>%s</i>")
-	 (strike-through . "<del>%s</del>")
-	 (underline . "<span class=\"underline\">%s</span>")
-	 (verbatim . "<code>%s</code>")))
+        (code . "<kbd>%s</kbd>")
+        (italic . "<i>%s</i>")
+        (strike-through . "<del>%s</del>")
+        (underline . "<span class=\"underline\">%s</span>")
+        (verbatim . "<code>%s</code>")))
 
 #+end_src
 *** Blogging with Jekyll
