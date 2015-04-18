@@ -14,3 +14,8 @@
 (setq sml/mode-width 10)
 (setq sml/name-wdith 10)
 (olivetti-mode)
+
+
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
