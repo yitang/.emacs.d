@@ -119,6 +119,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         voca-builder
                         org-download
 gist
+sunshine
                         ))
 
 (require 'package)
@@ -3338,6 +3339,7 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 
 smart-line-mode 
 #+begin_src emacs-lisp :results silent 
+(display-time-mode)
 (set-face-attribute 'mode-line nil
                     :foreground "Black"
                     :background "DarkOrange"
