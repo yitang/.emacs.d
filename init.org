@@ -3073,8 +3073,17 @@ Disadvantage / can;t do:
 2. book Meeting/Appointment 
    I didn't aware that you can do it in emacs, and we need an iterative way to do.  Outlook Schedule Asistant do a good job, it list agenda of all attendence, and I could spot oen time slot that suit for all or most people. 
 3. calendar 
-   I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda. 
-   
+   I don't know how to integrate Office 365 calendar with Org-mode calandar yet.  even it can, I doubt I can download and see other people's agenda.
+
+
+*Usage* 
+
+- attachment :: move the point to end of message buffer, ~C-c C-a~, to add attachment. 
+- narrow down messages :: ~/~ to start query,
+  - from someone :: from:Yi
+  - with attachment :: flag:attach
+  - priority  :: prior:high or prior:low 
+
 This setting need two programms to work: 1) mu, 2) offlineimap. 
 
 #+begin_src emacs-lisp
