@@ -118,8 +118,9 @@ Normally you could tangle a org file to extract all the source code into one fil
                         ace-jump-mode
                         voca-builder
                         org-download
-gist
-sunshine
+                        gist
+                        sunshine
+                        keyfreq
                         ))
 
 (require 'package)
