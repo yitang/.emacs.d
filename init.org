@@ -119,6 +119,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         voca-builder
                         org-download
 gist
+sunshine
                         ))
 
 (require 'package)
@@ -974,6 +975,16 @@ For about one month, I tried to write at least 500 words per day.  I also set up
 (set-face-attribute 'variable-pitch nil
                     :foreground "gray40")
 
+#+end_src
+
+
+
+
+
+
+add synosaurus
+#+begin_src emacs-lisp :results silent 
+
 ;; [2015-02-12 Thu 21:14]
 ;; https://github.com/rootzlevel/synosaurus
 ;; synosaurus-lookup
@@ -981,8 +992,12 @@ For about one month, I tried to write at least 500 words per day.  I also set up
 ;; brew install wordnet
 (require 'synosaurus)
 (setq synosaurus-choose-method "popup")
-#+end_src
 
+;; synosaurus-lookup C-c s l
+;; synosaurus-choose-and-replace C-c s r	
+(setq synosaurus-backend 'synosaurus-backend-wordnet)
+(setq synosaurus-choose-method 'popup)
+#+end_src
 *** Random Quotes 
 [2015-01-22 Thu 23:14]
 
@@ -2766,7 +2781,8 @@ org-download
 (defadvice org-html-checkbox (around sacha activate)
   (setq ad-return-value (sacha/org-html-checkbox (ad-get-arg 0))))
 
-(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\"
+(setq org-html-head
+      "<link rel=\"stylesheet\" type=\"text/css\"
 href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
@@ -2821,6 +2837,18 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 #+results:
 : 6
 
+like the fontified area for key-bindings. 
+
+#+begin_src emacs-lisp :results silent 
+(setq org-html-text-markup-alist
+      '((bold . "<b>%s</b>")
+        (code . "<kbd>%s</kbd>")
+        (italic . "<i>%s</i>")
+        (strike-through . "<del>%s</del>")
+        (underline . "<span class=\"underline\">%s</span>")
+        (verbatim . "<code>%s</code>")))
+
+#+end_src
 *** Blogging with Jekyll
 I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
 
@@ -2852,10 +2880,10 @@ First, define a publish project, so that the exported html file will go to certa
 #+begin_src emacs-lisp :results silent
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
-      '(("yi-tang-github-io" ;; settings for cute-jumper.github.io
-         :base-directory "~/git/yi-tang.github.io/org"
+      '(("MyBlog" ;; settings for cute-jumper.github.io
+         :base-directory "~/git/MyBlog/org"
          :base-extension "org"
-         :publishing-directory "~/git/yi-tang.github.io"
+         :publishing-directory "~/git/MyBlog"
          :recursive t
          :publishing-function org-html-publish-to-html
          :with-toc nil
@@ -2874,7 +2902,7 @@ First, define a publish project, so that the exported html file will go to certa
 For managing a blog, it is good idea to keep the original org file inside of the website.  
 
 #+begin_src emacs-lisp :results silent
-(defvar jekyll-directory (expand-file-name "~/git/yi-tang.github.io/org/")
+(defvar jekyll-directory (expand-file-name "~/git/MyBlog/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -2884,7 +2912,7 @@ For managing a blog, it is good idea to keep the original org file inside of the
   "File extension of Jekyll posts.")
 (defvar jekyll-post-template
   " 
-#+BEGIN_HTML
+,#+BEGIN_HTML
 ---
 layout: post
 title: %s
@@ -2895,11 +2923,11 @@ tags:
   -
 comments: true 
 ---
-#+END_HTML
+,#+END_HTML
 
-#+call: GetLastUpdatedDate[:exports none]()[:results org]
+,#+call: GetLastUpdatedDate[:exports none]()[:results org]
 
-#+TOC: headlines 4
+,#+TOC: headlines 4
 "
     "Default template for Jekyll posts. %s will be replace by the post title.")
 
@@ -2977,11 +3005,11 @@ comments: true
 (global-set-key (kbd "C-c j n") 'blog-draft-post)
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
-				  (interactive)
-				  (find-file "~/git/yi-tang.github.io/org/_posts/")))
+                                  (interactive)
+                                  (find-file "~/git/MyBlog/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
-				  (interactive)
-				  (find-file "~/git/yi-tang.github.io/org/_drafts/")))
+                                  (interactive)
+                                  (find-file "~/git/MyBlog/org/_drafts/")))
 
 #+end_src
 
@@ -3003,14 +3031,14 @@ comments: true
      ((looking-at (concat "^#\\+BEGIN_SRC " lang ".*$"))
       (goto-char (match-beginning 0))
       (kill-line)
-      (insert "#+begin_html")
+      (insert "#+begin_html\n")
       (insert (concat "{% highlight " lang " linenos %}")))
      ((looking-at "^#\\+END_SRC")
       (goto-char (match-beginning 0))
       (kill-line)
       (insert "{% highlight %}")
-      (insert "#+end_html")))))
-(defun org-src-jekyll ()
+      (insert "\#+end_html")))))
+(defun jekyll-highlight-converter ()
   "use jekyll highlight style"
   (interactive)
   (org-to-jekyll-src "R")
@@ -3323,10 +3351,27 @@ hydra
   "zoom"
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out"))
+
+(defhydra hydra-search (:color blue
+			       :hint nil)
+  "
+Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
+Multiple Buffers : helm-multi-_S_woop 
+Project Directory: projectile-_g_rep  helm-projectile-_G_rep
+"
+  ("i" isearch-forward)
+  ("s" helm-swoop)
+  ("a" ace-jump-word-mode)
+  ("S" helm-multi-swoop)
+  ("g" projectile-grep)
+  ("G" helm-projectile-grep))
+(global-set-key [f4] 'hydra-search/body)
+
 #+end_src
 
 smart-line-mode 
 #+begin_src emacs-lisp :results silent 
+(display-time-mode)
 (set-face-attribute 'mode-line nil
                     :foreground "Black"
                     :background "DarkOrange"

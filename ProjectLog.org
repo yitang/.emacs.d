@@ -1,0 +1,43 @@
+* DONE get synosaurus works in Emacs
+CLOSED: [2015-04-18 Sat 19:14] SCHEDULED:<2015-03-30 Mon> 
+:LOGBOOK:
+CLOCK: [2015-04-18 Sat 19:11]--[2015-04-18 Sat 19:14] =>  0:03
+:END:      
+[2015-03-30 Mon 12:25]
+
+very
+
+* kbd tag with org-mode
+
+#+begin_src emacs-lisp :results silent 
+(setq org-html-text-markup-alist
+      '((bold . "<b>%s</b>")
+	(code . "<kbd>%s</kbd>")
+	(italic . "<i>%s</i>")
+	(strike-through . "<del>%s</del>")
+	(underline . "<span class=\"underline\">%s</span>")
+	(verbatim . "<code>%s</code>")))
+#+end_src
+
+
+
+* how to upload a package to emacs package repo?                       :NOTE:
+:LOGBOOK:  
+CLOCK: [2015-03-28 Sat 15:16]--[2015-03-29 Sun 09:48] => 17:32
+CLOCK: [2015-03-28 Sat 15:15]--[2015-03-28 Sat 15:16] =>  0:01
+:END:      
+[2015-03-28 Sat 15:15]
+
+
+(<package-name>
+ :fetcher [git|github|bzr|hg|darcs|fossil|svn|cvs|wiki]
+ [:url "<repo url>"]
+ [:repo "github-user/repo-name"]
+ [:module "cvs-module"]
+ [:files ("<file1>" ...)])
+
+(voca-builder 
+:fetcher github 
+:url "http://github.com/yitang/voca-builder"
+:repo "yitang/voca-builder"
+:files ("voca-builder.el"))

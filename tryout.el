@@ -1,9 +1,3 @@
-(require 'hydra)
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
-
 ;;change default browser for 'browse-url'  to w3m
 (setq browse-url-browser-function 'w3m-goto-url-new-session)
 ;;change w3m user-agent to android
@@ -14,3 +8,8 @@
 (setq sml/mode-width 10)
 (setq sml/name-wdith 10)
 (olivetti-mode)
+
+
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
