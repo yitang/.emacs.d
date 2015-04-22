@@ -3175,7 +3175,7 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
 
 #+begin_src emacs-lisp 
 ;;;
-(defun yt/mail-office-setting ()
+(defun yt/email-jba ()
   (setq message-send-mail-function 'smtpmail-send-it
         smtpmail-stream-type 'starttls
         smtpmail-default-smtp-server "smtp.office365.com"
@@ -3196,7 +3196,7 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
                                 "Statistician\n"
                                 "T: +44 (0) 1756 799919\n")))
 
-(defun yt/mail-home-setting ()
+(defun yt/email-icloud ()
   (setq message-send-mail-function 'smtpmail-send-it
         smtpmail-stream-type 'starttls
         smtpmail-default-smtp-server "smtp.mail.me.com"
@@ -3214,6 +3214,28 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
   (setq mu4e-drafts-folder "/iCloud/Drafts")
   (setq mu4e-sent-folder   "/iCloud/Sent Messages")
   (setq mu4e-trash-folder  "/iCloud/Deleted Messages"))
+
+(defun yt/email-gmail ()
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq smtpmail-stream-type 'starttls )
+  (setq smtpmail-default-smtp-server "smtp.gmail.com" )
+  (setq smtpmail-smtp-server "smtp.gmail.com" )
+  (setq smtpmail-smtp-service 587 )
+  (setq smtpmail-smtp-user "yi.tang.uni@gmail.com" )
+  (setq user-mail-address "yi.tang.uni@gmail.com" )
+  (setq user-full-name  "Yi Tang" )
+  (setq mu4e-drafts-folder "/Gmail/Drafts" )
+  (setq mu4e-sent-folder   "/Gmail/Sent Items" )
+  (setq mu4e-trash-folder  "/Gmail/Trash" )
+  (setq mu4e-maildir-shortcuts  '(("/Gmail/INBOX"    . ?i) 
+                                  ("/Sent Items"   . ?s)
+                                  ("/Trash"        . ?t)
+                                  ("/All Mail"     . ?a)))
+  (setq mu4e-compose-signature (concat
+                                "Yi Tang\n"
+                                "Statistician\n"
+                                "T: 07445510033\n")))
+
 
 (cond ((eq system-type 'darwin)
        (yt/mail-home-setting))
