@@ -3176,14 +3176,18 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
 #+begin_src emacs-lisp 
 ;;;
 (defun yt/email-jba ()
+  (interactive)
+  ;; setup for smtp 
   (setq message-send-mail-function 'smtpmail-send-it
         smtpmail-stream-type 'starttls
         smtpmail-default-smtp-server "smtp.office365.com"
         smtpmail-smtp-server "smtp.office365.com"
         smtpmail-smtp-service 587
         smtpmail-smtp-user "yi.tang@jbarisk.com"
+        ;; account info 
         user-mail-address "yi.tang@jbarisk.com"
         user-full-name  "Yi Tang"
+        ;; mu4e 
         mu4e-drafts-folder "/JBA/Drafts"
         mu4e-sent-folder   "/JBA/Sent Items"
         mu4e-trash-folder  "/JBA/Trash"
@@ -3197,31 +3201,37 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
                                 "T: +44 (0) 1756 799919\n")))
 
 (defun yt/email-icloud ()
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.mail.me.com"
-        smtpmail-smtp-server "smtp.mail.me.com"
-        smtpmail-smtp-service 587
-        smtpmail-smtp-user "yi.tang.uk@me.com"
-        user-mail-address "yi.tang.uk@me.com"
-        user-full-name  "Yi Tang"
-        mu4e-compose-signature (concat
-                                "唐毅 (Yi Tang)\n"
-                                "Email: yi.tang.uk@me.com\n"
-                                "\n")
-        )
-  (setq mu4e-maildir "~/Maildir")
-  (setq mu4e-drafts-folder "/iCloud/Drafts")
-  (setq mu4e-sent-folder   "/iCloud/Sent Messages")
-  (setq mu4e-trash-folder  "/iCloud/Deleted Messages"))
+  (setq  ;; account info
+   user-mail-address "yi.tang.uk@me.com"
+   user-full-name  "Yi Tang"
+   message-send-mail-function 'smtpmail-send-it
+   smtpmail-stream-type 'starttls
+   smtpmail-default-smtp-server "smtp.mail.me.com"
+   smtpmail-smtp-server "smtp.mail.me.com"
+   smtpmail-smtp-service 587
+   smtpmail-smtp-user "yi.tang.uk@me.com"
+   mu4e-maildir "~/Maildir"
+   mu4e-drafts-folder "/iCloud/Drafts"
+   mu4e-sent-folder   "/iCloud/Sent Messages"
+   mu4e-trash-folder  "/iCloud/Deleted Messages"
+   mu4e-compose-signature (concat
+                           "唐毅 (Yi Tang)\n"
+                           "Email: yi.tang.uk@me.com\n"
+                           "\n")))
 
 (defun yt/email-gmail ()
-  (setq message-send-mail-function 'smtpmail-send-it)
-  (setq smtpmail-stream-type 'starttls )
-  (setq smtpmail-default-smtp-server "smtp.gmail.com" )
-  (setq smtpmail-smtp-server "smtp.gmail.com" )
-  (setq smtpmail-smtp-service 587 )
-  (setq smtpmail-smtp-user "yi.tang.uni@gmail.com" )
+
+  ;; sent emails 
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+        ;; smtpmail-auth-credentials
+        ;;   '(("smtp.gmail.com" 587 "yi.tang.uni@gmail.com" nil))
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587)
+
+  
   (setq user-mail-address "yi.tang.uni@gmail.com" )
   (setq user-full-name  "Yi Tang" )
   (setq mu4e-drafts-folder "/Gmail/Drafts" )
@@ -3237,68 +3247,29 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
                                 "T: 07445510033\n")))
 
 
-(cond ((eq system-type 'darwin)
-       (yt/mail-home-setting))
-      ((eq system-type 'gnu/linux)
-       (yt/mail-office-setting)))
 
-;; (defun yt/mail-setup () 
-;;   (interactive)
-;;   (cond
-;;    ((eq system-type 'gnu/linux)
-;;     (setq message-send-mail-function 'smtpmail-send-it
-;;           smtpmail-stream-type 'starttls
-;;           smtpmail-default-smtp-server "smtp.office365.com"
-;;           smtpmail-smtp-server "smtp.office365.com"
-;;           smtpmail-smtp-service 587
-;;           smtpmail-smtp-user "yi.tang@jbarisk.com"
-;;           user-mail-address "yi.tang@jbarisk.com"
-;;           user-full-name  "Yi Tang"
-;;           mu4e-drafts-folder "/Drafts"
-;;           mu4e-sent-folder   "/Sent Items"
-;;           mu4e-trash-folder  "/Trash"
-;;           mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-;;                                     ("/Sent Items"   . ?s)
-;;                                     ("/Trash"        . ?t)
-;;                                     ("/All Mail"     . ?a))
-;;           message-signature
-;;           (concat
-;;            "Yi Tang\n"
-;;            "Statistician\n"
-;;            "T: +44 (0) 1756 799919\n")
-;;           )
-;;     (message "sent email via office365 email account"))
-;;    ((eq system-type 'darwin)
-;;     (setq message-send-mail-function 'smtpmail-send-it
-;;           smtpmail-stream-type 'starttls
-;;           smtpmail-default-smtp-server "smtp.mail.me.com"
-;;           smtpmail-smtp-server "smtp.mail.me.com"
-;;           smtpmail-smtp-service 587
-;;           smtpmail-smtp-user "yi.tang.uk@me.com"
-;;           user-mail-address "yi.tang.uk@me.com"
-;;           user-full-name  "Yi Tang"
-;;           message-signature
-;;           (concat
-;;            "唐毅 (Yi Tang)\n"
-;;            "Email: yi.tang.uk@me.com\n"
-;;            "\n")
-;;           )
-;;     (setq mu4e-maildir "~/Maildir")
-;;     (setq mu4e-drafts-folder "/iCloud/Drafts")
-;;     (setq mu4e-sent-folder   "/iCloud/Sent Messages")
-;;     (setq mu4e-trash-folder  "/iCloud/Deleted Messages")
 
-;;     (setq mu4e-maildir-shortcuts
-;;           '( ("/iCloud/INBOX"               . ?i)
-;;          ("/iCloud/Sent Messages"   . ?s)
-;;          ("/iCloud/Deleted Messages"       . ?t)
-;;          ;; ("/iCloud.All Mail"    . ?a)
-;;          ))
+(defun yt/mu4e-jba ()
+  (interactive)
+  (yt/email-jba)
+  (mu4e)
+  )
+(defun yt/mu4e-gmail()
+  (interactive)
+  (yt/email-gmail)
+  (mu4e))
+(defun yt/mu4e-icloud()
+  (interactive)
+  (yt/email-icloud)
+  (mu4e))
 
-;;     (message "sent email via icloud email account"))
-;;    ))
-;; (yt/mail-setup)
-
+(defhydra hydra-email (:color blue :hint nil)
+  "
+Mu4e: _g_mail _j_ba _i_Cloud"
+  ("g" yt/mu4e-gmail)
+  ("j" yt/mu4e-jba)
+  ("i" yt/mu4e-icloud))
+(global-set-key [f2] 'hydra-email/body)
 
 #+end_src 
 
@@ -3390,7 +3361,7 @@ hydra
   ("l" text-scale-decrease "out"))
 
 (defhydra hydra-search (:color blue
-			       :hint nil)
+                               :hint nil)
   "
 Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
 Multiple Buffers : helm-multi-_S_woop 
