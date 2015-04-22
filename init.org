@@ -299,17 +299,22 @@ or this
     [2015-01-19 Mon 12:14]
     
     #+begin_src emacs-lisp
-;; Change "yes or no" to "y or n"
-(fset 'yes-or-no-p 'y-or-n-p)
+    ;; Change "yes or no" to "y or n"
+    (fset 'yes-or-no-p 'y-or-n-p)
 
-(defun yt/reload-dot-emacs ()
-  "Save the .emacs buffer if needed, then reload .emacs."
-  (interactive)
-  (let ((dot-emacs "~/.emacs"))
-    (and (get-file-buffer dot-emacs)
-         (save-buffer (get-file-buffer dot-emacs)))
-    (load-file dot-emacs))
-  (message "Re-initialized!"))
+    (defun yt/reload-dot-emacs ()
+      "Save the .emacs buffer if needed, then reload .emacs."
+      (interactive)
+      (let ((dot-emacs "~/.emacs"))
+        (and (get-file-buffer dot-emacs)
+             (save-buffer (get-file-buffer dot-emacs)))
+        (load-file dot-emacs))
+      (message "Re-initialized!"))
+
+
+    (require 'keyfreq)
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1)
 
     #+end_src
 
