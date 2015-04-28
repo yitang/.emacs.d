@@ -3175,6 +3175,15 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
 
 #+begin_src emacs-lisp 
 ;;;
+
+(setq  mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?j)
+                          ("/iCloud/INBOX" . ?i)
+                          ("/Gmail/INBOX" . ?g)
+                          ("/Sent Items"   . ?s)
+                          ("/Trash"        . ?t)
+                          ("/All Mail"     . ?a)))
+
+
 (defun yt/email-jba ()
   (interactive)
   ;; setup for smtp 
@@ -3214,6 +3223,13 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
    mu4e-drafts-folder "/iCloud/Drafts"
    mu4e-sent-folder   "/iCloud/Sent Messages"
    mu4e-trash-folder  "/iCloud/Deleted Messages"
+
+   mu4e-maildir-shortcuts  '(("/iCloud/INBOX"    . ?i)
+                             ("/Sent Items"   . ?s)
+                             ("/Trash"        . ?t)
+                             ("/All Mail"     . ?a))
+
+   
    mu4e-compose-signature (concat
                            "唐毅 (Yi Tang)\n"
                            "Email: yi.tang.uk@me.com\n"
@@ -3229,7 +3245,9 @@ set up email account, use office 365 in the office, and iCloud at macbook por.
         ;;   '(("smtp.gmail.com" 587 "yi.tang.uni@gmail.com" nil))
         smtpmail-default-smtp-server "smtp.gmail.com"
         smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587)
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang.uni@gmail.com")
+  
 
   
   (setq user-mail-address "yi.tang.uni@gmail.com" )

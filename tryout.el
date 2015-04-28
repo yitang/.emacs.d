@@ -13,5 +13,3 @@
 ;; sunshine: weather forcaste service
 (setq sunshine-units 'metric)
 (setq sunshine-location "Keighley, GB")
-
-
