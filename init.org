@@ -659,7 +659,25 @@ These are only the surface of ESS and there are lot more useful features like sp
 
 
 #+end_src
+*** Syntax highlight 
 
+In Emacs, syntax highlighting is known as font-locking.  You can customize the amount of syntax highlighting that you want to see.  At the top of the Emacs window, click on the ESS menu and select "Font Lock".  This will display a menu of buttons corresponding to language elements that you can syntax highlight.  
+
+#+begin_src emacs-lisp :results silent 
+(setq ess-R-font-lock-keywords
+    '((ess-R-fl-keyword:modifiers . t)
+     (ess-R-fl-keyword:fun-defs . t)
+     (ess-R-fl-keyword:keywords . t)
+     (ess-R-fl-keyword:assign-ops)
+     (ess-R-fl-keyword:constants . t)
+     (ess-fl-keyword:fun-calls . t)
+     (ess-fl-keyword:numbers)
+     (ess-fl-keyword:operators)
+     (ess-fl-keyword:delimiters)
+     (ess-fl-keyword:=)
+     (ess-R-fl-keyword:F&T)
+     (ess-R-fl-keyword:%op%)))
+#+end_src
 *** Programming Mode 
 After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
