@@ -13,3 +13,44 @@
 ;; sunshine: weather forcaste service
 (setq sunshine-units 'metric)
 (setq sunshine-location "Keighley, GB")
+
+
+
+
+(defun yt/daily-back-keyfreq ()
+  "back up .emacs.keyfreq file.
+Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
+  (interactive)
+  (let* ((place (if (string= system-name "mbp.local")
+		    "mac"
+		  "ubuntu"))
+	 (file-name (concat (format-time-string "%F")
+			    "-"
+			    place)))
+    (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
+	(shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
+      "do nothing")
+    ))
+
+
+
+
+(defun yt/go-home ()
+  "function meat to be called before I leave
+
+It reminds of me to 
+1. sync git folder,
+2. back up keyfreq file"
+  (interactive)
+  
+  (yt/daily-back-keyfreq)
+  )
+
+  
+(defun yt/git-repo-info ()
+  (interactive)
+  (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
+	 (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+	 (unpush (shell-command-to-string sh-num-unpushed-commits))
+	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
+    (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
