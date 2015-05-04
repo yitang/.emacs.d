@@ -1264,7 +1264,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
               
-              ("l" "Ledger Journal" plain (file "~/git/ImportantFiles/ledger")
+              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
                "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
               ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
