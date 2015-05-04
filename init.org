@@ -2741,7 +2741,7 @@ org-download
 \\usepackage{amssymb} %% checkbox
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont{Gentium}
+\\setromanfont{Gentium Basic}
 \\setromanfont [BoldFont={Gentium Basic Bold},
                 ItalicFont={Gentium Basic Italic}]{Gentium Basic}
 %% \\setsansfont{Charis SIL}
