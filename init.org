@@ -3059,7 +3059,7 @@ comments: true
      ((looking-at "^#\\+END_SRC")
       (goto-char (match-beginning 0))
       (kill-line)
-      (insert "{% highlight %}")
+      (insert "{% endhighlight %}\n")
       (insert "\#+end_html")))))
 (defun jekyll-highlight-converter ()
   "use jekyll highlight style"
