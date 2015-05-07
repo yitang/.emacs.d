@@ -3055,7 +3055,7 @@ comments: true
       (goto-char (match-beginning 0))
       (kill-line)
       (insert "#+begin_html\n")
-      (insert (concat "{% highlight " lang " linenos %}")))
+      (insert (concat "{% highlight " lang " %}")))
      ((looking-at "^#\\+END_SRC")
       (goto-char (match-beginning 0))
       (kill-line)
@@ -3073,6 +3073,24 @@ comments: true
 #+end_src
 
 #+results:
+**** Path Issues 
+
+When publishing, the org-file is firstly exported to html file, and when Jekyll build the website, the html file will be saved in to some folder that depends on the YMAL. Then the relative path to image files are broken. To solve that, according to the Jeklyy web site, is to save all the image or downloade files in assets/ folder.  Then those image files are referende by org-mode. 
+
+First, define a img link, that when exporting, the image a_img.png will be set to linked to /assets/a_img.png. when I click, it wil open the img file in Emacs.
+
+#+begin_src emacs-lisp :results silent 
+(defun org-custom-link-img-follow (path)
+  (org-open-file-with-emacs
+   (format "../../assets/%s" path)))
+
+(defun org-custom-link-img-export (path desc format)
+  (cond
+   ((eq format 'html)
+    (format "<img src=\"/assets/%s\" alt=\"%s\"/>" path desc))))
+
+(org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
+#+end_src
 
 
 ** Initialisation Completed
