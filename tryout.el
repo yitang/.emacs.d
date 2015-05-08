@@ -54,3 +54,15 @@ It reminds of me to
 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
+
+
+
+
+(setq org-export-with-toc nil
+      org-export-with-todo-keywords t
+      org-export-with-sub-superscripts nil
+      org-export-with-planning t
+      org-export-with-timestamps nil
+      org-export-babel-evaluate nil)
+(setq org-archive-location "::* Archived Tasks")
+
