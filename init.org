@@ -1507,7 +1507,7 @@ A prefix arg forces clock in of the default task."
 (setq org-agenda-span 'day)
 
 (setq org-archive-mark-done nil)
-(setq org-archive-location "%s_archive::* Archived Tasks")
+;; (setq org-archive-location "%s_archive::* Archived Tasks")
 
 (defun bh/skip-non-archivable-tasks ()
   "Skip trees that are not available for archiving"
