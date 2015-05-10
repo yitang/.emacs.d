@@ -431,6 +431,11 @@ the area is defined by the bounding box. "
 (setf rm-blacklist "")
 (sml/setup)
 
+#+end_src
+
+Rainbow-delimiters
+
+#+begin_src emacs-lisp :results silent 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -441,8 +446,8 @@ the area is defined by the bounding box. "
  do
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 30)))
-#+end_src
 
+#+end_src
     #+begin_src emacs-lisp 
 
     ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
@@ -2566,6 +2571,12 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
+
+in-file archive 
+#+begin_src emacs-lisp :results silent 
+(setq org-archive-location "::* Archived Tasks")
+#+end_src
+
 *** contribute libraries 
 
 Show org-mode bullets as UTF-8 characters.
@@ -3449,6 +3460,37 @@ voca-builde
 (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
 (setq sentence-end-double-space nil)
 #+end_src
+
+#+begin_src emacs-lisp :results silent 
+(olivetti-mode)
+#+end_src
+
+
+weather forcasting 
+#+begin_src emacs-lisp :results silent 
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
+#+end_src
+
+automatically back-up keyfreq 
+#+begin_src emacs-lisp :results silent 
+(defun yt/daily-back-keyfreq ()
+  "back up .emacs.keyfreq file.
+Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
+  (interactive)
+  (let* ((place (if (string= system-name "mbp.local")
+		    "mac"
+		  "ubuntu"))
+	 (file-name (concat (format-time-string "%F")
+			    "-"
+			    place)))
+    (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
+	(shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
+      "do nothing")
+    ))
+#+end_src
+
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
