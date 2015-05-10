@@ -3490,7 +3490,124 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
       "do nothing")
     ))
 #+end_src
+** Git-Report
 
+#+begin_src emacs-lisp :results silent 
+;; (defun yt/git-repo-info ()
+;;   (interactive)
+;;   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
+;; 	 (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+;; 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
+;; 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
+;;     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
+
+(defun yt/git-check-repo-update (path)
+  (interactive)
+  (let* ((git-cmd "git status | grep clean")
+	 (sh-cmd (concat "cd " path "; " git-cmd))
+	 (sh-result (shell-command-to-string sh-cmd))
+	 (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
+				  sh-result)))
+	 (repo-clean-p (string= "nothing to commit, working directory clean\n"
+				sh-result)))
+    (cond ((not is-git-repo)
+	   (concat path " is not a git repo"))
+	  (repo-clean-p
+	   (concat path " is clean"))
+	  (t
+	   (concat path " is dirty")))))
+
+(defun yt/git-status-report (repo-list)
+  (interactive)
+  (let ((repo-status (mapconcat 'yt/git-check-repo-update repo-list "\n")))
+    repo-status))
+    
+
+(defun yt/git-status-report-org-mode (repo-list)
+  (interactive)
+  (let ((repo-status (mapcar 'yt/git-check-repo-update-return-list repo-list)))    
+    repo-status))
+
+(defun yt/git-check-repo-update-return-list (path)
+  (let* ((status (yt/git-check-repo-update path))
+	 (status (car (cdr (split-string status " is "))))
+	 (magit-link 
+	  (if (string= "not a git repo" status)
+	      " "
+	    (concat "[[magit:" path "]]"))))
+    (list path
+	  status
+	  magit-link)))
+
+(defun yt/list-to-org-table (a-list)
+  (let ((a-list-string (mapconcat 'identity a-list " | "))) ;; use | to separate each item
+    (concat "| " a-list-string " |" "\n")))
+
+(defun yt/git-check-repo-update-org-table (repo-list)
+  (let* ((status-list (mapcar 'yt/git-check-repo-update-return-list repo-list))
+	(status-table (mapcar 'yt/list-to-org-table status-list))
+	(status-table-string (mapconcat 'identity status-table " "))
+	(table-header "| repo | status | magit |\n"))
+    (concat table-header " " status-table-string)))
+
+;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
+;; magit link in org-mode 
+(defun org-magit-store-link ()
+  "Store a link to a directory to open with magit."
+  (when (eq major-mode 'magit-mode)
+    (let* ((dir default-directory)
+           (link (org-make-link "magit:" dir))
+           (desc (abbreviate-file-name dir)))
+      (org-store-link-props :type "magit" :link link :description desc)
+      link)))
+(defun org-magit-open (dir)
+  "Follow a magit link to DIR."
+  (require 'magit)
+  (magit-status dir))
+(org-add-link-type "magit" 'org-magit-open nil)
+(add-hook 'org-store-link-functions 'org-magit-store-link)
+
+
+
+(require 'f)
+(defun yt/git-all-git-dir (git-base-dir)
+  (f-directories "~/git"
+                 '(lambda (arg)
+                    (let* ((f (directory-files arg))
+                           (f-string (format "%s" f)))
+                      (if (string-match "\\.git" f-string)
+                          t
+                        nil)))
+                 t))
+
+
+(defun yt/git-generate-report ()
+  (interactive)
+  (let  ((git-report (yt/git-check-repo-update-org-table repo-list)))
+    (with-temp-buffer
+      (insert (format "%s" git-report))
+      (write-region (point-min) (point-max) git-report-temp-file)
+      )
+    (find-file git-report-temp-file)
+    (goto-char (+ 1 (point-min)))
+    (org-mode)
+    (org-ctrl-c-ret)
+    (previous-line 2)
+    (search-forward "status")
+    (next-line 2)
+    ;; (setq current-prefix-arg '(4)) ; C-u
+    (org-table-sort-lines t ?a)
+    )
+  )
+
+
+(setq git-report-temp-file "~/git-report-buffer")
+(setq repo-list (yt/git-all-git-dir "~/git"))
+;; (yt/git-generate-report)
+
+
+
+#+end_src
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
