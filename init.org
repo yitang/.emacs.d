@@ -448,7 +448,7 @@ the area is defined by the bounding box. "
 
     (load-theme 'zenburn t)
     ;; font
-    (set-default-font "Source Code Pro")
+    (set-default-font "Source Code Pro" nil t)
     (set-face-attribute 'default nil :height 100)
 
     (tool-bar-mode -1)
@@ -3426,21 +3426,10 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
   ("S" helm-multi-swoop)
   ("g" projectile-grep)
   ("G" helm-projectile-grep))
-(global-set-key [f4] 'hydra-search/body)
+(global-set-key [f5] 'hydra-search/body)
 
 #+end_src
 
-smart-line-mode 
-#+begin_src emacs-lisp :results silent 
-(display-time-mode)
-(set-face-attribute 'mode-line nil
-                    :foreground "Black"
-                    :background "DarkOrange"
-                    :box nil)
-(setq powerline-arrow-shape 'arrow)
-(setq sml/mode-width 30)
-(rich-minority-mode 1)
-#+end_src
 
 voca-builde 
 
