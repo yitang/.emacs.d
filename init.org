@@ -419,13 +419,17 @@ the area is defined by the bounding box. "
 *** Modeline
 
 #+begin_src emacs-lisp :results silent
+(display-time-mode)
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
 ;; These two lines you really need.
 (setq sml/theme 'powerline)
+(setq sml/mode-width 0)
+(setq sml/name-width 20)
+(rich-minority-mode 1)
+(setf rm-blacklist "")
 (sml/setup)
-
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -438,8 +442,6 @@ the area is defined by the bounding box. "
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 30)))
 #+end_src
-
-#+results:
 
     #+begin_src emacs-lisp 
 
@@ -2719,7 +2721,14 @@ org-download
 [2015-02-04 Wed 12:23]
 
 #+begin_src emacs-lisp
-(setq org-export-with-section-numbers nil)
+(setq org-export-with-toc nil
+      org-export-with-todo-keywords t
+      org-export-with-sub-superscripts nil
+      org-export-with-planning t
+      org-export-with-timestamps nil
+      org-export-babel-evaluate nil)
+
+
 #+end_src
 *** PDF Export 
 [2015-01-19 Mon 15:45]
