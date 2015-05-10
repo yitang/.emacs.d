@@ -13,7 +13,10 @@ It will open four windows:
 2. my weekly calendar, without habits shown,
 3. habits, 
 4. git repo rpeort. "
-  
+
+  ;; switch to *Org Agenda(a)* buffer 
+  (sunshine-forecast) ;; switch to *Sunshine* buffer
+  (yt/git-generate-report) ;; switch to git-report-
   )
 
 
