@@ -1785,7 +1785,7 @@ A prefix arg forces clock in of the default task."
                                         ; position the habit graph on the agenda to the right of the default
 (setq org-habit-graph-column 50)
 
-(run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
+;; (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
 
 (global-auto-revert-mode t)
 
@@ -2572,9 +2572,10 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
 
-in-file archive 
+
 #+begin_src emacs-lisp :results silent 
-(setq org-archive-location "::* Archived Tasks")
+(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
+(setq org-habit-show-habits nil)
 #+end_src
 
 *** contribute libraries 
