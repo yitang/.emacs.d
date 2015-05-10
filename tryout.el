@@ -15,8 +15,6 @@
 (setq sunshine-location "Keighley, GB")
 
 
-
-
 (defun yt/daily-back-keyfreq ()
   "back up .emacs.keyfreq file.
 Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
@@ -34,16 +32,27 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 
 
 
+(defun yt/hello ()
+  "functon meant to be called first thing in the morning. 
 
-(defun yt/go-home ()
+It will open four windows:
+1. weather of today and the next few days, 
+2. my weekly calendar, without habits shown,
+3. habits, 
+4. git repo rpeort. "
+  
+  )
+(defun yt/bye ()
   "function meat to be called before I leave
 
 It reminds of me to 
 1. sync git folder,
 2. back up keyfreq file"
   (interactive)
-  
-  (yt/daily-back-keyfreq)
+  (yt/git-generate-report)
+  (goto-char (point-max))
+  (insert "
+  (yt/daily-back-keyfreq)")
   )
 
   
@@ -55,14 +64,17 @@ It reminds of me to
 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
 
-
-
-
-(setq org-export-with-toc nil
-      org-export-with-todo-keywords t
-      org-export-with-sub-superscripts nil
-      org-export-with-planning t
-      org-export-with-timestamps nil
-      org-export-babel-evaluate nil)
 (setq org-archive-location "::* Archived Tasks")
+
+;;; minimallist's mode-line
+(display-time-mode)
+(setq powerline-arrow-shape 'curve)
+(setq sml/mode-width 0)
+(setq sml/name-width 20)
+(rich-minority-mode 1)
+(setf rm-blacklist "")
+
+(add-hook 'org-agenda-mode-hook
+	  (lambda () (org-habit-toggle-habits)))
+
 
