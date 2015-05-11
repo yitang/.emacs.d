@@ -2589,6 +2589,11 @@ Add markup wrapper for org-mode. to turn a word into bold, wrapper in a selected
 (wrap-region-add-wrapper "_" "_" nil 'org-mode) ; select region, hit _ then region -> _region_ in org-mode
 (wrap-region-add-wrapper "+" "+" nil 'org-mode) ; select region, hit + then region -> +region+ in org-mode
 #+end_src
+
+associate fills with .org extension with org-mode. 
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+#+end_src
 *** contribute libraries 
 
 Show org-mode bullets as UTF-8 characters.
