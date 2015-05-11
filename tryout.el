@@ -14,7 +14,8 @@ It will open four windows:
 3. habits, 
 4. git repo rpeort. "
 
-  ;; switch to *Org Agenda(a)* buffer 
+  ;; switch to *Org Agenda(a)* buffer
+  
   (sunshine-forecast) ;; switch to *Sunshine* buffer
   (yt/git-generate-report) ;; switch to git-report-
   )
@@ -41,3 +42,5 @@ It reminds of me to
 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
+
+(global-set-key (kbd "M-l") 'helm-mini)
