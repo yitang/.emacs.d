@@ -514,7 +514,8 @@ Rainbow-delimiters
 (defun pl/helm-alive-p ()
   (if (boundp 'helm-alive-p)
       (symbol-value 'helm-alive-p)))
-(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+     (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+    ;; (add-to-list 'golden-ratio-inhitib-functions 'pl/helm-alive-p)
 
 (helm-mode 1)
 
@@ -725,7 +726,7 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 
 use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remove the Phase and left This. Very useful in CamerCase.
 #+begin_src emacs-lisp :results silent 
-(subword-mode)
+(subword-mode 1)
 #+end_src
 *** Documentation  
     [2015-01-23 Fri 17:53]
