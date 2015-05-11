@@ -419,14 +419,23 @@ the area is defined by the bounding box. "
 *** Modeline
 
 #+begin_src emacs-lisp :results silent
+(display-time-mode)
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
 ;; These two lines you really need.
 (setq sml/theme 'powerline)
+(setq sml/mode-width 0)
+(setq sml/name-width 20)
+(rich-minority-mode 1)
+(setf rm-blacklist "")
 (sml/setup)
 
+#+end_src
 
+Rainbow-delimiters
+
+#+begin_src emacs-lisp :results silent 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -437,10 +446,8 @@ the area is defined by the bounding box. "
  do
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 30)))
+
 #+end_src
-
-#+results:
-
     #+begin_src emacs-lisp 
 
     ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
@@ -448,7 +455,7 @@ the area is defined by the bounding box. "
 
     (load-theme 'zenburn t)
     ;; font
-    (set-default-font "Source Code Pro")
+    (set-default-font "Source Code Pro" nil t)
     (set-face-attribute 'default nil :height 100)
 
     (tool-bar-mode -1)
@@ -1778,7 +1785,7 @@ A prefix arg forces clock in of the default task."
                                         ; position the habit graph on the agenda to the right of the default
 (setq org-habit-graph-column 50)
 
-(run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
+;; (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
 
 (global-auto-revert-mode t)
 
@@ -2564,6 +2571,13 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
+
+
+#+begin_src emacs-lisp :results silent 
+(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
+(setq org-habit-show-habits nil)
+#+end_src
+
 *** contribute libraries 
 
 Show org-mode bullets as UTF-8 characters.
@@ -2719,7 +2733,14 @@ org-download
 [2015-02-04 Wed 12:23]
 
 #+begin_src emacs-lisp
-(setq org-export-with-section-numbers nil)
+(setq org-export-with-toc nil
+      org-export-with-todo-keywords t
+      org-export-with-sub-superscripts nil
+      org-export-with-planning t
+      org-export-with-timestamps nil
+      org-export-babel-evaluate nil)
+
+
 #+end_src
 *** PDF Export 
 [2015-01-19 Mon 15:45]
@@ -3426,21 +3447,10 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
   ("S" helm-multi-swoop)
   ("g" projectile-grep)
   ("G" helm-projectile-grep))
-(global-set-key [f4] 'hydra-search/body)
+(global-set-key [f5] 'hydra-search/body)
 
 #+end_src
 
-smart-line-mode 
-#+begin_src emacs-lisp :results silent 
-(display-time-mode)
-(set-face-attribute 'mode-line nil
-                    :foreground "Black"
-                    :background "DarkOrange"
-                    :box nil)
-(setq powerline-arrow-shape 'arrow)
-(setq sml/mode-width 30)
-(rich-minority-mode 1)
-#+end_src
 
 voca-builde 
 
@@ -3450,6 +3460,154 @@ voca-builde
 (setq voca-builder/current-tag "WinFriend")
 (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
 (setq sentence-end-double-space nil)
+#+end_src
+
+#+begin_src emacs-lisp :results silent 
+(olivetti-mode)
+#+end_src
+
+
+weather forcasting 
+#+begin_src emacs-lisp :results silent 
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
+#+end_src
+
+automatically back-up keyfreq 
+#+begin_src emacs-lisp :results silent 
+(defun yt/daily-back-keyfreq ()
+  "back up .emacs.keyfreq file.
+Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
+  (interactive)
+  (let* ((place (if (string= system-name "mbp.local")
+		    "mac"
+		  "ubuntu"))
+	 (file-name (concat (format-time-string "%F")
+			    "-"
+			    place)))
+    (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
+	(shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
+      "do nothing")
+    ))
+#+end_src
+** Git-Report
+
+#+begin_src emacs-lisp :results silent 
+;; (defun yt/git-repo-info ()
+;;   (interactive)
+;;   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
+;; 	 (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+;; 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
+;; 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
+;;     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
+
+(defun yt/git-check-repo-update (path)
+  (interactive)
+  (let* ((git-cmd "git status | grep clean")
+	 (sh-cmd (concat "cd " path "; " git-cmd))
+	 (sh-result (shell-command-to-string sh-cmd))
+	 (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
+				  sh-result)))
+	 (repo-clean-p (string= "nothing to commit, working directory clean\n"
+				sh-result)))
+    (cond ((not is-git-repo)
+	   (concat path " is not a git repo"))
+	  (repo-clean-p
+	   (concat path " is clean"))
+	  (t
+	   (concat path " is dirty")))))
+
+(defun yt/git-status-report (repo-list)
+  (interactive)
+  (let ((repo-status (mapconcat 'yt/git-check-repo-update repo-list "\n")))
+    repo-status))
+    
+
+(defun yt/git-status-report-org-mode (repo-list)
+  (interactive)
+  (let ((repo-status (mapcar 'yt/git-check-repo-update-return-list repo-list)))    
+    repo-status))
+
+(defun yt/git-check-repo-update-return-list (path)
+  (let* ((status (yt/git-check-repo-update path))
+	 (status (car (cdr (split-string status " is "))))
+	 (magit-link 
+	  (if (string= "not a git repo" status)
+	      " "
+	    (concat "[[magit:" path "]]"))))
+    (list path
+	  status
+	  magit-link)))
+
+(defun yt/list-to-org-table (a-list)
+  (let ((a-list-string (mapconcat 'identity a-list " | "))) ;; use | to separate each item
+    (concat "| " a-list-string " |" "\n")))
+
+(defun yt/git-check-repo-update-org-table (repo-list)
+  (let* ((status-list (mapcar 'yt/git-check-repo-update-return-list repo-list))
+	(status-table (mapcar 'yt/list-to-org-table status-list))
+	(status-table-string (mapconcat 'identity status-table " "))
+	(table-header "| repo | status | magit |\n"))
+    (concat table-header " " status-table-string)))
+
+;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
+;; magit link in org-mode 
+(defun org-magit-store-link ()
+  "Store a link to a directory to open with magit."
+  (when (eq major-mode 'magit-mode)
+    (let* ((dir default-directory)
+           (link (org-make-link "magit:" dir))
+           (desc (abbreviate-file-name dir)))
+      (org-store-link-props :type "magit" :link link :description desc)
+      link)))
+(defun org-magit-open (dir)
+  "Follow a magit link to DIR."
+  (require 'magit)
+  (magit-status dir))
+(org-add-link-type "magit" 'org-magit-open nil)
+(add-hook 'org-store-link-functions 'org-magit-store-link)
+
+
+
+(require 'f)
+(defun yt/git-all-git-dir (git-base-dir)
+  (f-directories "~/git"
+                 '(lambda (arg)
+                    (let* ((f (directory-files arg))
+                           (f-string (format "%s" f)))
+                      (if (string-match "\\.git" f-string)
+                          t
+                        nil)))
+                 t))
+
+
+(defun yt/git-generate-report ()
+  (interactive)
+  (let  ((git-report (yt/git-check-repo-update-org-table repo-list)))
+    (with-temp-buffer
+      (insert (format "%s" git-report))
+      (write-region (point-min) (point-max) git-report-temp-file)
+      )
+    (find-file git-report-temp-file)
+    (goto-char (+ 1 (point-min)))
+    (org-mode)
+    (org-ctrl-c-ret)
+    (previous-line 2)
+    (search-forward "status")
+    (next-line 2)
+    ;; (setq current-prefix-arg '(4)) ; C-u
+    (org-table-sort-lines t ?a)
+    )
+  )
+
+
+(setq git-report-temp-file "~/git-report-buffer")
+(setq repo-list (yt/git-all-git-dir "~/git"))
+;; (yt/git-generate-report)
+
+
+
 #+end_src
 * Babel Library 
 :PROPERTIES:

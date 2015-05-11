@@ -5,45 +5,32 @@
 ;; (setq w3m-user-agent "Emacs-w3m/1.4.540 w3m/0.5.3+debian-15")
 
 
-(setq sml/mode-width 10)
-(setq sml/name-wdith 10)
-(olivetti-mode)
+(defun yt/hello ()
+  "functon meant to be called first thing in the morning. 
+
+It will open four windows:
+1. weather of today and the next few days, 
+2. my weekly calendar, without habits shown,
+3. habits, 
+4. git repo rpeort. "
+
+  ;; switch to *Org Agenda(a)* buffer 
+  (sunshine-forecast) ;; switch to *Sunshine* buffer
+  (yt/git-generate-report) ;; switch to git-report-
+  )
 
 
-;; sunshine: weather forcaste service
-(setq sunshine-units 'metric)
-(setq sunshine-location "Keighley, GB")
-
-
-
-
-(defun yt/daily-back-keyfreq ()
-  "back up .emacs.keyfreq file.
-Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
-  (interactive)
-  (let* ((place (if (string= system-name "mbp.local")
-		    "mac"
-		  "ubuntu"))
-	 (file-name (concat (format-time-string "%F")
-			    "-"
-			    place)))
-    (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
-	(shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
-      "do nothing")
-    ))
-
-
-
-
-(defun yt/go-home ()
+(defun yt/bye ()
   "function meat to be called before I leave
 
 It reminds of me to 
 1. sync git folder,
 2. back up keyfreq file"
   (interactive)
-  
-  (yt/daily-back-keyfreq)
+  (yt/git-generate-report)
+  (goto-char (point-max))
+  (insert "
+  (yt/daily-back-keyfreq)")
   )
 
   
@@ -54,15 +41,3 @@ It reminds of me to
 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
-
-
-
-
-(setq org-export-with-toc nil
-      org-export-with-todo-keywords t
-      org-export-with-sub-superscripts nil
-      org-export-with-planning t
-      org-export-with-timestamps nil
-      org-export-babel-evaluate nil)
-(setq org-archive-location "::* Archived Tasks")
-
