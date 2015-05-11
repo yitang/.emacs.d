@@ -267,29 +267,30 @@ or this
     (winner-mode 1)
     ;; winner-undo -> C-c <left>
     ;; winner-redo -> C-c <right>
-    
-    
+
+
     ;; visible notication for invalid options 
     (setq visible-bell t) 
-    
+
     ;; move between windows, alternatives: window_number.el
     (require 'ace-window)
     (global-set-key (kbd "<f1>") 'ace-window)
-    
-    
+    (setq aw-scope 'frame)
+
+
     ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
     ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
     ;; (global-set-key (kbd "C-x <right>") 'windmove-right)
     ;; (global-set-key (kbd "C-x <left>") 'windmove-left)
-    
+
     (require 'golden-ratio)
     (golden-ratio-mode 1)
     (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
-    
+
     ;; prefer horizentally split window
     ;; (setq split-height-threshold nil)
     ;;  (setq split-width-threshold 0)
-    
+
 
     #+end_src
 
