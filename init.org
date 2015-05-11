@@ -420,6 +420,12 @@ smartparens mode
 #+begin_src emacs-lisp :results silent 
 ;; (require 'smartparens-config)
 (smartparens-global-mode 1)
+
+(sp-pair "(" ")" :wrap "C-(")
+;; |foobar
+;; hit C-(
+;; becomes (|foobar)
+
 #+end_src
 
 ** Emacs Looks Cool
