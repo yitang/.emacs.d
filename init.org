@@ -214,7 +214,12 @@ or this
   CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
   :END:      
   [2015-01-19 Mon 11:42]
-** General 
+** General
+*** remove keybind 
+#+begin_src emacs-lisp :results silent 
+(global-unset-key (kbd "C-x b")
+(global-unset-key (kbd "C-x C-b"))
+#+end_src
 *** Assorted Pieces 
     [2015-01-19 Mon 12:21]
     #+begin_src emacs-lisp
