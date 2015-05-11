@@ -414,6 +414,13 @@ the area is defined by the bounding box. "
 
     #+results:
     : omap
+*** general editing  
+
+smartparens mode 
+#+begin_src emacs-lisp :results silent 
+;; (require 'smartparens-config)
+(smartparens-global-mode 1)
+#+end_src
 
 ** Emacs Looks Cool
    [2015-01-19 Mon 12:16]
@@ -2589,13 +2596,11 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 Add markup wrapper for org-mode. to turn a word into bold, wrapper in a selected region, by using expand-region, which is bound to =C-== then type *. 
 #+begin_src emacs-lisp :results silent 
-(require 'wrap-region)
-(add-hook 'org-mode-hook #'wrap-region-mode)
-(wrap-region-add-wrapper "=" "=" nil 'org-mode) ; select region, hit = then region -> =region= in org-mode
-(wrap-region-add-wrapper "*" "*" nil 'org-mode) ; select region, hit * then region -> *region* in org-mode
-(wrap-region-add-wrapper "/" "/" nil 'org-mode) ; select region, hit / then region -> /region/ in org-mode
-(wrap-region-add-wrapper "_" "_" nil 'org-mode) ; select region, hit _ then region -> _region_ in org-mode
-(wrap-region-add-wrapper "+" "+" nil 'org-mode) ; select region, hit + then region -> +region+ in org-mode
+(sp-local-pair 'org-mode "=" "=") ; select region, hit = then region -> =region= in org-mode
+(sp-local-pair 'org-mode "*" "*") ; select region, hit * then region -> *region* in org-mode
+(sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
+(sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
+(sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
 #+end_src
 
 associate fills with .org extension with org-mode. 
@@ -3444,11 +3449,6 @@ I got an email from an estate agency where there are few images are inlined, but
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
 ** Refile 
 
-smartparens mode 
-#+begin_src emacs-lisp :results silent 
-;; (require 'smartparens-config)
-(smartparens-global-mode 1)
-#+end_src
 
 hydra 
 #+begin_src emacs-lisp :results silent 
