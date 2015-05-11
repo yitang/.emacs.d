@@ -425,7 +425,7 @@ smartparens mode
 ;; |foobar
 ;; hit C-(
 ;; becomes (|foobar)
-
+(sp-pair "'" nil :actions :rem)
 #+end_src
 
 ** Emacs Looks Cool
