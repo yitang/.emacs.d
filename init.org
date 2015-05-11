@@ -722,6 +722,11 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 (global-set-key (kbd "C-S-d") 'uncomment-region)
     #+end_src
     
+
+use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remove the Phase and left This. Very useful in CamerCase.
+#+begin_src emacs-lisp :results silent 
+(subword-mode)
+#+end_src
 *** Documentation  
     [2015-01-23 Fri 17:53]
     #+begin_src emacs-lisp :results silent
