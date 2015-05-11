@@ -2576,6 +2576,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 #+begin_src emacs-lisp :results silent 
 (setq org-archive-location "::* Archived Tasks") ;;in-file archive 
 (setq org-habit-show-habits nil)
+(setq org-agenda-span 'week)
 #+end_src
 
 *** contribute libraries 
