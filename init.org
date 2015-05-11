@@ -121,6 +121,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         gist
                         sunshine
                         keyfreq
+                        pretty-mode
                         ))
 
 (require 'package)
