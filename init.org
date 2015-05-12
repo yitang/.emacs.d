@@ -75,7 +75,7 @@ Normally you could tangle a org file to extract all the source code into one fil
   
 * Getting Started  
   [2015-01-20 Tue 08:09]
-
+  
 ** load all the packages 
    [2015-03-18 Wed 15:33]
   question I want to answer 
@@ -196,6 +196,7 @@ or this
                         keyfreq
                         pretty-mode
                         f
+                        olivetti
                         ))
 
 (require 'package)
