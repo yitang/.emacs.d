@@ -3758,7 +3758,7 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+end_src
 
 #+begin_example
-#+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
+#+call: GetContactGroup('("~/git/org/contacts.org"), "RunningClub", "EMAIL")
 #+results:
 : Foo Bar <Foo.Bar@somewhere.com>, Bar Foo <Bar.Foo@somewhere.com>
 
