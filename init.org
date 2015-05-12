@@ -107,7 +107,6 @@ Normally you could tangle a org file to extract all the source code into one fil
                         powerline
                         synosaurus
                         hydra
-                        purpose
                         w3m
                         ace-window
                         calfw
@@ -122,6 +121,7 @@ Normally you could tangle a org file to extract all the source code into one fil
                         sunshine
                         keyfreq
                         pretty-mode
+f
                         ))
 
 (require 'package)
