@@ -78,7 +78,7 @@ Normally you could tangle a org file to extract all the source code into one fil
 ** install al lthe packages 
 [2015-03-18 Wed 15:32]
 
-#+begin_src emacs-lisp :eval no
+#+begin_src emacs-lisp 
 (setq my-package-list '(ess
                         ssh
                         auto-complete
@@ -217,7 +217,7 @@ or this
 ** General
 *** remove keybind 
 #+begin_src emacs-lisp :results silent 
-(global-unset-key (kbd "C-x b")
+(global-unset-key (kbd "C-x b"))
 (global-unset-key (kbd "C-x C-b"))
 #+end_src
 *** Assorted Pieces 
@@ -3757,13 +3757,10 @@ pdfpextr $pageStart $pageEnd $pdfFile
 (GetContactGroup contact-file search-tag contact-type)
 #+end_src
 
-#+results: GetContactGroup
-: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Ye Liu <Ye.Liu@jbarisk.com>, Yi Tang <yi.tang@jbarisk.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>fo
-
 #+begin_example
 #+call: GetContactGroup('("~/git/org/contacts.org"), "SFG", "EMAIL")
 #+results:
-: Elizabeth Wood <Elizabeth.Wood@jbaconsulting.com>, Gary Savage <Gary.Savage@jbarisk.com>, James Ramm <James.Ramm@jbarisk.com>, Jennifer Hornsby <Jennifer.Hornsby@jbaconsulting.com>, Naomi Booth <Naomi.Booth@jbarisk.com>, Rob Lamb <Rob.Lamb@jbatrust.org>, Ross Towe <Ross.Towe@jbaconsulting.com>, Sarah Warren <Sarah.Warren@jbaconsulting.com>, Zora van Leeuwen <Zora.VanLeeuwen@jbaconsulting.com>
+: Foo Bar <Foo.Bar@somewhere.com>, Bar Foo <Bar.Foo@somewhere.com>
 
 #+end_example
 
