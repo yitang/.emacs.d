@@ -75,72 +75,7 @@ Normally you could tangle a org file to extract all the source code into one fil
   
 * Getting Started  
   [2015-01-20 Tue 08:09]
-** install al lthe packages 
-[2015-03-18 Wed 15:32]
 
-#+begin_src emacs-lisp 
-(setq my-package-list '(ess
-                        ssh
-                        auto-complete
-                        nyan-mode
-                        yasnippet
-                        projectile
-                        magit
-                        helm-swoop
-                        nyan-mode
-                        org-jekyll
-                        org-plus-contrib
-                        helm-projectile
-                        rainbow-delimiters
-                        zenburn-theme
-                        htmlize
-                        nanowrimo
-                        golden-ratio
-                        artbollocks-mode
-                        langtool
-                        flycheck
-                        expand-region
-                        guide-key
-                        exec-path-from-shell
-                        smart-mode-line
-                        smart-mode-line-powerline-theme
-                        powerline
-                        synosaurus
-                        hydra
-                        w3m
-                        ace-window
-                        calfw
-                        multiple-cursors
-                        org-download
-                        paradox
-                        smartparens
-                        ace-jump-mode
-                        voca-builder
-                        org-download
-                        gist
-                        sunshine
-                        keyfreq
-                        pretty-mode
-f
-                        ))
-
-(require 'package)
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
-(package-initialize)
-
-;; fetch the list of packages available 
-(unless package-archive-contents
-  (package-refresh-contents))
-;; install 
-(dolist (i-package my-package-list)
-  (unless (package-installed-p i-package)
-    (package-install i-package)))
-
-
-#+end_src
 ** load all the packages 
    [2015-03-18 Wed 15:33]
   question I want to answer 
@@ -214,6 +149,72 @@ or this
   CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
   :END:      
   [2015-01-19 Mon 11:42]
+** install packages 
+[2015-03-18 Wed 15:32]
+
+#+begin_src emacs-lisp 
+(setq my-package-list '(ess
+                        ssh
+                        auto-complete
+                        nyan-mode
+                        yasnippet
+                        projectile
+                        magit
+                        helm-swoop
+                        nyan-mode
+                        org-jekyll
+                        org-plus-contrib
+                        helm-projectile
+                        rainbow-delimiters
+                        zenburn-theme
+                        htmlize
+                        nanowrimo
+                        golden-ratio
+                        artbollocks-mode
+                        langtool
+                        flycheck
+                        expand-region
+                        guide-key
+                        exec-path-from-shell
+                        smart-mode-line
+                        smart-mode-line-powerline-theme
+                        powerline
+                        synosaurus
+                        hydra
+                        w3m
+                        ace-window
+                        calfw
+                        multiple-cursors
+                        org-download
+                        paradox
+                        smartparens
+                        ace-jump-mode
+                        voca-builder
+                        org-download
+                        gist
+                        sunshine
+                        keyfreq
+                        pretty-mode
+                        f
+                        ))
+
+(require 'package)
+(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+(package-initialize)
+
+;; fetch the list of packages available 
+(unless package-archive-contents
+  (package-refresh-contents))
+;; install 
+(dolist (i-package my-package-list)
+  (unless (package-installed-p i-package)
+    (package-install i-package)))
+
+
+#+end_src
 ** General
 *** remove keybind 
 #+begin_src emacs-lisp :results silent 
@@ -433,7 +434,12 @@ smartparens mode
 ;; becomes (|foobar)
 (sp-pair "'" nil :actions :rem)
 #+end_src
+*** Minibuffer history 
 
+#+begin_src emacs-lisp :results silent 
+(setq savehist-file "~/git/.emacs.d/history")
+(savehist-mode 1)
+#+end_src
 ** Emacs Looks Cool
    [2015-01-19 Mon 12:16]
 *** Modeline
