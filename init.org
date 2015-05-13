@@ -675,10 +675,10 @@ These are only the surface of ESS and there are lot more useful features like sp
 (add-hook 'ess-mode-hook
           '(lambda()
              (local-set-key [(shift return)] 'my-ess-eval)))
-(add-hook 'inferior-ess-mode-hook
-          '(lambda()
-             (local-set-key [C-up] 'comint-previous-input)
-             (local-set-key [C-down] 'comint-next-input)))
+;; (add-hook 'inferior-ess-mode-hook
+;;           '(lambda()
+;;              (local-set-key [C-up] 'comint-previous-input)
+;;              (local-set-key [C-down] 'comint-next-input)))
 (add-hook 'ess-mode-hook
           (lambda ()
             (flyspell-prog-mode)
@@ -693,6 +693,9 @@ These are only the surface of ESS and there are lot more useful features like sp
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 
+
+
+  (setq ess-history-directory "~/.Rhisotry/")
 
 #+end_src
 *** Syntax highlight 
