@@ -3548,26 +3548,26 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 ;; (defun yt/git-repo-info ()
 ;;   (interactive)
 ;;   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
-;; 	 (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
-;; 	 (unpush (shell-command-to-string sh-num-unpushed-commits))
-;; 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
+;;       (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+;;       (unpush (shell-command-to-string sh-num-unpushed-commits))
+;;       (uncommit (shell-command-to-string sh-num-uncommited-files)))
 ;;     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
 
 (defun yt/git-check-repo-update (path)
   (interactive)
   (let* ((git-cmd "git status | grep clean")
-	 (sh-cmd (concat "cd " path "; " git-cmd))
-	 (sh-result (shell-command-to-string sh-cmd))
-	 (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
-				  sh-result)))
-	 (repo-clean-p (string= "nothing to commit, working directory clean\n"
-				sh-result)))
+         (sh-cmd (concat "cd " path "; " git-cmd))
+         (sh-result (shell-command-to-string sh-cmd))
+         (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
+                                  sh-result)))
+         (repo-clean-p (string= "nothing to commit, working directory clean\n"
+                                sh-result)))
     (cond ((not is-git-repo)
-	   (concat path " is not a git repo"))
-	  (repo-clean-p
-	   (concat path " is clean"))
-	  (t
-	   (concat path " is dirty")))))
+           (concat path " is not a git repo"))
+          (repo-clean-p
+           (concat path " is clean"))
+          (t
+           (concat path " is dirty")))))
 
 (defun yt/git-status-report (repo-list)
   (interactive)
@@ -3582,14 +3582,14 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 
 (defun yt/git-check-repo-update-return-list (path)
   (let* ((status (yt/git-check-repo-update path))
-	 (status (car (cdr (split-string status " is "))))
-	 (magit-link 
-	  (if (string= "not a git repo" status)
-	      " "
-	    (concat "[[magit:" path "]]"))))
+         (status (car (cdr (split-string status " is "))))
+         (magit-link 
+          (if (string= "not a git repo" status)
+              " "
+            (concat "[[magit:" path "]]"))))
     (list path
-	  status
-	  magit-link)))
+          status
+          magit-link)))
 
 (defun yt/list-to-org-table (a-list)
   (let ((a-list-string (mapconcat 'identity a-list " | "))) ;; use | to separate each item
@@ -3597,9 +3597,9 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 
 (defun yt/git-check-repo-update-org-table (repo-list)
   (let* ((status-list (mapcar 'yt/git-check-repo-update-return-list repo-list))
-	(status-table (mapcar 'yt/list-to-org-table status-list))
-	(status-table-string (mapconcat 'identity status-table " "))
-	(table-header "| repo | status | magit |\n"))
+        (status-table (mapcar 'yt/list-to-org-table status-list))
+        (status-table-string (mapconcat 'identity status-table " "))
+        (table-header "| repo | status | magit |\n"))
     (concat table-header " " status-table-string)))
 
 ;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
