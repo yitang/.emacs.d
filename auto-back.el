@@ -33,7 +33,6 @@
       (insert "\n")
       (insert eff-table-str))))
 
-
 (defun yt/daily-back-keyfreq-no-ask ()
   "back up .emacs.keyfreq file.
 Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
@@ -49,7 +48,7 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 	 (file-name (make-temp-file (concat file-name "-")))) ;; - add ann random string to the end
     ;; (shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name))
     (shell-command (concat "mv ~/.emacs.keyfreq " file-name))
-    (print file-name)
+    ;;    (print file-name)
     ))
 
 (setq effectiveness-keywords (list "TODO" "NEXT" "SOMEDAY"  "DONE"  "HOLD"  "CANCELLED" "PHONE" "MEETING"))
@@ -60,3 +59,5 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 (yt/bakcup-todo-keywords-no-ask)
 (yt/daily-back-keyfreq-no-ask)
 (message "88")
+
+;; emacs --batch -l ~/.emacs -l ~/git/.emacs.d/auto-back.el -f save-buffer >% ~/tmp.emacs.batch.log
