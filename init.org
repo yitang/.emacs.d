@@ -3827,6 +3827,8 @@ paste(headline, content, page.break, sep = "\n")
 
 (defun my/office-org-capture-temp ()
   (setq org-capture-templates
+        
+        
         (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
                  "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
                 ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
@@ -3835,6 +3837,9 @@ paste(headline, content, page.break, sep = "\n")
                  "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
                 ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
                  "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
+                               "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
+                              
                 ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
                  "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
                 ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
