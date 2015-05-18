@@ -20,12 +20,12 @@
   (pairlis (org-agenda-files) counts)
   )
 
-(defun yt/bakcup-todo-keywords-no-ask ()
+(defun yt/bakcup-todo-keywords-no-ask (file-name)
   (interactive)
   (let* ((eff-table (org-effectiveness-table))
-         (eff-table-str (prin1-to-string eff-table))
-         (ymd (format-time-string "%Y-%m-%d"))
-         (file-name (concat effectiveness-data-dir "/" ymd "-auto")))
+         (eff-table-str (prin1-to-string eff-table)))
+         ;; (ymd (format-time-string "%Y-%m-%d"))
+         ;; (file-name (concat effectiveness-data-dir "/" ymd "-auto")))
     (with-temp-file file-name
       (insert ymd)
       (insert "\n")
@@ -33,21 +33,21 @@
       (insert "\n")
       (insert eff-table-str))))
 
-(defun yt/daily-back-keyfreq-no-ask ()
+(defun yt/daily-back-keyfreq-no-ask (file-name)
   "back up .emacs.keyfreq file.
 Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
-  (interactive)
-  (let* ((place (if (string= system-name "mbp.local")
-                    "mac"
-                  "ubuntu"))
-         (file-name (concat (format-time-string "%F")
-                            "-"
-                            place
-			    "-auto"))
-	 (temporary-file-directory "~/git/.emacs.d/keyfreq")
-	 (file-name (make-temp-file (concat file-name "-")))) ;; - add ann random string to the end
+  ;; (interactive)
+  ;; (let* ((place (if (string= system-name "mbp.local")
+  ;;                   "mac"
+  ;;                 "ubuntu"))
+  ;;        (file-name (concat (format-time-string "%F")
+  ;;                           "-"
+  ;;                           place
+  ;; 			    "-auto"))
+  ;; 	 (temporary-file-directory "~/git/.emacs.d/keyfreq")
+  ;; 	 (file-name (make-temp-file (concat file-name "-")))) ;; - add ann random string to the end
     ;; (shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name))
-    (shell-command (concat "mv ~/.emacs.keyfreq " file-name))
+  (shell-command (concat "mv ~/.emacs.keyfreq " file-name)
     ;;    (print file-name)
     ))
 
@@ -55,9 +55,28 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 (setq effectiveness-data-dir "/home/yitang/git/.emacs.d/effectiveness")
 
 
-(message "gonna backup")
-(yt/bakcup-todo-keywords-no-ask)
-(yt/daily-back-keyfreq-no-ask)
-(message "88")
 
+
+(defun yt/file-name-with-ymd (base-dir append)
+  (interactive)
+  (let* ((place (if (string= system-name "mbp.local")
+                    "mac"
+                  "ubuntu"))
+	 (file-name (concat (format-time-string "%F")
+                            "-"
+                            place))
+	 (file-name (concat file-name "-" append))
+	 (temporary-file-directory base-dir)
+	 (file-name (make-temp-file (concat file-name "-"))))
+    file-name))
+(setq keyfreq-file (yt/file-name-with-ymd "~/git/.emacs.d/keyfreq" "auto"))
+(setq effectiveness-file (yt/file-name-with-ymd "~/git/.emacs.d/effectiveness" "auto"))
+
+
+(message "gonna backup")
+(message keyfreq-file)
+(message effectiveness-file)
+;; (yt/bakcup-todo-keywords-no-ask)
+;; (yt/daily-back-keyfreq-no-ask)
+(message "88")
 ;; emacs --batch -l ~/.emacs -l ~/git/.emacs.d/auto-back.el -f save-buffer >% ~/tmp.emacs.batch.log
