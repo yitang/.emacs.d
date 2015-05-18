@@ -462,7 +462,7 @@ smartparens mode
 
 Rainbow-delimiters
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent :eval no
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -3424,6 +3424,7 @@ have problem with BBDB installtion, and use org-contact.el to manage contact.  a
 [2015-01-23 Fri 17:28]
 
 I am trying to avoid use =C-x m= to write/sent email directy, unless it is really short. otherwise, if it relates to a project, I will make an org headline to keep track the project communciation, to do that,  I compose email/message in org mode, then sent the whole subtree by =C-c M-o=.
+
 #+begin_src emacs-lisp
 
 ;;;; [2015-01-14 Wed 22:32]
@@ -3474,6 +3475,8 @@ I got an email from an estate agency where there are few images are inlined, but
 
 *Render LaTeX code as image*
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
+
+
 ** Refile 
 
 
@@ -3532,13 +3535,13 @@ automatically back-up keyfreq
 Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
   (interactive)
   (let* ((place (if (string= system-name "mbp.local")
-		    "mac"
-		  "ubuntu"))
-	 (file-name (concat (format-time-string "%F")
-			    "-"
-			    place)))
+                    "mac"
+                  "ubuntu"))
+         (file-name (concat (format-time-string "%F")
+                            "-"
+                            place)))
     (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
-	(shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
+        (shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
       "do nothing")
     ))
 #+end_src
