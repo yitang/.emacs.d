@@ -27,7 +27,7 @@
     ;; (ymd (format-time-string "%Y-%m-%d"))
     ;; (file-name (concat effectiveness-data-dir "/" ymd "-auto")))
     (with-temp-file file-name
-      (insert ymd)
+      (insert (format-time-string "%Y-%m-%d"))
       (insert "\n")
       (insert (prin1-to-string effectiveness-keywords))
       (insert "\n")
@@ -73,8 +73,8 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
 (message "going to backup")
 (message keyfreq-backup-file)
 (message effectiveness-backup-file)
-;; (yt/bakcup-todo-keywords-no-ask keyfreq-backup-file)
-;; (yt/daily-back-keyfreq-no-ask effectiveness-backup-file)
+;; (yt/bakcup-todo-keywords-no-ask effectiveness-backup-file )
+;; (yt/daily-back-keyfreq-no-ask keyfreq-backup-file)
 (message "auto backup completed")
 
 ;; ;; emacs --batch -l ~/.emacs -l ~/git/.emacs.d/auto-back.el -f save-buffer >% ~/tmp.emacs.batch.log
