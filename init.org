@@ -2787,7 +2787,7 @@ org-download
 [2015-01-29 Thu 14:16]
 
 #+begin_src emacs-lisp :results silent 
-(setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
+(setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
 
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
 
