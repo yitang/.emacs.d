@@ -3901,24 +3901,20 @@ paste(headline, content, page.break, sep = "\n")
 
 ** Office Setting 
 [2015-03-18 Wed 18:32]
+In the office, I have differnet settings for 
 
+1. org-agenda files 
+2. org-capture-templates,
+3. org-html-export 
+
+In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting will be done automatically.  wrap all the settings in the =my/all-office-settings= function for I can call it explicity when I work on my Mac. 
 #+begin_src emacs-lisp 
 ;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
-
-(defun my/Office-p ()
-  (if (equal "Office" WhereAmI)
-      'true
-    nil)
-  )
-
-
 (defun my/office-org-agenda-file ()
   (setq org-agenda-files '("~/git/jbarm" )))
 
 (defun my/office-org-capture-temp ()
   (setq org-capture-templates
-        
-        
         (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
                  "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
                 ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
