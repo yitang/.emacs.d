@@ -389,7 +389,7 @@ smartparens mode
 *** Minibuffer history 
 
 #+begin_src emacs-lisp :results silent 
-(setq savehist-file "~/git/.emacs.d/history")
+(setq savehist-file "~/git/.emacs.d/personal/emacs-history")
 (savehist-mode 1)
 #+end_src
 ** UI - Emacs Looks Cool
