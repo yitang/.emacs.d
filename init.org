@@ -3462,7 +3462,7 @@ I am trying to avoid use =C-x m= to write/sent email directy, unless it is reall
             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
 (add-hook 'org-mime-html-hook
           (lambda ()
-            (insert-file-contents "~/git/.emacs.d/style/office.css")
+            (insert-file-contents "~/git/.emacs.d/personal/css/office.css")
             ;; (goto-char 5)
             )
           t)
@@ -3778,7 +3778,7 @@ In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting
   (interactive)
   (my/office-org-agenda-file)
   (my/office-org-capture-temp)
-  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />"
+  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/personal/css/office.css\" type=\"text/css\" />"
         org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
   )
 
