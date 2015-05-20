@@ -2789,8 +2789,6 @@ org-download
       cfw:fchar-top-right-corner ?╗)
 
 #+end_src
-#+results:
-: 9559
 
 
 *** Babel
@@ -2826,8 +2824,6 @@ org-download
 
 
 #+end_src
-
-#+results:
 
 *** Export 
 [2015-02-04 Wed 12:23]
@@ -2905,11 +2901,6 @@ org-download
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 #+end_src
 
-#+results:
-| xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f |
-
-**** TODO fix xelatex compilation problem 
-[2015-01-23 Fri 17:01]
 *** HTML Export 
 [2015-01-19 Mon 15:45]
 
