@@ -576,7 +576,6 @@ There three features that have me made the decision:
    rainfall.subset <- data.table(rainfall.london,
                                  rainfall.pairs,
                                  rainfall.dublin)
-
    #+end_src
    
 2) Search Command History
@@ -647,11 +646,7 @@ These are only the surface of ESS and there are lot more useful features like sp
 when R start, it will load few local settings, one of them is the user-setting, which is R scripts saved in ~/RProfile.  I'd like to have same settings on both my local, and remote server. and this can be achieved by using =ess-post-run-hook=. 
 
 #+begin_src emacs-lisp :results silent 
-(setq ess-post-run-hook nil)
-(add-hook 'ess-post-run-hook
-          (lambda ()
-            (goto-char (point-max))
-            (insert "
+(setq yt/ess--RProfile-string "
 #### change this file name to .Rprofile and place to ~/userName so when R starts, the following command will be processed automatically
 
 ## http://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile
@@ -703,9 +698,13 @@ options(prompt=\"R> \", digits=4, show.signif.stars=FALSE)
 ## shorthand
 lsos <- function(..., n=10) {
     .ls.objects(..., order.by=\"Size\", decreasing=TRUE, head=TRUE, n=n)
-}"
-                    )
-            (inferior-ess-send-input)
+}")
+
+(add-hook 'ess-post-run-hook
+          (lambda ()
+            (goto-char (point-max))
+            (insert yt/ess--RProfile-string)
+            (inferior-ess-send-input) ;; execuate the R scripts 
             ;; clean up
             (search-backward "Type 'q()' to quit R.")
             (next-line)
