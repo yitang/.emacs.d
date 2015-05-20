@@ -3,13 +3,8 @@
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
 #+PROPERTY: header-args :tangle yes :results silent
-#+EXPORT_SELECT_TAGS: export
-#+EXPORT_EXCLUDE_TAGS: noexport
 #+OPTIONS: H:4 num:nil toc:t \n:nil @:t ::t |:t ^:{} -:t f:t *:t
 #+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
-#+TODO: SOMEDAY(s) TODO(t) INPROGRESS(i) WAITING(w@/!) NEEDSREVIEW(n@/!) | DONE(d)
-#+TODO: WAITING(w@/!) HOLD(h@/!) | CANCELLED(c@/!)
-#+TAGS: export(e) noexport(n)
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
 
 
@@ -139,13 +134,13 @@ or this
 #+end_src
 
 * Emacs Configuration
-  :LOGBOOK:  
+:LOGBOOK:  
   CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
   CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
   CLOCK: [2015-01-23 Fri 10:15]--[2015-01-23 Fri 11:47] =>  1:32
   CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
   :END:      
-  [2015-01-19 Mon 11:42]
+[2015-01-19 Mon 11:42]
 ** install packages 
 [2015-03-18 Wed 15:32]
 
@@ -221,7 +216,7 @@ or this
 #+end_src
 *** Assorted Pieces 
 [2015-01-19 Mon 12:21]
-    
+
 automatically backup the buffers to local. sometimes can save my ass. 
 #+begin_src emacs-lisp
     ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
@@ -248,7 +243,7 @@ automatically backup the buffers to local. sometimes can save my ass.
     (ac-config-default)
 
     
-    #+end_src 
+#+end_src 
 
 save a list of recent files, and I use it most of the time. 
 
@@ -262,14 +257,14 @@ save a list of recent files, and I use it most of the time.
 #+end_src
 
 yasnippet is a powerful package that I need to discovery in the future, and this stage, I turned if off because I will slow down the start-up.
-    #+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent 
 ;; (require 'yasnippet)
     ;; (yas-global-mode 1)
     ;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
     ;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
     ;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
     
-    #+end_src
+#+end_src
 *** Window Layout/Navigation 
     [2015-01-19 Mon 12:13]
     
@@ -419,27 +414,24 @@ mode-line
 
 theme:
 
-    #+begin_src emacs-lisp 
+#+begin_src emacs-lisp 
 
-    ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
-    ;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
+;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
+;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
 
-    (load-theme 'zenburn t)
-    ;; font
-    (set-default-font "Source Code Pro" nil t)
-    (set-face-attribute 'default nil :height 100)
+(load-theme 'zenburn t)
+;; font
+(set-default-font "Source Code Pro" nil t)
+(set-face-attribute 'default nil :height 100)
 #+end_src
 
 minimalist:
 
 #+begin_src emacs-lisp :results silent 
-
-    (tool-bar-mode -1)
-    (menu-bar-mode -1)
-    (scroll-bar-mode -1)
-
-
-    #+end_src
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+#+end_src
 
 
 ** Completion and Selection 
@@ -3944,8 +3936,6 @@ paste(headline, content, page.break, sep = "\n")
 
 * Archive   
 [2015-03-20 Fri 08:25]
-
-
 ** C++
 #+begin_src emacs-lisp
 ;; (global-set-key [(f9)] 'compile)
