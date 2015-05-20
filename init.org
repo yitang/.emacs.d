@@ -3928,28 +3928,24 @@ paste(headline, content, page.break, sep = "\n")
                 ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
                  "* %?\n%U\n" :clock-in t :clock-resume t)
                 ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
-                               "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
-                              
+                 "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
                 ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
                  "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
                 ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
                  "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
                 ))))
 
-
-
 (defun my/all-office-settings ()
   (interactive)
   (my/office-org-agenda-file)
-  (my/office-org-capture-temp))
-
-(if (my/Office-p)
-    (my/all-office-settings)
+  (my/office-org-capture-temp)
+  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />"
+        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
   )
 
-  
-(setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />")
-(setq org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
+(when (equal "Office" WhereAmI)
+  (my/all-office-settings))
+
 
 #+end_src
 
