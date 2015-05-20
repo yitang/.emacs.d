@@ -3987,43 +3987,4 @@ paste(headline, content, page.break, sep = "\n")
 #+end_src
 
 
-** The Helm Way - What I learnt today                             :noexport:
-:LOGBOOK:  
-CLOCK: [2015-02-22 Sun 13:00]--[2015-02-22 Sun 15:19] =>  2:19
-:END:      
-[2015-02-22 Sun 13:51]
 
-What I learnt today 
-
-- helm-mini :: what I wanted, combine recentf with opening buffers.  so that I don't need to swithc between C-b or C-r to find a file.  
-               (global-set-key (kbd "C-x b") 'helm-mini)
-(setq helm-buffers-fuzzy-matching t
-helm-recentf-fuzzy-match    t)
-- helm-find-files :: it is better than what I have been using and don't know that find-file with helm completion.  it provides the full functionality of Helm framework.  it is now bind with =C-x C-f=
-                    
-- helm-show-king-ring :: shows all the kill-ring so that I can see and select, and avoid working with invisiable kill-ring.  also,  I can filter and then select.
-- helm-occur :: a alternative to helm-swoop, haven't figure out which is fits in better in current workflow and it will changed by sematics.
-- helm-semantic-or-imenu :: tells vairbale, functions, dependeices etc for a langauge.  it is really powerful:  shows types function headers in a minibuffer and I can glismps the interface of the all the functions, dependences etc.  
-     haven't tried it yet in R.  previouslh, I use helm-swoop on /library/, /<- function(.)/, /save/ to do that.  the advantange of semantic is that 1) do it once, 2) tags are grouped, 3) jump quickly 4) helm framework.  I would like to have a Sematic works in R langauge, and configure it to have
-  - dependence section, highlight lines with =library=, =sfLibrary=.
-  - function section, highlight lines with /. <- function( . )/
-  - variable section, highlight lines with /xxx <- yyy/ 
-  - I/O section, that highlights =load=, =read.csv= etc and =save=, =write.csv= etc.
-- helm-top :: it provides Helm interface for =top= program.  I don't need to fire up a shell buffer.  handy key-bindings to sort by CPU/Memory/user.  It would be nice to have run this function on a remote serer.
-- helm-google-suggest :: search on google in Emacs.  I don't need to swtich to browser app as it will do it autoamticlaly.
-- helm-man-woman :: view the man page for a command in Emacs.  the command is selected by Helm.  it's nice to expand it to R/Emacs-Lisp language. 
-  1. invoke helm-man-women,
-  2. it shows up all the commands that is in the source,
-  3. filter out all except R command by type =*R=,
-  4. select a particular command, see =library=, 
-
-  it's likely for someone use same langauge over a time period, 2-3 hours, then it is useful to keep the prefix =*R= from last call, by provide a variable, say =helm-man-women-remember=, and set it to true. 
-- helm-apropos :: it able me to search for funciton, variable, faces in one command but for key-bindings, I still need to use =C-h k=.
-- helm-info-* :: want to know what options I have to generate a clock-table in org-mode? invoke helm-info-org and search pattern /clocktable/ and it brings me exactly the line that has /clocktable/! how convinenty is that? it will change my workflow in referencing, and no need to googling and navigate in the org-mode manual.
-- helm-calcul-expression :: a handy calculator in Emacs, the results shows in the echo area.  
-
-There are two commands I wold like to use in the future, =helm-find= and =helm-locate= to find/locate files.  
-
-
-
-e
