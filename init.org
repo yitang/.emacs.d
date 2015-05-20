@@ -137,10 +137,7 @@ or this
  (expand-file-name "init.org"
                    user-emacs-directory))
 #+end_src
-** Testsing 
-   [2015-02-12 Thu 18:51]
-   
-- unload-feature :: unload functions, remove hooks, variable, functions etc.
+
 * Emacs Configuration
   :LOGBOOK:  
   CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
@@ -223,8 +220,10 @@ or this
 (global-unset-key (kbd "C-x C-b"))
 #+end_src
 *** Assorted Pieces 
-    [2015-01-19 Mon 12:21]
-    #+begin_src emacs-lisp
+[2015-01-19 Mon 12:21]
+    
+automatically backup the buffers to local. sometimes can save my ass. 
+#+begin_src emacs-lisp
     ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
     ;; save all backup files (foo~) to this directory.
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -248,22 +247,29 @@ or this
     (require 'auto-complete-config)
     (ac-config-default)
 
-    ;; (require 'yasnippet)
-    ;; (yas-global-mode 1)
-    ;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
-    ;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
-    ;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+    
+    #+end_src 
 
+save a list of recent files, and I use it most of the time. 
+
+#+begin_src emacs-lisp :results silent 
     (recentf-mode 1)
     (setq recentf-max-saved-items 200
           recentf-max-menu-items 15)
     (setq inhibit-startup-message t)        ; Disable startup message
 
-    #+end_src 
-    
-    #+results:
-    : t
 
+#+end_src
+
+yasnippet is a powerful package that I need to discovery in the future, and this stage, I turned if off because I will slow down the start-up.
+    #+begin_src emacs-lisp :results silent 
+;; (require 'yasnippet)
+    ;; (yas-global-mode 1)
+    ;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+    ;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+    ;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+    
+    #+end_src
 *** Window Layout/Navigation 
     [2015-01-19 Mon 12:13]
     
@@ -275,38 +281,48 @@ or this
     (winner-mode 1)
     ;; winner-undo -> C-c <left>
     ;; winner-redo -> C-c <right>
+#+end_src
 
+    shows an notication for invalid operations. 
+#+begin_src emacs-lisp :results silent 
 
-    ;; visible notication for invalid options 
     (setq visible-bell t) 
 
-    ;; move between windows, alternatives: window_number.el
-    (require 'ace-window)
-    (global-set-key (kbd "<f1>") 'ace-window)
-    (setq aw-scope 'frame)
+
+#+end_src
+
+quickly switch between windows by choosing the window number. 
+
+#+begin_src emacs-lisp :results silent 
+;; move between windows, alternatives: window_number.el
+(require 'ace-window)
+(global-set-key (kbd "<f1>") 'ace-window)
+(setq aw-scope 'frame)
 
 
-    ;; (global-set-key (kbd "C-x <up>") 'windmove-up)
-    ;; (global-set-key (kbd "C-x <down>") 'windmove-down)
-    ;; (global-set-key (kbd "C-x <right>") 'windmove-right)
-    ;; (global-set-key (kbd "C-x <left>") 'windmove-left)
-
-    (require 'golden-ratio)
-    (golden-ratio-mode 1)
-    (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
-
-    ;; prefer horizentally split window
-    ;; (setq split-height-threshold nil)
-    ;;  (setq split-width-threshold 0)
+;; (global-set-key (kbd "C-x <up>") 'windmove-up)
+;; (global-set-key (kbd "C-x <down>") 'windmove-down)
+;; (global-set-key (kbd "C-x <right>") 'windmove-right)
+;; (global-set-key (kbd "C-x <left>") 'windmove-left)
+#+end_src
 
 
-    #+end_src
+#+begin_src emacs-lisp :results silent 
+(require 'golden-ratio)
+(golden-ratio-mode 1)
+(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+
+;; prefer horizentally split window
+;; (setq split-height-threshold nil)
+;;  (setq split-width-threshold 0)
+#+end_src
 
     
 
 *** Utilities
     [2015-01-19 Mon 12:14]
     
+   
     #+begin_src emacs-lisp
     ;; Change "yes or no" to "y or n"
     (fset 'yes-or-no-p 'y-or-n-p)
@@ -319,109 +335,49 @@ or this
              (save-buffer (get-file-buffer dot-emacs)))
         (load-file dot-emacs))
       (message "Re-initialized!"))
+#+end_src
+    use keyfreq package to record the commands I use in Emacs.
 
-
+#+begin_src emacs-lisp :results silent 
     (require 'keyfreq)
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1)
 
     #+end_src
-
-    #+RESULTS:
-    : yt/copy-full-path-to-kill-ring
-
 *** System Path
     [2015-01-19 Mon 12:15]
     #+begin_src emacs-lisp
 
-;; osx, work with homebrew 
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell 
-         (replace-regexp-in-string "[[:space:]\n]*$" "" 
-                                   (shell-command-to-string "$SHELL -l -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell path-separator))))
-(when (equal system-type 'darwin) (set-exec-path-from-shell-PATH))
+    ;; osx, work with homebrew 
+    (defun set-exec-path-from-shell-PATH ()
+      (let ((path-from-shell 
+             (replace-regexp-in-string "[[:space:]\n]*$" "" 
+                                       (shell-command-to-string "$SHELL -l -c 'echo $PATH'"))))
+        (setenv "PATH" path-from-shell)
+        (setq exec-path (split-string path-from-shell path-separator))))
+    (when (equal system-type 'darwin) (set-exec-path-from-shell-PATH))
 
 
-;; modify mac keyboard 
-(cond ((eq system-type 'darwin)
-       (fset 'insertPound "#")
-       (global-set-key (kbd "M-3") 'insertPound)
-       (setq ispell-program-name "/usr/local/bin/aspell")
-       (setq mac-command-modifier 'meta)
-       (global-unset-key (kbd "M-`"))
-       (global-set-key (kbd "M-`") 'other-frame)
-       (global-set-key (kbd "C-Z") nil)
-       ))
+    ;; modify mac keyboard 
+    (cond ((eq system-type 'darwin)
+           (fset 'insertPound "#")
+           (global-set-key (kbd "M-3") 'insertPound)
+           (setq ispell-program-name "/usr/local/bin/aspell")
+           (setq mac-command-modifier 'meta)
+           (global-unset-key (kbd "M-`"))
+           (global-set-key (kbd "M-`") 'other-frame)
+           (global-set-key (kbd "C-Z") nil)
+           ))
 
-(prefer-coding-system 'utf-8)
-(when (display-graphic-p)
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+    (prefer-coding-system 'utf-8)
+    (when (display-graphic-p)
+      (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
-;; windows path convention
-(setenv "CYGWIN" "nodosfilewarning")
+    ;; windows path convention
+    (setenv "CYGWIN" "nodosfilewarning")
     #+end_src
 
-    #+RESULTS:
-    : nodosfilewarning
 
-*** open stree map 
-    [2015-01-21 Wed 14:39]
-    
-    #+begin_src emacs-lisp
-
-(defun omap_bbox (minlon minlat maxlon maxlat)
-  "generate to hyperlink and also view an area in openstreemap.  
-the area is defined by the bounding box. "
-;;   (interactive)
-  (let ((address (concat  "http://www.openstreetmap.org/?"
-           "minlon=" (number-to-string minlon) "&"
-           "minlat=" (number-to-string minlat) "&"
-           "maxlon=" (number-to-string maxlon) "&"
-           "maxlat=" (number-to-string maxlat) "&")))
-    (browse-url address)
-    (kill-new address)))
-
-
-(defun omap_point (lon lat)
-;;  (interactive)
-  (let ((address (concat  "http://www.openstreetmap.org/?"
-                          "mlat=" (number-to-string lat) "&"
-                          "mlon=" (number-to-string lon))))
-    (browse-url address)
-    (kill-new address)))
-
-(defun omap_site (site)
-;;  (interactive)
-  (let ((address (concat "http://nominatim.openstreetmap.org/search.php?q=" site)))
-    (browse-url address)
-    (kill-new address)))
-
-(defun omap (arg)
-;;  (interactive)
-  (cond ((= 1 (length arg))
-         (omap_site (nth 0 arg)))
-        ((= 2 (length arg))
-         (omap_point (nth 0 arg) (nth 1 arg)))
-        ((= 4 (length arg))
-         (omap_bbox (nth 0 arg)
-                     (nth 1 arg)
-                     (nth 2 arg)
-                     (nth 3 arg)))
-        (t "nope")))
-
-;; (omap '(-0.489 51.28 0.236 51.686)) ;; london area
-;; http://www.openstreetmap.org/?minlon=-0.489&minlat=51.28&maxlon=0.236&maxlat=51.686&
-;; (omap '(-76.3412 38.6710)) ;; New york 
-;; http://www.openstreetmap.org/?mlat=38.671&mlon=-76.3412
-;; (omap '("UK"))  ;; UK, obvs 
-;; http://nominatim.openstreetmap.org/search.php?q=UK
-         
-    #+end_src
-
-    #+results:
-    : omap
 *** general editing  
 
 smartparens mode 
@@ -460,7 +416,7 @@ smartparens mode
 
 #+end_src
 
-Rainbow-delimiters
+Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
 #+begin_src emacs-lisp :results silent :eval no
 (require 'rainbow-delimiters)
@@ -475,6 +431,9 @@ Rainbow-delimiters
    (cl-callf color-saturate-name (face-foreground face) 30)))
 
 #+end_src
+
+theme:
+
     #+begin_src emacs-lisp 
 
     ;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
@@ -492,15 +451,7 @@ Rainbow-delimiters
 
     #+end_src
 
-    #+results:
 
-    
-    
-    
-    
-    
-    
-    #+end_src
 ** Completion and Selection 
    [2015-01-23 Fri 18:44]
 *** Helm - Fuzzy Match  
@@ -3179,10 +3130,6 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
 #+end_src
 
-
-** Initialisation Completed
-[2015-01-22 Thu 23:05]
-
 ** mu4e - Email Client
    
    The advantage of use Emacs as an email client: 
@@ -3931,11 +3878,6 @@ paste(headline, content, page.break, sep = "\n")
 (setq org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
 
 #+end_src
-
-
-
-
-
 
 ** C++
 #+begin_src emacs-lisp
