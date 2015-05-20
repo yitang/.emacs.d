@@ -1020,7 +1020,7 @@ I type quit fast with lots of misspell and in writing, I don't need to correct e
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
       ispell-silently-savep t)
-(setq ispell-personal-dictionary "~/git/.emacs.d/personal-dict") ;; add personal dictionary 
+(setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
 #+end_src 
 
 I need an grammar check to let me know that 
