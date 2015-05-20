@@ -397,10 +397,10 @@ smartparens mode
 (setq savehist-file "~/git/.emacs.d/history")
 (savehist-mode 1)
 #+end_src
-** Emacs Looks Cool
+** UI - Emacs Looks Cool
    [2015-01-19 Mon 12:16]
-*** Modeline
 
+mode-line
 #+begin_src emacs-lisp :results silent
 (display-time-mode)
 (require 'smart-mode-line)
@@ -443,6 +443,11 @@ theme:
     ;; font
     (set-default-font "Source Code Pro" nil t)
     (set-face-attribute 'default nil :height 100)
+#+end_src
+
+minimalist:
+
+#+begin_src emacs-lisp :results silent 
 
     (tool-bar-mode -1)
     (menu-bar-mode -1)
