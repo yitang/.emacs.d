@@ -486,9 +486,31 @@ minimalist:
 
 (helm-mode 1)
 
+#+end_src
 
 
 
+
+*** Multi-Cursor & Helm-swoop  - Multiple Selection 
+[2015-01-19 Mon 12:10]
+    
+When refactoring code, I need to rename a variable or function names, one way to do it is to search/replace, or use =multiple-cursors=. It provides function =mc/mark-next-like-this= so that I can see what has been marked, and change them all at once. 
+#+begin_src emacs-lisp
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+#+end_src
+
+
+Quickly jump between the string of interests and maybe editing as well. 
+#+begin_src emacs-lisp :results silent 
 ;;;; helm-swoop 
 (require 'helm-swoop)
 ;; Change the keybinds to whatever you like :)
@@ -515,27 +537,10 @@ minimalist:
 ;; ----------------------------------------------------------------------
 
     #+end_src
-
-
-*** Multi-Cursor - Multiple Selection 
-[2015-01-19 Mon 12:10]
-    
-When refactoring code, I need to rename a variable or function names, one way to do it is to search/replace, or use =multiple-cursors=. It provides function =mc/mark-next-like-this= so that I can see what has been marked, and change them all at once. 
-#+begin_src emacs-lisp
-
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-#+end_src
     
 *** ace-jump 
 
+ace-jump, currently only use ace-jump-word-mode.
 #+begin_src emacs-lisp 
 (global-set-key (kbd "C-c w") 'ace-jump-word-mode)
 #+end_src
@@ -543,6 +548,7 @@ When refactoring code, I need to rename a variable or function names, one way to
 *** Expand-Region - Incremental Selection
     [2015-01-20 Tue 07:47]
     
+works well with smartparens mode. 
     #+begin_src emacs-lisp
 ;; [[https://github.com/magnars/expand-region.el][expand-region]]
 (require 'expand-region)
