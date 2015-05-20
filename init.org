@@ -1032,7 +1032,7 @@ is wrong, and also tell me to change /do/ to /done/, and also why.  =langtool= c
 #+begin_src emacs-lisp :eval no
 ;; check grammar 
 (require 'langtool)
-(setq langtool-language-tool-jar "~/Java/LanguageTool-2.8/languagetool-commandline.jar")
+(setq langtool-language-tool-jar "~/java/LanguageTool-2.8/languagetool-commandline.jar")
 (setq langtool-mother-tongue "en")
 #+end_src 
 
