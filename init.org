@@ -3750,6 +3750,52 @@ the area is defined by the bounding box. "
 
 
 #+end_src
+** Office Setting 
+[2015-03-18 Wed 18:32]
+In the office, I have differnet settings for 
+
+1. org-agenda files 
+2. org-capture-templates,
+3. org-html-export 
+
+In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting will be done automatically.  wrap all the settings in the =my/all-office-settings= function for I can call it explicity when I work on my Mac. 
+#+begin_src emacs-lisp 
+;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
+(defun my/office-org-agenda-file ()
+  (setq org-agenda-files '("~/git/jbarm" )))
+
+(defun my/office-org-capture-temp ()
+  (setq org-capture-templates
+        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
+                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
+                 "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
+                 "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
+                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
+                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+                ))))
+
+(defun my/all-office-settings ()
+  (interactive)
+  (my/office-org-agenda-file)
+  (my/office-org-capture-temp)
+  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />"
+        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
+  )
+
+(when (equal "Office" WhereAmI)
+  (my/all-office-settings))
+
+
+#+end_src
+
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
@@ -3899,51 +3945,6 @@ paste(headline, content, page.break, sep = "\n")
 * Archive   
 [2015-03-20 Fri 08:25]
 
-** Office Setting 
-[2015-03-18 Wed 18:32]
-In the office, I have differnet settings for 
-
-1. org-agenda files 
-2. org-capture-templates,
-3. org-html-export 
-
-In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting will be done automatically.  wrap all the settings in the =my/all-office-settings= function for I can call it explicity when I work on my Mac. 
-#+begin_src emacs-lisp 
-;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
-(defun my/office-org-agenda-file ()
-  (setq org-agenda-files '("~/git/jbarm" )))
-
-(defun my/office-org-capture-temp ()
-  (setq org-capture-templates
-        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
-                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
-                 "* %?\n%U\n" :clock-in t :clock-resume t)
-                ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
-                 "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
-                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
-                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
-                ))))
-
-(defun my/all-office-settings ()
-  (interactive)
-  (my/office-org-agenda-file)
-  (my/office-org-capture-temp)
-  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/style/office.css\" type=\"text/css\" />"
-        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
-  )
-
-(when (equal "Office" WhereAmI)
-  (my/all-office-settings))
-
-
-#+end_src
 
 ** C++
 #+begin_src emacs-lisp
