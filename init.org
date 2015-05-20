@@ -825,7 +825,7 @@ Rainbow-delimiters. constantly have problem with package, and tired of fixing it
 [2015-01-20 Tue 10:49]
     
 https://github.com/jimhester/lintr
-    
+the default R-style is not meet my with current R project style, has to turn it off.     
 #+begin_src emacs-lisp
 (require 'flycheck)
 ;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
