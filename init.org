@@ -3555,6 +3555,62 @@ Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
       "do nothing")
     ))
 #+end_src
+*** open stree map 
+    [2015-01-21 Wed 14:39]
+    
+    #+begin_src emacs-lisp
+
+(defun omap_bbox (minlon minlat maxlon maxlat)
+  "generate to hyperlink and also view an area in openstreemap.  
+the area is defined by the bounding box. "
+;;   (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+           "minlon=" (number-to-string minlon) "&"
+           "minlat=" (number-to-string minlat) "&"
+           "maxlon=" (number-to-string maxlon) "&"
+           "maxlat=" (number-to-string maxlat) "&")))
+    (browse-url address)
+    (kill-new address)))
+
+
+(defun omap_point (lon lat)
+;;  (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+                          "mlat=" (number-to-string lat) "&"
+                          "mlon=" (number-to-string lon))))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap_site (site)
+;;  (interactive)
+  (let ((address (concat "http://nominatim.openstreetmap.org/search.php?q=" site)))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap (arg)
+;;  (interactive)
+  (cond ((= 1 (length arg))
+         (omap_site (nth 0 arg)))
+        ((= 2 (length arg))
+         (omap_point (nth 0 arg) (nth 1 arg)))
+        ((= 4 (length arg))
+         (omap_bbox (nth 0 arg)
+                     (nth 1 arg)
+                     (nth 2 arg)
+                     (nth 3 arg)))
+        (t "nope")))
+
+;; (omap '(-0.489 51.28 0.236 51.686)) ;; london area
+;; http://www.openstreetmap.org/?minlon=-0.489&minlat=51.28&maxlon=0.236&maxlat=51.686&
+;; (omap '(-76.3412 38.6710)) ;; New york 
+;; http://www.openstreetmap.org/?mlat=38.671&mlon=-76.3412
+;; (omap '("UK"))  ;; UK, obvs 
+;; http://nominatim.openstreetmap.org/search.php?q=UK
+         
+    #+end_src
+
+    #+results:
+    : omap
 ** Git-Report
 
 #+begin_src emacs-lisp :results silent 
