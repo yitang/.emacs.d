@@ -630,7 +630,7 @@ These are only the surface of ESS and there are lot more useful features like sp
 ;; Control and up/down arrow keys to search history with matching what you've already typed:
 (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
-(setq ess-history-directory "~/.Rhisotry/")
+(setq ess-history-file "~/.Rhisotry")
 #+end_src
 *** Start-up 
 [2015-05-20 Wed 13:42]
