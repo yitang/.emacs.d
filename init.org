@@ -3767,7 +3767,7 @@ In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting
                 ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
                  "* %?\n%U\n" :clock-in t :clock-resume t)
                 ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
-                 "%(org-read-date) * %^{Payee}\n\tExpenses:%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
+                 "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
                 ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
                  "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
                 ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
