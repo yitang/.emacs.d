@@ -1867,14 +1867,6 @@ A prefix arg forces clock in of the default task."
 
 (global-auto-revert-mode t)
 
-(require 'org-crypt)
-                                        ; Encrypt all entries before saving
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-                                        ; GPG key to use for encryption
-(setq org-crypt-key "F0B66B40")
-
-(setq org-crypt-disable-auto-save nil)
 
 (setq org-use-speed-commands t)
 
@@ -2089,6 +2081,30 @@ A prefix arg forces clock in of the default task."
 (setq bh/hide-scheduled-and-waiting-next-tasks nil)
 
 
+#+end_src
+**** Crypt Personal information 
+[2015-05-25 Mon 12:27]
+
+ref: http://orgmode.org/manual/org_002dcrypt_002eel.html
+
+#+begin_src emacs-lisp :results silent 
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+
+(setq org-crypt-key nil)
+;; GPG key to use for encryption
+;; Either the Key ID or set to nil to use symmetric encryption.
+
+(setq auto-save-default nil)
+;; Auto-saving does not cooperate with org-crypt.el: so you need
+;; to turn it off if you plan to use org-crypt.el quite often.
+;; Otherwise, you'll get an (annoying) message each time you
+;; start Org.
+
+;; To turn it off only locally, you can insert this:
+;;
+;; # -*- buffer-auto-save-file-name: nil; -*-
 #+end_src
 **** Agenda 
 [2015-01-23 Fri 16:54]
