@@ -1228,6 +1228,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 [2015-01-23 Fri 10:32]
 
 #+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 (require 'org)
 (require 'org-habit)
 (setq org-agenda-files '("~/git/org/" "~/git/jbarm"))
