@@ -784,7 +784,7 @@ highlights the text that are longer than 80 columns rule.
 
 Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
-#+begin_src emacs-lisp :results silent :eval no
+#+begin_src emacs-lisp :results silent 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
