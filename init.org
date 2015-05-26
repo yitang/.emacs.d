@@ -2893,9 +2893,42 @@ org-download
 
                                         ;; Use fundamental mode when editing plantuml blocks with C-c '
  (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
-
-
 #+end_src
+**** R programming 
+[2015-05-26 Tue 12:41]
+
+
+clean up the messy R scripts buffer. it will 
+1. remove comments lines start with '## '
+2. remove blank lines,
+3. add one blank lines between sections, which defined by '#### '.
+#+begin_src emacs-lisp :results silent 
+(defun yt/clean-R () 
+  (interactive)
+  (progn
+    (goto-char (point-min))
+    (flush-lines "^## ")
+    (flush-lines "[[:space:]]+## ") 
+    (flush-lines "^$")
+    (replace-regexp "#### " "\n#### ")
+  ))
+#+end_src
+apply the clean scripts to the tangled file.  also, preappend the date and my name on the tangled file. 
+
+#+begin_src emacs-lisp :results silent 
+(add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
+;; add auto info
+(add-hook 'org-babel-post-tangle-hook
+          (lambda ()
+	    (goto-char (point-min))
+	    (insert "## @author: Yi Tang\n")
+	    (insert "## @date: ")
+	    (insert (format-time-string "%F %T"))
+	    (insert "\n\n")
+	    (save-buffer)))
+#+end_src
+
+
 
 *** Export 
 [2015-02-04 Wed 12:23]
