@@ -936,6 +936,7 @@ I use git and Github a lot, and usually in =shell-mode=, but I just can't rememb
     
  #+begin_src emacs-lisp
  (require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
  (setq magit-auto-revert-mode nil)
  #+end_src 
             
