@@ -936,6 +936,7 @@ I use git and Github a lot, and usually in =shell-mode=, but I just can't rememb
     
  #+begin_src emacs-lisp
  (require 'magit)
+ (setq magit-auto-revert-mode nil)
  #+end_src 
             
  I use Emacs/org-mode as a unified system to do everything, at home, on Macbook Pro, on office, Windows/Ubuntu.  I used to use Dropbox/Copy to automateally sync the files on multiple machines, but this workflows seems dangous, image if I was editing same files on two machines at the same time, then I can't track which is which. 
