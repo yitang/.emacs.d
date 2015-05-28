@@ -3386,7 +3386,15 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
       mu4e-view-image-max-width 800)
 
 
-(setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
+;; (setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
+;; ref: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
+(defun my-render-html-message ()
+  (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+    (erase-buffer)
+    (shr-insert-document dom)
+    (goto-char (point-min))))
+(setq mu4e-html2text-command 'my-render-html-message)
+
 ;; yt
 (setq mu4e-view-prefer-html t) ;; try to render 
 (add-to-list 'mu4e-view-actions 
