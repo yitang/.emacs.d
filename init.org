@@ -3920,7 +3920,10 @@ In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting
   (my/office-org-agenda-file)
   (my/office-org-capture-temp)
   (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/personal/css/office.css\" type=\"text/css\" />"
-        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />")
+        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />"
+        voca-builder/voca-file "~/git/org/vocabulary-office.org"
+        )
+  
   )
 
 (when (equal "Office" WhereAmI)
