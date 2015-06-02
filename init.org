@@ -2927,10 +2927,12 @@ clean up the messy R scripts buffer. it will
   (interactive)
   (progn
     (goto-char (point-min))
-    (flush-lines "^## ")
-    (flush-lines "[[:space:]]+## ") 
-    (flush-lines "^$")
-    (replace-regexp "#### " "\n#### ")
+    (flush-lines "^\\(\\|[[:space:]]+\\)#") ;; remove lines with only comments
+    (flush-lines "^\\(\\|[[:space:]]+\\)$") ;; blank lines
+    (replace-regexp "#### " "\n#### ") ;; add blank lines between sections. 
+    (while (search-forward "#" nil t) ;; remove inline comments start with ## 
+      (backward-char 2)
+      (kill-region (point) (line-end-position)))
   ))
 #+end_src
 apply the clean scripts to the tangled file.  also, preappend the date and my name on the tangled file. 
