@@ -98,15 +98,7 @@ How to use this emacs-lisp function.
 
 #+end_src
 
-or this 
 
-#+begin_src emacs-lisp :eval no
-(setq user-emacs-directory "~/git/.emacs.d/")
-(require 'org)
-(org-babel-load-file 
- (expand-file-name "init.org"
-                   user-emacs-directory))
-#+end_src
 
 * Emacs Configuration
 :LOGBOOK:  
