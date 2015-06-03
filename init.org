@@ -416,8 +416,8 @@ claimed to be suitable for coding environments. But I use it for all modes.
 #+end_src
 
 I have been using /zenburn/ theme for a while. It is a popular low contrast
-colour theme and easy on the eye. Occasionally I switch to /tsdh-dark/
-theme when I really need to focus on.
+colour theme and easy on the eye. Occasionally I apply /tsdh-dark/
+theme on the top when I really need to focus on.
 
 #+begin_src emacs-lisp 
 (load-theme 'zenburn t)
