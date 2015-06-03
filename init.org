@@ -1275,13 +1275,14 @@ Version 2015-05-07"
                (replace-match (aref ξx 1) 'FIXEDCASE 'LITERAL)))
            ξstrPairs))))))
 #+end_src
-** eww 
+** Browser - eww 
 
-toggle the inline image 
-
-http://emacs.stackexchange.com/questions/561/how-can-i-toggle-displaying-images-in-eww-without-a-page-refresh
+Emacs has build-in browser /eww/ and I used it for reading articles
+for its inability to process multi-media content and sometimes I turn
+off the display of image, so I can fully focus on the context. 
 
 #+begin_src emacs-lisp :results silent 
+;; http://emacs.stackexchange.com/questions/561/how-can-i-toggle-displaying-images-in-eww-without-a-page-refresh
 (defvar-local endless/display-images t)
 
 (defun endless/toggle-image-display ()
