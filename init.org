@@ -171,7 +171,6 @@ Add the following scripts to your /.emacs/
   (unless (package-installed-p i-package)
     (package-install i-package)))
 
-
 #+end_src
 ** General
 *** remove keybind 
@@ -350,6 +349,24 @@ smartparens mode
 ;; hit C-(
 ;; becomes (|foobar)
 (sp-pair "'" nil :actions :rem)
+#+end_src
+
+force line has maximum of 80 characters and force line breaks.
+#+begin_src emacs-lisp :results silent 
+(add-hook 'text-mode-hook 'turn-on-auto-fill) ;; 
+#+end_src
+
+Just in case I need to reverse the process of auto-fill. 
+#+begin_src emacs-lisp :results silent 
+(defun yt/unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun yt/unfill-region ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-region (region-beginning) (region-end) nil)))
 #+end_src
 *** Minibuffer history 
 
