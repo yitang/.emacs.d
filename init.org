@@ -336,11 +336,11 @@ terminal and C-z won't stop the program without asking.
 #+end_src
 *** General Editing  
 
-smartparens mode 
+There are a set of characters that are more likely to occur as a pair,
+for example, quote and brackets. /smartparens mode/ allows me to
+define such set of pairing characters. 
 #+begin_src emacs-lisp :results silent 
-;; (require 'smartparens-config)
 (smartparens-global-mode 1)
-
 (sp-pair "(" ")" :wrap "C-(")
 ;; |foobar
 ;; hit C-(
@@ -348,18 +348,22 @@ smartparens mode
 (sp-pair "'" nil :actions :rem)
 #+end_src
 
-force line has maximum of 80 characters and force line breaks.
+It is a terrible idea to have lines of context that expand the whole
+screen, especially nowadays we have wide-screens, which just make it is
+hard to read. A well accepted rule is to set the width of lines to 80
+characters, and force a logical line breaks. This funcitonality is
+called =auto-fill= in Emacs, and I can do the filling by call =fill-paragraph=.
+
 #+begin_src emacs-lisp :results silent 
 (add-hook 'text-mode-hook 'turn-on-auto-fill) ;; 
 #+end_src
 
-Just in case I need to reverse the process of auto-fill. 
+Just in case I need to reverse the auto-fill process.
 #+begin_src emacs-lisp :results silent 
 (defun yt/unfill-paragraph ()
   (interactive)
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
-
 (defun yt/unfill-region ()
   (interactive)
   (let ((fill-column (point-max)))
