@@ -173,7 +173,6 @@ Add the following scripts to your /.emacs/
 
 #+end_src
 ** General
-*** remove keybind 
 *** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
 (global-unset-key (kbd "C-x b"))
@@ -182,7 +181,10 @@ Add the following scripts to your /.emacs/
 *** Assorted Pieces 
 [2015-01-19 Mon 12:21]
 
-automatically backup the buffers to local. sometimes can save my ass. 
+Define an auto-save feature, the backup files are saved in
+/~/.emacs.d/backup/ folder. I've used it several times to recover the
+most recent, but un-saved version, after power off. 
+
 #+begin_src emacs-lisp
     ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
     ;; save all backup files (foo~) to this directory.
@@ -210,7 +212,8 @@ automatically backup the buffers to local. sometimes can save my ass.
     
 #+end_src 
 
-save a list of recent files, and I use it most of the time. 
+I use =helm-mini= to navigate between files, which is a lot
+convenient and faster than actually locate the file path. 
 
 #+begin_src emacs-lisp :results silent 
     (recentf-mode 1)
@@ -221,29 +224,30 @@ save a list of recent files, and I use it most of the time.
 
 #+end_src
 
-yasnippet is a powerful package that I need to discovery in the future, and this stage, I turned if off because I will slow down the start-up.
+yasnippet is a powerful package that I'd like to explore in the
+future, and this stage, I turned if off since it will slow down the
+start-up.
 #+begin_src emacs-lisp :results silent 
 ;; (require 'yasnippet)
-    ;; (yas-global-mode 1)
-    ;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
-    ;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
-    ;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
-    
+;; (yas-global-mode 1)
+;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
+;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
+;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+
 #+end_src
 *** Window Layout/Navigation 
-    [2015-01-19 Mon 12:13]
+[2015-01-19 Mon 12:13]
     
-    =C-c <left>= to undo window layout changes, and =C-c <right>= to redo. 
-    #+begin_src emacs-lisp :results silent
-
-    ;; ;;; winner-mode, undo window configration
-    ;; (require 'winner-mode) ;; default package
-    (winner-mode 1)
-    ;; winner-undo -> C-c <left>
-    ;; winner-redo -> C-c <right>
+=C-c <left>= to undo window layout changes, and =C-c <right>= to redo. 
+#+begin_src emacs-lisp :results silent
+;; ;;; winner-mode, undo window configration
+;; (require 'winner-mode) ;; default package
+(winner-mode 1)
+;; winner-undo -> C-c <left>
+;; winner-redo -> C-c <right>
 #+end_src
 
-    shows an notication for invalid operations. 
+shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
 
     (setq visible-bell t) 
@@ -338,7 +342,7 @@ quickly switch between windows by choosing the window number.
     #+end_src
 
 
-*** general editing  
+*** General Editing  
 
 smartparens mode 
 #+begin_src emacs-lisp :results silent 
