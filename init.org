@@ -3696,6 +3696,14 @@ weather forcasting
 (setq sunshine-location "Keighley, GB")
 #+end_src
 
+Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
+function at the end of the day.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/qs-backup-log ()
+  (interactive)
+  (load "~/git/qs/auto_back.el"))
+#+end_src
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
