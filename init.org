@@ -370,6 +370,7 @@ Just in case I need to reverse the auto-fill process.
     (fill-region (region-beginning) (region-end) nil)))
 #+end_src
 *** Minibuffer history 
+=savehist= is an very powerful mode.
 
 #+begin_src emacs-lisp :results silent 
 (setq savehist-file "~/git/.emacs.d/personal/emacs-history")
