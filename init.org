@@ -27,24 +27,6 @@ Normally you could tangle a org file to extract all the source code into one fil
 
 
 
-* About this document (old version )                               :noexport:
-
-
-  I would recommend Emacs for normal usage, but for me, there are few milestphone.  
-  
-  first, I find myself spent more and more time in scaning the documents I write and deprised about lossing lecture notes, but on the otherhand, it imporrsible to get the notes immediately when I needed it.  
-  
-  second, er I start to work as an Statisticiain, due to the workload, I need an system to keep project log, include decisoin made, code, progress report, email or meeting discussion etc.  I was adviced to use Office to do it, but it such a pain, and I find most of people don't do it.  
-  
-  third, when I find the solution for the second problem, using org-mode to implememnt Literate Data Analysis, I am happy about norang's setting for a long time, and try to avoid dig into Emacs.  but when the data becomes physically big, it won't able to practise it locally, and I realise the ESS provide remote session, and it completely blow my mind.  I can run a R seesion on the server just like it was on my computer, how fanstatistic is that?  everything is the same.  
-  
-  then I deivided to learn Emacs Lisp langauge to build a unified system that I can use on my personal PC, VM, server, and they are all the same!
-  
-  As my ocnifigration grows bigger and bigger, I deifinidelty need an way to orgnise, test and expand it.  previously, I have about 7 =.el= file, for exmaple, =setup-org.el=, =setup-email.el=, and I document on each file.  the downside of physcially separete is that I cannot modulate it easily.  Inpisraed by Sachua's new posts, I think it would be an brilliant idea to org emac configration code into one single org file, letting along the conviencen of orgnising and share my seetting, the precious thing I would appreciate is it provide an way I could start with a long comments, thoughts or workflow.  in this way, the code becomes less important as it should be.  
-  
-  Normally you could tangle a org file to extract all the source code into one file, that you could use.  But I would like to push liteartpr programming furture in two aspects:  1) the source code takes input from this org file, I.e. table.  2) it facility Babel Library to integrate not only Emacs Lisp, but also sh and R functions that could be run in Emacs, and I found it particullary useful. 
-  
-  but yo could still use most of the settings.  
 * Licence 
   [2015-01-23 Fri 10:58]
   
