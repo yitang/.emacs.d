@@ -238,48 +238,40 @@ start-up.
 *** Window Layout/Navigation 
 [2015-01-19 Mon 12:13]
     
-=C-c <left>= to undo window layout changes, and =C-c <right>= to redo. 
+Quickly jump between windows using =ace-window=, I used it frequently and
+bind it ~F1~.
+
+#+begin_src emacs-lisp :results silent 
+(require 'ace-window)
+(global-set-key (kbd "<f1>") 'ace-window)
+(setq aw-scope 'frame)
+#+end_src
+
+Instead of equally split the window size, it make a lot sense to have
+the current window, the one I am working one, has bigger size. 
+#+begin_src emacs-lisp :results silent 
+(require 'golden-ratio)
+(golden-ratio-mode 1)
+(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+#+end_src
+
+Some actions will add/remove windows, and sometimes I'd like to cycle
+tough the window layout/changes. In the following settings, =C-c
+<left>= to undo window layout changes, and =C-c <right>= to redo.
 #+begin_src emacs-lisp :results silent
-;; ;;; winner-mode, undo window configration
-;; (require 'winner-mode) ;; default package
 (winner-mode 1)
 ;; winner-undo -> C-c <left>
 ;; winner-redo -> C-c <right>
 #+end_src
 
-shows an notication for invalid operations. 
+Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
-
-    (setq visible-bell t) 
-
-
-#+end_src
-
-quickly switch between windows by choosing the window number. 
-
-#+begin_src emacs-lisp :results silent 
-;; move between windows, alternatives: window_number.el
-(require 'ace-window)
-(global-set-key (kbd "<f1>") 'ace-window)
-(setq aw-scope 'frame)
-
-
-;; (global-set-key (kbd "C-x <up>") 'windmove-up)
-;; (global-set-key (kbd "C-x <down>") 'windmove-down)
-;; (global-set-key (kbd "C-x <right>") 'windmove-right)
-;; (global-set-key (kbd "C-x <left>") 'windmove-left)
+(setq visible-bell t) 
 #+end_src
 
 
-#+begin_src emacs-lisp :results silent 
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 
-;; prefer horizentally split window
-;; (setq split-height-threshold nil)
-;;  (setq split-width-threshold 0)
-#+end_src
+
 
     
 
@@ -3322,7 +3314,7 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 ** mu4e - Email Client
    
-   The advantage of use Emacs as an email client: 
+The advantage of use Emacs as an email client: 
    
 1. communication happens at the point where the content is genreated. 
    as a statisician/programmer, most likely I need to mmunicate with numbers, table, graphs, or snippet.  I could just copy these results from to email, do an quickly editing.  
