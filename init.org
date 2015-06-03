@@ -3694,23 +3694,6 @@ weather forcasting
 (setq sunshine-location "Keighley, GB")
 #+end_src
 
-automatically back-up keyfreq 
-#+begin_src emacs-lisp :results silent 
-(defun yt/daily-back-keyfreq ()
-  "back up .emacs.keyfreq file.
-Move it to ~/git/.emacs.d/keyfreq with file name being the date and machine"
-  (interactive)
-  (let* ((place (if (string= system-name "mbp.local")
-                    "mac"
-                  "ubuntu"))
-         (file-name (concat (format-time-string "%F")
-                            "-"
-                            place)))
-    (if (yes-or-no-p (concat "will move .emacs.keyfreq to " file-name))
-        (shell-command (concat "cd ~/git/.emacs.d/keyfreq/; mv ~/.emacs.keyfreq " file-name)) 
-      "do nothing")
-    ))
-#+end_src
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
