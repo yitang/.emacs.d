@@ -379,47 +379,49 @@ Just in case I need to reverse the auto-fill process.
 ** UI - Emacs Looks Cool
 [2015-01-19 Mon 12:16]
 
-I never click any buttons in the menu-bar/tool-bar, to need  the scroll-bar
-tells me where I am in terms of the whole buffer, so I removed all of
-them to have minimal dis
+I never click any buttons in the menu-bar/tool-bar, nor need the
+scroll-bar to tell me the cursor position the in the buffer, so I removed all of
+them to have minimalist GUI of Emacs. 
+
 #+begin_src emacs-lisp :results silent 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
 
+Mode-line contains most of the relevant information about the buffer,
+Git status, Major mode, clock info, and current time. I disable the
+display of minor modes, there are just too many and almost all are irrelevant.
 
-mode-line
 #+begin_src emacs-lisp :results silent
 (display-time-mode)
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
-;; These two lines you really need.
 (setq sml/theme 'powerline)
 (setq sml/mode-width 0)
 (setq sml/name-width 20)
 (rich-minority-mode 1)
 (setf rm-blacklist "")
 (sml/setup)
-
 #+end_src
 
 
-theme:
+I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
+claimed to be suitable for coding environments. But I use it for all modes.
 
-#+begin_src emacs-lisp 
-
-;; ;; copy from http://amitp.blogspot.co.uk/2011/08/emacs-custom-mode-line.html
-;; ;; Mode line setup 'prog-mode-hook 'rainbow-delimiters-mode)
-
-(load-theme 'zenburn t)
-;; font
+#+begin_src emacs-lisp :results silent 
 (set-default-font "Source Code Pro" nil t)
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
+I have been using /zenburn/ theme for a while. It is a popular low contrast
+colour theme and easy on the eye. Occasionally I switch to /tsdh-dark/
+theme when I really need to focus on.
 
+#+begin_src emacs-lisp 
+(load-theme 'zenburn t)
+#+end_src
 
 ** Completion and Selection 
    [2015-01-23 Fri 18:44]
