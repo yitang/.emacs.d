@@ -377,7 +377,17 @@ Just in case I need to reverse the auto-fill process.
 (savehist-mode 1)
 #+end_src
 ** UI - Emacs Looks Cool
-   [2015-01-19 Mon 12:16]
+[2015-01-19 Mon 12:16]
+
+I never click any buttons in the menu-bar/tool-bar, to need  the scroll-bar
+tells me where I am in terms of the whole buffer, so I removed all of
+them to have minimal dis
+#+begin_src emacs-lisp :results silent 
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+#+end_src
+
 
 mode-line
 #+begin_src emacs-lisp :results silent
@@ -409,13 +419,6 @@ theme:
 (set-face-attribute 'default nil :height 100)
 #+end_src
 
-minimalist:
-
-#+begin_src emacs-lisp :results silent 
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-#+end_src
 
 
 ** Completion and Selection 
