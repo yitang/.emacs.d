@@ -54,7 +54,9 @@ Normally you could tangle a org file to extract all the source code into one fil
 [2015-01-20 Tue 08:09]
 
 How to use this emacs-lisp function.   
+
 #+begin_src emacs-lisp :eval no 
+(package-initialize)
 (require 'org)
 (setq org-confirm-babel-evaluate nil)  ;; evaluate src block without confirmation 
 
