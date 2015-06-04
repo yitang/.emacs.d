@@ -1803,7 +1803,7 @@ A prefix arg forces clock in of the default task."
 (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 
 
-;;;; section: narrow/wide/subtree
+;; section: narrow/wide/subtree
 
 (global-set-key (kbd "<f5>") 'bh/org-todo)
 
