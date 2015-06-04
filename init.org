@@ -2601,9 +2601,9 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
 
 
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
-          'append)
+;; (add-hook 'org-agenda-mode-hook
+;;           '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
+;;           'append)
 
 (setq org-show-entry-below (quote ((default))))
 
