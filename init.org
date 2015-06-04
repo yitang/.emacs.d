@@ -1100,8 +1100,10 @@ I type quit fast with lots of misspell and in writing, I don't need to correct e
 (add-hook 'org-mode-hook 'flyspell-mode)
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
-      ispell-program-name "/usr/local/bin/aspell"
       ispell-silently-savep t)
+(if (eq system-type 'darwin)
+    ispell-program-name "/usr/local/bin/aspell"
+    (setq ispell-program-name "/usr/bin/aspell"))
 (setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
 #+end_src 
 
