@@ -2797,6 +2797,51 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (require 'org-checklist) 
 #+end_src
+
+Walk though all the projects.
+
+#+begin_src emacs-lisp :results silent 
+(defvar bh/project-list nil)
+(defvar yt/view-next-project-count 0)
+
+(defun yt/view-next-project ()
+  (interactive)
+  (unless bh/project-list ;; if bh/project-list is nil, then 
+    (yt/generate-project-list)) 
+  
+  (setq current-project (nth yt/view-next-project-count bh/project-list)) ;; view one project at a time, start from the first one (o-index).
+  (setq yt/view-next-project-count (+ 1 yt/view-next-project-count))
+  (org-with-point-at current-project
+    (setq bh/hide-scheduled-and-waiting-next-tasks nil)
+    (bh/narrow-to-project))
+  (org-agenda-redo)
+  (beginning-of-buffer)
+  (setq num-projects-left (- (length bh/project-list) yt/view-next-project-count)) 
+  (cond ((< num-projects-left 1 )
+         (setq yt/view-next-project-count 0)
+         (message "All projects are viewed"))
+        (t
+         (message "%s projects left to view" num-projects-left)))
+  )
+
+(defun yt/generate-project-list ()
+  (goto-char (point-min))
+  (while (< (point) (point-max))
+    (while (and (< (point) (point-max))
+                (or (not (org-get-at-bol 'org-hd-marker))
+                    (org-with-point-at (org-get-at-bol 'org-hd-marker)
+                      (or (not (bh/is-project-p))
+                          (bh/is-project-subtree-p)))))
+      (forward-visible-line 1))
+    (when (< (point) (point-max))
+      (add-to-list 'bh/project-list (copy-marker (org-get-at-bol 'org-hd-marker)) 'append))
+    (forward-visible-line 1))
+  (print bh/project-list))
+
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "V" 'yt/view-next-project))
+          'append)
+#+end_src
 *** customised 
 
 punch-in 
