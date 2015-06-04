@@ -3671,7 +3671,8 @@ tab to completet contacts, which is really handy.
 
 #+begin_src emacs-lisp :results silent
 (require 'org-contacts)
-(setq mu4e-org-contacts-file  "~/git/org/contacts.org")
+(setq org-contacts-files '("~/git/org/contacts.org"))
+;; (setq mu4e-org-contacts-file  "~/git/org/contacts.org")
 (add-to-list 'mu4e-headers-actions
              '("org-contact-add" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
