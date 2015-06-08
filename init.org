@@ -610,6 +610,14 @@ wrapper it as a Lisp function and call it directly in Emacs.
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
 
+(defun yt/last-updated-date ()
+  "return modification time of current file-visitng buffer"
+  (interactive)
+  (let* ((mtime (visited-file-modtime))) 
+    (unless (integerp mtime)
+      (concat "/Last UPdated/: "
+              (format-time-string "%d %b %Y" mtime)))))
+
 (defun yt/sudo-find-file (file-name)
   "Like find file, but opens the file as root."
   (interactive "FSudo Find File: ")
