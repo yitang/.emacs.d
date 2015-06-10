@@ -4104,7 +4104,7 @@ to load a
 [2015-01-12 Mon 18:29]
 
 #+name: GetContactGroup
-#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="SFG" contact-type="EMAIL" :eval no
+#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="NA" contact-type="EMAIL" :eval yes
 (defun GetContactGroup (contact-file search-tag contact-type)
   (interactive)
   (let ((name-address (org-map-entries (lambda()
@@ -4118,11 +4118,7 @@ to load a
 (GetContactGroup contact-file search-tag contact-type)
 #+end_src
 
-#+begin_example
-#+call: GetContactGroup('("~/git/org/contacts.org"), "RunningClub", "EMAIL")
-#+results:
-: Foo Bar <Foo.Bar@somewhere.com>, Bar Foo <Bar.Foo@somewhere.com>
-#+end_example
+#+results: GetContactGroup
 
 ** Ledger 
 
@@ -4134,7 +4130,7 @@ add the following to .ledgerrc
 
 #+name: Weekly_Transaction 
 #+begin_src sh :eval yes :results raw
-ledger --period "this week"  register Exp -S "date, amount" 
+ledger --period "this week"  org register Exp -S "date, amount" 
 #+end_src
 
 #+NAME: Weekly_Balance_Sheet 
@@ -4162,22 +4158,6 @@ ledger --period "this week"  bal Exp
 
 #+end_example
 
-
-
-** Blog
-
-#+name: GetLastUpdatedDate :eval no 
-#+begin_src emacs-lisp :export none :results raw
-(defun yt/last-updated-date ()
-  "return modification time of current file-visitng buffer"
-  (interactive)
-  (let* ((mtime (visited-file-modtime))) 
-    (unless (integerp mtime)
-      (concat "/Last UPdated/: "
-              (format-time-string "%d %b %Y" mtime)))))
-#+end_src
-
-#+results: GetLastUpdatedDate
 
 
 * End 
