@@ -2892,10 +2892,6 @@ Add markup wrapper for org-mode. to turn a word into bold, wrapper in a selected
 (sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
 #+end_src
 
-associate fills with .org extension with org-mode. 
-#+begin_src emacs-lisp :results silent 
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-#+end_src
 
 clock-in tasks in mode-line
 #+begin_src emacs-lisp :results silent 
@@ -2910,7 +2906,6 @@ clock-in tasks in mode-line
 Show org-mode bullets as UTF-8 characters.
 #+begin_src emacs-lisp :results silent 
 (require 'org-bullets)
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (setq org-bullets-bullet-list '(;;; Large
                                 "◉" "○" ;"◎" "◌"
                                 "◈" "◇"
