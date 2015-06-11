@@ -2928,6 +2928,10 @@ org-download
 #+begin_src emacs-lisp :results silent 
 (setq-default org-download-image-dir "~/Downloads/img")
 (setq-default org-download-heading-lvl nil)
+(if (eq system-type 'darwin)
+    "org-download: default download method"
+    (setq org-download-screenshot-method "gnome-screenshot -w --delay=1 -f %s"))
+(setq org-download-image-wdith 400)
 #+end_src
 
 *** Calendar
