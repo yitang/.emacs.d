@@ -2871,7 +2871,6 @@ punch-in
                       :strike-through t
                       :foreground "light gray"))
 (add-hook 'org-mode-hook 'my/modify-org-done-face)
-
 (setq org-fontify-done-headline t)
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
@@ -3744,7 +3743,9 @@ an org headline to keep track the project communciation, to do that, I
 compose email/message in org mode, then sent the whole subtree by =C-c
 M-o=.
 
-#+begin_src emacs-lisp
+
+
+#+begin_src emacs-lisp :results silent 
 (require 'org-mime)
 (setq org-mime-library 'mml)
 (add-hook 'message-mode-hook
@@ -3772,7 +3773,7 @@ just in case I didn't get the format right at the first place and need
 some quick fix in message mode, save me few seconds in going back to
 org-mode.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent 
 (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
 ;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
