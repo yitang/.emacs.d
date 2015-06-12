@@ -175,6 +175,7 @@ Add the following scripts to your /.emacs/
                         pretty-mode
                         f
                         olivetti
+                        helm-mu
                         ))
 
 (require 'package)
@@ -3587,9 +3588,13 @@ This setting need two programms to work: 1) mu, 2) offlineimap.
 
 ;; should mu4e use fancy utf characters? NO. they're ugly.
 ;;(setq mu4e-use-fancy-chars 't)
-
-
 #+end_src 
+
+use helm-mu to search emails 
+
+#+begin_src emacs-lisp :results silent 
+(global-set-key (kbd "<f9> e") 'helm-mu)
+#+end_src
 *** Account 
 [2015-01-23 Fri 17:32] 
 
