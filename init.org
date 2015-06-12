@@ -3715,6 +3715,9 @@ Mu4e: _g_mail _j_ba _i_Cloud"
   ("i" yt/mu4e-icloud))
 (global-set-key [f2] 'hydra-email/body)
 
+(if (string= WhereAmI "Office")
+    (yt/email-jba)
+  (yt/email-icloud))
 #+end_src 
 
 when I sent an email, it will promote and ask for email, I only need
