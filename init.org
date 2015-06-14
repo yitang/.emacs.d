@@ -610,6 +610,14 @@ wrapper it as a Lisp function and call it directly in Emacs.
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
 
+(defun yt/last-updated-date ()
+  "return modification time of current file-visitng buffer"
+  (interactive)
+  (let* ((mtime (visited-file-modtime))) 
+    (unless (integerp mtime)
+      (concat "/Last UPdated/: "
+              (format-time-string "%d %b %Y" mtime)))))
+
 (defun yt/sudo-find-file (file-name)
   "Like find file, but opens the file as root."
   (interactive "FSudo Find File: ")
@@ -1100,8 +1108,10 @@ I type quit fast with lots of misspell and in writing, I don't need to correct e
 (add-hook 'org-mode-hook 'flyspell-mode)
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
-      ispell-program-name "/usr/local/bin/aspell"
       ispell-silently-savep t)
+(if (eq system-type 'darwin)
+    ispell-program-name "/usr/local/bin/aspell"
+    (setq ispell-program-name "/usr/bin/aspell"))
 (setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
 #+end_src 
 
@@ -2524,7 +2534,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
               (" " "Agenda"
                ((agenda "" nil)
                 (tags-todo "-CANCELLED+WAITING|HOLD/!"
-                           ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
+                           ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks (Ask them)"
                                                                   (if bh/hide-scheduled-and-waiting-next-tasks
                                                                       ""
                                                                     " (including WAITING and SCHEDULED tasks)")))
@@ -2533,10 +2543,10 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                             (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
                             (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
                 (tags "RESPONSE"
-                      ((org-agenda-overriding-header "Response")
+                      ((org-agenda-overriding-header "Response (Make other's life easier)")
                        (org-tags-match-list-sublevels nil)))
                 (tags-todo "-CANCELLED/!NEXT"
-                           ((org-agenda-overriding-header (concat "Project Next Tasks"
+                           ((org-agenda-overriding-header (concat "Project Next Tasks (Running out of things to do? pick one)"
                                                                   (if bh/hide-scheduled-and-waiting-next-tasks
                                                                       ""
                                                                     " (including WAITING and SCHEDULED tasks)")))
@@ -2548,18 +2558,18 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                             (org-agenda-sorting-strategy
                              '(todo-state-down effort-up category-keep))))
                 (tags-todo "-CANCELLED/!"
-                           ((org-agenda-overriding-header "Stuck Projects")
+                           ((org-agenda-overriding-header "Stuck Projects (Make the project flows, assign Next)")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags-todo "-HOLD-CANCELLED/!"
-                           ((org-agenda-overriding-header "Projects")
+                           ((org-agenda-overriding-header "Projects (on-going)")
                             (org-agenda-skip-function 'bh/skip-non-projects)
                             (org-tags-match-list-sublevels 'indented)
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                           ((org-agenda-overriding-header (concat "Project Subtasks"
+                           ((org-agenda-overriding-header (concat "Project Subtasks (Will do in the furture)"
                                                                   (if bh/hide-scheduled-and-waiting-next-tasks
                                                                       ""
                                                                     " (including WAITING and SCHEDULED tasks)")))
@@ -2570,7 +2580,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                           ((org-agenda-overriding-header (concat "Standalone Tasks"
+                           ((org-agenda-overriding-header (concat "Standalone Tasks (One-off/Small Tasks to pick)"
                                                                   (if bh/hide-scheduled-and-waiting-next-tasks
                                                                       ""
                                                                     " (including WAITING and SCHEDULED tasks)")))
@@ -2581,7 +2591,7 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                             (org-agenda-sorting-strategy
                              '(category-keep))))
                 (tags "-REFILE/"
-                      ((org-agenda-overriding-header "Tasks to Archive")
+                      ((org-agenda-overriding-header "Tasks to Archive (Two month old)")
                        (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                        (org-tags-match-list-sublevels nil)))
                 (tags "REFILE"
@@ -2861,7 +2871,6 @@ punch-in
                       :strike-through t
                       :foreground "light gray"))
 (add-hook 'org-mode-hook 'my/modify-org-done-face)
-
 (setq org-fontify-done-headline t)
 (set-face-attribute 'org-done nil :strike-through t)
 (set-face-attribute 'org-headline-done nil :strike-through t)
@@ -3315,7 +3324,7 @@ comments: true
 ---
 ,#+END_HTML
 
-,#+call: GetLastUpdatedDate[:exports none]()[:results org]
+# #+call: GetLastUpdatedDate[:exports none]()[:results org]
 
 ,#+TOC: headlines 4
 "
@@ -3740,7 +3749,9 @@ an org headline to keep track the project communciation, to do that, I
 compose email/message in org mode, then sent the whole subtree by =C-c
 M-o=.
 
-#+begin_src emacs-lisp
+
+
+#+begin_src emacs-lisp :results silent 
 (require 'org-mime)
 (setq org-mime-library 'mml)
 (add-hook 'message-mode-hook
@@ -3768,7 +3779,7 @@ just in case I didn't get the format right at the first place and need
 some quick fix in message mode, save me few seconds in going back to
 org-mode.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent 
 (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
 ;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
@@ -3849,6 +3860,19 @@ function at the end of the day.
 (defun yt/qs-backup-log ()
   (interactive)
   (load "~/git/qs/auto_back.el"))
+#+end_src
+
+
+*org-project set up *
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-setup-project ()
+  (interactive)
+  (org-insert-heading-respect-content)
+  (insert "Tasks")
+  (org-demote)
+  (org-insert-heading-respect-content)
+  (insert "Notes")
+  (org-toggle-tag "NOTE" 'on))
 #+end_src
 *** open stree map 
     [2015-01-21 Wed 14:39]
@@ -4087,7 +4111,7 @@ to load a
 [2015-01-12 Mon 18:29]
 
 #+name: GetContactGroup
-#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="SFG" contact-type="EMAIL" :eval no
+#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="NA" contact-type="EMAIL" :eval yes
 (defun GetContactGroup (contact-file search-tag contact-type)
   (interactive)
   (let ((name-address (org-map-entries (lambda()
@@ -4101,11 +4125,7 @@ to load a
 (GetContactGroup contact-file search-tag contact-type)
 #+end_src
 
-#+begin_example
-#+call: GetContactGroup('("~/git/org/contacts.org"), "RunningClub", "EMAIL")
-#+results:
-: Foo Bar <Foo.Bar@somewhere.com>, Bar Foo <Bar.Foo@somewhere.com>
-#+end_example
+#+results: GetContactGroup
 
 ** Ledger 
 
@@ -4117,7 +4137,7 @@ add the following to .ledgerrc
 
 #+name: Weekly_Transaction 
 #+begin_src sh :eval yes :results raw
-ledger --period "this week"  register Exp -S "date, amount" 
+ledger --period "this week"  org register Exp -S "date, amount" 
 #+end_src
 
 #+NAME: Weekly_Balance_Sheet 
@@ -4145,79 +4165,6 @@ ledger --period "this week"  bal Exp
 
 #+end_example
 
-** Update Emacs library
-#+name: UpdateEmacsPackages
-#+begin_src sh :results scalar 
-cask install --path ~/git/.emacs.d
-cask upgrade-cask --path ~/git/.emacs.d
-git add -A 
-git commit -m "cask update $(date)"
-git push 
-#+end_src
-
-#+begin_example
-
-#+call: UpdateEmacsPackages()
-
-#+results:
-: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
-:  2 files changed, 7 insertions(+), 3 deletions(-)
-:  delete mode 120000 .#yi.babel.org
-
-#+end_example
-** image process 
-#+name: Extract_PDF_Pages
-#+begin_src sh :var pageStart=5 pageEnd=10 pdfFile="CompareWithCFSRDataset_final.pdf.pdf"
-## http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
-function pdfpextr() 
-{
-    # this function uses 3 arguments:
-    #     $1 is the first page of the range to extract
-    #     $2 is the last page of the range to extract
-    #     $3 is the input file
-    #     output file will be named "inputfile_pXX-pYY.pdf"
-    # TODO: add format=png option 
-    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-       -dFirstPage=${1} \
-       -dLastPage=${2} \
-       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
-       ${3}
-}
-pdfpextr $pageStart $pageEnd $pdfFile 
-#+end_src
-
-#+begin_example
-#+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
-#+end_example
-
-** Blog
-
-#+name: GetBlogPosts
-#+begin_src R :results org :eval no
-posts.dir <- "~/git/yi-tang.github.io/org/_posts"
-all.posts <- list.files(posts.dir, pattern = ".org$")
-sapply(seq_along(all.posts), function(i){
-headline <- paste0("* ", all.posts[i])
-content <- paste0("#+INCLUDE: ", '"', file.path(posts.dir, all.posts[i]), '"')
-page.break <- "#+latex: \\newpage"
-paste(headline, content, page.break, sep = "\n")
-})
-#+end_src
-
-#+results: GetBlogPosts
-
-
-#+name: GetLastUpdatedDate :eval no 
-#+begin_src emacs-lisp :export none :results raw
-;; (defun yt/last-updated-date ()
-;; "return modification time of current file-visitng buffer"
-;;   (interactive)
-;;   (let ((y (format-time-string "%d %b %Y" (visited-file-modtime))))
-;;    (concat  "/Last Updated/: " y))) ;; print out results 
-;; (yt/last-updated-date)
-#+end_src
-
-#+results: GetLastUpdatedDate
 
 
 * End 
@@ -4322,3 +4269,50 @@ It reminds of me to
 	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
 #+end_src
+
+** Update Emacs library
+
+#+name: UpdateEmacsPackages
+#+begin_src sh :results scalar 
+cask install --path ~/git/.emacs.d
+cask upgrade-cask --path ~/git/.emacs.d
+git add -A 
+git commit -m "cask update $(date)"
+git push 
+#+end_src
+
+#+begin_example
+
+#+call: UpdateEmacsPackages()
+
+#+results:
+: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
+:  2 files changed, 7 insertions(+), 3 deletions(-)
+:  delete mode 120000 .#yi.babel.org
+
+#+end_example
+
+** image process 
+#+name: Extract_PDF_Pages
+#+begin_src sh :var pageStart=5 pageEnd=10 pdfFile="CompareWithCFSRDataset_final.pdf.pdf"
+## http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
+function pdfpextr() 
+{
+    # this function uses 3 arguments:
+    #     $1 is the first page of the range to extract
+    #     $2 is the last page of the range to extract
+    #     $3 is the input file
+    #     output file will be named "inputfile_pXX-pYY.pdf"
+    # TODO: add format=png option 
+    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+       -dFirstPage=${1} \
+       -dLastPage=${2} \
+       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
+       ${3}
+}
+pdfpextr $pageStart $pageEnd $pdfFile 
+#+end_src
+
+#+begin_example
+#+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
+#+end_example
