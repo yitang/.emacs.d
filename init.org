@@ -3507,6 +3507,12 @@ Disadvantage and the things it can't do:
 
 This setting need two programms to work: 1) mu, 2) offlineimap. 
 
+to install /mu/ on osx, 
+
+#+begin_src sh
+brew install mu 
+#+end_src
+
 #+begin_src emacs-lisp
 ;; usage:
 ;; $ offlineimap

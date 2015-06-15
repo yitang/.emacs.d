@@ -1,0 +1,22 @@
+* An Emacs Configuration with Literate Program Implementation 
+[2015-06-06 Sun 13:49]
+** This configuration is ... 
+[2015-06-14 Sun 13:49]
+1. self-contained. all the package needed for this configuration
+   will be installed automatically from main Emacs package repo, except
+   for mu4e
+2. tryout friendly. anyone can have an try of this Emacs configuration
+   without pollute yours
+3. fully tested on Linux and OS X and update setting and packages frequently
+4. including problematic settings are turned off temperately. 
+
+
+* TODO This configration does not include
+[2015-05-21 Thu 09:07]
+
+1. few third party software, like mu, ispell, plantuml. However they
+   can be installed within few mins
+2. optimise start-up time, it takes about 3 seconds to start, which is
+   fine for most Emacs-user who rarely re-start Emacs
+3. use-package to solve dependence. I have full understanding the
+   dependence among all the packages.
