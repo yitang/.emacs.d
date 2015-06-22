@@ -291,10 +291,18 @@ tough the window layout/changes. In the following settings, =C-c
 ;; winner-redo -> C-c <right>
 #+end_src
 
+I'd like to use two frames, one for doing and logging, and other for
+reference/searching. 
 
-
-
-
+#+begin_src emacs-lisp :results silent 
+(defun yt/ref-frame ()
+  (interactive)
+  ;;   (frame-parameter (car (frame-list)) 'name)
+  (if (eq 1 (length (frame-list)))
+      (new-frame '((name . "***********************REFERENCE*******************")))
+    nil))
+(global-set-key (kbd "M-`") 'other-frame)
+#+end_src
 
     
 
