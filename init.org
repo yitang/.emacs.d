@@ -4159,7 +4159,24 @@ In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting
 
 
 #+end_src
+** Hydra 
+[2015-06-22 Mon 14:11]
 
+#+begin_src emacs-lisp :results silent 
+(defhydra yt-hydra/help (:color blue :hint nil)
+  "
+_f_unction: Documentation for a function
+_v_ariable: Documentation for a variable
+_i_nfo: info mode 
+_G_oogle: search google 
+_d_ictionary: search meaning of a word"
+  ("f" describe-function)
+  ("v" describe-variable)
+  ("i" helm-info-org)
+  ("G" helm-google-suggest)
+  ("d" voca-builder/search-popup))
+(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
+#+end_src
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
