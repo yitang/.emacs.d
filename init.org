@@ -3946,6 +3946,49 @@ function at the end of the day.
   (insert "Notes")
   (org-toggle-tag "NOTE" 'on))
 #+end_src
+
+*help function*
+#+begin_src emacs-lisp :results silent 
+(defun yt/describe-function (function)
+  ;; (describe-function)
+  ;; (defun describe-function (function)
+  "Display the full documentation of FUNCTION (a symbol)."
+  (interactive
+   (let ((fn (function-called-at-point))
+	 (enable-recursive-minibuffers t)
+	 val)
+     (setq val (completing-read (if fn
+				    (format "Describe function (default %s): " fn)
+				  "Describe function: ")
+				obarray 'fboundp t nil nil
+				(and fn (symbol-name fn))))
+     (list (if (equal val "")
+	       fn (intern val)))))
+  
+  (if (null function)
+      (message "You didn't specify a function")
+    (help-setup-xref (list #'describe-function function)
+		     (called-interactively-p 'interactive))
+    (save-excursion
+      (with-help-window (help-buffer)
+	(prin1 function)
+	;; Use " is " instead of a colon so that
+	;; it is easier to get out the function name using forward-sexp.
+	(princ " is ")
+	(describe-function-1 function)
+	(with-current-buffer standard-output
+	  ;; Return the text we displayed.
+	  (buffer-string))))
+    ;;    ))
+    (let* ((doc (with-current-buffer (help-buffer)
+		  (buffer-string)))
+	   
+	   (voca-builder/current-tag "Emacs")
+	   (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
+      (append-to-file org-doc nil "LearnEmacs.org"))))
+(global-set-key (kbd "C-h f") 'yt/describe-function)
+
+#+end_src
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
