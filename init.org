@@ -131,67 +131,67 @@ Add the following scripts to your /.emacs/
 [2015-03-18 Wed 15:32]
 
 #+begin_src emacs-lisp 
-(setq my-package-list '(ess
-                        ssh
-                        auto-complete
-                        nyan-mode
-                        yasnippet
-                        projectile
-                        magit
-                        helm-swoop
-                        nyan-mode
-                        org-jekyll
-                        org-plus-contrib
-                        helm-projectile
-                        rainbow-delimiters
-                        zenburn-theme
-                        htmlize
-                        nanowrimo
-                        golden-ratio
-                        artbollocks-mode
-                        langtool
-                        flycheck
-                        expand-region
-                        guide-key
-                        exec-path-from-shell
-                        smart-mode-line
-                        smart-mode-line-powerline-theme
-                        powerline
-                        synosaurus
-                        hydra
-                        w3m
-                        ace-window
-                        calfw
-                        multiple-cursors
-                        org-download
-                        paradox
-                        smartparens
-                        ace-jump-mode
-                        voca-builder
-                        org-download
-                        gist
-                        sunshine
-                        keyfreq
-                        pretty-mode
-                        f
-                        olivetti
-                        helm-mu
-                        ))
+  (setq my-package-list '(ess
+                          ssh
+                          auto-complete
+                          nyan-mode
+                          yasnippet
+                          projectile
+                          magit
+                          helm-swoop
+                          nyan-mode
+                          org-jekyll
+                          org-plus-contrib
+                          helm-projectile
+                          rainbow-delimiters
+                          zenburn-theme
+                          htmlize
+                          nanowrimo
+                          golden-ratio
+                          artbollocks-mode
+                          langtool
+                          flycheck
+                          expand-region
+                          guide-key
+                          exec-path-from-shell
+                          smart-mode-line
+                          smart-mode-line-powerline-theme
+                          powerline
+                          synosaurus
+                          hydra
+                          w3m
+                          ace-window
+                          calfw
+                          multiple-cursors
+                          org-download
+                          paradox
+                          smartparens
+                          ace-jump-mode
+                          voca-builder
+                          org-download
+                          gist
+                          sunshine
+                          keyfreq
+                          pretty-mode
+                          f
+                          olivetti
+                          helm-mu
+                          ))
 
-(require 'package)
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
-(package-initialize)
+  (require 'package)
+  (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                           ("org" . "http://orgmode.org/elpa/")
+                           ("gnu" . "http://elpa.gnu.org/packages/")
+                           ("marmalade" . "http://marmalade-repo.org/packages/")))
+  (package-initialize)
 
-;; fetch the list of packages available 
-(unless package-archive-contents
-  (package-refresh-contents))
-;; install 
-(dolist (i-package my-package-list)
-  (unless (package-installed-p i-package)
-    (package-install i-package)))
+  ;; fetch the list of packages available 
+  (unless package-archive-contents
+    (package-refresh-contents))
+  ;; install 
+  (dolist (i-package my-package-list)
+    (unless (package-installed-p i-package)
+      (package-install i-package)))
 
 #+end_src
 ** General
@@ -641,7 +641,7 @@ _d_elete buffer-visiting file"
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
   )
-;; (global-set-key [f5] 'hydra-file-management/body)
+;; (global-set-key [f3] 'hydra-file-management/body)
 #+end_src
 
 Another useful Lisp function is to copy the file path to clipboard. 
@@ -1104,16 +1104,16 @@ the default R-style is not meet my with current R project style, has to turn it 
 I type quit fast with lots of misspell and in writing, I don't need to correct every single one when writing, which will stop the flow.  I will do it afterwards in editing, I will press C-, to move the cursor to next misspelled word, and press =C-.= to correcct it, press it again, to correct it to another words.  
 
 #+begin_src emacs-lisp
-;; check spelling  
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
-(setq ispell-dictionary "british"
-      ispell-extra-args '() ;; TeX mode "-t"
-      ispell-silently-savep t)
-(if (eq system-type 'darwin)
-    ispell-program-name "/usr/local/bin/aspell"
+  ;; check spelling  
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (setq ispell-dictionary "british"
+        ispell-extra-args '() ;; TeX mode "-t"
+        ispell-silently-savep t)
+  (if (eq system-type 'darwin)
+      (setq ispell-program-name "/usr/local/bin/aspell")
     (setq ispell-program-name "/usr/bin/aspell"))
-(setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
+  (setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
 #+end_src 
 
 I need an grammar check to let me know that 
@@ -1527,8 +1527,8 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 ;; (setq org-completion-handler to 'helm)
 ;; actually, the following setting is mimic the helm behavoir, why not we just use helm, instead of making ido helm 
 
-(setq org-refile-targets (quote ((nil :maxlevel . 6)
-                                 (org-agenda-files :maxlevel . 6))))
+(setq org-refile-targets (quote ((nil :maxlevel . 3)
+                                 (org-agenda-files :maxlevel . 3))))
 
 (setq org-completion-handler 'helm)
 
