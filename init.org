@@ -1,4 +1,5 @@
-#+TITLE:   Unified Emacs OS - An Statistician's Implementation
+# #+TITLE:   Unified Emacs OS - An Statistician's Implementation
+#+TITLE: Build a Machine That Understand You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
@@ -291,10 +292,18 @@ tough the window layout/changes. In the following settings, =C-c
 ;; winner-redo -> C-c <right>
 #+end_src
 
+I'd like to use two frames, one for doing and logging, and other for
+reference/searching. 
 
-
-
-
+#+begin_src emacs-lisp :results silent 
+(defun yt/ref-frame ()
+  (interactive)
+  ;;   (frame-parameter (car (frame-list)) 'name)
+  (if (eq 1 (length (frame-list)))
+      (new-frame '((name . "***********************REFERENCE*******************")))
+    nil))
+(global-set-key (kbd "M-`") 'other-frame)
+#+end_src
 
     
 
@@ -1101,7 +1110,11 @@ the default R-style is not meet my with current R project style, has to turn it 
 *** English Language 
 [2015-01-23 Fri 17:43]
 
-I type quit fast with lots of misspell and in writing, I don't need to correct every single one when writing, which will stop the flow.  I will do it afterwards in editing, I will press C-, to move the cursor to next misspelled word, and press =C-.= to correcct it, press it again, to correct it to another words.  
+I type quit fast with lots of misspell and in writing, I don't need to
+correct every single one when writing, which will stop the flow. I
+will do it afterwards in editing, I will press C-, to move the cursor
+to next misspelled word, and press =C-.= to correcct it, press it
+again, to correct it to another words.
 
 #+begin_src emacs-lisp
   ;; check spelling  
@@ -1120,7 +1133,9 @@ I need an grammar check to let me know that
 #+begin_example
 Have you do ...
 #+end_example
-is wrong, and also tell me to change /do/ to /done/, and also why.  =langtool= can do be the job, but currently I don't understand how to get it works, so I am not using it anymore. 
+is wrong, and also tell me to change /do/ to /done/, and also why.
+=langtool= can do be the job, but currently I don't understand how to
+get it works, so I am not using it anymore.
 
 #+begin_src emacs-lisp :eval no
 ;; check grammar 
@@ -1129,7 +1144,11 @@ is wrong, and also tell me to change /do/ to /done/, and also why.  =langtool= c
 (setq langtool-mother-tongue "en")
 #+end_src 
 
-English is my second language, and I am trying to avoid certain guarding term in writing.  The following snipts I get it from Sachua will highlight the word like /shuold/ or /I think/, which reminds to confirm with what I am not sure about, and have more confidence in what I am saying. 
+English is my second language, and I am trying to avoid certain
+guarding term in writing. The following snipts I get it from Sachua
+will highlight the word like /shuold/ or /I think/, which reminds to
+confirm with what I am not sure about, and have more confidence in
+what I am saying.
 
 #+begin_src emacs-lisp :results silent :eval no 
 (require 'artbollocks-mode)
@@ -1148,7 +1167,9 @@ English is my second language, and I am trying to avoid certain guarding term in
                        "nice") t) "\\b"))
 #+end_src
 
-For about one month, I tried to write at least 500 words per day.  I also set up a special =write-mode= that has different color scheldules that helps me to set the moode.
+For about one month, I tried to write at least 500 words per day. I
+also set up a special =write-mode= that has different color scheldules
+that helps me to set the moode.
 
 #+begin_src emacs-lisp :results silent :eval no
 ;; [2014-12-25 Thu 22:21]
@@ -1203,7 +1224,9 @@ add synosaurus
 *** Random Quotes 
 [2015-01-22 Thu 23:14]
 
-If I run out of idea, and I didn't write anything for 1 minutes, Emacs will pop a random quote that I collected in the echo area. The random quotes can inspire me sometimes.  
+If I run out of idea, and I didn't write anything for 1 minutes, Emacs
+will pop a random quote that I collected in the echo area. The random
+quotes can inspire me sometimes.
 
 #+begin_src emacs-lisp
 (defconst yt/quotes
@@ -2077,7 +2100,7 @@ A prefix arg forces clock in of the default task."
 
 (setq org-agenda-skip-additional-timestamps-same-entry t)
 
-(setq org-table-use-standard-references (quote from))
+(setq org-tablea-use-standard-references (quote from))
 
 (setq org-file-apps (quote ((auto-mode . emacs)
                             ("\\.png\\'" . system)
@@ -3248,7 +3271,7 @@ like the fontified area for key-bindings.
         (verbatim . "<code>%s</code>")))
 
 #+end_src
-*** Blogging with Jekyll
+*** [#B] Blogging with Jekyll
 I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
 
 Since I've been use org-mode, and did lot of publishing work, either for client, or colluge.  I usually keep learning notes in org-mode, and sometimes want to share with otehrs, and doing it in org-mode make it less hazzord to share with others, via org-mode-publish. 
@@ -3417,7 +3440,8 @@ comments: true
 **** code highlight 
 [2015-01-23 Fri 17:47]
 
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent :eval no
+
 (defun org-to-jekyll-src (lang)
   " change src block heading to {% highlight %} "
   ;; (with-temp-buffer
@@ -3446,6 +3470,47 @@ comments: true
   (org-to-jekyll-src "CSS")
   (org-to-jekyll-src "html")
   )
+
+(defvar jekyll-highlight-template-open
+  "#+begin_html
+{%% highlight %s %%}"
+  "%s will be replaced by the language identifier")
+
+(defvar jekyll-highlight-template-close
+  "{% endhighlight %}
+,#+end_html")
+
+(defun yt/org-to-jekyll-highligh ()
+  "wrap babel src block with jekyll syntax highlight block"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward-regexp "^#\\+begin_src \\([a-z]+\\).*$" nil t)
+      (replace-match (format jekyll-highlight-template-open (match-string 1)))
+      (search-forward-regexp "^#\\+end_src") ;; will throew error if src block is not closed. 
+      (replace-match jekyll-highlight-template-close))))
+
+;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
+;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highligh)
+
+;;;; TODO: 
+;; it won't be good to add a hook yt/org-jekyl-highlight
+;; so that it won't effect my other exporting
+
+;; (defun yt/test (html)
+;;   (message (concat "I am here: " default-directory)))
+;; for /home/itang/git/org/tmp.org, get 
+;; I am here: /home/yitang/git/org/
+
+(defun yt/my-blog-pre-process-hook (html) ;; only for html back-end
+  (when (equal default-directory
+               (concat jekyll-directory jekyll-posts-dir))
+    (message "PROCESS SRC BLOCK")
+    (goto-char (point-min))
+    (yt/org-to-jekyll-highligh)))
+
+;; (setq org-export-before-parsing-hook nil)
+(add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
 #+end_src
 
 #+results:
@@ -3881,6 +3946,49 @@ function at the end of the day.
   (insert "Notes")
   (org-toggle-tag "NOTE" 'on))
 #+end_src
+
+*help function*
+#+begin_src emacs-lisp :results silent 
+(defun yt/describe-function (function)
+  ;; (describe-function)
+  ;; (defun describe-function (function)
+  "Display the full documentation of FUNCTION (a symbol)."
+  (interactive
+   (let ((fn (function-called-at-point))
+	 (enable-recursive-minibuffers t)
+	 val)
+     (setq val (completing-read (if fn
+				    (format "Describe function (default %s): " fn)
+				  "Describe function: ")
+				obarray 'fboundp t nil nil
+				(and fn (symbol-name fn))))
+     (list (if (equal val "")
+	       fn (intern val)))))
+  
+  (if (null function)
+      (message "You didn't specify a function")
+    (help-setup-xref (list #'describe-function function)
+		     (called-interactively-p 'interactive))
+    (save-excursion
+      (with-help-window (help-buffer)
+	(prin1 function)
+	;; Use " is " instead of a colon so that
+	;; it is easier to get out the function name using forward-sexp.
+	(princ " is ")
+	(describe-function-1 function)
+	(with-current-buffer standard-output
+	  ;; Return the text we displayed.
+	  (buffer-string))))
+    ;;    ))
+    (let* ((doc (with-current-buffer (help-buffer)
+		  (buffer-string)))
+	   
+	   (voca-builder/current-tag "Emacs")
+	   (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
+      (append-to-file org-doc nil "LearnEmacs.org"))))
+(global-set-key (kbd "C-h f") 'yt/describe-function)
+
+#+end_src
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
@@ -4103,7 +4211,24 @@ In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting
 
 
 #+end_src
+** Hydra 
+[2015-06-22 Mon 14:11]
 
+#+begin_src emacs-lisp :results silent 
+(defhydra yt-hydra/help (:color blue :hint nil)
+  "
+_f_unction: Documentation for a function
+_v_ariable: Documentation for a variable
+_i_nfo: info mode 
+_G_oogle: search google 
+_d_ictionary: search meaning of a word"
+  ("f" describe-function)
+  ("v" describe-variable)
+  ("i" helm-info-org)
+  ("G" helm-google-suggest)
+  ("d" voca-builder/search-popup))
+(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
+#+end_src
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
