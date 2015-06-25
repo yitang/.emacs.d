@@ -3991,6 +3991,18 @@ function at the end of the day.
 (global-set-key (kbd "C-h f") 'yt/describe-function)
 
 #+end_src
+
+quickly filter out non-work tasks in org-agenda. 
+#+begin_src emacs-lisp :results silent 
+(defun yt/filte-office-agenda (tag)
+  (and (if (not (or (string= tag "work")
+		    (string= tag "@office")))
+	   t
+	 nil)
+       (concat "-" tag)))
+(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
+#+end_src
+
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
