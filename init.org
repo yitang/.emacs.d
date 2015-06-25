@@ -686,6 +686,8 @@ it in termnial or in Emacs.
 #+begin_src emacs-lisp
 (require 'tramp)
 (require 'ssh)
+(setq password-cache-expiry nil)
+
 ;; (defun yt/sync-local-remote ()
 ;;   (interactive)
 ;;   "copy all files in remote:~/LR_share to local:~/LR_share,
