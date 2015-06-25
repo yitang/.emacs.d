@@ -3099,15 +3099,17 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
-;; add auto info 
-(add-hook 'org-babel-post-tangle-hook
-          (lambda ()
-	    (goto-char (point-min))
-	    (insert "## @author: Yi Tang\n")
-	    (insert "## @date: ")
-	    (insert (format-time-string "%F %T"))
-	    (insert "\n\n")
-	    (save-buffer)))
+;; add author info
+(defun yt/ess-author-date ()
+(interactive)
+  (goto-char (point-min))
+  (insert "## @author: Yi Tang\n")
+  (insert "## @date: ")
+  (insert (format-time-string "%F %T"))
+  (insert "\n\n")
+  (save-buffer))
+(add-hook 'org-babel-post-tangle-hook 'yt/ess-author-date)
+
 #+end_src
 
 
