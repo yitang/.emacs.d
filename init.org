@@ -3110,10 +3110,10 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 ;; add author info
 (defun yt/ess-author-date ()
-(interactive)
+  (interactive)
   (goto-char (point-min))
-  (insert "## @author: Yi Tang\n")
-  (insert "## @date: ")
+  (insert "##' @author: Yi Tang\n")
+  (insert "##' @date: ")
   (insert (format-time-string "%F %T"))
   (insert "\n\n")
   (save-buffer))
