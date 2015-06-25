@@ -1106,7 +1106,14 @@ the default R-style is not meet my with current R project style, has to turn it 
 ;; (add-hook 'ess-mode-hook
 ;;           (lambda () (flycheck-mode t)))
 #+end_src
-    
+*** Scripts editing
+[2015-06-25 Thu 10:02]
+
+#+begin_src emacs-lisp :results silent 
+(add-hook 'ess-mode-hook '(lambda ()
+			      (turn-on-orgstruct)
+			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
+#+end_src
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
 *** English Language 
