@@ -3887,7 +3887,6 @@ currently it is broken.  the error message is the path issues, and seems the fil
 ** Refile 
 
 use org-struct mode for emacs-lisp. 
-
 #+begin_src emacs-lisp :results silent 
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
                               (turn-on-orgstruct)
