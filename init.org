@@ -686,6 +686,8 @@ it in termnial or in Emacs.
 #+begin_src emacs-lisp
 (require 'tramp)
 (require 'ssh)
+(setq password-cache-expiry nil)
+
 ;; (defun yt/sync-local-remote ()
 ;;   (interactive)
 ;;   "copy all files in remote:~/LR_share to local:~/LR_share,
@@ -1104,7 +1106,14 @@ the default R-style is not meet my with current R project style, has to turn it 
 ;; (add-hook 'ess-mode-hook
 ;;           (lambda () (flycheck-mode t)))
 #+end_src
-    
+*** Scripts editing
+[2015-06-25 Thu 10:02]
+
+#+begin_src emacs-lisp :results silent 
+(add-hook 'ess-mode-hook '(lambda ()
+			      (turn-on-orgstruct)
+			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
+#+end_src
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
 *** English Language 
@@ -3099,15 +3108,17 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
-;; add auto info 
-(add-hook 'org-babel-post-tangle-hook
-          (lambda ()
-	    (goto-char (point-min))
-	    (insert "## @author: Yi Tang\n")
-	    (insert "## @date: ")
-	    (insert (format-time-string "%F %T"))
-	    (insert "\n\n")
-	    (save-buffer)))
+;; add author info
+(defun yt/ess-author-date ()
+  (interactive)
+  (goto-char (point-min))
+  (insert "##' @author: Yi Tang\n")
+  (insert "##' @date: ")
+  (insert (format-time-string "%F %T"))
+  (insert "\n\n")
+  (save-buffer))
+(add-hook 'org-babel-post-tangle-hook 'yt/ess-author-date)
+
 #+end_src
 
 
@@ -3875,10 +3886,12 @@ currently it is broken.  the error message is the path issues, and seems the fil
 
 ** Refile 
 
+use org-struct mode for emacs-lisp. 
+
 #+begin_src emacs-lisp :results silent 
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
-                                   (turn-on-orgstruct)
-                                   (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
+                              (turn-on-orgstruct)
+                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
 #+end_src
 
 hydra 
@@ -3993,6 +4006,18 @@ function at the end of the day.
 (global-set-key (kbd "C-h f") 'yt/describe-function)
 
 #+end_src
+
+quickly filter out non-work tasks in org-agenda. 
+#+begin_src emacs-lisp :results silent 
+(defun yt/filte-office-agenda (tag)
+  (and (if (not (or (string= tag "work")
+		    (string= tag "@office")))
+	   t
+	 nil)
+       (concat "-" tag)))
+(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
+#+end_src
+
 *** open stree map 
     [2015-01-21 Wed 14:39]
     
