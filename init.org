@@ -1114,6 +1114,66 @@ the default R-style is not meet my with current R project style, has to turn it 
 			      (turn-on-orgstruct)
 			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
 #+end_src
+
+*increase readability*
+#+begin_src emacs-lisp :results silent 
+(defun yt/ess-chunk-args--line ()
+  "sim.gc.table <- data.table(duration = sort(sim.duration, decreasing = TRUE), rp = 1e4 / seq(1, length(sim.duration))) becomes 
+
+
+sim.gc.table <- data.table(duration = sort(sim.duration,
+                                          decreasing = TRUE),
+                          rp = 1e4 / seq(1, length(sim.duration)))
+"
+  (interactive)
+  (save-excursion
+    (let ((start-point (point)))
+      (while (re-search-forward ", \\([a-z]+ =\\)" (line-end-position) t)
+	(replace-match (concat ",\n    " (match-string 1))))
+      (indent-region start-point (line-end-position))
+      (goto-char start-point))))
+      
+(defun yt/ess-chunk-plus--line ()
+  "ggplot(obs.gc.table, aes(rp, duration)) + geom_point() + scale_x_log10() + scale_y_log10() 
+
+becomes 
+
+ggplot(obs.gc.table, aes(rp, duration)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+"
+  (interactive)
+  (save-excursion
+    (let ((start-point (point)))
+      (replace-regexp " \\+ " " +\n    " nil (point) (line-end-position))
+      (indent-region start-point (line-end-position))
+      (goto-char start-point))))
+#+end_src
+
+*testing*
+#+begin_src emacs-lisp :results silent 
+(defun yt/ess-script-variables ()
+  (interactive)
+  (let ((var-list '())
+        (data-list '()))
+    (save-excursion
+      (while (search-forward-regexp "^[[:space:]]*\\([[:alpha:]]+\\) <- function\(" nil t)
+        (add-to-list 'func-list (match-string-no-properties 1))))
+    (save-excursion
+      (while (search-forward-regexp "^[[:space:]]*\\([a-z\\.]+\\) <- " nil t)
+        (add-to-list 'var-list (match-string-no-properties 1))))
+    (append (set-difference var-list func-list) data-list)))
+
+(defun yt/ess-remove-variables-not-in-scripts ()
+  (interactive)
+  (let* ((all-vars (yt/ess-script-variables))
+         (all-vars-R (concat "c(\"" (mapconcat 'identity all-vars "\",\"")
+                             "\")")))
+    (kill-new (concat "rm(list = setdiff\(setdiff\(ls\(\), lsf.str\(\)\), " all-vars-R "\)\)"))))
+
+#+end_src
+
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
 *** English Language 
@@ -1303,6 +1363,7 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
       (define-abbrev my-text-abbrev-table name expansion nil :system t))))
 (my-text-abbrev-table-init my-text-abbrevs)
 #+end_src
+
 *** Style 
 [2015-05-26 Tue 12:13]
 *Title Case*
@@ -3693,30 +3754,30 @@ macbook por.
                           ("/All Mail"     . ?a)))
 
 
-(defun yt/email-jba ()
-  (interactive)
-  ;; setup for smtp 
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.office365.com"
-        smtpmail-smtp-server "smtp.office365.com"
-        smtpmail-smtp-service 587
-        smtpmail-smtp-user "yi.tang@jbarisk.com"
-        ;; account info 
-        user-mail-address "yi.tang@jbarisk.com"
-        user-full-name  "Yi Tang"
-        ;; mu4e 
-        mu4e-drafts-folder "/JBA/Drafts"
-        mu4e-sent-folder   "/JBA/Sent Items"
-        mu4e-trash-folder  "/JBA/Trash"
-        mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-                                  ("/Sent Items"   . ?s)
-                                  ("/Trash"        . ?t)
-                                  ("/All Mail"     . ?a))
-        mu4e-compose-signature (concat
-                                "Yi Tang\n"
-                                "Statistician\n"
-                                "T: +44 (0) 1756 799919\n")))
+;; (defun yt/email-jba ()
+;;   (interactive)
+;;   ;; setup for smtp 
+;;   (setq message-send-mail-function 'smtpmail-send-it
+;;         smtpmail-stream-type 'starttls
+;;         smtpmail-default-smtp-server "smtp.office365.com"
+;;         smtpmail-smtp-server "smtp.office365.com"
+;;         smtpmail-smtp-service 587
+;;         smtpmail-smtp-user "yi.tang@jbarisk.com"
+;;         ;; account info 
+;;         user-mail-address "yi.tang@jbarisk.com"
+;;         user-full-name  "Yi Tang"
+;;         ;; mu4e 
+;;         mu4e-drafts-folder "/JBA/Drafts"
+;;         mu4e-sent-folder   "/JBA/Sent Items"
+;;         mu4e-trash-folder  "/JBA/Trash"
+;;         mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
+;;                                   ("/Sent Items"   . ?s)
+;;                                   ("/Trash"        . ?t)
+;;                                   ("/All Mail"     . ?a))
+;;         mu4e-compose-signature (concat
+;;                                 "Yi Tang\n"
+;;                                 "Statistician\n"
+;;                                 "T: +44 (0) 1756 799919\n")))
 
 (defun yt/email-icloud ()
   (setq  ;; account info
@@ -3798,9 +3859,11 @@ Mu4e: _g_mail _j_ba _i_Cloud"
   ("i" yt/mu4e-icloud))
 (global-set-key [f2] 'hydra-email/body)
 
-(if (string= WhereAmI "Office")
-    (yt/email-jba)
-  (yt/email-icloud))
+;; (if (string= WhereAmI "Office")
+;;     (yt/email-jba)
+;;   (yt/email-icloud))
+
+(yt/email-icloud)
 #+end_src 
 
 when I sent an email, it will promote and ask for email, I only need
