@@ -3513,7 +3513,6 @@ comments: true
 [2015-01-23 Fri 17:47]
 
 #+begin_src emacs-lisp :results silent :eval no
-
 (defun org-to-jekyll-src (lang)
   " change src block heading to {% highlight %} "
   ;; (with-temp-buffer
@@ -3557,9 +3556,9 @@ comments: true
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward-regexp "^#\\+begin_src \\([a-z]+\\).*$" nil t)
+    (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
-      (search-forward-regexp "^#\\+end_src") ;; will throew error if src block is not closed. 
+      (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
       (replace-match jekyll-highlight-template-close))))
 
 ;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
@@ -3582,7 +3581,7 @@ comments: true
     (yt/org-to-jekyll-highligh)))
 
 ;; (setq org-export-before-parsing-hook nil)
-(add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
+;; (add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
 #+end_src
 
 #+results:
@@ -3951,7 +3950,6 @@ currently it is broken.  the error message is the path issues, and seems the fil
 ** Refile 
 
 use org-struct mode for emacs-lisp. 
-
 #+begin_src emacs-lisp :results silent 
 (add-hook 'emacs-lisp-mode-hook '(lambda ()
                               (turn-on-orgstruct)
