@@ -1114,6 +1114,66 @@ the default R-style is not meet my with current R project style, has to turn it 
 			      (turn-on-orgstruct)
 			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
 #+end_src
+
+*increase readability*
+#+begin_src emacs-lisp :results silent 
+(defun yt/ess-chunk-args--line ()
+  "sim.gc.table <- data.table(duration = sort(sim.duration, decreasing = TRUE), rp = 1e4 / seq(1, length(sim.duration))) becomes 
+
+
+sim.gc.table <- data.table(duration = sort(sim.duration,
+                                          decreasing = TRUE),
+                          rp = 1e4 / seq(1, length(sim.duration)))
+"
+  (interactive)
+  (save-excursion
+    (let ((start-point (point)))
+      (while (re-search-forward ", \\([a-z]+ =\\)" (line-end-position) t)
+	(replace-match (concat ",\n    " (match-string 1))))
+      (indent-region start-point (line-end-position))
+      (goto-char start-point))))
+      
+(defun yt/ess-chunk-plus--line ()
+  "ggplot(obs.gc.table, aes(rp, duration)) + geom_point() + scale_x_log10() + scale_y_log10() 
+
+becomes 
+
+ggplot(obs.gc.table, aes(rp, duration)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+"
+  (interactive)
+  (save-excursion
+    (let ((start-point (point)))
+      (replace-regexp " \\+ " " +\n    " nil (point) (line-end-position))
+      (indent-region start-point (line-end-position))
+      (goto-char start-point))))
+#+end_src
+
+*testing*
+#+begin_src emacs-lisp :results silent 
+(defun yt/ess-script-variables ()
+  (interactive)
+  (let ((var-list '())
+        (data-list '()))
+    (save-excursion
+      (while (search-forward-regexp "^[[:space:]]*\\([[:alpha:]]+\\) <- function\(" nil t)
+        (add-to-list 'func-list (match-string-no-properties 1))))
+    (save-excursion
+      (while (search-forward-regexp "^[[:space:]]*\\([a-z\\.]+\\) <- " nil t)
+        (add-to-list 'var-list (match-string-no-properties 1))))
+    (append (set-difference var-list func-list) data-list)))
+
+(defun yt/ess-remove-variables-not-in-scripts ()
+  (interactive)
+  (let* ((all-vars (yt/ess-script-variables))
+         (all-vars-R (concat "c(\"" (mapconcat 'identity all-vars "\",\"")
+                             "\")")))
+    (kill-new (concat "rm(list = setdiff\(setdiff\(ls\(\), lsf.str\(\)\), " all-vars-R "\)\)"))))
+
+#+end_src
+
 ** Writing in Emacs 
 [2015-01-19 Mon 12:11]
 *** English Language 
