@@ -3155,33 +3155,33 @@ clean up the messy R scripts buffer. it will
 #+begin_src emacs-lisp :results silent 
 (defun yt/clean-R () 
   (interactive)
-  (progn
-    (goto-char (point-min))
-    (flush-lines "^\\(\\|[[:space:]]+\\)[#]\\{1,3\\} ") ;; remove lines with only commenst and start with #, ##, or ###, but not #### for it's the section heading. 
-    (flush-lines "^\\(\\|[[:space:]]+\\)$") ;; blank lines
-    (replace-regexp "#### " "\n#### ") ;; add blank lines between sections. 
-    (while (search-forward "#" nil t) ;; remove inline comments start with ## 
-      (backward-char 2)
-      (kill-region (point) (line-end-position)))
-    )
-  (save-buffer))
+  (when (string= major-mode "ess-mode")
+    (progn
+      (goto-char (point-min))
+      (flush-lines "^\\(\\|[[:space:]]+\\)[#]\\{1,3\\} ") ;; remove lines with only commenst and start with #, ##, or ###, but not #### for it's the section heading. 
+      (flush-lines "^\\(\\|[[:space:]]+\\)$") ;; blank lines
+      (replace-regexp "#### " "\n#### ") ;; add blank lines between sections. 
+      (while (search-forward "##" nil t) ;; remove inline comments start with ## 
+        (backward-char 2)
+        (kill-region (point) (line-end-position)))
+    (save-buffer))))
 
 #+end_src
 apply the clean scripts to the tangled file.  also, preappend the date and my name on the tangled file. 
 
 #+begin_src emacs-lisp :results silent 
-(add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 ;; add author info
 (defun yt/ess-author-date ()
   (interactive)
-  (goto-char (point-min))
-  (insert "##' @author: Yi Tang\n")
-  (insert "##' @date: ")
-  (insert (format-time-string "%F %T"))
-  (insert "\n\n")
-  (save-buffer))
+  (when (string= major-mode "ess-mode")
+    (goto-char (point-min))
+    (insert "##' @author: Yi Tang\n")
+    (insert "##' @date: ")
+    (insert (format-time-string "%F %T"))
+    (insert "\n\n")
+    (save-buffer)))
 (add-hook 'org-babel-post-tangle-hook 'yt/ess-author-date)
-
+(add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 #+end_src
 
 
