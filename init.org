@@ -2959,7 +2959,7 @@ punch-in
      ))
 (global-set-key (kbd "<f9> I") 'yt/punch-in)
 #+end_src
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent :eval no
 (defun my/modify-org-done-face ()
   (setq org-fontify-done-headline t)
   (set-face-attribute 'org-done nil :strike-through t)
