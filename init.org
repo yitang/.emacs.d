@@ -451,7 +451,8 @@ colour theme and easy on the eye. Occasionally I apply /tsdh-dark/
 theme on the top when I really need to focus on.
 
 #+begin_src emacs-lisp 
-(load-theme 'zenburn t)
+;; (when window-system
+;;   (load-theme 'zenburn t))
 #+end_src
 
 ** Completion and Selection 
