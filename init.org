@@ -933,15 +933,14 @@ options(\"max.print\" = 200)
 options(prompt=\"R> \", digits=4, show.signif.stars=FALSE)
 
 .Libs <- function(){
-    library(GFESLib)
-    require(data.table)
-    require(ggplot2)
-    require(gridExtra)
-    require(sp)
-    require(geosphere)
-    library(rgeos)
-    require(sp)
-    require(dragonfly)
+    library(data.table)
+    library(ggplot2)
+    library(gridExtra)
+##    library(sp)
+##    library(geosphere)
+##    library(rgeos)
+##    library(sp)
+##    library(dragonfly)
 }
 
 .libPaths(\"~/R_libs\")
