@@ -1149,6 +1149,31 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 #+end_src
 
+
+clean R console 
+#+begin_src emacs-lisp :results silent 
+;;;; * clean up ESS or sh buffer 
+(defun yt/prog-previous-output-region ()
+  "return start/end points of previous output region"
+  (save-excursion
+    (beginning-of-line)
+    (setq sp (point))
+    (comint-previous-prompt 1)
+    (next-line)
+    (beginning-of-line)
+    (setq ep (point))
+    (cons sp ep)))
+
+(defun yt/prog-kill-output-backwards ()
+  (interactive)
+  (save-excursion
+    (let ((reg (yt/prog-previous-output-region)))
+      (delete-region (car reg) (cdr reg))
+      (goto-char (cdr reg))
+      (insert "*** output flushed ***\n"))))
+
+(global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
+#+end_src
 #+begin_src emacs-lisp :results silent 
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
