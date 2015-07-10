@@ -1,5 +1,5 @@
 # #+TITLE:   Unified Emacs OS - An Statistician's Implementation
-#+TITLE: Build a Machine That Understand You - an Attempt via Emacs 
+#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
@@ -933,15 +933,14 @@ options(\"max.print\" = 200)
 options(prompt=\"R> \", digits=4, show.signif.stars=FALSE)
 
 .Libs <- function(){
-    library(GFESLib)
-    require(data.table)
-    require(ggplot2)
-    require(gridExtra)
-    require(sp)
-    require(geosphere)
-    library(rgeos)
-    require(sp)
-    require(dragonfly)
+    library(data.table)
+    library(ggplot2)
+    library(gridExtra)
+##    library(sp)
+##    library(geosphere)
+##    library(rgeos)
+##    library(sp)
+##    library(dragonfly)
 }
 
 .libPaths(\"~/R_libs\")
@@ -1110,6 +1109,71 @@ the default R-style is not meet my with current R project style, has to turn it 
 *** Scripts editing
 [2015-06-25 Thu 10:02]
 
+*** R programming 
+[2015-05-26 Tue 12:41]
+
+clean up the messy R scripts buffer. it will 
+1. remove comments lines start with '## '
+2. remove blank lines,
+3. add one blank lines between sections, which defined by '#### '.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/clean-R () 
+  (interactive)
+  (when (string= major-mode "ess-mode")
+    (progn
+      (goto-char (point-min))
+      (flush-lines "^\\(\\|[[:space:]]+\\)[#]\\{1,3\\} ") ;; remove lines with only commenst and start with #, ##, or ###, but not #### for it's the section heading. 
+      (flush-lines "^\\(\\|[[:space:]]+\\)$") ;; blank lines
+      (replace-regexp "#### " "\n#### ") ;; add blank lines between sections. 
+      (while (search-forward "##" nil t) ;; remove inline comments start with ## 
+        (backward-char 2)
+        (kill-region (point) (line-end-position)))
+    (save-buffer))))
+
+#+end_src
+apply the clean scripts to the tangled file.  also, preappend the date and my name on the tangled file. 
+
+#+begin_src emacs-lisp :results silent 
+;; add author info
+(defun yt/ess-author-date ()
+  (interactive)
+  (when (string= major-mode "ess-mode")
+    (goto-char (point-min))
+    (insert "##' @author: Yi Tang\n")
+    (insert "##' @date: ")
+    (insert (format-time-string "%F %T"))
+    (insert "\n\n")
+    (save-buffer)))
+(add-hook 'org-babel-post-tangle-hook 'yt/ess-author-date)
+(add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
+#+end_src
+
+
+clean R console 
+#+begin_src emacs-lisp :results silent 
+;;;; * clean up ESS or sh buffer 
+(defun yt/prog-previous-output-region ()
+  "return start/end points of previous output region"
+  (save-excursion
+    (beginning-of-line)
+    (setq sp (point))
+    (comint-previous-prompt 1)
+    (next-line)
+    (beginning-of-line)
+    (setq ep (point))
+    (cons sp ep)))
+
+(defun yt/prog-kill-output-backwards ()
+  (interactive)
+  (save-excursion
+    (let ((reg (yt/prog-previous-output-region)))
+      (delete-region (car reg) (cdr reg))
+      (goto-char (cdr reg))
+      (insert "*** output flushed ***\n"))))
+
+(global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
+#+end_src
 #+begin_src emacs-lisp :results silent 
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
@@ -1332,6 +1396,7 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
 | gmap      | google map        | website  |
 | mailme    | yi.tang.uk@me.com | aboutme  |
 | twitterme | @yi_tang_uk       | aboutme  |
+| eqt       | equivalent to     | english  |
 | iif       | if and only if    | maths    |
 | wrt       | with respect to   | english  |
 
@@ -3145,47 +3210,6 @@ org-download
                                         ;; Use fundamental mode when editing plantuml blocks with C-c '
  (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 #+end_src
-**** R programming 
-[2015-05-26 Tue 12:41]
-
-
-clean up the messy R scripts buffer. it will 
-1. remove comments lines start with '## '
-2. remove blank lines,
-3. add one blank lines between sections, which defined by '#### '.
-#+begin_src emacs-lisp :results silent 
-(defun yt/clean-R () 
-  (interactive)
-  (when (string= major-mode "ess-mode")
-    (progn
-      (goto-char (point-min))
-      (flush-lines "^\\(\\|[[:space:]]+\\)[#]\\{1,3\\} ") ;; remove lines with only commenst and start with #, ##, or ###, but not #### for it's the section heading. 
-      (flush-lines "^\\(\\|[[:space:]]+\\)$") ;; blank lines
-      (replace-regexp "#### " "\n#### ") ;; add blank lines between sections. 
-      (while (search-forward "##" nil t) ;; remove inline comments start with ## 
-        (backward-char 2)
-        (kill-region (point) (line-end-position)))
-    (save-buffer))))
-
-#+end_src
-apply the clean scripts to the tangled file.  also, preappend the date and my name on the tangled file. 
-
-#+begin_src emacs-lisp :results silent 
-;; add author info
-(defun yt/ess-author-date ()
-  (interactive)
-  (when (string= major-mode "ess-mode")
-    (goto-char (point-min))
-    (insert "##' @author: Yi Tang\n")
-    (insert "##' @date: ")
-    (insert (format-time-string "%F %T"))
-    (insert "\n\n")
-    (save-buffer)))
-(add-hook 'org-babel-post-tangle-hook 'yt/ess-author-date)
-(add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
-#+end_src
-
-
 
 *** Export 
 [2015-02-04 Wed 12:23]
