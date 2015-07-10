@@ -1333,6 +1333,7 @@ I have been writing in Emacs/org-mode a lot, have been really tired of capitalis
 | mailme    | yi.tang.uk@me.com | aboutme  |
 | twitterme | @yi_tang_uk       | aboutme  |
 | iif       | if and only if    | maths    |
+| wrt       | with respect to   | english  |
 
 #+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent
 (defun my-text-abbrev-expand-p ()
@@ -1591,14 +1592,14 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 ;; mine modication 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
-               "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
+               "* TODO %?\n%U\n\nWhat to achieve?" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
               ("o" "org" entry (file "~/git/org/refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
                "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+              ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
@@ -2258,81 +2259,6 @@ A prefix arg forces clock in of the default task."
 (setq org-odd-levels-only nil)
 
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-;;;;;; my config 
-;; remove C-TAB
-(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(org-defkey org-mode-map (kbd "C-c [") nil)
-(org-defkey org-mode-map (kbd "C-c ]") nil)
-(org-defkey org-mode-map (kbd "C-TAB") nil)
-(org-defkey org-mode-map (kbd "<f8>") nil)
-;; use helm iwth org
-;; (setq org-completion-handler 'helm)
-
-;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
-(defun yt/org-clock-in-select ()
-  (interactive)
-  (setq current-prefix-arg '(4)) ;; C-u, 
-  (call-interactively 'org-clock-in))
-(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
-
-;; add the following 
-(setq org-capture-bookmark nil)
-
-(defun sacha/yank-more ()
-  (interactive)
-  (insert "[[")
-  (yank)
-  (insert "][more]]"))
-(global-set-key (kbd "<f6>") 'sacha/yank-more)
-
-(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
-
-(defun yt/open-diary ()
-  (interactive)
-  (find-file "~/git/org/diary.org"))
-
-(defun yt/open-tmp-R ()
-  (interactive)
-  (find-file "~/git/org/tmp.R"))
-(defun yt/open-tmp-el ()
-  (interactive)
-  (find-file "~/git/org/tmp.el"))
-(defun yt/open-tmp-org ()
-  (interactive)
-  (find-file "~/git/org/tmp.org"))
-(global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
-(global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
-(global-set-key (kbd "<f9> f d") 'yt/open-diary)
-(global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
-
-
-;; (global-set-key (kbd "<f9> e") 'mu4e)
-(global-set-key (kbd "<f9> g") 'magit-status)
-
-(setq org-agenda-tags-column 120)
-
-
-(defun yt/timeline-for-subtree ()
-  "make a timeline view in agenda for current tree"
-  (interactive)
-  (org-copy-subtree)
-  (find-file "~/tmp/agenda_tmp.org")
-  (beginning-of-buffer)
-  (let ((beg (point))) (end-of-buffer) (delete-region beg (point)))
-  (org-paste-subtree)
-  (save-buffer)
-  (org-timeline)
-  )
-
-
-(require 'htmlize)
-
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
-(setq org-image-actual-width '(400))
-
-(setq bh/hide-scheduled-and-waiting-next-tasks nil)
 
 
 #+end_src
@@ -2997,6 +2923,80 @@ clock-in tasks in mode-line
 (setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
 #+end_src
 
+*temporay file*
+#+begin_src emacs-lisp :results silent 
+;;;; * my config 
+;; remove C-TAB
+(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(org-defkey org-mode-map (kbd "C-c [") nil)
+(org-defkey org-mode-map (kbd "C-c ]") nil)
+(org-defkey org-mode-map (kbd "C-TAB") nil)
+(org-defkey org-mode-map (kbd "<f8>") nil)
+;; use helm iwth org
+;; (setq org-completion-handler 'helm)
+
+;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
+(defun yt/org-clock-in-select ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ;; C-u, 
+  (call-interactively 'org-clock-in))
+(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
+
+;; add the following 
+(setq org-capture-bookmark nil)
+
+(defun sacha/yank-more ()
+  (interactive)
+  (insert "[[")
+  (yank)
+  (insert "][more]]"))
+(global-set-key (kbd "<f6>") 'sacha/yank-more)
+
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
+
+(defvar yt/temp-dir "~/git/org/temp"
+  "temporay folders")
+
+(defun yt/open-tmp-R ()
+  (interactive)
+  (find-file (expand-file-name "temp.R" yt/temp-dir)))
+(defun yt/open-tmp-el ()
+  (interactive)
+  (find-file (expand-file-name "temp.el" yt/temp-dir)))
+(defun yt/open-tmp-org ()
+  (interactive)
+  (find-file (expand-file-name "temp.org" yt/temp-dir)))
+(global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
+(global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
+(global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
+
+(global-set-key (kbd "<f9> g") 'magit-status)
+
+(setq org-agenda-tags-column 120)
+
+
+(defun yt/timeline-for-subtree ()
+  "make a timeline view in agenda for current tree"
+  (interactive)
+  (org-copy-subtree)
+  (find-file "~/tmp/agenda_tmp.org")
+  (beginning-of-buffer)
+  (let ((beg (point))) (end-of-buffer) (delete-region beg (point)))
+  (org-paste-subtree)
+  (save-buffer)
+  (org-timeline)
+  )
+
+
+(require 'htmlize)
+
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
+(setq org-image-actual-width '(400))
+
+(setq bh/hide-scheduled-and-waiting-next-tasks nil)
+
+#+end_src
 
 *** contribute libraries 
 
@@ -4323,6 +4323,35 @@ _d_ictionary: search meaning of a word"
   ("d" voca-builder/search-popup))
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
 #+end_src
+** Emacs Lisp Programming 
+[2015-07-05 Sun 19:46]
+
+(rep "a" 3) --> "aaa"
+#+begin_src emacs-lisp :results silent 
+(defun yt/lisp-rep (arg n)
+  (apply 'concat (make-list n arg)))
+#+end_src
+*** Org-Mode API 
+[2015-07-05 Sun 19:47]
+
+Get the link to current headline as an external link. 
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-get-heading-link ()
+  (interactive)
+  (let* ((file-name (file-truename buffer-file-name))
+	 (headline (org-heading-components))
+	 (level (nth 0 headline))
+	 (title (nth 4 headline))
+	 (link (concat file-name
+		       "::"
+		       "*" ;; (yt/lisp-rep "*" level)
+		       title)))
+    (kill-new (concat "[["
+		      link
+		      "]["
+		      title
+		      "]]"))))
+#+end_src
 * Babel Library 
 :PROPERTIES:
 :header-args: :eval no
@@ -4490,9 +4519,9 @@ It reminds of me to
 (defun yt/git-repo-info ()
   (interactive)
   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
-	 (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
-	 (unpush (shell-command-to-string sh-num-unpushed-commits))
-	 (uncommit (shell-command-to-string sh-num-uncommited-files)))
+         (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+         (unpush (shell-command-to-string sh-num-unpushed-commits))
+         (uncommit (shell-command-to-string sh-num-uncommited-files)))
     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
 #+end_src
 
@@ -4542,3 +4571,13 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+begin_example
 #+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
 #+end_example
+** Python 
+[2015-07-05 Sun 19:49]
+
+#+begin_src emacs-lisp :results silent 
+(require 'eval-in-repl)
+;; Python support
+;; (require 'python) ; if not done elsewhere
+(require 'eval-in-repl-python)
+(define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
+#+end_src
