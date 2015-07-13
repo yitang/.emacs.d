@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: fraction
+# key: l8frac
+# binding: direct-keybinding
+# --
+\frac_{${1:n}}^{${2:d}}$0

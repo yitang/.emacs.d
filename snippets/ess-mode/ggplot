@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: ggplot
+# key: ggplot
+# contributor: jrnold <jeffrey.arnold@gmail.com>
+# --
+ggplot(${1:gg.df}, aes($2)) +
+geom_$0 +
+labs($3) +
+

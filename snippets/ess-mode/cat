@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: cat
+# key: cat
+# binding: direct-keybinding
+# --
+cat("\n", $0)
