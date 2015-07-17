@@ -3278,8 +3278,9 @@ org-download
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
       '(("frame" "lines")
-        ("fontsize" "\\scriptsize")
-        ("linenos" "")))
+        ("fontsize" "\\scriptsize")))
+;; ("linenos" "")))
+
 ;;;; comple pdf 
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
