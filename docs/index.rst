@@ -43,6 +43,8 @@ be run in Emacs, and I found it particullary useful.
    :maxdepth: 2
    :caption: Documentation
    
+   licence
+   how_to_use_this_document
    install_packages
    general
    ui__emacs_looks_cool
