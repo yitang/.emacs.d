@@ -3629,7 +3629,29 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
 #+end_src
+*** Org-link 
+[2015-07-18 Sat 09:15]
 
+*magit*
+#+begin_src emacs-lisp :results silent 
+;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
+;; magit link in org-mode 
+(defun org-magit-store-link ()
+  "Store a link to a directory to open with magit."
+  (when (eq major-mode 'magit-mode)
+    (let* ((dir default-directory)
+           (link (org-make-link "magit:" dir))
+           (desc (abbreviate-file-name dir)))
+      (org-store-link-props :type "magit" :link link :description desc)
+      link)))
+(defun org-magit-open (dir)
+  "Follow a magit link to DIR."
+  (require 'magit)
+  (magit-status dir))
+(org-add-link-type "magit" 'org-magit-open nil)
+(add-hook 'org-store-link-functions 'org-magit-store-link)
+
+#+end_src
 ** mu4e - Email Client
 :LOGBOOK:  
 CLOCK: [2015-06-03 Wed 21:27]--[2015-06-03 Wed 21:38] =>  0:11
