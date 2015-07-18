@@ -153,12 +153,13 @@ Add the following scripts to your /.emacs/
 #+end_src
 * Emacs Configuration
 :LOGBOOK:  
-  CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
-  CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
-  CLOCK: [2015-01-23 Fri 10:15]--[2015-01-23 Fri 11:47] =>  1:32
-  CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
-  :END:      
+CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
+CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
+CLOCK: [2015-01-23 Fri 10:15]--[2015-01-23 Fri 11:47] =>  1:32
+CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
+:END:      
 [2015-01-19 Mon 11:42]
+
 ** install packages 
 [2015-03-18 Wed 15:32]
 
@@ -4028,37 +4029,6 @@ currently it is broken.  the error message is the path issues, and seems the fil
 
 ** Refile 
 
-use org-struct mode for emacs-lisp. 
-#+begin_src emacs-lisp :results silent 
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                              (turn-on-orgstruct)
-                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
-#+end_src
-
-hydra 
-#+begin_src emacs-lisp :results silent 
-(require 'hydra)
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
-
-(defhydra hydra-search (:color blue
-                               :hint nil)
-  "
-Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
-Multiple Buffers : helm-multi-_S_woop 
-Project Directory: projectile-_g_rep  helm-projectile-_G_rep
-"
-  ("i" isearch-forward)
-  ("s" helm-swoop)
-  ("a" ace-jump-word-mode)
-  ("S" helm-multi-swoop)
-  ("g" projectile-grep)
-  ("G" helm-projectile-grep))
-(global-set-key [f5] 'hydra-search/body)
-
-#+end_src
 
 
 voca-builde 
@@ -4071,12 +4041,8 @@ voca-builde
 (setq sentence-end-double-space nil)
 #+end_src
 
-#+begin_src emacs-lisp :results silent 
-(olivetti-mode)
-#+end_src
 
-
-weather forcasting 
+weather forecasting 
 #+begin_src emacs-lisp :results silent 
 ;; sunshine: weather forcaste service
 (setq sunshine-units 'metric)
@@ -4149,6 +4115,7 @@ function at the end of the day.
 #+end_src
 
 quickly filter out non-work tasks in org-agenda. 
+
 #+begin_src emacs-lisp :results silent 
 (defun yt/filte-office-agenda (tag)
   (and (if (not (or (string= tag "work")
@@ -4159,228 +4126,6 @@ quickly filter out non-work tasks in org-agenda.
 (setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
 #+end_src
 
-*** open stree map 
-    [2015-01-21 Wed 14:39]
-    
-    #+begin_src emacs-lisp
-
-(defun omap_bbox (minlon minlat maxlon maxlat)
-  "generate to hyperlink and also view an area in openstreemap.  
-the area is defined by the bounding box. "
-;;   (interactive)
-  (let ((address (concat  "http://www.openstreetmap.org/?"
-           "minlon=" (number-to-string minlon) "&"
-           "minlat=" (number-to-string minlat) "&"
-           "maxlon=" (number-to-string maxlon) "&"
-           "maxlat=" (number-to-string maxlat) "&")))
-    (browse-url address)
-    (kill-new address)))
-
-
-(defun omap_point (lon lat)
-;;  (interactive)
-  (let ((address (concat  "http://www.openstreetmap.org/?"
-                          "mlat=" (number-to-string lat) "&"
-                          "mlon=" (number-to-string lon))))
-    (browse-url address)
-    (kill-new address)))
-
-(defun omap_site (site)
-;;  (interactive)
-  (let ((address (concat "http://nominatim.openstreetmap.org/search.php?q=" site)))
-    (browse-url address)
-    (kill-new address)))
-
-(defun omap (arg)
-;;  (interactive)
-  (cond ((= 1 (length arg))
-         (omap_site (nth 0 arg)))
-        ((= 2 (length arg))
-         (omap_point (nth 0 arg) (nth 1 arg)))
-        ((= 4 (length arg))
-         (omap_bbox (nth 0 arg)
-                     (nth 1 arg)
-                     (nth 2 arg)
-                     (nth 3 arg)))
-        (t "nope")))
-
-;; (omap '(-0.489 51.28 0.236 51.686)) ;; london area
-;; http://www.openstreetmap.org/?minlon=-0.489&minlat=51.28&maxlon=0.236&maxlat=51.686&
-;; (omap '(-76.3412 38.6710)) ;; New york 
-;; http://www.openstreetmap.org/?mlat=38.671&mlon=-76.3412
-;; (omap '("UK"))  ;; UK, obvs 
-;; http://nominatim.openstreetmap.org/search.php?q=UK
-         
-    #+end_src
-
-    #+results:
-    : omap
-** Git-Report
-
-#+begin_src emacs-lisp :results silent 
-;; (defun yt/git-repo-info ()
-;;   (interactive)
-;;   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
-;;       (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
-;;       (unpush (shell-command-to-string sh-num-unpushed-commits))
-;;       (uncommit (shell-command-to-string sh-num-uncommited-files)))
-;;     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
-
-(defun yt/git-check-repo-update (path)
-  (interactive)
-  (let* ((git-cmd "git status | grep clean")
-         (sh-cmd (concat "cd " path "; " git-cmd))
-         (sh-result (shell-command-to-string sh-cmd))
-         (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
-                                  sh-result)))
-         (repo-clean-p (string= "nothing to commit, working directory clean\n"
-                                sh-result)))
-    (cond ((not is-git-repo)
-           (concat path " is not a git repo"))
-          (repo-clean-p
-           (concat path " is clean"))
-          (t
-           (concat path " is dirty")))))
-
-(defun yt/git-status-report (repo-list)
-  (interactive)
-  (let ((repo-status (mapconcat 'yt/git-check-repo-update repo-list "\n")))
-    repo-status))
-    
-
-(defun yt/git-status-report-org-mode (repo-list)
-  (interactive)
-  (let ((repo-status (mapcar 'yt/git-check-repo-update-return-list repo-list)))    
-    repo-status))
-
-(defun yt/git-check-repo-update-return-list (path)
-  (let* ((status (yt/git-check-repo-update path))
-         (status (car (cdr (split-string status " is "))))
-         (magit-link 
-          (if (string= "not a git repo" status)
-              " "
-            (concat "[[magit:" path "]]"))))
-    (list path
-          status
-          magit-link)))
-
-(defun yt/list-to-org-table (a-list)
-  (let ((a-list-string (mapconcat 'identity a-list " | "))) ;; use | to separate each item
-    (concat "| " a-list-string " |" "\n")))
-
-(defun yt/git-check-repo-update-org-table (repo-list)
-  (let* ((status-list (mapcar 'yt/git-check-repo-update-return-list repo-list))
-        (status-table (mapcar 'yt/list-to-org-table status-list))
-        (status-table-string (mapconcat 'identity status-table " "))
-        (table-header "| repo | status | magit |\n"))
-    (concat table-header " " status-table-string)))
-
-;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
-;; magit link in org-mode 
-(defun org-magit-store-link ()
-  "Store a link to a directory to open with magit."
-  (when (eq major-mode 'magit-mode)
-    (let* ((dir default-directory)
-           (link (org-make-link "magit:" dir))
-           (desc (abbreviate-file-name dir)))
-      (org-store-link-props :type "magit" :link link :description desc)
-      link)))
-(defun org-magit-open (dir)
-  "Follow a magit link to DIR."
-  (require 'magit)
-  (magit-status dir))
-(org-add-link-type "magit" 'org-magit-open nil)
-(add-hook 'org-store-link-functions 'org-magit-store-link)
-
-
-
-(require 'f)
-(defun yt/git-all-git-dir (git-base-dir)
-  (f-directories "~/git"
-                 '(lambda (arg)
-                    (let* ((f (directory-files arg))
-                           (f-string (format "%s" f)))
-                      (if (string-match "\\.git" f-string)
-                          t
-                        nil)))
-                 t))
-
-
-(defun yt/git-generate-report ()
-  (interactive)
-  (let  ((git-report (yt/git-check-repo-update-org-table repo-list)))
-    (with-temp-buffer
-      (insert (format "%s" git-report))
-      (write-region (point-min) (point-max) git-report-temp-file)
-      )
-    (find-file git-report-temp-file)
-    (goto-char (+ 1 (point-min)))
-    (org-mode)
-    (org-ctrl-c-ret)
-    (previous-line 2)
-    (search-forward "status")
-    (next-line 2)
-    ;; (setq current-prefix-arg '(4)) ; C-u
-    (org-table-sort-lines t ?a)
-    )
-  )
-
-
-(setq git-report-temp-file "~/git-report-buffer")
-(setq repo-list (yt/git-all-git-dir "~/git"))
-;; (yt/git-generate-report)
-
-
-
-#+end_src
-** Office Setting 
-[2015-03-18 Wed 18:32]
-In the office, I have differnet settings for 
-
-1. org-agenda files 
-2. org-capture-templates,
-3. org-html-export 
-
-In my office Ubuntu machine, set a variable WhereAmI to Office, then the setting will be done automatically.  wrap all the settings in the =my/all-office-settings= function for I can call it explicity when I work on my Mac. 
-#+begin_src emacs-lisp 
-;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
-(defun my/office-org-agenda-file ()
-  (setq org-agenda-files '("~/git/jbarm" )))
-
-(defun my/office-org-capture-temp ()
-  (setq org-capture-templates
-        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
-                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
-                 "* %?\n%U\n" :clock-in t :clock-resume t)
-                ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
-                 "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
-                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
-                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
-                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
-                ))))
-
-(defun my/all-office-settings ()
-  (interactive)
-  (my/office-org-agenda-file)
-  (my/office-org-capture-temp)
-  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/personal/css/office.css\" type=\"text/css\" />"
-        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />"
-        ;; voca-builder/voca-file "~/git/org/vocabulary-office.org"
-        )
-  
-  )
-
-(when (equal "Office" WhereAmI)
-  (my/all-office-settings))
-
-
-#+end_src
 ** Hydra 
 [2015-06-22 Mon 14:11]
 
@@ -4399,10 +4144,46 @@ _d_ictionary: search meaning of a word"
   ("d" voca-builder/search-popup))
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
 #+end_src
+
+hydra 
+#+begin_src emacs-lisp :results silent 
+(require 'hydra)
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+(defhydra hydra-search (:color blue
+                               :hint nil)
+  "
+Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
+Multiple Buffers : helm-multi-_S_woop 
+Project Directory: projectile-_g_rep  helm-projectile-_G_rep
+"
+  ("i" isearch-forward)
+  ("s" helm-swoop)
+  ("a" ace-jump-word-mode)
+  ("S" helm-multi-swoop)
+  ("g" projectile-grep)
+  ("G" helm-projectile-grep))
+(global-set-key [f5] 'hydra-search/body)
+
+#+end_src
+
 ** Emacs Lisp Programming 
 [2015-07-05 Sun 19:46]
 
+use org-struct mode for emacs-lisp. 
+#+begin_src emacs-lisp :results silent 
+(add-hook 'emacs-lisp-mode-hook '(lambda ()
+                              (turn-on-orgstruct)
+                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
+#+end_src
+
+
+
 (rep "a" 3) --> "aaa"
+
 #+begin_src emacs-lisp :results silent 
 (defun yt/lisp-rep (arg n)
   (apply 'concat (make-list n arg)))
@@ -4503,6 +4284,233 @@ ledger --period "this week"  bal Exp
 
 * Archive   
 [2015-03-20 Fri 08:25]
+** open stree map 
+    [2015-01-21 Wed 14:39]
+    
+    #+begin_src emacs-lisp
+
+(defun omap_bbox (minlon minlat maxlon maxlat)
+  "generate to hyperlink and also view an area in openstreemap.  
+the area is defined by the bounding box. "
+;;   (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+           "minlon=" (number-to-string minlon) "&"
+           "minlat=" (number-to-string minlat) "&"
+           "maxlon=" (number-to-string maxlon) "&"
+           "maxlat=" (number-to-string maxlat) "&")))
+    (browse-url address)
+    (kill-new address)))
+
+
+(defun omap_point (lon lat)
+;;  (interactive)
+  (let ((address (concat  "http://www.openstreetmap.org/?"
+                          "mlat=" (number-to-string lat) "&"
+                          "mlon=" (number-to-string lon))))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap_site (site)
+;;  (interactive)
+  (let ((address (concat "http://nominatim.openstreetmap.org/search.php?q=" site)))
+    (browse-url address)
+    (kill-new address)))
+
+(defun omap (arg)
+;;  (interactive)
+  (cond ((= 1 (length arg))
+         (omap_site (nth 0 arg)))
+        ((= 2 (length arg))
+         (omap_point (nth 0 arg) (nth 1 arg)))
+        ((= 4 (length arg))
+         (omap_bbox (nth 0 arg)
+                     (nth 1 arg)
+                     (nth 2 arg)
+                     (nth 3 arg)))
+        (t "nope")))
+
+;; (omap '(-0.489 51.28 0.236 51.686)) ;; london area
+;; http://www.openstreetmap.org/?minlon=-0.489&minlat=51.28&maxlon=0.236&maxlat=51.686&
+;; (omap '(-76.3412 38.6710)) ;; New york 
+;; http://www.openstreetmap.org/?mlat=38.671&mlon=-76.3412
+;; (omap '("UK"))  ;; UK, obvs 
+;; http://nominatim.openstreetmap.org/search.php?q=UK
+         
+    #+end_src
+
+    #+results:
+    : omap
+** Office Setting 
+[2015-03-18 Wed 18:32]
+In the office, I have differnet settings for 
+
+1. org-agenda files 
+2. org-capture-templates,
+3. org-html-export 
+
+In my office Ubuntu machine, set a variable WhereAmI to Office, then
+the setting will be done automatically. wrap all the settings in the
+=my/all-office-settings= function for I can call it explicity when I
+work on my Mac.
+
+#+begin_src emacs-lisp 
+;; (setq WhereAmI "Office") ;; set this variable in ~/.emacs
+(defun my/office-org-agenda-file ()
+  (setq org-agenda-files '("~/git/jbarm" )))
+
+(defun my/office-org-capture-temp ()
+  (setq org-capture-templates
+        (quote (("t" "todo" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* TODO %?\nSCHEDULED:%t \n %U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
+                ("r" "respond" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+                ("n" "note" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
+                ("j" "Journal" entry (file+datetree "~/git/jbarm/re_org_diary.org")
+                 "* %?\n%U\n" :clock-in t :clock-resume t)
+                ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
+                 "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t) 
+                ("h" "Habit" entry (file "~/git/jbarm/re_org_habits.org")
+                 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+                ("v" "Vocabulary" entry (file "~/git/jbarm/re_org_refile.org")
+                 "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+                ))))
+
+(defun my/all-office-settings ()
+  (interactive)
+  (my/office-org-agenda-file)
+  (my/office-org-capture-temp)
+  (setq org-html-head-extra "<link rel=\"stylesheet\" href=\"/home/yitang/git/.emacs.d/personal/css/office.css\" type=\"text/css\" />"
+        org-html-head "<link rel=\"stylesheet\" href=\"\\SKI-CQV5LZ1\static\yi_report.css\" type=\"text/css\" />"
+        ;; voca-builder/voca-file "~/git/org/vocabulary-office.org"
+        )
+  
+  )
+
+(when (equal "Office" WhereAmI)
+  (my/all-office-settings))
+
+
+#+end_src
+** Git-Report
+
+#+begin_src emacs-lisp :results silent 
+;; (defun yt/git-repo-info ()
+;;   (interactive)
+;;   (let* ((sh-num-unpushed-commits "git status | grep \"\'origin/master\'\" | grep -Po \"[0-9]\"")
+;;       (sh-num-uncommited-files "git status --porcelain 2>/dev/null| egrep \"^(M| M)\" | wc -l")
+;;       (unpush (shell-command-to-string sh-num-unpushed-commits))
+;;       (uncommit (shell-command-to-string sh-num-uncommited-files)))
+;;     (concat "unpushed commits: " unpush "\n" "uncommited files: " uncommit)))
+
+(defun yt/git-check-repo-update (path)
+  (interactive)
+  (let* ((git-cmd "git status | grep clean")
+         (sh-cmd (concat "cd " path "; " git-cmd))
+         (sh-result (shell-command-to-string sh-cmd))
+         (is-git-repo (not (string= "fatal: Not a git repository (or any of the parent directories): .git\n"
+                                  sh-result)))
+         (repo-clean-p (string= "nothing to commit, working directory clean\n"
+                                sh-result)))
+    (cond ((not is-git-repo)
+           (concat path " is not a git repo"))
+          (repo-clean-p
+           (concat path " is clean"))
+          (t
+           (concat path " is dirty")))))
+
+(defun yt/git-status-report (repo-list)
+  (interactive)
+  (let ((repo-status (mapconcat 'yt/git-check-repo-update repo-list "\n")))
+    repo-status))
+    
+
+(defun yt/git-status-report-org-mode (repo-list)
+  (interactive)
+  (let ((repo-status (mapcar 'yt/git-check-repo-update-return-list repo-list)))    
+    repo-status))
+
+(defun yt/git-check-repo-update-return-list (path)
+  (let* ((status (yt/git-check-repo-update path))
+         (status (car (cdr (split-string status " is "))))
+         (magit-link 
+          (if (string= "not a git repo" status)
+              " "
+            (concat "[[magit:" path "]]"))))
+    (list path
+          status
+          magit-link)))
+
+(defun yt/list-to-org-table (a-list)
+  (let ((a-list-string (mapconcat 'identity a-list " | "))) ;; use | to separate each item
+    (concat "| " a-list-string " |" "\n")))
+
+(defun yt/git-check-repo-update-org-table (repo-list)
+  (let* ((status-list (mapcar 'yt/git-check-repo-update-return-list repo-list))
+        (status-table (mapcar 'yt/list-to-org-table status-list))
+        (status-table-string (mapconcat 'identity status-table " "))
+        (table-header "| repo | status | magit |\n"))
+    (concat table-header " " status-table-string)))
+
+(require 'f)
+(defun yt/git-all-git-dir (git-base-dir)
+  (f-directories "~/git"
+                 '(lambda (arg)
+                    (let* ((f (directory-files arg))
+                           (f-string (format "%s" f)))
+                      (if (string-match "\\.git" f-string)
+                          t
+                        nil)))
+                 t))
+
+(defun yt/git-generate-report ()
+  (interactive)
+  (let  ((git-report (yt/git-check-repo-update-org-table repo-list)))
+    (with-temp-buffer
+      (insert (format "%s" git-report))
+      (write-region (point-min) (point-max) git-report-temp-file)
+      )
+    (find-file git-report-temp-file)
+    (goto-char (+ 1 (point-min)))
+    (org-mode)
+    (org-ctrl-c-ret)
+    (previous-line 2)
+    (search-forward "status")
+    (next-line 2)
+    ;; (setq current-prefix-arg '(4)) ; C-u
+    (org-table-sort-lines t ?a)
+    )
+  )
+
+
+(setq git-report-temp-file "~/git-report-buffer")
+;; (setq repo-list (yt/git-all-git-dir "~/git"))
+(setq re-post '("/Users/yitang/git/voca-builder" "/Users/yitang/git/qs" "/Users/yitang/git/portfolio-statistician" "/Users/yitang/git/portfilio-yitang" "/Users/yitang/git/org" "/Users/yitang/git/myblog" "/Users/yitang/git/jbarm" "/Users/yitang/git/Free-Classic-Books" "/Users/yitang/git/.emacs.d" "/Users/yitang/git/R/yiR" "/Users/yitang/git/R/activitydashboard2" "/Users/yitang/git/R/RExercise" "/Users/yitang/git/R/Archive/yiR" "/Users/yitang/git/R/Archive/orgR" "/Users/yitang/git/R/Archive/learn_shiny")("/Users/yitang/git/voca-builder" "/Users/yitang/git/qs" "/Users/yitang/git/portfolio-statistician" "/Users/yitang/git/portfilio-yitang" "/Users/yitang/git/org" "/Users/yitang/git/myblog" "/Users/yitang/git/jbarm" "/Users/yitang/git/Free-Classic-Books" "/Users/yitang/git/.emacs.d" "/Users/yitang/git/R/yiR" "/Users/yitang/git/R/activitydashboard2" "/Users/yitang/git/R/RExercise" "/Users/yitang/git/R/Archive/yiR" "/Users/yitang/git/R/Archive/orgR" "/Users/yitang/git/R/Archive/learn_shiny"))
+;; (yt/git-generate-report)
+
+;; | repo                                     | status | magit                                          |
+;; |------------------------------------------+--------+------------------------------------------------|
+;; | /Users/yitang/git/voca-builder           | dirty  | [[magit:/Users/yitang/git/voca-builder]]           |
+;; | /Users/yitang/git/qs                     | dirty  | [[magit:/Users/yitang/git/qs]]                     |
+;; | /Users/yitang/git/portfolio-statistician | clean  | [[magit:/Users/yitang/git/portfolio-statistician]] |
+;; | /Users/yitang/git/portfilio-yitang       | clean  | [[magit:/Users/yitang/git/portfilio-yitang]]       |
+;; | /Users/yitang/git/org                    | dirty  | [[magit:/Users/yitang/git/org]]                    |
+;; | /Users/yitang/git/myblog                 | dirty  | [[magit:/Users/yitang/git/myblog]]                 |
+;; | /Users/yitang/git/jbarm                  | clean  | [[magit:/Users/yitang/git/jbarm]]                  |
+;; | /Users/yitang/git/Free-Classic-Books     | dirty  | [[magit:/Users/yitang/git/Free-Classic-Books]]     |
+;; | /Users/yitang/git/.emacs.d               | dirty  | [[magit:/Users/yitang/git/.emacs.d]]               |
+;; | /Users/yitang/git/R/yiR                  | dirty  | [[magit:/Users/yitang/git/R/yiR]]                  |
+;; | /Users/yitang/git/R/activitydashboard2   | clean  | [[magit:/Users/yitang/git/R/activitydashboard2]]   |
+;; | /Users/yitang/git/R/RExercise            | clean  | [[magit:/Users/yitang/git/R/RExercise]]            |
+;; | /Users/yitang/git/R/Archive/yiR          | dirty  | [[magit:/Users/yitang/git/R/Archive/yiR]]          |
+;; | /Users/yitang/git/R/Archive/orgR         | dirty  | [[magit:/Users/yitang/git/R/Archive/orgR]]         |
+;; | /Users/yitang/git/R/Archive/learn_shiny  | clean  | [[magit:/Users/yitang/git/R/Archive/learn_shiny]]  |
+
+
+
+
+
+#+end_src
 ** C++
 #+begin_src emacs-lisp
 ;; (global-set-key [(f9)] 'compile)
