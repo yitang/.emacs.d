@@ -1,4 +1,3 @@
-# #+TITLE:   Unified Emacs OS - An Statistician's Implementation
 #+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
