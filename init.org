@@ -15,14 +15,13 @@ https://github.com/yitang/yiR
 #+begin_src emacs-lisp :results silent 
 (setq yt-sphinx/proj-dir "~/git/.emacs.d")
 (setq yt-sphinx/docs-dir "~/git/.emacs.d/docs")
-;; (setq yt-sphinx/proj-badge-md (list "[![Documentation Status](<https://readthedocs.org/projects/voca-builder/badge/?version=latest>)](http://voca-builder.readthedocs.org/en/latest/)"))
+(setq yt-sphinx/proj-badge-md (list "[![Documentation Status](https://readthedocs.org/projects/emacs/badge/?version=latest)](https://readthedocs.org/projects/emacs/?badge=latest)"))
 (yt-sphinx/update-documentation)
 #+end_src
 
-
-* About This Document                                            :ExportFile:
+* About This Document                                     :ExportFile:README:
 :PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/about_this_document
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/index
 :END:
 [2015-01-23 Fri 10:58]
   
@@ -4699,3 +4698,4 @@ pdfpextr $pageStart $pageEnd $pdfFile
 (require 'eval-in-repl-python)
 (define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
 #+end_src
+
