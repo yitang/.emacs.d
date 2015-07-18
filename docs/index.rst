@@ -1,7 +1,6 @@
 About This Document
 ===================
 
-    :Author: Yi Tang
 
 
 The road to Emacs is not easy: I have tried to use Emacs for many
