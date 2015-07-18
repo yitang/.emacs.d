@@ -8,6 +8,38 @@
 #+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
 
+[[magit:~/git/.emacs.d]]
+
+https://github.com/yitang/yiR
+
+#+name: Update_Documentaiton
+#+begin_src emacs-lisp :results silent 
+(setq yt-sphinx/proj-dir "~/git/R/yiR")
+(setq yt-sphinx/docs-dir "~/git/R/yiR/docs")
+;; (setq yt-sphinx/proj-badge-md (list "[![Documentation Status](<https://readthedocs.org/projects/voca-builder/badge/?version=latest>)](http://voca-builder.readthedocs.org/en/latest/)"))
+(yt-sphinx/update-documentation)
+#+end_src
+
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/make-legal-filename (str)
+  "keep digits, letters, '/', '-', but replace everything else by underscore"
+  (interactive)
+  (replace-regexp-in-string "[^\\(-\|[:alnum:]\|/\\)]" "_" str))
+
+(setq R-pkg-dir "~/git/R/yiR/R/")
+
+(defun yt/R-pkg-tangle-file ()
+  (interactive)
+  (let* ((headline (nth 4 (org-heading-components)))
+         (filename (yt/make-legal-filename headline))
+         (full-filename (concat R-pkg-dir filename ".R")))
+    (org-set-property "header-args:R"
+                      (concat ":tangle "
+                              full-filename))))
+
+#+end_src
+
 
 * About This Document 
 [2015-01-23 Fri 10:58]
