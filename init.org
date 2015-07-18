@@ -20,6 +20,10 @@ https://github.com/yitang/yiR
 #+end_src
 
 
+* About This Document                                            :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/about_this_document
+:END:
 [2015-01-23 Fri 10:58]
   
 The road to Emacs is not easy: I have tried to use Emacs for many
@@ -57,7 +61,10 @@ from this org file, I.e. table. 2) it facility Babel Library to
 integrate not only Emacs Lisp, but also sh and R functions that could
 be run in Emacs, and I found it particullary useful.
 
-* Licence 
+* Licence                                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/licence
+:END:
 [2015-01-23 Fri 10:58]
   
 #+begin_example
@@ -83,7 +90,10 @@ HTML format or in its Org format) is licensed under the GNU Free
 Documentation License version 1.3 or later
 (http://www.gnu.org/copyleft/fdl.html).
   
-* How to Use This Document
+* How to Use This Document                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/how_to_use_this_document
+:END:
 [2015-01-20 Tue 08:09]
 
 Add the following scripts to your /.emacs/
@@ -139,7 +149,10 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 :END:      
 [2015-01-19 Mon 11:42]
 
-** install packages 
+** install packages                                             :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/install_packages
+:END:
 [2015-03-18 Wed 15:32]
 
 #+begin_src emacs-lisp 
@@ -206,7 +219,10 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
       (package-install i-package)))
 
 #+end_src
-** General
+** General                                                      :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
+:END:
 *** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
 (global-unset-key (kbd "C-x b"))
@@ -418,7 +434,10 @@ Just in case I need to reverse the auto-fill process.
 (setq savehist-file "~/git/.emacs.d/personal/emacs-history")
 (savehist-mode 1)
 #+end_src
-** UI - Emacs Looks Cool
+** UI - Emacs Looks Cool                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
+:END:
 [2015-01-19 Mon 12:16]
 
 I never click any buttons in the menu-bar/tool-bar, nor need the
@@ -466,7 +485,10 @@ theme on the top when I really need to focus on.
 ;;   (load-theme 'zenburn t))
 #+end_src
 
-** Completion and Selection 
+** Completion and Selection                                     :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/completion_and_selection
+:END:
 [2015-01-23 Fri 18:44]
 *** Helm - Fuzzy Match  
 [2015-02-22 Sun 11:40]
@@ -593,7 +615,10 @@ forward flash.
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
-** File Management  
+** File Management                                              :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
+:END:
    [2015-01-23 Fri 18:52]
 *** Alternative to shell 
 [2015-01-28 Wed 07:46]
@@ -813,7 +838,10 @@ I can get most of my work done in the office.
 #+end_src
 
 
-** ESS - Emacs Speaks Statistics
+** ESS - Emacs Speaks Statistics                                :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
+:END:
 :LOGBOOK:  
 CLOCK: [2015-06-03 Wed 21:21]--[2015-06-03 Wed 21:27] =>  0:06
 CLOCK: [2015-01-28 Wed 06:09]--[2015-01-28 Wed 07:55] =>  1:46
@@ -1248,7 +1276,10 @@ ggplot(obs.gc.table, aes(rp, duration)) +
 
 #+end_src
 
-** Writing in Emacs 
+** Writing in Emacs                                             :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
+:END:
 [2015-01-19 Mon 12:11]
 *** English Language 
 [2015-01-23 Fri 17:43]
@@ -1503,7 +1534,10 @@ Version 2015-05-07"
                (replace-match (aref ξx 1) 'FIXEDCASE 'LITERAL)))
            ξstrPairs))))))
 #+end_src
-** Browser - eww 
+** Browser - eww                                                :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/browser__eww
+:END:
 
 Emacs has build-in browser /eww/ and I used it for reading articles
 for its inability to process multi-media content and sometimes I turn
@@ -1545,7 +1579,10 @@ buffer."
           (add-text-properties left pos (list from nil to prop) object))))))
 
 #+end_src
-** Org mode
+** Org mode                                                     :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/org_mode
+:END:
 I started to learn Emacs by reading Bernt Hansen's  [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]]
 *** Bernt Hansen's Setting                                       :noexport:
 :LOGBOOK:  
@@ -3663,7 +3700,10 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 (add-hook 'org-store-link-functions 'org-magit-store-link)
 
 #+end_src
-** mu4e - Email Client
+** mu4e - Email Client                                          :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/mu4e__email_client
+:END:
 :LOGBOOK:  
 CLOCK: [2015-06-03 Wed 21:27]--[2015-06-03 Wed 21:38] =>  0:11
 :END:      
@@ -4006,7 +4046,10 @@ I got an email from an estate agency where there are few images are inlined, but
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
 
 
-** Refile 
+** Refile                                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
+:END:
 
 
 
@@ -4105,7 +4148,10 @@ quickly filter out non-work tasks in org-agenda.
 (setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
 #+end_src
 
-** Hydra 
+** Hydra                                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
+:END:
 [2015-06-22 Mon 14:11]
 
 #+begin_src emacs-lisp :results silent 
@@ -4149,7 +4195,10 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 
 #+end_src
 
-** Emacs Lisp Programming 
+** Emacs Lisp Programming                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
+:END:
 [2015-07-05 Sun 19:46]
 
 use org-struct mode for emacs-lisp. 
@@ -4188,9 +4237,10 @@ Get the link to current headline as an external link.
 		      title
 		      "]]"))))
 #+end_src
-* Babel Library 
+* Babel Library                                                  :ExportFile:
 :PROPERTIES:
 :header-args: :eval no
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/babel_library
 :END:
 
 to load a 
@@ -4261,7 +4311,12 @@ ledger --period "this week"  bal Exp
 * End 
 [2015-01-19 Mon 11:43]
 
-* Archive   
+End of emacs configraiton. The initalisetion stop here. 
+
+* Archive                                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/archive
+:END:
 [2015-03-20 Fri 08:25]
 ** open stree map 
     [2015-01-21 Wed 14:39]
