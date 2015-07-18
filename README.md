@@ -1,5 +1,5 @@
-[![Documentation Status](<https://readthedocs.org/projects/voca-builder/badge/?version=latest>)](http://voca-builder.readthedocs.org/en/latest/)
-# About This Document     :README:ExportFile:
+[![Documentation Status](https://readthedocs.org/projects/emacs/badge/?version=latest)](https://readthedocs.org/projects/emacs/?badge=latest)
+# About This Document
 
 
 
