@@ -1685,11 +1685,17 @@ extension.
 *** org-todos
 [2015-07-20 Mon 14:57]
 
+First, define the TODO keywords. 
+
 #+begin_src emacs-lisp :results silent 
-;;;; * TODOS
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+#+end_src
+
+Then highlight the keywords using different colours. 
+
+#+begin_src emacs-lisp :results silent 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
               ("NEXT" :foreground "blue" :weight bold)
@@ -1697,8 +1703,14 @@ extension.
               ("WAITING" :foreground "orange" :weight bold)
               ("HOLD" :foreground "magenta" :weight bold)
               ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING" :foreground "forest green" :weight bold)
-              ("PHONE" :foreground "forest green" :weight bold))))
+              ("MEETING" :foreground "forest green" :weight bold))))
+#+end_src
+
+Define an event when a TODO status changes, for example, if changed to
+HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
+both HOLD and WAITING tags. 
+
+#+begin_src emacs-lisp :results silent 
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
@@ -1707,11 +1719,16 @@ extension.
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-(setq org-log-done (quote time))
-(setq org-log-into-drawer t)
-(setq org-log-state-notes-insert-after-drawers nil)
 #+end_src
 
+Especially, when a task is marked as DONE, a timestamp is added to
+the LOGBOOK drawer. 
+
+#+begin_src emacs-lisp :results silent 
+;; (setq org-log-done (quote time))
+;; (setq org-log-into-drawer t)
+;; (setq org-log-state-notes-insert-after-drawers nil)
+#+end_src
 
 Add a cross line for the headline with DONE status. Note currently it
 is disabled before of the performance issues in OS X.
@@ -1734,8 +1751,6 @@ is disabled before of the performance issues in OS X.
 [2015-07-20 Mon 14:57]
 
 #+begin_src emacs-lisp :results silent 
-;;;; * org-capture
-
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-refile-use-cache t) ;; speed up the process by using cache.
 
