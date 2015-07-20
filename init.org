@@ -1999,26 +1999,34 @@ List recently clocked headline and clock in.
   (call-interactively 'org-clock-in))
 (global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
 #+end_src
+
+When clock in to a TODO headline, turn the keywords into NEXT. 
+#+begin_src emacs-lisp :results silent 
+;; Change tasks to NEXT when clocking in
+(setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
+(defun bh/clock-in-to-next (kw) 
+  "Switch a task from TODO to NEXT when clocking in.
+Skips capture tasks"
+  (when (not (and (boundp 'org-capture-mode) org-capture-mode))
+    (if (member (org-get-todo-state) (list "TODO"))
+        "NEXT")))
+#+end_src
 *** org-tags
 [2015-07-20 Mon 14:57]
 
 #+begin_src emacs-lisp :results silent 
-;;;; * org tags
 (setq org-tag-alist (quote ((:startgroup)
-                            ("@library" . ?L)
                             ("@office" . ?O)
                             ("@home" . ?H)
-                            ("@coffeeshop" . ?C)
                             (:endgroup)
                             ("WAITING" . ?w)
                             ("HOLD" . ?h)
                             ("PERSONAL" . ?P)
                             ("WORK" . ?W)
-                            ("FARM" . ?F)
                             ("NOTE" . ?n)
                             ("CANCELLED" . ?c)
                             )))
-                                        ; Allow setting single tags without the menu
+;; Allow setting single tags without the menu
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
 #+end_src
