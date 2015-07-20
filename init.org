@@ -448,11 +448,23 @@ Just in case I need to reverse the auto-fill process.
 (setq savehist-file "~/git/.emacs.d/personal/emacs-history")
 (savehist-mode 1)
 #+end_src
-** UI - Emacs Looks Cool                                        :ExportFile:
+** GUI - Emacs Looks Cool                                        :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
 :END:
 [2015-01-19 Mon 12:16]
+*** Fonts 
+[2015-07-20 Mon 11:46]
+
+I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
+claimed to be suitable for coding environments. But I use it for all modes.
+
+#+begin_src emacs-lisp :results silent 
+(set-default-font "Source Code Pro" nil t)
+(set-face-attribute 'default nil :height 100)
+#+end_src
+*** Minimalists GUI 
+[2015-07-20 Mon 11:46]
 
 I never click any buttons in the menu-bar/tool-bar, nor need the
 scroll-bar to tell me the cursor position the in the buffer, so I removed all of
@@ -463,32 +475,8 @@ them to have minimalist GUI of Emacs.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
-
-Mode-line contains most of the relevant information about the buffer,
-Git status, Major mode, clock info, and current time. I disable the
-display of minor modes, there are just too many and almost all are irrelevant.
-
-#+begin_src emacs-lisp :results silent
-(display-time-mode)
-(require 'smart-mode-line)
-(setq powerline-arrow-shape 'curve)
-(setq powerline-default-separator-dir '(right . left))
-(setq sml/theme 'powerline)
-(setq sml/mode-width 0)
-(setq sml/name-width 20)
-(rich-minority-mode 1)
-(setf rm-blacklist "")
-(sml/setup)
-#+end_src
-
-
-I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
-claimed to be suitable for coding environments. But I use it for all modes.
-
-#+begin_src emacs-lisp :results silent 
-(set-default-font "Source Code Pro" nil t)
-(set-face-attribute 'default nil :height 100)
-#+end_src
+*** Theme 
+[2015-07-20 Mon 11:46]
 
 I have been using /zenburn/ theme for a while. It is a popular low contrast
 colour theme and easy on the eye. Occasionally I apply /tsdh-dark/
@@ -497,6 +485,45 @@ theme on the top when I really need to focus on.
 #+begin_src emacs-lisp 
 ;; (when window-system
 ;;   (load-theme 'zenburn t))
+#+end_src
+*** Mode Line
+[2015-07-20 Mon 11:46]
+
+The mode line is at the bottom of every Emacs Window aside from
+MiniBuffer windows. It has most of the relevant information about the buffer,
+including Git status, Major mode, clock info, etc. 
+
+The smart-mode-line packages can make mode-line "smart and sexy".
+There are many options to tweak.
+
+#+begin_src emacs-lisp :results silent 
+(require 'smart-mode-line)
+(setq powerline-arrow-shape 'curve)
+(setq powerline-default-separator-dir '(right . left))
+(setq sml/theme 'powerline)
+(sml/setup)
+#+end_src
+
+There are too much information cluttered at the bottom. I disable the
+display of minor modes, there are just too many and almost all are
+irrelevant.
+
+#+begin_src emacs-lisp :results silent 
+(rich-minority-mode 1)
+(setf rm-blacklist "")
+#+end_src
+
+This will leave empty spaces which can be removed by 
+
+#+begin_src emacs-lisp :results silent 
+(setq sml/mode-width 0)
+(setq sml/name-width 20)
+#+end_src
+
+Finally, show the current time in the mode-line. 
+
+#+begin_src emacs-lisp :results silent
+(display-time-mode)
 #+end_src
 
 ** Completion and Selection                                     :ExportFile:
@@ -1400,10 +1427,9 @@ and =flycheck= will provide a list of candidates for
 auto-correlection. I press =C-.= select the first one, and press it
 again to select the next one.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
-
 #+end_src 
 
 I need an grammar check to let me know that 
