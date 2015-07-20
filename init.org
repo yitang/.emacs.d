@@ -3083,12 +3083,16 @@ Show org-mode bullets as UTF-8 characters.
 org-download 
 
 #+begin_src emacs-lisp :results silent 
+(require 'org-download)
 (setq-default org-download-image-dir "~/Downloads/img")
 (setq-default org-download-heading-lvl nil)
-(if (eq system-type 'darwin)
-    "org-download: default download method"
-    (setq org-download-screenshot-method "gnome-screenshot -w --delay=1 -f %s"))
+;; (if (eq system-type 'darwin)
+;;     "org-download: default download method"
+;;     (setq org-download-screenshot-method "gnome-screens
+;; hot -w --delay=1 -f %s"))
 (setq org-download-image-wdith 400)
+
+;; (setq org-download-screenshot-method "gnome-screenshot -a -f %s")
 #+end_src
 
 *** Calendar
