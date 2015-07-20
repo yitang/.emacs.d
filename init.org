@@ -3741,6 +3741,278 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 (add-hook 'org-store-link-functions 'org-magit-store-link)
 
 #+end_src
+** Refile                                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
+:END:
+
+
+
+voca-builde 
+
+#+begin_src emacs-lisp :results silent 
+(require 'voca-builder)
+(setq voca-builder/voca-file "~/git/org/vocabulary.org")
+(setq voca-builder/current-tag "General")
+(global-set-key (kbd "<f4>") 'voca-builder/search-popup)
+(setq sentence-end-double-space nil)
+#+end_src
+
+
+weather forecasting 
+#+begin_src emacs-lisp :results silent 
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
+#+end_src
+
+Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
+function at the end of the day.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/qs-backup-log ()
+  (interactive)
+  (load "~/git/qs/auto_back.el"))
+#+end_src
+
+
+*org-project set up *
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-setup-project ()
+  (interactive)
+  (org-insert-heading-respect-content)
+  (insert "Tasks")
+  (org-demote)
+  (org-insert-heading-respect-content)
+  (insert "Notes")
+  (org-toggle-tag "NOTE" 'on))
+#+end_src
+
+*help function*
+#+begin_src emacs-lisp :results silent 
+(defun yt/describe-function (function)
+  ;; (describe-function)
+  ;; (defun describe-function (function)
+  "Display the full documentation of FUNCTION (a symbol)."
+  (interactive
+   (let ((fn (function-called-at-point))
+	 (enable-recursive-minibuffers t)
+	 val)
+     (setq val (completing-read (if fn
+				    (format "Describe function (default %s): " fn)
+				  "Describe function: ")
+				obarray 'fboundp t nil nil
+				(and fn (symbol-name fn))))
+     (list (if (equal val "")
+	       fn (intern val)))))
+  
+  (if (null function)
+      (message "You didn't specify a function")
+    (help-setup-xref (list #'describe-function function)
+		     (called-interactively-p 'interactive))
+    (save-excursion
+      (with-help-window (help-buffer)
+	(prin1 function)
+	;; Use " is " instead of a colon so that
+	;; it is easier to get out the function name using forward-sexp.
+	(princ " is ")
+	(describe-function-1 function)
+	(with-current-buffer standard-output
+	  ;; Return the text we displayed.
+	  (buffer-string))))
+    ;;    ))
+    (let* ((doc (with-current-buffer (help-buffer)
+		  (buffer-string)))
+	   
+	   (voca-builder/current-tag "Emacs")
+	   (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
+      (append-to-file org-doc nil "LearnEmacs.org"))))
+(global-set-key (kbd "C-h f") 'yt/describe-function)
+
+#+end_src
+
+quickly filter out non-work tasks in org-agenda. 
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/filte-office-agenda (tag)
+  (and (if (not (or (string= tag "work")
+		    (string= tag "@office")))
+	   t
+	 nil)
+       (concat "-" tag)))
+(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
+#+end_src
+
+** Hydra                                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
+:END:
+[2015-06-22 Mon 14:11]
+
+#+begin_src emacs-lisp :results silent 
+(defhydra yt-hydra/help (:color blue :hint nil)
+  "
+_f_unction: Documentation for a function
+_v_ariable: Documentation for a variable
+_i_nfo: info mode 
+_G_oogle: search google 
+_d_ictionary: search meaning of a word"
+  ("f" describe-function)
+  ("v" describe-variable)
+  ("i" helm-info-org)
+  ("G" helm-google-suggest)
+  ("d" voca-builder/search-popup))
+(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
+#+end_src
+
+hydra 
+#+begin_src emacs-lisp :results silent 
+(require 'hydra)
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+(defhydra hydra-search (:color blue
+                               :hint nil)
+  "
+Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
+Multiple Buffers : helm-multi-_S_woop 
+Project Directory: projectile-_g_rep  helm-projectile-_G_rep
+"
+  ("i" isearch-forward)
+  ("s" helm-swoop)
+  ("a" ace-jump-word-mode)
+  ("S" helm-multi-swoop)
+  ("g" projectile-grep)
+  ("G" helm-projectile-grep))
+(global-set-key [f5] 'hydra-search/body)
+
+#+end_src
+
+** Emacs Lisp Programming                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
+:END:
+[2015-07-05 Sun 19:46]
+
+use org-struct mode for emacs-lisp. 
+#+begin_src emacs-lisp :results silent 
+(add-hook 'emacs-lisp-mode-hook '(lambda ()
+                              (turn-on-orgstruct)
+                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
+#+end_src
+
+
+
+(rep "a" 3) --> "aaa"
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/lisp-rep (arg n)
+  (apply 'concat (make-list n arg)))
+#+end_src
+*** Org-Mode API 
+[2015-07-05 Sun 19:47]
+
+Get the link to current headline as an external link. 
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-get-heading-link ()
+  (interactive)
+  (let* ((file-name (file-truename buffer-file-name))
+	 (headline (org-heading-components))
+	 (level (nth 0 headline))
+	 (title (nth 4 headline))
+	 (link (concat file-name
+		       "::"
+		       "*" ;; (yt/lisp-rep "*" level)
+		       title)))
+    (kill-new (concat "[["
+		      link
+		      "]["
+		      title
+		      "]]"))))
+#+end_src
+* Babel Library                                                  :ExportFile:
+:PROPERTIES:
+:header-args: :eval no
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/babel_library
+:END:
+
+to load a 
+#+begin_example 
+(org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
+#+end_example
+
+** org-contact 
+[2015-01-12 Mon 18:29]
+
+#+name: GetContactGroup
+#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="NA" contact-type="EMAIL" :eval yes
+(defun GetContactGroup (contact-file search-tag contact-type)
+  (interactive)
+  (let ((name-address (org-map-entries (lambda()
+                                 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
+                                       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
+                               search-tag
+                               contact-file)))
+    (mapconcat (lambda (a-list)
+                  (concat (car a-list) " <" (cdr a-list) ">"))
+                name-address ", ")))
+(GetContactGroup contact-file search-tag contact-type)
+#+end_src
+
+#+results: GetContactGroup
+
+** Ledger 
+
+add the following to .ledgerrc 
+
+#+begin_example
+--start-of-week=1 -f ~/git/ImportantFiles/ledger
+#+end_example
+
+#+name: Weekly_Transaction 
+#+begin_src sh :eval yes :results raw
+ledger --period "this week"  org register Exp -S "date, amount" 
+#+end_src
+
+#+NAME: Weekly_Balance_Sheet 
+#+begin_src sh :evla yes :results raw
+ledger --period "this week"  bal Exp
+#+end_src 
+
+#+begin_example
+#+call: Weekly_Transaction() 
+
+#+results: Weekly_Transaction
+2015-04-06 GiffGaff             Expenses:Bill:Phone         £ 10.00      £ 10.00
+2015-04-06 Tesco                Expenses:Food:Grocery       £ 15.25      £ 25.25
+2015-04-08 HS                   Expenses:Transport           £ 4.20      £ 29.45
+2015-04-08 Tesco                Expenses:Food:Grocery       £ 14.11      £ 43.56
+2015-04-10 HS                   Expenses:Food:Lunch          £ 2.50      £ 46.06
+2015-04-10 Tesco                Expenses:Speical:Cig         £ 5.48      £ 51.54
+15-Apr-06 GiffGaff              Expenses:Bill:Phone         £ 10.00      £ 10.00
+15-Apr-06 Tesco                 Expenses:Food:Grocery       £ 15.25      £ 25.25
+15-Apr-08 HS                    Expenses:Transport           £ 4.20      £ 29.45
+15-Apr-08 Tesco                 Expenses:Food:Grocery       £ 14.11      £ 43.56
+15-Apr-10 HS                    Expenses:Food:Lunch          £ 2.50      £ 46.06
+15-Apr-10 Tesco                 Expenses:Speical:Cig         £ 5.48      £ 51.54
+
+
+#+end_example
+
+
+
+* End 
+[2015-01-19 Mon 11:43]
+
+End of emacs configraiton. The initalisetion stop here. 
+
+* Archive                                                        :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/archive
+:END:
+[2015-03-20 Fri 08:25]
 ** mu4e - Email Client                                          :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/mu4e__email_client
@@ -3783,11 +4055,17 @@ Disadvantage and the things it can't do:
 
 This setting need two programms to work: 1) mu, 2) offlineimap. 
 
-to install /mu/ on osx, 
+To install /mu/ on osx, 
 
 #+begin_src sh
 brew install mu 
 #+end_src
+
+The basical workflow is: 
+1. offlineimap download the Emails from server,
+2. /mu/ index them, 
+3. and /mu4e/ package render the emails in Emacs.
+4. smtpmail for senting out emails. 
 
 #+begin_src emacs-lisp
 ;; usage:
@@ -4087,278 +4365,6 @@ I got an email from an estate agency where there are few images are inlined, but
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
 
 
-** Refile                                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
-:END:
-
-
-
-voca-builde 
-
-#+begin_src emacs-lisp :results silent 
-(require 'voca-builder)
-(setq voca-builder/voca-file "~/git/org/vocabulary.org")
-(setq voca-builder/current-tag "General")
-(global-set-key (kbd "<f4>") 'voca-builder/search-popup)
-(setq sentence-end-double-space nil)
-#+end_src
-
-
-weather forecasting 
-#+begin_src emacs-lisp :results silent 
-;; sunshine: weather forcaste service
-(setq sunshine-units 'metric)
-(setq sunshine-location "Keighley, GB")
-#+end_src
-
-Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
-function at the end of the day.
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/qs-backup-log ()
-  (interactive)
-  (load "~/git/qs/auto_back.el"))
-#+end_src
-
-
-*org-project set up *
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-setup-project ()
-  (interactive)
-  (org-insert-heading-respect-content)
-  (insert "Tasks")
-  (org-demote)
-  (org-insert-heading-respect-content)
-  (insert "Notes")
-  (org-toggle-tag "NOTE" 'on))
-#+end_src
-
-*help function*
-#+begin_src emacs-lisp :results silent 
-(defun yt/describe-function (function)
-  ;; (describe-function)
-  ;; (defun describe-function (function)
-  "Display the full documentation of FUNCTION (a symbol)."
-  (interactive
-   (let ((fn (function-called-at-point))
-	 (enable-recursive-minibuffers t)
-	 val)
-     (setq val (completing-read (if fn
-				    (format "Describe function (default %s): " fn)
-				  "Describe function: ")
-				obarray 'fboundp t nil nil
-				(and fn (symbol-name fn))))
-     (list (if (equal val "")
-	       fn (intern val)))))
-  
-  (if (null function)
-      (message "You didn't specify a function")
-    (help-setup-xref (list #'describe-function function)
-		     (called-interactively-p 'interactive))
-    (save-excursion
-      (with-help-window (help-buffer)
-	(prin1 function)
-	;; Use " is " instead of a colon so that
-	;; it is easier to get out the function name using forward-sexp.
-	(princ " is ")
-	(describe-function-1 function)
-	(with-current-buffer standard-output
-	  ;; Return the text we displayed.
-	  (buffer-string))))
-    ;;    ))
-    (let* ((doc (with-current-buffer (help-buffer)
-		  (buffer-string)))
-	   
-	   (voca-builder/current-tag "Emacs")
-	   (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
-      (append-to-file org-doc nil "LearnEmacs.org"))))
-(global-set-key (kbd "C-h f") 'yt/describe-function)
-
-#+end_src
-
-quickly filter out non-work tasks in org-agenda. 
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/filte-office-agenda (tag)
-  (and (if (not (or (string= tag "work")
-		    (string= tag "@office")))
-	   t
-	 nil)
-       (concat "-" tag)))
-(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
-#+end_src
-
-** Hydra                                                        :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
-:END:
-[2015-06-22 Mon 14:11]
-
-#+begin_src emacs-lisp :results silent 
-(defhydra yt-hydra/help (:color blue :hint nil)
-  "
-_f_unction: Documentation for a function
-_v_ariable: Documentation for a variable
-_i_nfo: info mode 
-_G_oogle: search google 
-_d_ictionary: search meaning of a word"
-  ("f" describe-function)
-  ("v" describe-variable)
-  ("i" helm-info-org)
-  ("G" helm-google-suggest)
-  ("d" voca-builder/search-popup))
-(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
-#+end_src
-
-hydra 
-#+begin_src emacs-lisp :results silent 
-(require 'hydra)
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
-
-(defhydra hydra-search (:color blue
-                               :hint nil)
-  "
-Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
-Multiple Buffers : helm-multi-_S_woop 
-Project Directory: projectile-_g_rep  helm-projectile-_G_rep
-"
-  ("i" isearch-forward)
-  ("s" helm-swoop)
-  ("a" ace-jump-word-mode)
-  ("S" helm-multi-swoop)
-  ("g" projectile-grep)
-  ("G" helm-projectile-grep))
-(global-set-key [f5] 'hydra-search/body)
-
-#+end_src
-
-** Emacs Lisp Programming                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
-:END:
-[2015-07-05 Sun 19:46]
-
-use org-struct mode for emacs-lisp. 
-#+begin_src emacs-lisp :results silent 
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                              (turn-on-orgstruct)
-                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
-#+end_src
-
-
-
-(rep "a" 3) --> "aaa"
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/lisp-rep (arg n)
-  (apply 'concat (make-list n arg)))
-#+end_src
-*** Org-Mode API 
-[2015-07-05 Sun 19:47]
-
-Get the link to current headline as an external link. 
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-get-heading-link ()
-  (interactive)
-  (let* ((file-name (file-truename buffer-file-name))
-	 (headline (org-heading-components))
-	 (level (nth 0 headline))
-	 (title (nth 4 headline))
-	 (link (concat file-name
-		       "::"
-		       "*" ;; (yt/lisp-rep "*" level)
-		       title)))
-    (kill-new (concat "[["
-		      link
-		      "]["
-		      title
-		      "]]"))))
-#+end_src
-* Babel Library                                                  :ExportFile:
-:PROPERTIES:
-:header-args: :eval no
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/babel_library
-:END:
-
-to load a 
-#+begin_example 
-(org-babel-lob-ingest "~/git/.emacs.d/yi.babel.org)
-#+end_example
-
-** org-contact 
-[2015-01-12 Mon 18:29]
-
-#+name: GetContactGroup
-#+begin_src elisp :var contact-file='("~/git/org/contacts.org") search-tag="NA" contact-type="EMAIL" :eval yes
-(defun GetContactGroup (contact-file search-tag contact-type)
-  (interactive)
-  (let ((name-address (org-map-entries (lambda()
-                                 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
-                                       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
-                               search-tag
-                               contact-file)))
-    (mapconcat (lambda (a-list)
-                  (concat (car a-list) " <" (cdr a-list) ">"))
-                name-address ", ")))
-(GetContactGroup contact-file search-tag contact-type)
-#+end_src
-
-#+results: GetContactGroup
-
-** Ledger 
-
-add the following to .ledgerrc 
-
-#+begin_example
---start-of-week=1 -f ~/git/ImportantFiles/ledger
-#+end_example
-
-#+name: Weekly_Transaction 
-#+begin_src sh :eval yes :results raw
-ledger --period "this week"  org register Exp -S "date, amount" 
-#+end_src
-
-#+NAME: Weekly_Balance_Sheet 
-#+begin_src sh :evla yes :results raw
-ledger --period "this week"  bal Exp
-#+end_src 
-
-#+begin_example
-#+call: Weekly_Transaction() 
-
-#+results: Weekly_Transaction
-2015-04-06 GiffGaff             Expenses:Bill:Phone         £ 10.00      £ 10.00
-2015-04-06 Tesco                Expenses:Food:Grocery       £ 15.25      £ 25.25
-2015-04-08 HS                   Expenses:Transport           £ 4.20      £ 29.45
-2015-04-08 Tesco                Expenses:Food:Grocery       £ 14.11      £ 43.56
-2015-04-10 HS                   Expenses:Food:Lunch          £ 2.50      £ 46.06
-2015-04-10 Tesco                Expenses:Speical:Cig         £ 5.48      £ 51.54
-15-Apr-06 GiffGaff              Expenses:Bill:Phone         £ 10.00      £ 10.00
-15-Apr-06 Tesco                 Expenses:Food:Grocery       £ 15.25      £ 25.25
-15-Apr-08 HS                    Expenses:Transport           £ 4.20      £ 29.45
-15-Apr-08 Tesco                 Expenses:Food:Grocery       £ 14.11      £ 43.56
-15-Apr-10 HS                    Expenses:Food:Lunch          £ 2.50      £ 46.06
-15-Apr-10 Tesco                 Expenses:Speical:Cig         £ 5.48      £ 51.54
-
-
-#+end_example
-
-
-
-* End 
-[2015-01-19 Mon 11:43]
-
-End of emacs configraiton. The initalisetion stop here. 
-
-* Archive                                                        :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/archive
-:END:
-[2015-03-20 Fri 08:25]
 ** open stree map 
     [2015-01-21 Wed 14:39]
     
