@@ -1750,21 +1750,25 @@ is disabled before of the performance issues in OS X.
 *** org-capture
 [2015-07-20 Mon 14:57]
 
+Use ~C-c c~ anywhere to quickly create a org headline and save it to a
+default place. 
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "C-c c") 'org-capture)
-(setq org-refile-use-cache t) ;; speed up the process by using cache.
+#+end_src
 
-;; mine modication 
+The capture mode templates.
+
+#+begin_src emacs-lisp :results silent 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
-               "* TODO %?\n%U\n\nWhat to achieve?" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
+               "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
               ("o" "org" entry (file "~/git/org/refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
                "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
+              ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
@@ -1773,46 +1777,49 @@ is disabled before of the performance issues in OS X.
                "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
               ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
+
+              ("J" "Journalsing")
+              ("Js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("Jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
-
-;; (defun bh/remove-empty-drawer-on-clock-out ()
-;;   (interactive)
-;;   (save-excursion
-;;     (beginning-of-line 0)
-;;     (org-remove-empty-drawer-at "LOGBOOK" (point))))
-
-;; (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-
-                                        ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-
-;; TODO: change this block, use helm completion 
-;; (setq org-completion-handler to 'helm)
-;; actually, the following setting is mimic the helm behavoir, why not we just use helm, instead of making ido helm 
-
 #+end_src
 
+Speed up the process by using cache.
+
+#+begin_src emacs-lisp :results silent 
+(setq org-refile-use-cache t)
+#+end_src
 *** org-refile
 [2015-07-20 Mon 14:57]
+
+Set the refile targets, they are all level 1 2 3 in current buffer and
+all the files in /org-agenda-files/. 
+
 #+begin_src emacs-lisp :results silent 
-;;;; * org-refile
-(setq org-directory (quote ("~/git/jbarm"
-                            "~/git/org"))) ;; FIXME: add ~/git/jbarm folder 
-(setq org-default-notes-file "~/git/org/refile.org")
 (setq org-refile-targets (quote ((nil :maxlevel . 3)
                                  (org-agenda-files :maxlevel . 3))))
-(setq org-completion-handler 'helm)
-;; Use full outline paths for refile targets - we file directly with IDO
-(setq org-refile-use-outline-path t)
-;; Targets complete directly with IDO
-(setq org-outline-path-complete-in-steps nil)
-;; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
-;; Exclude DONE state tasks from refile targets
+#+end_src
+
+but exclude DONE state tasks from refile targets
+
+#+begin_src emacs-lisp :results silent 
 (defun bh/verify-refile-target ()
   "Exclude todo keywords with a done state from refile targets"
   (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 (setq org-refile-target-verify-function 'bh/verify-refile-target)
+#+end_src
 
+Provide refile targets as paths. So a level 3 headline will be
+available as level1/level2/level3.
+#+begin_src emacs-lisp :results silent 
+(setq org-refile-use-outline-path t)
+#+end_src
+
+Use helm for matching the target path. a low easier. 
+#+begin_src emacs-lisp :results silent 
+(setq org-completion-handler 'helm)
 #+end_src
 
 *** org-clock
