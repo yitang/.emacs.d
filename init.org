@@ -633,12 +633,17 @@ forward flash.
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
 :END:
-   [2015-01-23 Fri 18:52]
+[2015-01-23 Fri 18:52]
+
 *** Alternative to shell 
 [2015-01-28 Wed 07:46]
 
 For the file management tasks like rename and delete, I'd like to
 wrapper it as a Lisp function and call it directly in Emacs. 
+
+Rename the buffer-visiting file, and also rename the buffer. Similar
+to the /save as/ idea but will remove the older file. 
+
 #+begin_src emacs-lisp 
 ;; rename current buffer-visiting file
 (defun yt/rename-current-buffer-file ()
@@ -658,6 +663,47 @@ wrapper it as a Lisp function and call it directly in Emacs.
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
+#+end_src
+
+Another useful Lisp function is to copy the file path to clipboard for
+cross reference. 
+
+#+begin_src emacs-lisp :results silent 
+;; full path of current buffer
+(defun yt/copy-full-path-to-kill-ring ()
+  "copy buffer's full path to kill ring"
+  (interactive)
+  (when buffer-file-name
+    (kill-new (file-truename buffer-file-name))))
+#+end_src
+
+Open a file as a rooter in Emacs, very handy. 
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/sudo-find-file (file-name)
+  "Like find file, but opens the file as root."
+  (interactive "FSudo Find File: ")
+  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
+    (find-file tramp-file-name))) 
+#+end_src
+
+Find out the last modified date for current buffer, I need this often
+when updating a blog post or documents. 
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/last-updated-date ()
+  "return modification time of current file-visitng buffer"
+  (interactive)
+  (let* ((mtime (visited-file-modtime))) 
+    (unless (integerp mtime)
+      (concat "/Last UPdated/: "
+              (format-time-string "%d %b %Y" mtime)))))
+#+end_src
+
+Remove current buffer-visiting file, and kill the buffer. I use this
+function often in testing and trying out. 
+
+#+begin_src emacs-lisp :results silent 
 (defun yt/delete-this-buffer-and-file ()
   "Removes file connected to current buffer and kills buffer."
   (interactive)
@@ -670,54 +716,36 @@ wrapper it as a Lisp function and call it directly in Emacs.
         (delete-file filename)
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
+#+end_src
 
-(defun yt/last-updated-date ()
-  "return modification time of current file-visitng buffer"
-  (interactive)
-  (let* ((mtime (visited-file-modtime))) 
-    (unless (integerp mtime)
-      (concat "/Last UPdated/: "
-              (format-time-string "%d %b %Y" mtime)))))
+It is a good practise to group all the file management related
+commands together using hydra. 
 
-(defun yt/sudo-find-file (file-name)
-  "Like find file, but opens the file as root."
-  (interactive "FSudo Find File: ")
-  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
-    (find-file tramp-file-name)))
-
-
+#+begin_src emacs-lisp :results silent 
 (defhydra hydra-file-management (:color red
                                         :hint nil)
   "
 _o_pen file
 _O_pen file as Sudo user 
-copy file _p_ath to kill ring
+copy file _P_ath to kill ring
 _r_ename buffer-visiting file 
 _d_elete buffer-visiting file"
   ("o" find-file)
   ("O" yt/sudo-find-file)
-  ("p" yt/copy-full-path-to-kill-ring)
+  ("P" yt/copy-full-path-to-kill-ring)
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
   )
-;; (global-set-key [f3] 'hydra-file-management/body)
-#+end_src
-
-Another useful Lisp function is to copy the file path to clipboard. 
-#+begin_src emacs-lisp :results silent 
-;; full path of current buffer
-(defun yt/copy-full-path-to-kill-ring ()
-  "copy buffer's full path to kill ring"
-  (interactive)
-  (when buffer-file-name
-    (kill-new (file-truename buffer-file-name))))
+(global-set-key [f3] 'hydra-file-management/body)
 #+end_src
 *** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
 
-I only use /projectile/ to jump between different git folders, so
-there isn't much configuration except using =helm= for selection.
+/Projectile/ is an powerful Emacs package but I only use /projectile/
+to jump between different git folders, so there isn't much
+configuration except using =helm= for selection.
+
 #+begin_src emacs-lisp
 (require 'projectile)
 (helm-projectile-on)
@@ -729,16 +757,34 @@ there isn't much configuration except using =helm= for selection.
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
 #+end_src
+
+There are many things work out of box. For example, use =C-p p= to
+choose which project to jump to, but I can type =M-g= to invoke Magit
+or =M-e= to invoke Eshell for that project. 
+
 *** Remote (SSH)
 [2015-01-22 Thu 23:11]
 
-Sometimes, I need to sync between local and remote machine, I can do
-it in termnial or in Emacs.
-#+begin_src emacs-lisp
+I can work on the remote files in Emacs via ssh or tramp, both are
+build-in packages.
+
+#+begin_src emacs-lisp :results silent 
 (require 'tramp)
 (require 'ssh)
-(setq password-cache-expiry nil)
+#+end_src
 
+I'd like catch the password so that I don't need to type it every time
+to open a file. 
+
+#+begin_src emacs-lisp :results silent 
+(setq password-cache-expiry nil)
+#+end_src
+
+I mainly run R on a remote machine. Sometimes I want to copy the
+charts I created to local to include them in my report. This workfow
+is suspended because it fails when the file size is large. 
+
+#+begin_src emacs-lisp
 ;; (defun yt/sync-local-remote ()
 ;;   (interactive)
 ;;   "copy all files in remote:~/LR_share to local:~/LR_share,
@@ -750,6 +796,7 @@ it in termnial or in Emacs.
 ;;   ;; (setq-local dirqed-dwim-target t)
 ;;   (dired-do-copy))
 #+end_src
+
 *** Git Sync
 :LOGBOOK:  
 CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
@@ -767,17 +814,18 @@ commands, also it comes with excellent [[http://magit.github.io/master/magit.htm
 (setq magit-auto-revert-mode nil)
 #+end_src 
             
-I use Emacs/org-mode as a unified system to do everything, at home and
-in the office. I used to use Dropbox/Copy to
-automatically sync the files on multiple machines, but this work-flow
-can be dangerous. Image if I was editing same files on two machines at
-the same time, then I can't track which is which.
+# I use Emacs/org-mode as a unified system to do everything, at home and
+# in the office. I used to use Dropbox/Copy to
+# automatically sync the files on multiple machines, but this work-flow
+# can be dangerous. Image if I was editing same files on two machines at
+# the same time, then I can't track which is which.
     
-The good thing about Git is that you can see what exactlly has been
-changed by each version, and auto log, with commit information and
-timesatmp. Magit helps me to do it conviently but I need 3 more
-features:
-1. automatically save all the buffers
+# The good thing about Git is that you can see what exactlly has been
+# changed by each version, and auto log, with commit information and
+# timesatmp. Magit helps me to do it conviently but I need 3 more
+# features:
+
+# 1. automatically save all the buffers
    
 Occasionally my office machine goes down because I run R with big
 data, and it consumes all the memory. If that happens, I
@@ -792,20 +840,18 @@ annoy. The following snippets will save all buffers in every hours.
   (message "save all buffers... done"))
 (run-at-time "05:59" 3600 'yt/save-all-buffers)))
 #+end_src
-2. quick rush
 
-I shared lift with my colluge, and someimes I left at the last
-minutes, then what I do is call a functions that commits and upload
-to the repo so that I can continue work at home.
+Sometimes I have to leave at the last minutes, then what I do is call
+a functions that commits and upload to the repo so that I can
+continue work at home.
 
 The =yt/save-git-backup= function will do
-1. pull from the remote repo, and make sure the local repo is always
-   up-to-date.
-2. add everything and commit with a timesamp.
-3. push local changes to the remote repo.
+   1. pull from the remote repo, and make sure the local repo is always
+      up-to-date.
+   2. add everything and commit with a timesamp.
+   3. push local changes to the remote repo.
       
-      
-Here is the snippts.
+Here is the snippets.
 #+begin_src emacs-lisp :results silent 
 (defun yt/git-backup ()
   (let ((git-sh-scripts "
@@ -838,15 +884,15 @@ echo Finished Sync: $(date)
   (yt/git-backup))
 #+end_src
 
-3. automatically commit 
-   
+  
 Few times I did some important work over the weenend, but once I
 arrived office I realised I forgot uploading, These situations are
 quick frustrating. The following snippets will start to uploads once
 every three hours on my MacbookPro, but I don't use it anymore, since
-I can get most of my work done in the office.
-   
-#+begin_src emacs-lisp
+I can get most of my work done in the office. 
+
+Note this workflow is suspended for it's unsafe. 
+   #+begin_src emacs-lisp
 ;; (cond ((eq system-type 'darwin)
 ;;        (run-at-time "05:59" 10800 'yt/save-git-backup)))
 #+end_src
