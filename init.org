@@ -9,7 +9,7 @@
 
 [[magit:~/git/.emacs.d]]
 
-https://github.com/yitang/yiR
+[[https://github.com/yitang/.emacs.d]]
 
 #+name: Update_Documentaiton
 #+begin_src emacs-lisp :results silent 
@@ -487,6 +487,8 @@ theme on the top when I really need to focus on.
 ;;   (load-theme 'zenburn t))
 #+end_src
 *** Mode Line
+:LOGBOOK:
+:END:
 [2015-07-20 Mon 11:46]
 
 The mode line is at the bottom of every Emacs Window aside from
@@ -1823,6 +1825,8 @@ Use helm for matching the target path. a low easier.
 #+end_src
 
 *** org-clock
+:LOGBOOK:
+:END:
 [2015-07-20 Mon 14:57]
 
  Save the running clock and all clock history when exiting Emacs, load it on startup
@@ -1856,6 +1860,7 @@ on this task.
 #+end_src
 
 highlight the clocking info in mode line.
+
 #+begin_src emacs-lisp :results silent 
 (set-face-attribute 'org-mode-line-clock nil
 		    :weight 'bold :box '(:line-width 1 :color "#FFBB00") :foreground "white" :background "#FF4040")
