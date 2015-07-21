@@ -1902,7 +1902,7 @@ Skips capture tasks"
         "NEXT")))
 #+end_src
 
-*punch-in* into a default org-mode headline. 
+punch-in into a default org-mode headline. 
 
 #+begin_src emacs-lisp :results silent 
 (defun yt/punch-in ()
@@ -2160,7 +2160,7 @@ use 30 days.
 
 *** Deep Configuration 
 
-*Remove keys*
+Remove keys
 
 #+begin_src emacs-lisp :results silent 
 ;; remove C-TAB
