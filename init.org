@@ -2,7 +2,7 @@
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
-#+PROPERTY: header-args :tangle yes :results silent
+#+PROPERTY: header-args :tangle yes :results silent :eval never-export 
 #+OPTIONS: H:4 num:nil toc:t \n:nil @:t ::t |:t ^:{} -:t f:t *:t
 #+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
