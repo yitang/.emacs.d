@@ -2551,38 +2551,25 @@ like the fontified area for key-bindings.
         (verbatim . "<code>%s</code>")))
 
 #+end_src
-*** Blogging with Jekyll
-I have encountered people who wants to blog, but never start it or quit at the beigining.  I've used wordpress, online editing, and others, but never a big fan or if. because you have to learn how to write the html code, before you thinking what to write.  I think this is the reason many people quit. 
 
-Since I've been use org-mode, and did lot of publishing work, either for client, or colluge.  I usually keep learning notes in org-mode, and sometimes want to share with otehrs, and doing it in org-mode make it less hazzord to share with others, via org-mode-publish. 
+*** Publish for blogging 
+[2015-07-20 Mon 16:39]
 
-so the currenlt workflow now is:
+** Blogging with Jekyll
 
-1. keep a note
-   
-   I tent to keep notes about creazy ideas I learnt, some tehnical stuff I learnt. if I feel it is necessary to share, either because there's good online material, or I think I shuold standard out and speak, for exmaple, the upcomming artile about intro to data.table in R, and few Emacs's thing.  
-
-2. write & Edit 
-   
-   for a persoal note, I always keep it short, and to the exactly out, and it also fit it the big project that I defined.  if I take it out, one may feel it lost the context.  also, writing is not only about the problem-solutiion, but mora ebout analyse the problem, convicne people etc.  I need to find reference, highlight code, add picture etc. 
-   
-3. share 
-   
-   once I feel the artiel is ready to share, I can run the =org-publish= to generate the html file.  and push it to Github Page. 
-
-4. Render 
-   
-   currently I use Jekyll to build the site, I haven't done any research about other servei, since it is do a very good job, thereisn't necessary to find a better one, as for a blog, the most important thing is the content.
-
-Jeklly have few conventins, like the new, YAML etc, it is better to solve it autoamtilcally and in Emacs, as part of the export process. 
+Jeklly have few conventins, like the new, YAML etc, it is better to
+solve it autoamtilcally and in Emacs, as part of the export process.
 
 
-First, define a publish project, so that the exported html file will go to certail place, and we can define the styles, and other features for a praticularlly project.  but for Jeklly, it is more about to match the constraints.
+First, define a publish project, so that the exported html file will
+go to certail place, and we can define the styles, and other features
+for a praticularlly project. but for Jeklly, it is more about to match
+the constraints.
 
 #+begin_src emacs-lisp :results silent
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
-      '(("MyBlog" ;; settings for cute-jumper.github.io
+      '(("MyBlog"
          :base-directory "~/git/MyBlog/org"
          :base-extension "org"
          :publishing-directory "~/git/MyBlog"
@@ -2647,7 +2634,7 @@ comments: true
       (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
     s))
 
-(defun blog-draft-post (title)
+(defun blog-draft-post (title) 
   "Create a new Jekyll blog post."
   (interactive "sPost Title: ")
   (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
@@ -2682,15 +2669,6 @@ comments: true
       (find-file filename)
       (set-window-point (selected-window) old-point)))))
 
-(defun org-jekyll-post-link-follow (path)
-  (org-open-file-with-emacs path))
-
-(defun org-jekyll-post-link-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<a href=\"{%% post_url %s %%}\">%s</a>" path desc))))
-
-(org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 
 ;; Improve our blogging experience with Org-Jekyll. This code sets four
 ;; functions with corresponding key bindings:
@@ -2716,8 +2694,20 @@ comments: true
 #+end_src
 
 
+*cross reference*
 
-**** code highlight 
+#+begin_src emacs-lisp :results silent 
+(defun org-jekyll-post-link-follow (path)
+  (org-open-file-with-emacs path))
+
+(defun org-jekyll-post-link-export (path desc format)
+  (cond
+   ((eq format 'html)
+    (format "<a href=\"{%% post_url %s %%}\">%s</a>" path desc))))
+
+(org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
+#+end_src
+*** code highlight 
 [2015-01-23 Fri 17:47]
 
 #+begin_src emacs-lisp :results silent :eval no
@@ -2793,7 +2783,7 @@ comments: true
 #+end_src
 
 #+results:
-**** Path Issues 
+*** Path Issues 
 
 When publishing, the org-file is firstly exported to html file, and when Jekyll build the website, the html file will be saved in to some folder that depends on the YMAL. Then the relative path to image files are broken. To solve that, according to the Jeklyy web site, is to save all the image or downloade files in assets/ folder.  Then those image files are referende by org-mode. 
 
@@ -3094,7 +3084,6 @@ ledger --period "this week"  bal Exp
 
 
 #+end_example
-
 
 
 * End 
