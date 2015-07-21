@@ -2487,7 +2487,144 @@ go to certail place, and we can define the styles, and other features
 for a praticularlly project. but for Jeklly, it is more about to match
 the constraints.
 
-#+begin_src emacs-lisp :results silent
+For managing a blog, it is good idea to keep the original org file
+inside of the website.  Most people using Jeklly write blog in
+Markdown format, but Org-mode is obvious more powerful in Literate
+Program. In this case, I have two folders under Jeklly project
+direcotyr, org/_drafts and org/_posts. 
+
+#+begin_src emacs-lisp :results silent 
+(defvar jekyll-directory (expand-file-name "~/git/MyBlog/org/")
+  "Path to Jekyll blog.")
+(defvar jekyll-drafts-dir "_drafts/"
+  "Relative path to drafts directory.")
+(defvar jekyll-posts-dir "_posts/"
+  "Relative path to posts directory.")
+(defvar jekyll-post-ext ".org"
+  "File extension of Jekyll posts.")
+#+end_src
+
+I can quickly scne the folder to see how many outstanding drasfts and
+which posts is published in in cease I need to edit it. I bind it to
+=C-c j p= and =C-c j d= where /j/ means Jekly, /p/ means posts, and
+/d/ means drafts. 
+
+#+begin_src emacs-lisp :results silent 
+(global-set-key (kbd "C-c j p") (lambda ()
+                                  (interactive)
+                                  (find-file "~/git/MyBlog/org/_posts/")))
+(global-set-key (kbd "C-c j d") (lambda ()
+                                  (interactive)
+                                  (find-file "~/git/MyBlog/org/_drafts/")))
+#+end_src
+
+Jeklyl has a spacial template that requires to add YAML in the front,
+since it is in org-mode, I can call Babel functions, add table of
+contents and others etc. This is the template I am using. Note the
+jekly-ymal-escape function is used just to make sure there is strange
+characters that jeklly don;t like. 
+
+#+begin_src emacs-lisp :results silent 
+(defvar jekyll-post-template
+  " 
+,#+BEGIN_HTML
+---
+layout: post
+title: %s
+excerpt: 
+categories:
+  -  
+tags:
+  -
+comments: true 
+---
+,#+END_HTML
+
+# #+call: GetLastUpdatedDate[:exports none]()[:results org]
+
+,#+TOC: headlines 4
+"
+  "Default template for Jekyll posts. %s will be replace by the post title.")
+
+(defun jekyll-yaml-escape (s)
+  "Escape a string for YAML."
+  (if (or (string-match ":" s)
+        2  (string-match "\"" s))
+      (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
+    s))
+#+end_src
+
+Then in starting a blog post, I fill the title, and there file will be
+served in the org/_drafts folder, and insert the YMAL. Note in jeklly,
+the title be part of html file name and therefore part of the URL. So
+strange characters must been removed. 
+
+#+begin_src emacs-lisp :results silent 
+(defun blog-draft-post (title) 
+  "Create a new Jekyll blog post."
+  (interactive "sPost Title: ")
+  (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
+                            (jekyll-make-slug title)
+                            jekyll-post-ext)))
+    (if (file-exists-p draft-file)
+        (find-file draft-file)
+      (find-file draft-file)
+      (insert (format jekyll-post-template (jekyll-yaml-escape title))))))
+
+(defun jekyll-make-slug (s)
+  "Turn a string into a slug."
+  (replace-regexp-in-string
+   " " "-" (downcase
+            (replace-regexp-in-string
+             "[^A-Za-z0-9 ]" "" s))))
+
+
+#+end_src
+
+Once I think the article is read to be publish, the
+=blog-publish-post= function will move the editing draft into
+org/_posts folder and prepend the file name with today's date in
+%Y-%m-%d format. it is required by Jeklly.  
+
+#+begin_src emacs-lisp :results silent 
+(defun blog-publish-post ()
+  "Move a draft post to the posts directory, and rename it so that it
+ contains the date."
+  (interactive)
+  (cond
+   ((not (equal
+          (file-name-directory (buffer-file-name (current-buffer)))
+          (concat jekyll-directory jekyll-drafts-dir)))
+    (message "This is not a draft post."))
+   ((buffer-modified-p)
+    (message "Can't publish post; buffer has modifications."))
+   (t
+    (let ((filename
+           (concat jekyll-directory jekyll-posts-dir
+                   (format-time-string "%Y-%m-%d-")
+                   (file-name-nondirectory
+                    (buffer-file-name (current-buffer)))))
+          (old-point (point)))
+      (rename-file (buffer-file-name (current-buffer))
+                   filename)
+      (kill-buffer nil)
+      (find-file filename)
+      (set-window-point (selected-window) old-point)))))
+#+end_src
+
+I bound ~C-c j n~ and ~C-c j P~ for making a draft and publishing a draft. 
+
+#+begin_src emacs-lisp :results silent 
+(global-set-key (kbd "C-c j n") 'blog-draft-post)
+(global-set-key (kbd "C-c j P") 'blog-publish-post)
+#+end_src
+
+Then convert all the org files in org/_posts into HTML and save in the
+_posts/ folder. It is good to define an org-publish-project to
+automate this. Note in the following, the published HTML has body
+only, and without TOC, which are again, required by JEKLLY. 
+
+#+begin_src emacs-lisp :results silent 
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
       '(("MyBlog"
@@ -2506,12 +2643,10 @@ the constraints.
          :body-only t
          :with-toc nil
          )))
+#+end_src
 
-#+end_src 
-
-For managing a blog, it is good idea to keep the original org file inside of the website.  
-
-#+begin_src emacs-lisp :results silent
+#+name: Jeklly-config-backup
+#+begin_src emacs-lisp :results silent :exports none
 (defvar jekyll-directory (expand-file-name "~/git/MyBlog/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
@@ -2520,6 +2655,7 @@ For managing a blog, it is good idea to keep the original org file inside of the
   "Relative path to posts directory.")
 (defvar jekyll-post-ext ".org"
   "File extension of Jekyll posts.")
+
 (defvar jekyll-post-template
   " 
 ,#+BEGIN_HTML
@@ -2615,19 +2751,6 @@ comments: true
 #+end_src
 
 
-*cross reference*
-
-#+begin_src emacs-lisp :results silent 
-(defun org-jekyll-post-link-follow (path)
-  (org-open-file-with-emacs path))
-
-(defun org-jekyll-post-link-export (path desc format)
-  (cond
-   ((eq format 'html)
-    (format "<a href=\"{%% post_url %s %%}\">%s</a>" path desc))))
-
-(org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
-#+end_src
 *** code highlight 
 [2015-01-23 Fri 17:47]
 
@@ -2745,6 +2868,22 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 (add-hook 'org-store-link-functions 'org-magit-store-link)
 
 #+end_src
+
+*** *cross reference*
+[2015-07-21 Tue 10:59]
+
+#+begin_src emacs-lisp :results silent 
+(defun org-jekyll-post-link-follow (path)
+  (org-open-file-with-emacs path))
+
+(defun org-jekyll-post-link-export (path desc format)
+  (cond
+   ((eq format 'html)
+    (format "<a href=\"{%% post_url %s %%}\">%s</a>" path desc))))
+
+(org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
+#+end_src
+
 ** Refile                                                       :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
