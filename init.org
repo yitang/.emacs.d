@@ -1885,6 +1885,17 @@ Skips capture tasks"
     (if (member (org-get-todo-state) (list "TODO"))
         "NEXT")))
 #+end_src
+
+*punch-in* into a default org-mode headline. 
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/punch-in ()
+  (interactive)
+    (org-with-point-at (org-id-find "1b586ec1-fa8a-4bd1-a44c-faf3aa2adf51" 'marker)
+    (org-clock-in)
+     ))
+(global-set-key (kbd "<f9> I") 'yt/punch-in)
+#+end_src
 *** org-tags
 [2015-07-20 Mon 14:57]
 
