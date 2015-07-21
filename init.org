@@ -768,6 +768,17 @@ _d_elete buffer-visiting file"
   )
 (global-set-key [f3] 'hydra-file-management/body)
 #+end_src
+
+Open the file manager at the default directory.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/open-file-manager ()
+  "Open the current file's directory however the OS would."
+  (interactive)
+  (if default-directory
+      (browse-url-of-file (expand-file-name default-directory))
+    (error "No `default-directory' to open")))
+#+end_src
 *** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
 
