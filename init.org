@@ -296,12 +296,13 @@ Shows an notication for invalid operations.
 yasnippet is a powerful package that I'd like to explore in the
 future, and this stage, I turned if off since it will slow down the
 start-up.
+
 #+begin_src emacs-lisp :results silent 
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
-;; (setq yas-snippet-dirs '("~/git/.emacs.d/my-snippets"
-;;                          "~/git/.emacs.d/.cask/24.4.2/elpa/yasnippet-20141102.1554/snippets"
-;;                          "~/git/.emacs.d/.cask/25.0.50.1/elpa/yasnippet-20141102.1554/snippets"))
+(require 'yasnippet)
+(yas-global-mode 1)
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150415.244/snippets"
+                         "~/git/.emacs.d/snippets"))
+(yas-reload-all)
 
 #+end_src
 *** Window Layout/Navigation 
