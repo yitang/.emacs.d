@@ -1975,7 +1975,7 @@ Skips capture tasks"
 *** Agenda 
 [2015-01-23 Fri 16:54]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 ;; Do not dim blocked tasks
