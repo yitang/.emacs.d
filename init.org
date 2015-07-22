@@ -2225,6 +2225,7 @@ then type *.
 (sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
 (sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
 (sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
+(sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
 #+end_src
 
 
