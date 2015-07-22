@@ -2,7 +2,7 @@
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
-#+PROPERTY: header-args :tangle yes :results silent
+#+PROPERTY: header-args :tangle yes :results silent :eval never-export 
 #+OPTIONS: H:4 num:nil toc:t \n:nil @:t ::t |:t ^:{} -:t f:t *:t
 #+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
@@ -1903,7 +1903,7 @@ Skips capture tasks"
         "NEXT")))
 #+end_src
 
-*punch-in* into a default org-mode headline. 
+punch-in into a default org-mode headline. 
 
 #+begin_src emacs-lisp :results silent 
 (defun yt/punch-in ()
@@ -1976,7 +1976,7 @@ Skips capture tasks"
 *** Agenda 
 [2015-01-23 Fri 16:54]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 ;; Do not dim blocked tasks
@@ -2161,7 +2161,7 @@ use 30 days.
 
 *** Deep Configuration 
 
-*Remove keys*
+Remove keys
 
 #+begin_src emacs-lisp :results silent 
 ;; remove C-TAB
@@ -3168,7 +3168,7 @@ ledger --period "this week"  bal Exp
 
 End of Emacs configuration. The initalisetion stop here. 
 
-* Archive                                                        :ExportFile:
+* Archive
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/archive
 :END:
@@ -3263,7 +3263,7 @@ and Org-mode etc into one calendar.
 
 #+end_src
 
-** Bernt Hansen's Setting                                         :noexport:
+** Bernt Hansen's Setting
 :LOGBOOK:  
 CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
 :END:      
@@ -4053,7 +4053,7 @@ A prefix arg forces clock in of the default task."
 
 #+end_src
 
-** Browser - eww                                                :ExportFile:
+** Browser - eww
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/browser__eww
 :END:
@@ -4098,7 +4098,7 @@ buffer."
           (add-text-properties left pos (list from nil to prop) object))))))
 
 #+end_src
-** mu4e - Email Client                                          :ExportFile:
+** mu4e - Email Client
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/mu4e__email_client
 :END:
