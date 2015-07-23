@@ -879,7 +879,7 @@ annoy. The following snippets will save all buffers in every hours.
   (interactive)
   (save-some-buffers t nil)
   (message "save all buffers... done"))
-(run-at-time "05:59" 3600 'yt/save-all-buffers)))
+(run-at-time "05:59" 3600 'yt/save-all-buffers)
 #+end_src
 
 Sometimes I have to leave at the last minutes, then what I do is call
@@ -1479,7 +1479,7 @@ capitalise i to I, so I use abbrevitation table.
 | eqt       | equivalent to     | english  |
 | iif       | if and only if    | maths    |
 | wrt       | with respect to   | English  |
-| st        | such that         | English |
+| st        | such that         | English  |
 
 #+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent
 (defun my-text-abbrev-expand-p ()
