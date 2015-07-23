@@ -1806,7 +1806,7 @@ The capture mode templates.
                "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+              ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
@@ -2267,6 +2267,7 @@ then type *.
 (sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
 (sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
 (sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
+(sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
 #+end_src
 
 
