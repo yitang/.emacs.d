@@ -2144,6 +2144,17 @@ use 30 days.
 #+begin_src emacs-lisp :results silent 
 (setq org-deadline-warning-days 30)
 #+end_src
+
+quick key to show work related items only.
+#+begin_src emacs-lisp :results silent 
+(defun yt/filter-non-office-agenda (tag)
+  (and (if (not (or (string= tag "work")
+		    (string= tag "@office")))
+	   t
+	 nil)
+       (concat "-" tag)))
+(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
+#+end_src
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
