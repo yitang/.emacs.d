@@ -2170,6 +2170,12 @@ quick key to show work related items only.
 
 #+end_src
 
+Start up options
+#+begin_src emacs-lisp :results silent 
+(setq org-startup-folded t
+      org-hide-block-startup t
+      org-startup-indented t)
+#+end_src
 *** Deep Configuration 
 
 Remove keys
@@ -2324,15 +2330,15 @@ Add export back-end, I need HTML, PDF, MarkDown, and Ascii.
 (require 'htmlize)
 #+end_src
 
+General export options, it applys to all the export-backend. 
 #+begin_src emacs-lisp
 (setq org-export-with-toc nil
       org-export-with-todo-keywords t
       org-export-with-sub-superscripts nil
       org-export-with-planning t
       org-export-with-timestamps nil
-      org-export-babel-evaluate nil)
-
-
+      org-export-babel-evaluate nil
+      org-export-with-author nil)
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
