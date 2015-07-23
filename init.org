@@ -215,6 +215,8 @@ are already in the /~/emacs.d/elpa// folder.
                         f
                         olivetti
                         helm-mu
+                        org-wc
+                        hl-sentence
                         ))
 
 (require 'package)
