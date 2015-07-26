@@ -1996,6 +1996,8 @@ punch-in into a default org-mode headline.
 
 ;; (setq org-agenda-span 'day)
 ;; (require 'org-habit)
+
+(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 #+end_src
 *** Agenda 
 [2015-01-23 Fri 16:54]
