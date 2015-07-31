@@ -1504,6 +1504,7 @@ capitalise i to I, so I use abbrevitation table.
 | iif       | if and only if    | maths    |
 | wrt       | with respect to   | English  |
 | st        | such that         | English  |
+| obs       | observation       | stats |
 
 #+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent
 (defun my-text-abbrev-expand-p ()
