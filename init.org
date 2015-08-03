@@ -1046,15 +1046,14 @@ There three features that have me made the decision:
 (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
 (defun my-ess-start-R ()
   (interactive)
-  (if (not (member "*R-main*" (mapcar (function buffer-name) (buffer-list))))
+  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
       (progn
         (delete-other-windows)
         (setq w1 (selected-window))
         (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
+        (setq w2 (split-window w1))
         (R)
         (set-window-buffer w2 "*R*")
-        (rename-buffer "*R-main*")
         (set-window-buffer w1 w1name))))
 (defun my-ess-eval ()
   (interactive)
