@@ -4214,7 +4214,7 @@ The basical workflow is:
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap -a JBA")
-(setq mu4e-update-interval 300)
+(setq mu4e-update-interval 3600)
 
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
