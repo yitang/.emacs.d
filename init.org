@@ -2334,9 +2334,9 @@ then type *.
          (octave . t)
          (latex . t))))
 
-(add-to-list 'org-babel-default-header-args:R
-             '(:session . "*R-main*")
-             '((:width . 640) (:height . 640)))
+;; (add-to-list 'org-babel-default-header-args:R
+;;              ;; '(:session . "*R-main*")
+;;              '((:width . 640) (:height . 640)))
 
 
 (setq org-confirm-babel-evaluate nil)
