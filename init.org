@@ -1822,7 +1822,7 @@ The capture mode templates.
               ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
+               "* TODO %?\n%U\n" :clock-in t :clock-resume t)
               )))
 #+end_src
 
