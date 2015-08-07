@@ -1807,8 +1807,7 @@ The capture mode templates.
                "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
+              
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
               
@@ -1817,10 +1816,12 @@ The capture mode templates.
               ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
-              ("J" "Journalsing")
-              ("Js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
+              ("j" "Journalsing")
+              ("jd" "diary" entry (file+datetree "~/git/org/Journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("Jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
+              ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
 #+end_src
