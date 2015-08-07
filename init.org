@@ -3125,18 +3125,18 @@ Get the link to current headline as an external link.
 (defun yt/org-get-heading-link ()
   (interactive)
   (let* ((file-name (file-truename buffer-file-name))
-	 (headline (org-heading-components))
-	 (level (nth 0 headline))
-	 (title (nth 4 headline))
-	 (link (concat file-name
-		       "::"
-		       "*" ;; (yt/lisp-rep "*" level)
-		       title)))
+         (headline (org-heading-components))
+         (level (nth 0 headline))
+         (title (nth 4 headline))
+         (link (concat file-name
+                       "::"
+                       "*" ;; (yt/lisp-rep "*" level)
+                       title)))
     (kill-new (concat "[["
-		      link
-		      "]["
-		      title
-		      "]]"))))
+                      link
+                      "]["
+                      (concat "headline: " title)
+                      "]]"))))
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
