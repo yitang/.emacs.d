@@ -1047,15 +1047,14 @@ There three features that have me made the decision:
 (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
 (defun my-ess-start-R ()
   (interactive)
-  (if (not (member "*R-main*" (mapcar (function buffer-name) (buffer-list))))
+  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
       (progn
         (delete-other-windows)
         (setq w1 (selected-window))
         (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
+        (setq w2 (split-window w1))
         (R)
         (set-window-buffer w2 "*R*")
-        (rename-buffer "*R-main*")
         (set-window-buffer w1 w1name))))
 (defun my-ess-eval ()
   (interactive)
@@ -1147,8 +1146,8 @@ lsos <- function(..., n=10) {
             (insert yt/ess--RProfile-string)
             (inferior-ess-send-input) ;; execuate the R scripts 
             ;; clean up
-            (search-backward "Type 'q()' to quit R.")
-            (next-line)
+            ;; (search-backward "Type 'q()' to quit R.")
+            ;; (next-line)
             (delete-region (point) (point-max))
             (inferior-ess-send-input)
             ))
@@ -1506,6 +1505,9 @@ capitalise i to I, so I use abbrevitation table.
 | wrt       | with respect to   | English  |
 | st        | such that         | English  |
 | d/n       | distribution      | Stats    |
+| obs       | observation       | stats    |
+| obss      | observations      | stats    |
+
 
 #+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent
 (defun my-text-abbrev-expand-p ()
@@ -1808,8 +1810,7 @@ The capture mode templates.
                "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
+              
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
               
@@ -1818,11 +1819,13 @@ The capture mode templates.
               ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
-              ("J" "Journalsing")
-              ("Js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
+              ("j" "Journalsing")
+              ("jd" "diary" entry (file+datetree "~/git/org/Journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("Jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
+              ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
+               "* TODO %?\n%U\n" :clock-in t :clock-resume t)
               )))
 #+end_src
 
@@ -2335,9 +2338,9 @@ then type *.
          (octave . t)
          (latex . t))))
 
-(add-to-list 'org-babel-default-header-args:R
-             '(:session . "*R-main*")
-             '((:width . 640) (:height . 640)))
+;; (add-to-list 'org-babel-default-header-args:R
+;;              ;; '(:session . "*R-main*")
+;;              '((:width . 640) (:height . 640)))
 
 
 (setq org-confirm-babel-evaluate nil)
@@ -2998,45 +3001,44 @@ function at the end of the day.
 *help function*
 
 #+begin_src emacs-lisp :results silent 
-(defun yt/describe-function (function)
-  ;; (describe-function)
-  ;; (defun describe-function (function)
-  "Display the full documentation of FUNCTION (a symbol)."
-  (interactive
-   (let ((fn (function-called-at-point))
-	 (enable-recursive-minibuffers t)
-	 val)
-     (setq val (completing-read (if fn
-				    (format "Describe function (default %s): " fn)
-				  "Describe function: ")
-				obarray 'fboundp t nil nil
-				(and fn (symbol-name fn))))
-     (list (if (equal val "")
-	       fn (intern val)))))
+;; (defun yt/describe-function (function)
+;;   ;; (describe-function)
+;;   ;; (defun describe-function (function)
+;;   "Display the full documentation of FUNCTION (a symbol)."
+;;   (interactive
+;;    (let ((fn (function-called-at-point))
+;;          (enable-recursive-minibuffers t)
+;;          val)
+;;      (setq val (completing-read (if fn
+;;                                     (format "Describe function (default %s): " fn)
+;;                                   "Describe function: ")
+;;                                 obarray 'fboundp t nil nil
+;;                                 (and fn (symbol-name fn))))
+;;      (list (if (equal val "")
+;;                fn (intern val)))))
   
-  (if (null function)
-      (message "You didn't specify a function")
-    (help-setup-xref (list #'describe-function function)
-		     (called-interactively-p 'interactive))
-    (save-excursion
-      (with-help-window (help-buffer)
-	(prin1 function)
-	;; Use " is " instead of a colon so that
-	;; it is easier to get out the function name using forward-sexp.
-	(princ " is ")
-	(describe-function-1 function)
-	(with-current-buffer standard-output
-	  ;; Return the text we displayed.
-	  (buffer-string))))
-    ;;    ))
-    (let* ((doc (with-current-buffer (help-buffer)
-		  (buffer-string)))
-	   
-	   (voca-builder/current-tag "Emacs")
-	   (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
-      (append-to-file org-doc nil "LearnEmacs.org"))))
-(global-set-key (kbd "C-h f") 'yt/describe-function)
-
+;;   (if (null function)
+;;       (message "You didn't specify a function")
+;;     (help-setup-xref (list #'describe-function function)
+;;                      (called-interactively-p 'interactive))
+;;     (save-excursion
+;;       (with-help-window (help-buffer)
+;;         (prin1 function)
+;;         ;; Use " is " instead of a colon so that
+;;         ;; it is easier to get out the function name using forward-sexp.
+;;         (princ " is ")
+;;         (describe-function-1 function)
+;;         (with-current-buffer standard-output
+;;           ;; Return the text we displayed.
+;;           (buffer-string))))
+;;     ;;    ))
+;;     (let* ((doc (with-current-buffer (help-buffer)
+;;                   (buffer-string)))
+           
+;;            (voca-builder/current-tag "Emacs")
+;;            (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
+;;       (append-to-file org-doc nil "LearnEmacs.org"))))
+;; (global-set-key (kbd "C-h f") 'yt/describe-function)
 #+end_src
 
 quickly filter out non-work tasks in org-agenda. 
@@ -3127,18 +3129,18 @@ Get the link to current headline as an external link.
 (defun yt/org-get-heading-link ()
   (interactive)
   (let* ((file-name (file-truename buffer-file-name))
-	 (headline (org-heading-components))
-	 (level (nth 0 headline))
-	 (title (nth 4 headline))
-	 (link (concat file-name
-		       "::"
-		       "*" ;; (yt/lisp-rep "*" level)
-		       title)))
+         (headline (org-heading-components))
+         (level (nth 0 headline))
+         (title (nth 4 headline))
+         (link (concat file-name
+                       "::"
+                       "*" ;; (yt/lisp-rep "*" level)
+                       title)))
     (kill-new (concat "[["
-		      link
-		      "]["
-		      title
-		      "]]"))))
+                      link
+                      "]["
+                      (concat "headline: " title)
+                      "]]"))))
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
@@ -4216,7 +4218,7 @@ The basical workflow is:
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap -a JBA")
-(setq mu4e-update-interval 300)
+(setq mu4e-update-interval 3600)
 
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
