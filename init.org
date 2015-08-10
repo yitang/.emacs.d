@@ -217,6 +217,7 @@ are already in the /~/emacs.d/elpa// folder.
                         helm-mu
                         org-wc
                         hl-sentence
+                        camcorder
                         ))
 
 (require 'package)
