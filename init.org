@@ -4297,6 +4297,13 @@ use helm-mu to search emails
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "<f9> e") 'helm-mu)
 #+end_src
+
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'mu4e-bookmarks
+             '("date:20100930..now"       "All Messages"     ?a))
+(add-to-list 'mu4e-bookmarks
+             '("flag:flagged" "Flagged messages" ?f))
+#+end_src
 *** Account 
 [2015-01-23 Fri 17:32] 
 
