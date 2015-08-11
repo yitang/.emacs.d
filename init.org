@@ -217,7 +217,7 @@ are already in the /~/emacs.d/elpa// folder.
                         helm-mu
                         org-wc
                         hl-sentence
-                        camcorder
+                        ;; camcorder
                         ))
 
 (require 'package)
@@ -464,8 +464,8 @@ I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
 claimed to be suitable for coding environments. But I use it for all modes.
 
 #+begin_src emacs-lisp :results silent 
-(set-default-font "Source Code Pro" nil t)
-(set-face-attribute 'default nil :height 100)
+(set-default-font "Source Code Pro-14" nil t)
+;; (set-face-attribute 'default nil :height 100)
 #+end_src
 *** Minimalists GUI 
 [2015-07-20 Mon 11:46]
@@ -1455,6 +1455,12 @@ jargon. I can tell aspell that they are not misspellings.
 
 #+begin_src emacs-lisp :results silent 
 (setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
+#+end_src
+
+
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
 #+end_src
 
 =Flyspell= depends on ispell mode and enables on-the-fly spell
