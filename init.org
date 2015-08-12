@@ -2538,6 +2538,51 @@ like the fontified area for key-bindings.
 
 #+end_src
 
+Beautiful and useful HTML themes 
+
+#+begin_src emacs-lisp :results silent 
+(setq yt/org-html-themes-sacha ;; Sacha's 
+      "<link rel=\"stylesheet\" type=\"text/css\"
+href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/foundation.min.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/org-export.css\"></link>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
+<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>")
+
+(setq yt/org-html-themes-readtheorg ;; ReadTheOrg
+      "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.pirilampo.org/styles/readtheorg/css/htmlize.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css\"/>
+<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>
+<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js\"></script>")
+
+(setq yt/org-html-themes-bigblow ;; Bigblow
+      "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.pirilampo.org/styles/bigblow/css/htmlize.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.pirilampo.org/styles/bigblow/css/bigblow.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"http://www.pirilampo.org/styles/bigblow/css/hideshow.css\"/>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/jquery-1.11.0.min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/jquery-ui-1.10.2.min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/jquery.localscroll-min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/jquery.scrollTo-1.4.3.1-min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/jquery.zclip.min.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/bigblow.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/bigblow/js/hideshow.js\"></script>
+<script type=\"text/javascript\" src=\"http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js\"></script>")
+
+(setq yt/org-html-themes
+      '(("General" . yt/org-html-themes-sacha)
+        ("ReadTheOrg" . yt/org-html-themes-readtheorg)
+        ("Bigblow" . yt/org-html-themes-bigblow)))
+
+(defun yt/org-set-html-theme ()
+  (interactive)
+  (let* ((user-input  (completing-read "Theme: " yt/org-html-themes nil t))
+         (theme-link  (symbol-value (cdr (assoc user-input yt/org-html-themes)))))
+    (setq org-html-head theme-link)
+    (format "Use %s HTML Theme" user-input)))
+
+(setq org-html-head (symbol-value (cdr (assoc "General" yt/org-html-themes)))) ;; default setting
+#+end_src
 *** Publish for blogging 
 [2015-07-20 Mon 16:39]
 
@@ -2559,7 +2604,7 @@ Program. In this case, I have two folders under Jeklly project
 direcotyr, org/_drafts and org/_posts. 
 
 #+begin_src emacs-lisp :results silent 
-(defvar jekyll-directory (expand-file-name "~/git/MyBlog/org/")
+(defvar jekyll-directory (expand-file-name "~/git/myblog/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -2577,10 +2622,10 @@ which posts is published in in cease I need to edit it. I bind it to
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/MyBlog/org/_posts/")))
+                                  (find-file "~/git/myblog/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/MyBlog/org/_drafts/")))
+                                  (find-file "~/git/myblog/org/_drafts/")))
 #+end_src
 
 Jeklyl has a spacial template that requires to add YAML in the front,
@@ -2692,10 +2737,10 @@ only, and without TOC, which are again, required by JEKLLY.
 #+begin_src emacs-lisp :results silent 
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
-      '(("MyBlog"
-         :base-directory "~/git/MyBlog/org"
+      '(("myblog"
+         :base-directory "~/git/myblog/org"
          :base-extension "org"
-         :publishing-directory "~/git/MyBlog"
+         :publishing-directory "~/git/myblog"
          :recursive t
          :publishing-function org-html-publish-to-html
          :with-toc nil
@@ -2712,7 +2757,7 @@ only, and without TOC, which are again, required by JEKLLY.
 
 #+name: Jeklly-config-backup
 #+begin_src emacs-lisp :results silent :exports none
-(defvar jekyll-directory (expand-file-name "~/git/MyBlog/org/")
+(defvar jekyll-directory (expand-file-name "~/git/myblog/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -2808,10 +2853,10 @@ comments: true
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/MyBlog/org/_posts/")))
+                                  (find-file "~/git/myblog/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/MyBlog/org/_drafts/")))
+                                  (find-file "~/git/myblog/org/_drafts/")))
 
 #+end_src
 
