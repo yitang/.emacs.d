@@ -154,16 +154,6 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 :END:
 [2015-03-18 Wed 15:32]
 
-# Firstly, install all the packages that are used in this configuration
-# via Emacs's package management tool. It may takes a while if there are
-# many packages are not installed in the /~/.emacs.d/elpa/ folder. 
-
-# Firstly, all the packages used in this configuration are needed to be
-# installed in the /~/.emacs.d.elpa// folder. It is recommended to install
-# packages via Emacs's package management tool. 
-
-# Note if there are many are not installed, it may takes a while. 
-
 All the packages used in this configuration are available the
 major Emacs repositories. it is recommended to install them via Emacs's
 package management tool, and by the following snippets. Note the
@@ -171,69 +161,69 @@ initial installation may takes a while to finish, depends on how many
 are already in the /~/emacs.d/elpa// folder.
 
 #+begin_src emacs-lisp 
-(setq my-package-list '(ess
-                        ssh
-                        auto-complete
-                        nyan-mode
-                        yasnippet
-                        projectile
-                        magit
-                        helm-swoop
-                        nyan-mode
-                        org-jekyll
-                        org-plus-contrib
-                        helm-projectile
-                        rainbow-delimiters
-                        zenburn-theme
-                        htmlize
-                        nanowrimo
-                        golden-ratio
-                        artbollocks-mode
-                        langtool
-                        flycheck
-                        expand-region
-                        guide-key
-                        exec-path-from-shell
-                        smart-mode-line
-                        smart-mode-line-powerline-theme
-                        powerline
-                        synosaurus
-                        hydra
-                        w3m
-                        ace-window
-                        calfw
-                        multiple-cursors
-                        org-download
-                        paradox
-                        smartparens
-                        ace-jump-mode
-                        voca-builder
-                        gist
-                        sunshine
-                        keyfreq
-                        pretty-mode
-                        f
-                        olivetti
-                        helm-mu
-                        org-wc
-                        hl-sentence
-                        ;; camcorder
-                        ))
+  (setq my-package-list '(ess
+                          ssh
+                          auto-complete
+                          nyan-mode
+                          yasnippet
+                          projectile
+                          magit
+                          helm-swoop
+                          nyan-mode
+                          org-jekyll
+                          org-plus-contrib
+                          helm-projectile
+                          rainbow-delimiters
+                          zenburn-theme
+                          htmlize
+                          nanowrimo
+                          golden-ratio
+                          artbollocks-mode
+                          langtool
+                          flycheck
+                          expand-region
+                          guide-key
+                          exec-path-from-shell
+                          smart-mode-line
+                          smart-mode-line-powerline-theme
+                          powerline
+                          synosaurus
+                          hydra
+                          w3m
+                          ace-window
+                          calfw
+                          multiple-cursors
+                          org-download
+                          paradox
+                          smartparens
+                          ace-jump-mode
+                          voca-builder
+                          gist
+                          sunshine
+                          keyfreq
+                          pretty-mode
+                          f
+                          olivetti
+                          helm-mu
+                          org-wc
+                          hl-sentence
+                          ;; camcorder
+                          ))
 
-(require 'package)
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
-(package-initialize)
+  (require 'package)
+  (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
+                           ("org" . "http://orgmode.org/elpa/")
+                           ("gnu" . "http://elpa.gnu.org/packages/")
+                           ("marmalade" . "http://marmalade-repo.org/packages/")))
+  (package-initialize)
 
-;; fetch the list of packages available 
-(unless package-archive-contents
-  (package-refresh-contents))
-;; install 
-(dolist (i-package my-package-list)
-  (unless (package-installed-p i-package)
-    (package-install i-package)))
+  ;; fetch the list of packages available 
+  (unless package-archive-contents
+    (package-refresh-contents))
+  ;; install 
+  (dolist (i-package my-package-list)
+    (unless (package-installed-p i-package)
+      (package-install i-package)))
 
 #+end_src
 ** General                                                      :ExportFile:
@@ -1516,7 +1506,7 @@ capitalise i to I, so I use abbrevitation table.
 | obss      | observations      | stats    |
 
 
-#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent
+#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
  comments and strings only when in a prog-mode derived-mode or
