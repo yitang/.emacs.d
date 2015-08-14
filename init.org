@@ -2409,6 +2409,9 @@ define the markups.
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
+\\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
+\\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
+
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
 \\setromanfont [BoldFont={Gentium Basic Bold},
