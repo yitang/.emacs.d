@@ -293,9 +293,10 @@ start-up.
 #+begin_src emacs-lisp :results silent 
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150415.244/snippets"
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"
                          "~/git/.emacs.d/snippets"))
 (yas-reload-all)
+
 
 #+end_src
 *** Window Layout/Navigation 
