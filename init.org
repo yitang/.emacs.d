@@ -2327,7 +2327,7 @@ then type *.
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
          (R . t)
-         (sh . t)
+         (shell . t)
          (ledger . t)
          (org . t)
          (plantuml . t)
