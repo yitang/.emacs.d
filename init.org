@@ -3539,6 +3539,28 @@ I got an email from an estate agency where there are few images are inlined, but
 
 *Render LaTeX code as image*
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
+** SNS Client
+[2015-08-14 Fri 10:07]
+
+*** Twitter
+[2015-08-14 Fri 10:07]
+
+#+begin_src emacs-lisp :results silent 
+(setq twittering-use-master-password t)
+(setq twittering-icon-mode t)
+;; (setq twittering-convert-fix-size 48)
+(setq twittering-use-icon-storage t)
+;; (setq twittering-retweet-format '(nil _ " %u RT @%s: %t"))
+#+end_src
+
+use =V= to swtich timline, to show replies or direst messages.
+
+when the cursr is in a twitter: 
+
+- enter :: - reply.
+- d :: to sent direct message
+- u :: to post a tweet
+
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
 :header-args: :eval no
