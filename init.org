@@ -2412,15 +2412,21 @@ define the markups.
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
+\\DeclareMathOperator*{\\argmin}{arg\\,min}
+\\DeclareMathOperator*{\\argmax}{arg\\,max}
+
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont [BoldFont={Gentium Basic Bold},
+\\setromanfont[BoldFont={Gentium Basic Bold},
                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
 \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
-            marginparsep=7pt, marginparwidth=.6in}
+  marginparsep=7pt,
+  marginparwidth=1.2in, %% make sure it less than right=1.5in,
+  %% otherwise, will go out of the paper
+  right=1.5in, left=0.6in}
 \\pagestyle{empty}
  
 %% package from org-latex-default-packages-alist
@@ -2432,7 +2438,11 @@ define the markups.
 \\usepackage{ulem}
 
 %% \\renewcommand\\texttt[1]{{\\mint{cl}|#1|}} 
- 
+
+
+\\usepackage{environ}
+\\NewEnviron{note}{\\marginpar{\\footnotesize \\BODY}}
+
 \\title{}
       [NO-DEFAULT-PACKAGES]
       [NO-PACKAGES]"
