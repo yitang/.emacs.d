@@ -290,14 +290,13 @@ yasnippet is a powerful package that I'd like to explore in the
 future, and this stage, I turned if off since it will slow down the
 start-up.
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150415.244/snippets"
-                         "~/git/.emacs.d/snippets"))
+(setq yas-snippet-dirs '("~/git/.emacs.d/snippets"))
 (yas-reload-all)
-
 #+end_src
+
 *** Window Layout/Navigation 
 [2015-01-19 Mon 12:13]
     
@@ -371,7 +370,7 @@ Use keyfreq package to record the commands I use in Emacs.
 Solve the PATH issues for the software installed via Homebrew in OS
 X. Uncomment the =setenv= for CYGWIN since I am not using Windows any
 more. 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell 
          (replace-regexp-in-string "[[:space:]\n]*$" "" 
@@ -530,7 +529,7 @@ Finally, show the current time in the mode-line.
 [2015-02-22 Sun 11:40]
 
 Helm and fuzzy match makes selection a lot easier.  in 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :results silent
 (require 'helm)
 (require 'helm-config)
 
@@ -1506,7 +1505,7 @@ capitalise i to I, so I use abbrevitation table.
 | obss      | observations      | stats    |
 
 
-#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent 
+#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :colnames yes :hlines no :results silent 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
  comments and strings only when in a prog-mode derived-mode or
@@ -2285,7 +2284,7 @@ then type *.
 (setq org-src-fontify-natively t)
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-      ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
+              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
@@ -2316,7 +2315,7 @@ then type *.
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
-(setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
+
 
 (defun bh/display-inline-images ()
   (condition-case nil
@@ -2373,8 +2372,7 @@ General export options, it applys to all the export-backend.
       org-export-with-author t
       org-export-with-timestamps nil
       org-export-babel-evaluate nil
-      org-export-with-drawers nil
-      org-export-with-author nil)
+      org-export-with-drawers nil)
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
