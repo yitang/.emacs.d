@@ -2346,7 +2346,8 @@ then type *.
 
 (setq org-confirm-babel-evaluate nil)
 
-                                        ;; Use fundamental mode when editing plantuml blocks with C-c '
+(setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
+;; Use fundamental mode when editing plantuml blocks with C-c '
  (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 #+end_src
 
