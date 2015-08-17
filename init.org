@@ -293,7 +293,7 @@ start-up.
 #+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/git/.emacs.d/snippets"))
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets" "~/git/.emacs.d/snippets"))
 (yas-reload-all)
 #+end_src
 
@@ -2347,7 +2347,8 @@ then type *.
 
 (setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
 ;; Use fundamental mode when editing plantuml blocks with C-c '
- (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+(setq plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar")
+(add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 #+end_src
 
 *** Export 
@@ -3480,12 +3481,21 @@ tab to completet contacts, which is really handy.
 #+begin_src emacs-lisp :results silent
 (require 'org-contacts)
 (setq org-contacts-files '("~/git/org/contacts.org"))
-;; (setq mu4e-org-contacts-file  "~/git/org/contacts.org")
+(setq mu4e-org-contacts-file "~/git/org/contacts.org")
 (add-to-list 'mu4e-headers-actions
-             '("org-contact-add" . mu4e-action-add-org-contact) t)
+             '("add-org-contact" . mu4e-action-add-org-contact) t)
 (add-to-list 'mu4e-view-actions
-             '("org-contact-add" . mu4e-action-add-org-contact) t)
+             '("add-org-contact" . mu4e-action-add-org-contact) t)
 
+(defun yt/mu4e-show-org-contact (msg)
+  "show the first sender in the org-contact file"
+  (let* ((sender (car-safe (mu4e-message-field msg :from))))
+    (find-file  mu4e-org-contacts-file)
+    (search-forward (car sender))))
+(add-to-list 'mu4e-headers-actions
+             '("show-org-contact" . yt/mu4e-show-org-contact) t)
+(add-to-list 'mu4e-view-actions
+             '("show-org-contact" . yt/mu4e-show-org-contact) t)
 #+end_src 
 
 *** Workflow
