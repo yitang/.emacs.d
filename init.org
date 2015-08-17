@@ -128,7 +128,7 @@ Add the following scripts to your /.emacs/
        (format "\\*\\{2,%s\\} +.*$" 
                endless/init.org-message-depth))
       (message "%s" (match-string 0)))
-      ;; (message (format (current-time-string))))
+     ;; (message (format (current-time-string))))
      ;; Evaluate Code Blocks
      ((looking-at "[\s]*\\#\\+begin_src\semacs-lisp")
       ;; ((looking-at "#\\+BEGIN_SRC +emacs-lisp.*$")
@@ -293,7 +293,8 @@ start-up.
 #+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets" "~/git/.emacs.d/snippets"))
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"
+                         "~/git/.emacs.d/snippets"))
 (yas-reload-all)
 #+end_src
 
@@ -2412,8 +2413,8 @@ define the markups.
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
-\\DeclareMathOperator*{\\argmin}{arg\\,min}
-\\DeclareMathOperator*{\\argmax}{arg\\,max}
+\\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
+\\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
@@ -3334,6 +3335,8 @@ The basical workflow is:
 
 ;; should mu4e use fancy utf characters? NO. they're ugly.
 ;;(setq mu4e-use-fancy-chars 't)
+
+(setq send-mail-function 'smtpmail-send-it)
 #+end_src 
 
 use helm-mu to search emails 
@@ -3341,6 +3344,14 @@ use helm-mu to search emails
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "<f9> e") 'helm-mu)
 #+end_src
+
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'mu4e-bookmarks
+             '("date:20100930..now"       "All Messages"     ?a))
+(add-to-list 'mu4e-bookmarks
+             '("flag:flagged" "Flagged messages" ?f))
+#+end_src
+
 *** Account 
 [2015-01-23 Fri 17:32] 
 
@@ -3558,6 +3569,28 @@ I got an email from an estate agency where there are few images are inlined, but
 
 *Render LaTeX code as image*
 currently it is broken.  the error message is the path issues, and seems the file is not generated. 
+** SNS Client
+[2015-08-14 Fri 10:07]
+
+*** Twitter
+[2015-08-14 Fri 10:07]
+
+#+begin_src emacs-lisp :results silent 
+(setq twittering-use-master-password t)
+(setq twittering-icon-mode t)
+;; (setq twittering-convert-fix-size 48)
+(setq twittering-use-icon-storage t)
+;; (setq twittering-retweet-format '(nil _ " %u RT @%s: %t"))
+#+end_src
+
+use =V= to swtich timline, to show replies or direst messages.
+
+when the cursr is in a twitter: 
+
+- enter :: - reply.
+- d :: to sent direct message
+- u :: to post a tweet
+
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
 :header-args: :eval no
@@ -4421,21 +4454,9 @@ A prefix arg forces clock in of the default task."
 
 (setq org-read-date-prefer-future 'time)
 
-<<<<<<< HEAD
-#+begin_src emacs-lisp :results silent 
-(global-set-key (kbd "<f9> e") 'helm-mu)
-#+end_src
 
-#+begin_src emacs-lisp :results silent 
-(add-to-list 'mu4e-bookmarks
-             '("date:20100930..now"       "All Messages"     ?a))
-(add-to-list 'mu4e-bookmarks
-             '("flag:flagged" "Flagged messages" ?f))
-#+end_src
 *** Account 
 [2015-01-23 Fri 17:32] 
-=======
->>>>>>> 225eb4efafaeed3af127e3b4d9aebc1ec60fccf6
 
 (setq org-tags-match-list-sublevels t)
 
