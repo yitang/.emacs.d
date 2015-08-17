@@ -128,7 +128,7 @@ Add the following scripts to your /.emacs/
        (format "\\*\\{2,%s\\} +.*$" 
                endless/init.org-message-depth))
       (message "%s" (match-string 0)))
-      ;; (message (format (current-time-string))))
+     ;; (message (format (current-time-string))))
      ;; Evaluate Code Blocks
      ((looking-at "[\s]*\\#\\+begin_src\semacs-lisp")
       ;; ((looking-at "#\\+BEGIN_SRC +emacs-lisp.*$")
@@ -3324,6 +3324,8 @@ The basical workflow is:
 
 ;; should mu4e use fancy utf characters? NO. they're ugly.
 ;;(setq mu4e-use-fancy-chars 't)
+
+(setq send-mail-function 'smtpmail-send-it)
 #+end_src 
 
 use helm-mu to search emails 
