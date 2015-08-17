@@ -290,15 +290,15 @@ yasnippet is a powerful package that I'd like to explore in the
 future, and this stage, I turned if off since it will slow down the
 start-up.
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
 (setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"
                          "~/git/.emacs.d/snippets"))
 (yas-reload-all)
 
-
 #+end_src
+
 *** Window Layout/Navigation 
 [2015-01-19 Mon 12:13]
     
@@ -372,7 +372,7 @@ Use keyfreq package to record the commands I use in Emacs.
 Solve the PATH issues for the software installed via Homebrew in OS
 X. Uncomment the =setenv= for CYGWIN since I am not using Windows any
 more. 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell 
          (replace-regexp-in-string "[[:space:]\n]*$" "" 
@@ -531,7 +531,7 @@ Finally, show the current time in the mode-line.
 [2015-02-22 Sun 11:40]
 
 Helm and fuzzy match makes selection a lot easier.  in 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :results silent
 (require 'helm)
 (require 'helm-config)
 
@@ -1507,7 +1507,7 @@ capitalise i to I, so I use abbrevitation table.
 | obss      | observations      | stats    |
 
 
-#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :eval yes :colnames yes :hlines no :results silent 
+#+begin_src emacs-lisp :var my-text-abbrevs=my-text-abbrevs :colnames yes :hlines no :results silent 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
  comments and strings only when in a prog-mode derived-mode or
@@ -2286,7 +2286,7 @@ then type *.
 (setq org-src-fontify-natively t)
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-      ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
+              ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
@@ -2302,6 +2302,10 @@ then type *.
               ("a" "#+begin_ascii\n?\n#+end_ascii")
               ("A" "#+ascii: ")
               ("i" "#+index: ?" "#+index: ?")
+              ("ln" "#+begin_latex\n\\begin{note}\n?\n\\end{note}\n#+end_latex")
+              ("le" "#+begin_latex\n\\begin{equation}\n?\n\\end{equation}\n#+end_latex")
+              ("la" "#+begin_latex\n\\begin{align}\n?\n\\end{align}\n#+end_latex")
+              ("lc" "#+begin_latex\n\\begin{cases}\n?\n\\end{cases}\n#+end_latex")
               ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
@@ -2313,7 +2317,7 @@ then type *.
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
-(setq org-plantuml-jar-path "~/java/plantuml.jar") ;; TODO: change the location.. 
+
 
 (defun bh/display-inline-images ()
   (condition-case nil
@@ -2328,7 +2332,7 @@ then type *.
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
          (R . t)
-         (sh . t)
+         (shell . t)
          (ledger . t)
          (org . t)
          (plantuml . t)
@@ -2343,7 +2347,8 @@ then type *.
 
 (setq org-confirm-babel-evaluate nil)
 
-                                        ;; Use fundamental mode when editing plantuml blocks with C-c '
+(setq org-plantuml-jar-path "~/git/.emacs.d/java/plantuml.jar") ;; TODO: change the location.. 
+;; Use fundamental mode when editing plantuml blocks with C-c '
  (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 #+end_src
 
@@ -2369,8 +2374,7 @@ General export options, it applys to all the export-backend.
       org-export-with-author t
       org-export-with-timestamps nil
       org-export-babel-evaluate nil
-      org-export-with-drawers nil
-      org-export-with-author nil)
+      org-export-with-drawers nil)
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
@@ -2414,13 +2418,16 @@ define the markups.
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont [BoldFont={Gentium Basic Bold},
+\\setromanfont[BoldFont={Gentium Basic Bold},
                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
 \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
-            marginparsep=7pt, marginparwidth=.6in}
+  marginparsep=7pt,
+  marginparwidth=1.2in, %% make sure it less than right=1.5in,
+  %% otherwise, will go out of the paper
+  right=1.5in, left=0.6in}
 \\pagestyle{empty}
  
 %% package from org-latex-default-packages-alist
@@ -2432,7 +2439,11 @@ define the markups.
 \\usepackage{ulem}
 
 %% \\renewcommand\\texttt[1]{{\\mint{cl}|#1|}} 
- 
+
+
+\\usepackage{environ}
+\\NewEnviron{note}{\\marginpar{\\footnotesize \\BODY}}
+
 \\title{}
       [NO-DEFAULT-PACKAGES]
       [NO-PACKAGES]"
@@ -3333,6 +3344,14 @@ use helm-mu to search emails
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "<f9> e") 'helm-mu)
 #+end_src
+
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'mu4e-bookmarks
+             '("date:20100930..now"       "All Messages"     ?a))
+(add-to-list 'mu4e-bookmarks
+             '("flag:flagged" "Flagged messages" ?f))
+#+end_src
+
 *** Account 
 [2015-01-23 Fri 17:32] 
 
@@ -4426,21 +4445,9 @@ A prefix arg forces clock in of the default task."
 
 (setq org-read-date-prefer-future 'time)
 
-<<<<<<< HEAD
-#+begin_src emacs-lisp :results silent 
-(global-set-key (kbd "<f9> e") 'helm-mu)
-#+end_src
 
-#+begin_src emacs-lisp :results silent 
-(add-to-list 'mu4e-bookmarks
-             '("date:20100930..now"       "All Messages"     ?a))
-(add-to-list 'mu4e-bookmarks
-             '("flag:flagged" "Flagged messages" ?f))
-#+end_src
 *** Account 
 [2015-01-23 Fri 17:32] 
-=======
->>>>>>> 225eb4efafaeed3af127e3b4d9aebc1ec60fccf6
 
 (setq org-tags-match-list-sublevels t)
 
