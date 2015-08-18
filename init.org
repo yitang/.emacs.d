@@ -3359,6 +3359,16 @@ use helm-mu to search emails
              '("flag:flagged" "Flagged messages" ?f))
 #+end_src
 
+#+begin_src emacs-lisp :results silent 
+;; use helm-style completion for jumpping mail directory.
+;; https://github.com/djcb/mu/issues/286
+(defun pyl-helm-mu-compl-read (prompt maildirs-list &optional ignore1 ignore2 ignore3)
+  (helm-comp-read prompt maildirs-list
+		  :name prompt
+		  :must-match t))
+(setq mu4e-completing-read-function 'pyl-helm-mu-compl-read)
+#+end_src
+
 *** Account 
 [2015-01-23 Fri 17:32] 
 
@@ -3442,7 +3452,7 @@ macbook por.
          (email-setup  (cdr (assoc account yt/email-account-list))))
     (funcall email-setup)
     (format "User %s email account" account)))
-(yt/email-switch-account "JBA")
+(yt/email-switch-account "Gmail")
 
 #+end_src 
 
