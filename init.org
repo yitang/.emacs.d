@@ -3377,14 +3377,12 @@ macbook por.
 
 #+begin_src emacs-lisp 
 (setq  mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?j)
-                                 ("/iCloud/INBOX" . ?i)
-                                 ("/Gmail/INBOX" . ?g)
-                                 ("/Sent Items"   . ?s)
-                                 ("/Trash"        . ?t)
-                                 ("/All Mail"     . ?a)))
+                                 ("/iCloud/INBOX" . ?a)
+                                 ("/Gmail/INBOX" . ?g)))
 
 
 (defun yt/email-icloud ()
+  (push '("/iCloud/INBOX" . ?i) mu4e-maildir-shortcuts)
   (setq smtpmail-default-smtp-server "smtp.mail.me.com"
         smtpmail-smtp-server "smtp.mail.me.com"
         smtpmail-smtp-service 587
@@ -3400,7 +3398,7 @@ macbook por.
                                 "\n")))
 
 (defun yt/email-gmail ()
-  
+  (push '("/Gmail/[Google Mail].All Mail" . ?i) mu4e-maildir-shortcuts)
   ;; sent emails 
   (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
         smtpmail-default-smtp-server "smtp.gmail.com"
@@ -3409,10 +3407,10 @@ macbook por.
         smtpmail-smtp-user "yi.tang.uni@gmail.com"
         
         user-mail-address "yi.tang.uni@gmail.com" 
-        user-full-name  "Yi Tang" 
-        mu4e-drafts-folder "/Gmail/Drafts" 
-        mu4e-sent-folder   "/Gmail/Sent Messages" 
-        mu4e-trash-folder  "/Gmail/Deleted Messages" 
+        user-full-name  "Yi Tang"
+        mu4e-drafts-folder "/Gmail/[Google Mail].Drafts" 
+        mu4e-sent-folder   "/Gmail/[Google Mail].Sent Messages" 
+        mu4e-trash-folder  "/Gmail/[Google Mail].Trash"
 
         mu4e-compose-signature (concat
                                 "Yi Tang\n"
