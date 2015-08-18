@@ -3270,19 +3270,20 @@ The basical workflow is:
 (setq mu4e-sent-messages-behavior 'sent)
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap -a JBA")
-(setq mu4e-update-interval 3600)
+; get mail
+(setq mu4e-get-mail-command "mbsync -c ~/.mbsyncrc JBA"
+      mu4e-html2text-command "w3m -T text/html"
+      mu4e-update-interval 120
+      mu4e-headers-auto-update t
+      mu4e-compose-signature-auto-include nil)
 
-;; sending mail -- replace USERNAME with your gmail username
-;; also, make sure the gnutls command line utils are installed
-;; package 'gnutls-bin' in Debian/Ubuntu
-(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
-(require 'smtpmail)
+;; (setq mu4e-get-mail-command "offlineimap -a JBA")
+;; (setq mu4e-update-interval 3600)
 
+(setq mu4e-maildir "~/Maildir")
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
-
 
 ;; attempt to show images when viewing messages
 (setq mu4e-view-show-images t
@@ -3323,10 +3324,10 @@ The basical workflow is:
 ;; (better only use that for the last field.
 ;; These are the defaults:
 (setq mu4e-headers-fields
-    '( (:date          .  25)
-       (:flags         .   6)
-       (:from          .  22)
-       (:subject       .  nil)))
+      '( (:date          .  25)
+         (:flags         .   6)
+         (:from          .  22)
+         (:subject       .  nil)))
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
@@ -3336,7 +3337,13 @@ The basical workflow is:
 ;; should mu4e use fancy utf characters? NO. they're ugly.
 ;;(setq mu4e-use-fancy-chars 't)
 
+;; sending mail -- replace USERNAME with your gmail username
+;; also, make sure the gnutls command line utils are installed
+;; package 'gnutls-bin' in Debian/Ubuntu
+(require 'smtpmail)
+(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
 (setq send-mail-function 'smtpmail-send-it)
+(setq smtpmail-stream-type 'starttls)
 #+end_src 
 
 use helm-mu to search emails 
@@ -3360,19 +3367,52 @@ macbook por.
 
 #+begin_src emacs-lisp 
 (setq  mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?j)
-                          ("/iCloud/INBOX" . ?i)
-                          ("/Gmail/INBOX" . ?g)
-                          ("/Sent Items"   . ?s)
-                          ("/Trash"        . ?t)
-                          ("/All Mail"     . ?a)))
+                                 ("/iCloud/INBOX" . ?i)
+                                 ("/Gmail/INBOX" . ?g)
+                                 ("/Sent Items"   . ?s)
+                                 ("/Trash"        . ?t)
+                                 ("/All Mail"     . ?a)))
 
+
+(defun yt/email-icloud ()
+  (setq smtpmail-default-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-server "smtp.mail.me.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang.uk@me.com"
+        user-mail-address "yi.tang.uk@me.com"
+        user-full-name  "Yi Tang"
+        mu4e-drafts-folder "/iCloud/Drafts"
+        mu4e-sent-folder   "/iCloud/Sent Messages"
+        mu4e-trash-folder  "/iCloud/Deleted Messages"
+        mu4e-compose-signature (concat
+                                "唐毅 (Yi Tang)\n"
+                                "Email: yi.tang.uk@me.com\n"
+                                "\n")))
+
+(defun yt/email-gmail ()
+  
+  ;; sent emails 
+  (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-smtp-user "yi.tang.uni@gmail.com"
+        
+        user-mail-address "yi.tang.uni@gmail.com" 
+        user-full-name  "Yi Tang" 
+        mu4e-drafts-folder "/Gmail/Drafts" 
+        mu4e-sent-folder   "/Gmail/Sent Messages" 
+        mu4e-trash-folder  "/Gmail/Deleted Messages" 
+
+        mu4e-compose-signature (concat
+                                "Yi Tang\n"
+                                "Statistician\n"
+                                "T: 07445510033\n")))
 
 (defun yt/email-jba ()
   (interactive)
   ;; setup for smtp 
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type 'starttls
-        smtpmail-default-smtp-server "smtp.office365.com"
+  (setq smtpmail-default-smtp-server "smtp.office365.com"
         smtpmail-smtp-server "smtp.office365.com"
         smtpmail-smtp-service 587
         smtpmail-smtp-user "yi.tang@jbarisk.com"
@@ -3381,102 +3421,28 @@ macbook por.
         user-full-name  "Yi Tang"
         ;; mu4e 
         mu4e-drafts-folder "/JBA/Drafts"
-        mu4e-sent-folder   "/JBA/Sent Items"
+        mu4e-sent-folder   "/JBA/Outbox"
         mu4e-trash-folder  "/JBA/Trash"
-        mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?i)
-                                  ("/Sent Items"   . ?s)
-                                  ("/Trash"        . ?t)
-                                  ("/All Mail"     . ?a))
+
         mu4e-compose-signature (concat
                                 "Yi Tang\n"
                                 "Statistician\n"
                                 "T: +44 (0) 1756 799919\n")))
 
-(defun yt/email-icloud ()
-  (setq  ;; account info
-   user-mail-address "yi.tang.uk@me.com"
-   user-full-name  "Yi Tang"
-   message-send-mail-function 'smtpmail-send-it
-   smtpmail-stream-type 'starttls
-   smtpmail-default-smtp-server "smtp.mail.me.com"
-   smtpmail-smtp-server "smtp.mail.me.com"
-   smtpmail-smtp-service 587
-   smtpmail-smtp-user "yi.tang.uk@me.com"
-   mu4e-maildir "~/Maildir"
-   mu4e-drafts-folder "/iCloud/Drafts"
-   mu4e-sent-folder   "/iCloud/Sent Messages"
-   mu4e-trash-folder  "/iCloud/Deleted Messages"
+(setq yt/email-account-list
+      '(("JBA" . yt/email-jba)
+        ("Gmail" . yt/email-gmail)
+        ("iCloud" . yt/email-icloud)))
 
-   mu4e-maildir-shortcuts  '(("/iCloud/INBOX"    . ?i)
-                             ("/Sent Items"   . ?s)
-                             ("/Trash"        . ?t)
-                             ("/All Mail"     . ?a))
-
-   
-   mu4e-compose-signature (concat
-                           "唐毅 (Yi Tang)\n"
-                           "Email: yi.tang.uk@me.com\n"
-                           "\n")))
-
-(defun yt/email-gmail ()
-
-  ;; sent emails 
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-        ;; smtpmail-auth-credentials
-        ;;   '(("smtp.gmail.com" 587 "yi.tang.uni@gmail.com" nil))
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-smtp-user "yi.tang.uni@gmail.com")
-  
-
-  
-  (setq user-mail-address "yi.tang.uni@gmail.com" )
-  (setq user-full-name  "Yi Tang" )
-  (setq mu4e-drafts-folder "/Gmail/Drafts" )
-  (setq mu4e-sent-folder   "/Gmail/Sent Items" )
-  (setq mu4e-trash-folder  "/Gmail/Trash" )
-  (setq mu4e-maildir-shortcuts  '(("/Gmail/INBOX"    . ?i) 
-                                  ("/Sent Items"   . ?s)
-                                  ("/Trash"        . ?t)
-                                  ("/All Mail"     . ?a)))
-  (setq mu4e-compose-signature (concat
-                                "Yi Tang\n"
-                                "Statistician\n"
-                                "T: 07445510033\n")))
-
-
-
-
-(defun yt/mu4e-jba ()
+(defun yt/email-switch-account (&optional account)
   (interactive)
-  (yt/email-jba)
-  (mu4e)
-  )
-(defun yt/mu4e-gmail()
-  (interactive)
-  (yt/email-gmail)
-  (mu4e))
-(defun yt/mu4e-icloud()
-  (interactive)
-  (yt/email-icloud)
-  (mu4e))
+  (let* ((account (if (equal account nil)
+                      (completing-read "Choose Email Account: " yt/email-account-list nil t)))
+         (email-setup  (cdr (assoc user-input yt/email-account-list))))
+    (funcall email-setup)
+    (format "User %s email account" user-input)))
+(yt/email-switch-account "JBA")
 
-(defhydra hydra-email (:color blue :hint nil)
-  "
-Mu4e: _g_mail _j_ba _i_Cloud"
-  ("g" yt/mu4e-gmail)
-  ("j" yt/mu4e-jba)
-  ("i" yt/mu4e-icloud))
-(global-set-key [f2] 'hydra-email/body)
-
-;; (if (string= WhereAmI "Office")
-;;     (yt/email-jba)
-;;   (yt/email-icloud))
-
-(yt/email-icloud)
 #+end_src 
 
 when I sent an email, it will promote and ask for email, I only need
@@ -3877,7 +3843,7 @@ CLOCK: [2015-01-23 Fri 16:34]--[2015-01-23 Fri 17:36] =>  1:02
               ("o" "org" entry (file "~/git/org/refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ("r" "respond" entry (file "~/git/org/refile.org")
-               "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t)
+               "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n%a" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/git/org/Journal/diary.org")
