@@ -3437,10 +3437,11 @@ macbook por.
 (defun yt/email-switch-account (&optional account)
   (interactive)
   (let* ((account (if (equal account nil)
-                      (completing-read "Choose Email Account: " yt/email-account-list nil t)))
-         (email-setup  (cdr (assoc user-input yt/email-account-list))))
+                      (completing-read "Choose Email Account: " yt/email-account-list nil t)
+                    account))
+         (email-setup  (cdr (assoc account yt/email-account-list))))
     (funcall email-setup)
-    (format "User %s email account" user-input)))
+    (format "User %s email account" account)))
 (yt/email-switch-account "JBA")
 
 #+end_src 
