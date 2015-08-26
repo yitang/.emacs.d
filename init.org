@@ -2413,6 +2413,7 @@ define the markups.
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
+\\usepackage{commath}
 \\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
 \\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
 
