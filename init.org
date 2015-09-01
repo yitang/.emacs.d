@@ -2395,7 +2395,7 @@ define the markups.
                                  ("=" org-code "<code>" "</code>" verbatim)
                                  ("~" org-verbatim "<code>" "</code>" verbatim))))
 #+end_src
-*** PDF Export 
+*** PDF Export
 [2015-01-19 Mon 15:45]
 
 #+begin_src emacs-lisp
@@ -2416,6 +2416,10 @@ define the markups.
 \\usepackage{commath}
 \\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
 \\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
+%% \\DeclareMathOperator{\\E}{\\mathbb{E}}
+\\newcommand{\\E}[1]{{\\mathbb E}\\left[ #1 \\right]}
+\\newcommand{\\Var}{\\mathrm{Var}}
+\\DeclareMathOperator{\\P}{\\mathbb{Pr}}
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
@@ -2424,11 +2428,14 @@ define the markups.
 \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
-\\geometry{a4paper, textwidth=6.5in, textheight=10in,
-  marginparsep=7pt,
-  marginparwidth=1.2in, %% make sure it less than right=1.5in,
+%% \\geometry{a4paper, textwidth=6.5in, textheight=10in,
+ %%  marginparsep=7pt,
+ %%  marginparwidth=1.2in, %% make sure it less than right=1.5in,
   %% otherwise, will go out of the paper
-  right=1.5in, left=0.6in}
+ %% right=1.5in, left=0.6in}
+
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
 \\pagestyle{empty}
  
 %% package from org-latex-default-packages-alist
@@ -3272,7 +3279,7 @@ The basical workflow is:
 
 ;; allow for updating mail using 'U' in the main view:
 ; get mail
-(setq mu4e-get-mail-command "mbsync -c ~/.mbsyncrc JBA"
+(setq mu4e-get-mail-command nil
       mu4e-html2text-command "w3m -T text/html"
       mu4e-update-interval 120
       mu4e-headers-auto-update t
