@@ -782,7 +782,7 @@ configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp
 (require 'projectile)
-(helm-projectile-on)
+;; (helm-projectile-on)
 (require 'helm-projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
@@ -1683,7 +1683,7 @@ If I run out of idea, and I didn't write anything for 1 minutes, Emacs
 will pop a random quote that I collected in the echo area. The random
 quotes can inspire me sometimes.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :eval no
 (defconst yt/quotes
   '("You can't see paradise, if you don't pedal.  - Chicken Run "
     "He who who says he can and he who says he can’t are both usually right ― Confucius"
