@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: png
+# key: png
+# contributor: jrnold <jeffrey.arnold@gmail.com>
+# --
+png(file.path("~/Copy/ImagePool/Office", $1), width = 1280, height = 960)
+$0
