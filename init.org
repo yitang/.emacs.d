@@ -3257,15 +3257,10 @@ The basical workflow is:
 4. smtpmail for senting out emails. 
 
 #+begin_src emacs-lisp
-;; usage:
-;; $ offlineimap
-;; $ mu index
-;; M-x mu4e
-;; from mu's official manual 
 ;;----------------------------------------------------------
 (add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
 (require 'mu4e)
-(setq mu4e-mu-binary "/usr/local/bin/mu")
+(setq mu4e-mu-binary "/usr/bin/mu")
 ;; default
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
