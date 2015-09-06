@@ -2003,6 +2003,19 @@ punch-in into a default org-mode headline.
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
+(setq org-agenda-files '("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/Statistics" "~/git/jbarm"))
+(setq org-list-allow-alphabetical t)
+
+(defun yt/org-agenda-files--choose (candidate)
+  (mapc 'identity (helm-marked-candidates)))
+(defun yt/org-agenda-files-set-helm ()
+  (helm :sources '(((name . "Add directories to org-agenda-files variable")
+                    (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/Statistics" "~/git/jbarm"))
+                    (action . yt/org-agenda-files--choose)))))
+(defun yt/org-agenda-files-set ()
+  (setq org-agenda-files (yt/org-agenda-files-set-helm)))
+;; (yt/org-agenda-files-set)
+
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 ;; Do not dim blocked tasks
