@@ -2214,7 +2214,7 @@ Start up options
 #+begin_src emacs-lisp :results silent 
 (setq org-startup-folded t
       org-hide-block-startup t
-      org-startup-indented t)
+      org-startup-indented nil)
 #+end_src
 *** Deep Configuration 
 
