@@ -2010,7 +2010,7 @@ punch-in into a default org-mode headline.
   (mapc 'identity (helm-marked-candidates)))
 (defun yt/org-agenda-files-set-helm ()
   (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                    (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/Statistics" "~/git/jbarm"))
+                    (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
                     (action . yt/org-agenda-files--choose)))))
 (defun yt/org-agenda-files-set ()
   (interactive)
@@ -2214,7 +2214,7 @@ Start up options
 #+begin_src emacs-lisp :results silent 
 (setq org-startup-folded t
       org-hide-block-startup t
-      org-startup-indented t)
+      org-startup-indented nil)
 #+end_src
 *** Deep Configuration 
 
@@ -4802,6 +4802,7 @@ work on my Mac.
 (setq git-report-temp-file "~/git-report-buffer")
 ;; (setq repo-list (yt/git-all-git-dir "~/git"))
 (setq re-post '("/Users/yitang/git/voca-builder" "/Users/yitang/git/qs" "/Users/yitang/git/portfolio-statistician" "/Users/yitang/git/portfilio-yitang" "/Users/yitang/git/org" "/Users/yitang/git/myblog" "/Users/yitang/git/jbarm" "/Users/yitang/git/Free-Classic-Books" "/Users/yitang/git/.emacs.d" "/Users/yitang/git/R/yiR" "/Users/yitang/git/R/activitydashboard2" "/Users/yitang/git/R/RExercise" "/Users/yitang/git/R/Archive/yiR" "/Users/yitang/git/R/Archive/orgR" "/Users/yitang/git/R/Archive/learn_shiny")("/Users/yitang/git/voca-builder" "/Users/yitang/git/qs" "/Users/yitang/git/portfolio-statistician" "/Users/yitang/git/portfilio-yitang" "/Users/yitang/git/org" "/Users/yitang/git/myblog" "/Users/yitang/git/jbarm" "/Users/yitang/git/Free-Classic-Books" "/Users/yitang/git/.emacs.d" "/Users/yitang/git/R/yiR" "/Users/yitang/git/R/activitydashboard2" "/Users/yitang/git/R/RExercise" "/Users/yitang/git/R/Archive/yiR" "/Users/yitang/git/R/Archive/orgR" "/Users/yitang/git/R/Archive/learn_shiny"))
+(setq re-port )
 ;; (yt/git-generate-report)
 
 ;; | repo                                     | status | magit                                          |
