@@ -2343,17 +2343,17 @@ then type *.
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
 
 (setq org-babel-results-keyword "results")
-;; (org-babel-do-load-languages
-;;  (quote org-babel-load-languages)
-;;  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
-;;          (R . t)
-;;          (shell . t)
-;;          (ledger . t)
-;;          (org . t)
-;;          (plantuml . t)
-;;          (dot . t)
-;;          (octave . t)
-;;          (latex . t))))
+(org-babel-do-load-languages
+ (quote org-babel-load-languages)
+ (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
+         (R . t)
+         (shell . t)
+         (ledger . t)
+         (org . t)
+         (plantuml . t)
+         (dot . t)
+         (octave . t)
+         (latex . t))))
 
 ;; (add-to-list 'org-babel-default-header-args:R
 ;;              ;; '(:session . "*R-main*")
@@ -2947,6 +2947,7 @@ comments: true
   (interactive)
   (save-excursion
     (goto-char (point-min))
+(org-show-block-all)
     (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
