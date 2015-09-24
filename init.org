@@ -2943,6 +2943,7 @@ comments: true
   (interactive)
   (save-excursion
     (goto-char (point-min))
+(org-show-block-all)
     (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
