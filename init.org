@@ -2201,7 +2201,11 @@ quick key to show work related items only.
 (setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
 
 (setq org-archive-location "::* Archived Tasks") ;;in-file archive 
+
+(require 'org-habit)
+(setq org-habit-show-all-today t)
 (setq org-habit-show-habits nil)
+
 ;; add the following 
 (setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
 (setq org-agenda-tags-column 120)
