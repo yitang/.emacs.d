@@ -1213,7 +1213,7 @@ highlights the text that are longer than 80 columns rule.
 
 #+begin_src emacs-lisp :results silent 
 (require 'whitespace)
-(setq whitespace-line-column 80) ;; limit line length
+(setq whitespace-line-column 120) ;; limit line length
 (setq whitespace-style '(face lines-tail))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 #+end_src
