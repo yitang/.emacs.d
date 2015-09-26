@@ -3614,10 +3614,12 @@ when the cursr is in a twitter:
 [2015-07-05 Sun 19:49]
 
 #+begin_src emacs-lisp :results silent 
+(require 'python)
+(setq python-shell-interpreter "/usr/local/bin/anaconda3/bin/python")
+
 (require 'eval-in-repl)
-;; Python support
-;; (require 'python) ; if not done elsewhere
 (require 'eval-in-repl-python)
+
 ;; mimic the ESS setting for R
 (defun my-start-python ()
   (interactive)
