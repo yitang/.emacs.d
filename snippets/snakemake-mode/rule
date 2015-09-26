@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: rule
+# key: rule
+# contributor: Yi <yi.tang.uni@gmail.com>
+# --
+rule ${1}:
+    input: ${2}
+    output: ${3}
+    shell: ${4}
+$0
+
