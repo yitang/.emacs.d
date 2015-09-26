@@ -397,6 +397,15 @@ terminal and C-z won't stop the program without asking.
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 #+end_src
+
+Open PDF files using external program.
+
+#+begin_src emacs-lisp :results silent 
+(require 'openwith)
+(openwith-mode t)
+(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+#+end_src
+
 *** General Editing  
 
 There are a set of characters that are more likely to occur as a pair,
