@@ -2367,6 +2367,7 @@ then type *.
          (org . t)
          (plantuml . t)
          (dot . t)
+         (python .t)
          (octave . t)
          (latex . t))))
 
