@@ -786,7 +786,7 @@ configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp
 (require 'projectile)
-;; (helm-projectile-on)
+(helm-projectile-on)
 (require 'helm-projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
