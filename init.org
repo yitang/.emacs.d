@@ -3303,7 +3303,7 @@ The basical workflow is:
 
 ;; allow for updating mail using 'U' in the main view:
 ; get mail
-(setq mu4e-get-mail-command "mbsync -c ~/.mbsyncrc JBA"
+(setq mu4e-get-mail-command "mbsync -a"
       mu4e-html2text-command "w3m -T text/html"
       mu4e-update-interval 120
       mu4e-headers-auto-update t
