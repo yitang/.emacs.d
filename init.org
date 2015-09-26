@@ -3609,6 +3609,34 @@ when the cursr is in a twitter:
 - d :: to sent direct message
 - u :: to post a tweet
 
+** Python 
+[2015-07-05 Sun 19:49]
+
+#+begin_src emacs-lisp :results silent 
+(require 'eval-in-repl)
+;; Python support
+;; (require 'python) ; if not done elsewhere
+(require 'eval-in-repl-python)
+;; mimic the ESS setting for R
+(defun my-start-python ()
+  (interactive)
+  (if (not (member "*Python*" (mapcar (function buffer-name) (buffer-list))))
+      (progn
+        (delete-other-windows)
+        (setq w1 (selected-window))
+        (setq w1name (buffer-name))
+        (setq w2 (split-window w1))
+        (run-python)
+        (set-window-buffer w2 "*Python*")
+        (set-window-buffer w1 w1name))))
+(defun yt/eir-eval-in-python ()
+  (interactive)
+  (my-start-python)
+  (eir-eval-in-python)
+  (setq mark-active nil))
+(define-key python-mode-map (kbd "<C-return>") 'yt/eir-eval-in-python)
+
+#+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
 :header-args: :eval no
@@ -4992,13 +5020,4 @@ pdfpextr $pageStart $pageEnd $pdfFile
 #+begin_example
 #+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
 #+end_example
-** Python 
-[2015-07-05 Sun 19:49]
 
-#+begin_src emacs-lisp :results silent 
-(require 'eval-in-repl)
-;; Python support
-;; (require 'python) ; if not done elsewhere
-(require 'eval-in-repl-python)
-(define-key python-mode-map (kbd "<C-return>") 'eir-eval-in-python)
-#+end_src
