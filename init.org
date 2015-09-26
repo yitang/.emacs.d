@@ -764,12 +764,18 @@ _g_it sync"
 Open the file manager at the default directory.
 
 #+begin_src emacs-lisp :results silent 
+;; http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html
 (defun yt/open-file-manager ()
-  "Open the current file's directory however the OS would."
+  "Show current file in desktop (OS's file manager)."
   (interactive)
-  (if default-directory
-      (browse-url-of-file (expand-file-name default-directory))
-    (error "No `default-directory' to open")))
+  (cond
+   ((string-equal system-type "windows-nt")
+    (w32-shell-execute "explore" (replace-regexp-in-string "/" "\\" default-directory t t)))
+   ((string-equal system-type "darwin") (shell-command "open ."))
+   ((string-equal system-type "gnu/linux")
+    (let ((process-connection-type nil)) (start-process "" nil "xdg-open" "."))
+    ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. ⁖ with nautilus
+    )))
 #+end_src
 *** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
