@@ -2218,9 +2218,9 @@ quick key to show work related items only.
 
 (setq org-archive-location "::* Archived Tasks") ;;in-file archive 
 
-(require 'org-habit)
-(setq org-habit-show-all-today t)
-(setq org-habit-show-habits nil)
+;; (require 'org-habit)
+;; (setq org-habit-show-all-today t)
+;; (setq org-habit-show-habits nil)
 
 ;; add the following 
 (setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
@@ -2637,7 +2637,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
     (setq org-html-head theme-link)
     (format "Use %s HTML Theme" user-input)))
 
-(setq org-html-head (symbol-value (cdr (assoc "General" yt/org-html-themes)))) ;; default setting
+(setq org-html-head (symbol-value (cdr (assoc "Bigblow" yt/org-html-themes)))) ;; default setting
 #+end_src
 *** Publish for blogging 
 [2015-07-20 Mon 16:39]
