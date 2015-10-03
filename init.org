@@ -206,6 +206,7 @@ are already in the /~/emacs.d/elpa// folder.
                         org-wc
                         hl-sentence
                         eval-in-repl
+                        auctex
                         ))
 
 (require 'package)
@@ -3153,6 +3154,34 @@ quickly filter out non-work tasks in org-agenda.
 (setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
 #+end_src
 
+auctex
+
+http://tex.stackexchange.com/questions/50827/a-simpletons-guide-to-tex-workflow-with-emacs
+
+http://tex.stackexchange.com/questions/29813/setup-synctex-with-emacs
+
+http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
+
+#+begin_src emacs-lisp :results silent 
+;; AucTeX
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+(setq TeX-PDF-mode t)
+;; make latexmk available via C-c C-c
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+(setq TeX-view-program-selection '((output-pdf "evience")))
+#+end_src
 ** Hydra                                                        :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
