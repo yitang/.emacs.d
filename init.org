@@ -282,7 +282,7 @@ convenient and faster than actually locate the file path.
 
 Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
-(setq visible-bell t) 
+(setq visible-bell nil) 
 #+end_src
 
 yasnippet is a powerful package that I'd like to explore in the
