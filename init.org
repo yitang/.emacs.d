@@ -242,30 +242,30 @@ Define an auto-save feature, the backup files are saved in
 most recent, but un-saved version, after power off. 
 
 #+begin_src emacs-lisp
-    ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-    ;; save all backup files (foo~) to this directory.
-    (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-          backup-by-copying t    ; Don't delink hardlinks
-          version-control t      ; Use version numbers on backups
-          delete-old-versions t  ; Automatically delete excess backups
-          kept-new-versions 20   ; how many of the newest versions to keep
-          kept-old-versions 5    ; and how many of the old
-          auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
-          auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
-          )
+;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+;; save all backup files (foo~) to this directory.
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
+      )
 
-    ;; guide-key package 
-    (require 'guide-key)
-    (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
-    (guide-key-mode 1) 
+;; guide-key package 
+;; (require 'guide-key)
+;; (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
+;; (guide-key-mode 1) 
 
-    ;; start auto-complete with emacs
-    (require 'auto-complete)
-    ;; do default config for auto-complete
-    (require 'auto-complete-config)
-    (ac-config-default)
+;; start auto-complete with emacs
+(require 'auto-complete)
+;; do default config for auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
 
-    
+
 #+end_src 
 
 I use =helm-mini= to navigate between files, which is a lot
