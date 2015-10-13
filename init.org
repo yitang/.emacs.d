@@ -242,30 +242,30 @@ Define an auto-save feature, the backup files are saved in
 most recent, but un-saved version, after power off. 
 
 #+begin_src emacs-lisp
-    ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
-    ;; save all backup files (foo~) to this directory.
-    (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-          backup-by-copying t    ; Don't delink hardlinks
-          version-control t      ; Use version numbers on backups
-          delete-old-versions t  ; Automatically delete excess backups
-          kept-new-versions 20   ; how many of the newest versions to keep
-          kept-old-versions 5    ; and how many of the old
-          auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
-          auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
-          )
+;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+;; save all backup files (foo~) to this directory.
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      auto-save-timeout 20   ; number of seconds idle time before auto-save (default: 30)
+      auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
+      )
 
-    ;; guide-key package 
-    (require 'guide-key)
-    (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
-    (guide-key-mode 1) 
+;; guide-key package 
+;; (require 'guide-key)
+;; (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
+;; (guide-key-mode 1) 
 
-    ;; start auto-complete with emacs
-    (require 'auto-complete)
-    ;; do default config for auto-complete
-    (require 'auto-complete-config)
-    (ac-config-default)
+;; start auto-complete with emacs
+(require 'auto-complete)
+;; do default config for auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
 
-    
+
 #+end_src 
 
 I use =helm-mini= to navigate between files, which is a lot
@@ -282,7 +282,7 @@ convenient and faster than actually locate the file path.
 
 Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
-(setq visible-bell t) 
+(setq visible-bell nil) 
 #+end_src
 
 yasnippet is a powerful package that I'd like to explore in the
@@ -3154,7 +3154,8 @@ quickly filter out non-work tasks in org-agenda.
 (setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
 #+end_src
 
-auctex
+** auctex
+   [2015-10-03 Sat 13:48]
 
 http://tex.stackexchange.com/questions/50827/a-simpletons-guide-to-tex-workflow-with-emacs
 
@@ -3181,6 +3182,141 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
     TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 (setq TeX-view-program-selection '((output-pdf "evience")))
+#+end_src
+
+#+begin_src emacs-lisp :results silent 
+;;; Brent.Longborough's .emacs
+
+;; (global-visual-line-mode 1); Proper line wrapping
+;; (global-hl-line-mode 1); Highlight current row
+;; (show-paren-mode 1); Matches parentheses and such in every mode
+;; (set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
+;; (set-face-background hl-line-face "#f2f1f0"); Same color as greyness in gtk
+;; (setq inhibit-splash-screen t); Disable splash screen
+;; (setq visible-bell t); Flashes on error
+;; (setq calendar-week-start-day 1); Calender should start on Monday
+;; (add-to-list 'default-frame-alist '(height . 59)); Default frame height.
+
+;;; AUCTeX
+;; Customary Customization, p. 1 and 16 in the manual, and http://www.emacswiki.org/emacs/AUCTeX#toc2
+(setq TeX-parse-self t); Enable parse on load.
+(setq TeX-auto-save t); Enable parse on save.
+(setq-default TeX-master nil)
+
+(setq TeX-PDF-mode t); PDF mode (rather than DVI-mode)
+
+(add-hook 'TeX-mode-hook 'flyspell-mode); Enable Flyspell mode for TeX modes such as AUCTeX. Highlights all misspelled words.
+(add-hook 'TeX-mode-hook
+          (lambda () (TeX-fold-mode 1))); Automatically activate TeX-fold-mode.
+(setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
+
+;; " expands into csquotes macros (for this to work babel must be loaded after csquotes).
+(setq LaTeX-csquotes-close-quote "}"
+      LaTeX-csquotes-open-quote "\\enquote{")
+
+;; LaTeX-math-mode http://www.gnu.org/s/auctex/manual/auctex/Mathematics.html
+(add-hook 'TeX-mode-hook 'LaTeX-math-mode)
+
+;;; RefTeX
+;; Turn on RefTeX for AUCTeX http://www.gnu.org/s/auctex/manual/reftex/reftex_5.html
+(add-hook 'TeX-mode-hook 'turn-on-reftex)
+
+(eval-after-load 'reftex-vars; Is this construct really needed?
+  '(progn
+     (setq reftex-cite-prompt-optional-args t); Prompt for empty optional arguments in cite macros.
+     ;; Make RefTeX interact with AUCTeX, http://www.gnu.org/s/auctex/manual/reftex/AUCTeX_002dRefTeX-Interface.html
+     (setq reftex-plug-into-AUCTeX t)
+     ;; So that RefTeX also recognizes \addbibresource. Note that you
+     ;; can't use $HOME in path for \addbibresource but that "~"
+     ;; works.
+     (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+                                        ;     (setq reftex-default-bibliography '("UNCOMMENT LINE AND INSERT PATH TO YOUR BIBLIOGRAPHY HERE")); So that RefTeX in Org-mode knows bibliography
+     (setcdr (assoc 'caption reftex-default-context-regexps) "\\\\\\(rot\\|sub\\)?caption\\*?[[{]"); Recognize \subcaptions, e.g. reftex-citation
+     (setq reftex-cite-format; Get ReTeX with biblatex, see http://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
+           '((?t . "\\textcite[]{%l}")
+             (?a . "\\autocite[]{%l}")
+             (?c . "\\cite[]{%l}")
+             (?s . "\\smartcite[]{%l}")
+             (?f . "\\footcite[]{%l}")
+             (?n . "\\nocite{%l}")
+             (?b . "\\blockcquote[]{%l}{}")))))
+
+;; Fontification (remove unnecessary entries as you notice them) http://lists.gnu.org/archive/html/emacs-orgmode/2009-05/msg00236.html http://www.gnu.org/software/auctex/manual/auctex/Fontification-of-macros.html
+(setq font-latex-match-reference-keywords
+      '(
+        ;; biblatex
+        ("printbibliography" "[{")
+        ("addbibresource" "[{")
+        ;; Standard commands
+        ;; ("cite" "[{")
+        ("Cite" "[{")
+        ("parencite" "[{")
+        ("Parencite" "[{")
+        ("footcite" "[{")
+        ("footcitetext" "[{")
+        ;; ;; Style-specific commands
+        ("textcite" "[{")
+        ("Textcite" "[{")
+        ("smartcite" "[{")
+        ("Smartcite" "[{")
+        ("cite*" "[{")
+        ("parencite*" "[{")
+        ("supercite" "[{")
+                                        ; Qualified citation lists
+        ("cites" "[{")
+        ("Cites" "[{")
+        ("parencites" "[{")
+        ("Parencites" "[{")
+        ("footcites" "[{")
+        ("footcitetexts" "[{")
+        ("smartcites" "[{")
+        ("Smartcites" "[{")
+        ("textcites" "[{")
+        ("Textcites" "[{")
+        ("supercites" "[{")
+        ;; Style-independent commands
+        ("autocite" "[{")
+        ("Autocite" "[{")
+        ("autocite*" "[{")
+        ("Autocite*" "[{")
+        ("autocites" "[{")
+        ("Autocites" "[{")
+        ;; Text commands
+        ("citeauthor" "[{")
+        ("Citeauthor" "[{")
+        ("citetitle" "[{")
+        ("citetitle*" "[{")
+        ("citeyear" "[{")
+        ("citedate" "[{")
+        ("citeurl" "[{")
+        ;; Special commands
+        ("fullcite" "[{")))
+
+(setq font-latex-match-textual-keywords
+      '(
+        ;; biblatex brackets
+        ("parentext" "{")
+        ("brackettext" "{")
+        ("hybridblockquote" "[{")
+        ;; Auxiliary Commands
+        ("textelp" "{")
+        ("textelp*" "{")
+        ("textins" "{")
+        ("textins*" "{")
+        ;; supcaption
+        ("subcaption" "[{")))
+
+(setq font-latex-match-variable-keywords
+      '(
+        ;; amsmath
+        ("numberwithin" "{")
+        ;; enumitem
+        ("setlist" "[{")
+        ("setlist*" "[{")
+        ("newlist" "{")
+        ("renewlist" "{")
+        ("setlistdepth" "{")
+        ("restartlist" "{")))
 #+end_src
 ** Hydra                                                        :ExportFile:
 :PROPERTIES:
