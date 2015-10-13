@@ -3207,10 +3207,6 @@ _d_ictionary: search meaning of a word"
 hydra 
 #+begin_src emacs-lisp :results silent 
 (require 'hydra)
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
 
 (defhydra hydra-search (:color blue
                                :hint nil)
