@@ -3182,7 +3182,7 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
       :help "Run latexmk on file")
     TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-(setq TeX-view-program-selection '((output-pdf "evience")))
+(setq TeX-view-program-selection '((output-pdf "evince")))
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
