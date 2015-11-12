@@ -1115,7 +1115,7 @@ options(prompt=\"R> \", digits=4, show.signif.stars=FALSE)
 ##    library(dragonfly)
 }
 
-.libPaths(\"~/R_libs\")
+.libPaths(\"~/R/x86_64-pc-linux-gnu-library/3.2\")
 ## improved list of objects
 .ls.objects <- function (pos = 1, pattern, order.by,
                  decreasing=FALSE, head=FALSE, n=5)
