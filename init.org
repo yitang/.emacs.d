@@ -3778,7 +3778,7 @@ when the cursr is in a twitter:
 
 #+begin_src emacs-lisp :results silent 
 (require 'python)
-(setq python-shell-interpreter "/usr/local/bin/anaconda3/bin/python")
+(setq python-shell-interpreter (expand-file-name "~/anaconda3/bin/python"))
 (if (equal (system-name) "MBP")
     (setq python-shell-interpreter (expand-file-name "~/anaconda/bin/python")))
 (require 'eval-in-repl)
