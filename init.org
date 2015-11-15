@@ -405,6 +405,8 @@ Open PDF files using external program.
 #+begin_src emacs-lisp :results silent 
 (require 'openwith)
 (openwith-mode t)
+(if (string= system-type "darwin")
+    (setq openwith-associations '(("\\.pdf\\'" "Skim" (file)))))
 (setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
 #+end_src
 
@@ -3176,12 +3178,16 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 (setq TeX-PDF-mode t)
 ;; make latexmk available via C-c C-c
 (add-hook 'LaTeX-mode-hook (lambda ()
-  (push
-    '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
-      :help "Run latexmk on file")
-    TeX-command-list)))
+			     (push
+			      '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+				:help "Run latexmk on file")
+			      TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-(setq TeX-view-program-selection '((output-pdf "evience")))
+(setq TeX-view-program-selection '((output-dvi "open")
+				   (output-pdf "open")
+				   (output-html "open")))
+
+
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
