@@ -1117,7 +1117,7 @@ options(prompt=\"R> \", digits=4, show.signif.stars=FALSE)
 ##    library(dragonfly)
 }
 
-.libPaths(\"~/R_libs\")
+.libPaths(\"~/R/x86_64-pc-linux-gnu-library/3.2\")
 ## improved list of objects
 .ls.objects <- function (pos = 1, pattern, order.by,
                  decreasing=FALSE, head=FALSE, n=5)
@@ -2322,6 +2322,7 @@ then type *.
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
+              ("Rg" "#+begin_src R :results graphics :width 800 :height 800 :file \n?\n#+end_src")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
@@ -3183,11 +3184,11 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 				:help "Run latexmk on file")
 			      TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-(setq TeX-view-program-selection '((output-dvi "open")
-				   (output-pdf "open")
-				   (output-html "open")))
-
-
+(setq TeX-view-program-selection '((output-pdf "evince")))
+(if (string= system-type "darwin")
+    (setq TeX-view-program-selection '((output-dvi "open")
+				       (output-pdf "open")
+				       (output-html "open"))))
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
@@ -3475,7 +3476,7 @@ The basical workflow is:
       mu4e-html2text-command "w3m -T text/html"
       mu4e-update-interval 120
       mu4e-headers-auto-update t
-      mu4e-compose-signature-auto-include nil)
+      mu4e-compose-signature-auto-include t)
 
 (setq mu4e-maildir "~/Maildir")
 
@@ -3783,7 +3784,7 @@ when the cursr is in a twitter:
 
 #+begin_src emacs-lisp :results silent 
 (require 'python)
-(setq python-shell-interpreter "/usr/local/bin/anaconda3/bin/python")
+(setq python-shell-interpreter (expand-file-name "~/anaconda3/bin/python"))
 (if (equal (system-name) "MBP")
     (setq python-shell-interpreter (expand-file-name "~/anaconda/bin/python")))
 (require 'eval-in-repl)
