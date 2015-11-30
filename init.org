@@ -3784,32 +3784,11 @@ when the cursr is in a twitter:
 [2015-07-05 Sun 19:49]
 
 #+begin_src emacs-lisp :results silent 
-(require 'python)
-(setq python-shell-interpreter (expand-file-name "~/anaconda3/bin/python"))
-(if (equal (system-name) "MBP")
-    (setq python-shell-interpreter (expand-file-name "~/anaconda/bin/python")))
-(require 'eval-in-repl)
-(require 'eval-in-repl-python)
-
-;; mimic the ESS setting for R
-(defun my-start-python ()
-  (interactive)
-  (if (not (member "*Python*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1))
-        (run-python)
-        (set-window-buffer w2 "*Python*")
-        (set-window-buffer w1 w1name))))
-(defun yt/eir-eval-in-python ()
-  (interactive)
-  (my-start-python)
-  (eir-eval-in-python)
-  (setq mark-active nil))
-(define-key python-mode-map (kbd "<C-return>") 'yt/eir-eval-in-python)
-
+(require 'elpy)
+(elpy-enable)
+(elpy-use-ipython "ipython3")
+(setq python-shell-completion-native-disabled-interpreters "ipython3")
+(setq elpy-rpc-python-command "python3")
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
