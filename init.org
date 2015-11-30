@@ -3791,6 +3791,7 @@ when the cursr is in a twitter:
 (elpy-use-ipython "ipython3")
 (setq python-shell-completion-native-disabled-interpreters "ipython3")
 (setq elpy-rpc-python-command "python3")
+(setq elpy-rpc-backend "jedi")
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
