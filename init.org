@@ -207,6 +207,8 @@ are already in the /~/emacs.d/elpa// folder.
                         hl-sentence
                         eval-in-repl
                         auctex
+			elpy
+			git-timemachine
                         ))
 
 (require 'package)
