@@ -807,6 +807,7 @@ configuration except using =helm= for selection.
 (setq projectile-remember-window-configs t )
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
+(setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
