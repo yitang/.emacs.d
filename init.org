@@ -403,11 +403,11 @@ terminal and C-z won't stop the program without asking.
 Open PDF files using external program.
 
 #+begin_src emacs-lisp :results silent 
-(require 'openwith)
-(openwith-mode t)
-(if (string= system-type "darwin")
-    (setq openwith-associations '(("\\.pdf\\'" "Skim" (file)))))
-(setq openwith-associations '(("\\.pdf\\'" "evince" (file))))
+;; (require 'openwith)
+;; (openwith-mode t)
+;; (if (string= system-type "darwin")
+;;     (setq openwith-associations '(("\\.pdf\\'" "Skim" (file))))
+;;   (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
 #+end_src
 
 *** General Editing  
