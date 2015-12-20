@@ -2713,6 +2713,12 @@ comments: true
 ---
 ,#+END_HTML
 
+,#+begin_html
+<script type=\"text/javascript\"
+    src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">
+</script>
+,#+end_html
+
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
 
 ,#+TOC: headlines 4
