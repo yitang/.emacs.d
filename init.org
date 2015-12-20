@@ -2325,7 +2325,7 @@ then type *.
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
-              ("Rg" "#+begin_src R :results graphics :width 800 :height 800 :file \n?\n#+end_src")
+              ("Rg" "#+begin_src R :exports results :results graphics :width 400 :height 400 :file (org-babel-temp-file \"figure-\" \".png\") \n?\n#+end_src")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
