@@ -3806,6 +3806,8 @@ when the cursr is in a twitter:
 (elpy-use-ipython "ipython3")
 (setq python-shell-completion-native-disabled-interpreters "ipython3")
 (setq elpy-rpc-python-command "python3")
+(global-set-key (kbd "M-*") 'pop-tag-mark)
+(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
