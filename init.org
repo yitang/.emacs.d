@@ -2492,6 +2492,15 @@ define the markups.
 \\usepackage{environ}
 \\NewEnviron{note}{\\marginpar{\\footnotesize \\BODY}}
 
+%% algorithm 
+\\usepackage{xcolor}
+\\usepackage[linesnumbered]{algorithm2e}
+\\newcommand\\mycommfont[1]{\\footnotesize\\ttfamily\\textcolor{blue}{#1}}
+\\makeatletter
+\\renewcommand{\\@algocf@capt@plain}{above}% formerly {bottom}
+\\makeatother
+
+
 \\title{}
       [NO-DEFAULT-PACKAGES]
       [NO-PACKAGES]"
