@@ -2586,7 +2586,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 ;; Inline images in HTML instead of producting links to the image
 (setq org-html-inline-images t)
 ;; Do not use sub or superscripts - I currently don't need this functionality in my documents
-(setq org-export-with-sub-superscripts t)
+(setq org-export-with-sub-superscripts nil)
 ;; Export with LaTeX fragments
 (setq org-export-with-LaTeX-fragments t)
 ;; Increase default number of headings to export
