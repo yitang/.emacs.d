@@ -209,6 +209,9 @@ are already in the /~/emacs.d/elpa// folder.
                         auctex
 			elpy
 			git-timemachine
+			pdf-tools
+			mu4e-alert
+			counsel
                         ))
 
 (require 'package)
@@ -294,7 +297,7 @@ start-up.
 #+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20151212.2133/snippets"
                          "~/git/.emacs.d/snippets"))
 (yas-reload-all)
 #+end_src
