@@ -209,8 +209,9 @@ are already in the /~/emacs.d/elpa// folder.
                         auctex
 			elpy
 			git-timemachine
-			mu4e-alert
 			snakemake-mode
+			mu4e-alert
+			counsel
                         ))
 
 (require 'package)
@@ -296,7 +297,7 @@ start-up.
 #+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"
+(setq yas-snippet-dirs '("~/.emacs.d/elpa/yasnippet-20151212.2133/snippets"
                          "~/git/.emacs.d/snippets"))
 (yas-reload-all)
 #+end_src
@@ -2327,7 +2328,7 @@ then type *.
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("o" "#+begin_src octave\n?\n#+end_src" "<src lang=octave\"?\">\n\n</src>")
               ("R" "#+begin_src R\n?\n#+end_src" "<src lang=R\"?\">\n\n</src>")
-              ("Rg" "#+begin_src R :results graphics :width 800 :height 800 :file \n?\n#+end_src")
+              ("Rg" "#+begin_src R :exports results :results graphics :width 400 :height 400 :file (org-babel-temp-file \"figure-\" \".png\") \n?\n#+end_src")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
@@ -2494,6 +2495,15 @@ define the markups.
 \\usepackage{environ}
 \\NewEnviron{note}{\\marginpar{\\footnotesize \\BODY}}
 
+%% algorithm 
+\\usepackage{xcolor}
+\\usepackage[linesnumbered]{algorithm2e}
+\\newcommand\\mycommfont[1]{\\footnotesize\\ttfamily\\textcolor{blue}{#1}}
+\\makeatletter
+\\renewcommand{\\@algocf@capt@plain}{above}% formerly {bottom}
+\\makeatother
+
+
 \\title{}
       [NO-DEFAULT-PACKAGES]
       [NO-PACKAGES]"
@@ -2579,7 +2589,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 ;; Inline images in HTML instead of producting links to the image
 (setq org-html-inline-images t)
 ;; Do not use sub or superscripts - I currently don't need this functionality in my documents
-(setq org-export-with-sub-superscripts t)
+(setq org-export-with-sub-superscripts nil)
 ;; Export with LaTeX fragments
 (setq org-export-with-LaTeX-fragments t)
 ;; Increase default number of headings to export
@@ -2714,6 +2724,12 @@ tags:
 comments: true 
 ---
 ,#+END_HTML
+
+,#+begin_html
+<script type=\"text/javascript\"
+    src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">
+</script>
+,#+end_html
 
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
 
@@ -3793,6 +3809,8 @@ when the cursr is in a twitter:
 (elpy-use-ipython "ipython3")
 (setq python-shell-completion-native-disabled-interpreters "ipython3")
 (setq elpy-rpc-python-command "python3")
+(global-set-key (kbd "M-*") 'pop-tag-mark)
+(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
 (setq elpy-rpc-backend "jedi")
 #+end_src
 * Babel Library                                                  :ExportFile:
