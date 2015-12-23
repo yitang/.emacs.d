@@ -209,6 +209,8 @@ are already in the /~/emacs.d/elpa// folder.
                         auctex
 			elpy
 			git-timemachine
+			mu4e-alert
+			snakemake-mode
                         ))
 
 (require 'package)
