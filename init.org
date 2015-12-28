@@ -209,7 +209,7 @@ are already in the /~/emacs.d/elpa// folder.
                         auctex
 			elpy
 			git-timemachine
-			pdf-tools
+			snakemake-mode
 			mu4e-alert
 			counsel
 			restart-emacs
