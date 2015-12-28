@@ -212,6 +212,8 @@ are already in the /~/emacs.d/elpa// folder.
 			pdf-tools
 			mu4e-alert
 			counsel
+			restart-emacs
+			snakemake-mode
                         ))
 
 (require 'package)
