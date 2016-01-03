@@ -2013,7 +2013,7 @@ punch-in into a default org-mode headline.
                             ("\\.svg\\'" . system)
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . system))))
+                            ("\\.pdf\\'" . emacs))))
                                         ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
 
@@ -3813,6 +3813,11 @@ when the cursr is in a twitter:
 (global-set-key (kbd "M-*") 'pop-tag-mark)
 (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
 (setq elpy-rpc-backend "jedi")
+
+;; make elpy more like ESS
+(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
+(define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+(define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
