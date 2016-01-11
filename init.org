@@ -2407,6 +2407,7 @@ Add export back-end, I need HTML, PDF, MarkDown, and Ascii.
 (require 'ox-ascii)
 (require 'ox-md)
 (require 'htmlize)
+(require 'ox-gfm)
 #+end_src
 
 General export options, it applys to all the export-backend. 
