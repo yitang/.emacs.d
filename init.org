@@ -714,7 +714,9 @@ cross reference.
   "copy buffer's full path to kill ring"
   (interactive)
   (when buffer-file-name
-    (kill-new (file-truename buffer-file-name))))
+    (let* ((file-truename buffer-file-name)
+	   (rel-name (file-relative-name file-truename "~/")))  ; BUG: if filename is not relative to home directory.
+      (kill-new (concat "~/" rel-name)))))
 #+end_src
 
 Open a file as a rooter in Emacs, very handy. 
