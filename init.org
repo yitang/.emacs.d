@@ -779,7 +779,7 @@ _g_it sync"
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
-  ("g" yt/save-git-backup))
+  ("g" yt/git-up))
 (global-set-key [f3] 'hydra-file-management/body)
 #+end_src
 
@@ -907,7 +907,7 @@ Sometimes I have to leave at the last minutes, then what I do is call
 a functions that commits and upload to the repo so that I can
 continue work at home.
 
-The =yt/save-git-backup= function will do
+The =yt/git-up= function will do
    1. pull from the remote repo, and make sure the local repo is always
       up-to-date.
    2. add everything and commit with a timesamp.
@@ -940,7 +940,7 @@ echo Finished Sync: $(date)
     (async-shell-command git-sh-scripts))
   (message "all git sync... done"))
 
-(defun yt/save-git-backup ()
+(defun yt/git-up ()
   (interactive)
   (yt/save-all-buffers)
   (yt/git-backup))
@@ -956,7 +956,7 @@ I can get most of my work done in the office.
 Note this workflow is suspended for it's unsafe. 
    #+begin_src emacs-lisp
 ;; (cond ((eq system-type 'darwin)
-;;        (run-at-time "05:59" 10800 'yt/save-git-backup)))
+;;        (run-at-time "05:59" 10800 'yt/git-up)))
 #+end_src
 
 *** Testing Buffers
@@ -2470,8 +2470,8 @@ define the markups.
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont[BoldFont={Gentium Basic Bold},
-                ItalicFont={Gentium Basic Italic}]{Gentium Plus}
+% \\setromanfont[BoldFont={Gentium Basic Bold},
+%                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
 \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
