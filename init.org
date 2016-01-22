@@ -2468,8 +2468,8 @@ define the markups.
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont[BoldFont={Gentium Basic Bold},
-                ItalicFont={Gentium Basic Italic}]{Gentium Plus}
+% \\setromanfont[BoldFont={Gentium Basic Bold},
+%                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
 \\setsansfont{Charis SIL}
 \\setmonofont[Scale=0.8]{DejaVu Sans Mono}
 \\usepackage{geometry}
