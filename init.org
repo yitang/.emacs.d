@@ -2066,6 +2066,20 @@ punch-in into a default org-mode headline.
                ((org-agenda-overriding-header "Habits")
                 (org-agenda-sorting-strategy
                  '(todo-state-down effort-up category-keep))))
+	      ("d" "deadline" agenda ""
+	       (
+		(org-agenda-entry-types '(:deadline))
+		(org-agenda-start-day "2016-01-01")
+		(org-agenda-span 'year)
+		(org-agenda-include-diary nil)
+		(org-agenda-show-all-dates nil)))
+	      ("s" "scheduled" agenda ""
+	       (
+		(org-agenda-entry-types '(:scheduled))
+		(org-agenda-start-day "2016-01-01")
+		(org-agenda-span 'year)
+		(org-agenda-include-diary nil)
+		(org-agenda-show-all-dates nil)))
               (" " "Agenda"
                ((agenda "" nil)
                 (tags-todo "-CANCELLED+WAITING|HOLD/!"
