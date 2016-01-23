@@ -2056,6 +2056,7 @@ punch-in into a default org-mode headline.
 
 
 ;; Custom agenda command definitions
+(defvar bh/hide-scheduled-and-waiting-next-tasks t)
 (setq org-agenda-custom-commands
       (quote (("N" "Notes" tags "NOTE"
                ((org-agenda-overriding-header "Notes")
