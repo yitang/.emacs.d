@@ -1942,6 +1942,7 @@ List recently clocked headline and clock in.
   (setq current-prefix-arg '(4)) ;; C-u, 
   (call-interactively 'org-clock-in))
 (global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
+(global-set-key (kbd "<f11>") 'org-clock-jump-to-current-clock)
 #+end_src
 
 When clock in to a TODO headline, turn the keywords into NEXT. 
