@@ -2229,16 +2229,6 @@ use 30 days.
 (setq org-deadline-warning-days 30)
 #+end_src
 
-quick key to show work related items only.
-#+begin_src emacs-lisp :results silent 
-(defun yt/filter-non-office-agenda (tag)
-  (and (if (not (or (string= tag "work")
-		    (string= tag "@office")))
-	   t
-	 nil)
-       (concat "-" tag)))
-(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
-#+end_src
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
@@ -3189,13 +3179,13 @@ function at the end of the day.
 quickly filter out non-work tasks in org-agenda. 
 
 #+begin_src emacs-lisp :results silent 
-(defun yt/filte-office-agenda (tag)
-  (and (if (not (or (string= tag "work")
-		    (string= tag "@office")))
-	   t
-	 nil)
-       (concat "-" tag)))
-(setq org-agenda-auto-exclude-function 'yt/filte-office-agenda)
+(defun yt/filter-life-agenda (tag)
+  (concat "-" "life"))
+(defun yt/filter-office-agenda (tag)
+  (concat "-" "@office"))
+(if (eq system-type 'darwin)
+    (setq org-agenda-auto-exclude-function 'yt/filter-office-agenda)
+  (setq org-agenda-auto-exclude-function 'yt/filter-life-agenda))
 #+end_src
 
 ** auctex
