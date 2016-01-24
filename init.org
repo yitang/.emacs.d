@@ -2271,18 +2271,6 @@ Remove keys
 ;; (setq org-completion-handler 'helm)
 #+end_src
 
-*punch-in* into a default org-mode headline. 
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/punch-in ()
-  (interactive)
-    (org-with-point-at (org-id-find "1b586ec1-fa8a-4bd1-a44c-faf3aa2adf51" 'marker)
-    (org-clock-in)
-     ))
-(global-set-key (kbd "<f9> I") 'yt/punch-in)
-#+end_src
-
-
 Show org-mode bullets as UTF-8 characters.
 #+begin_src emacs-lisp :results silent :eval no
 (require 'org-bullets)
