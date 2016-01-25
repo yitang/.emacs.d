@@ -2240,7 +2240,7 @@ use 30 days.
 (require 'org-habit)
 (setq org-habit-show-all-today t)
 (setq org-habit-show-habits nil)
-
+(setq org-habit-graph-column 80)
 ;; add the following 
 (setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
 (setq org-agenda-tags-column 120)
