@@ -1096,7 +1096,7 @@ There three features that have me made the decision:
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 (setq ess-history-file "~/.Rhisotry")
 #+end_src
-*** Start-up 
+*** Start-up							    :ARCHIVE:
 [2015-05-20 Wed 13:42]
 
 when R start, it will load few local settings, one of them is the
@@ -1104,7 +1104,7 @@ user-setting, which is R scripts saved in ~/RProfile. I'd like to have
 same settings on both my local, and remote server. and this can be
 achieved by using =ess-post-run-hook=.
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent :eval no
 (setq yt/ess--RProfile-string "
 #### change this file name to .Rprofile and place to ~/userName so when R starts, the following command will be processed automatically
 
@@ -2240,7 +2240,7 @@ use 30 days.
 (require 'org-habit)
 (setq org-habit-show-all-today t)
 (setq org-habit-show-habits nil)
-
+(setq org-habit-graph-column 80)
 ;; add the following 
 (setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
 (setq org-agenda-tags-column 120)
