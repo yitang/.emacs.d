@@ -1831,8 +1831,10 @@ The capture mode templates.
                "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
               ("o" "org" entry (file "~/git/org/refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-              ("r" "respond" entry (file "~/git/org/refile.org")
-               "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n%a" :clock-in t :clock-resume t)
+              ;; ("r" "respond" entry (file "~/git/org/refile.org")
+              ;;  "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n%a" :clock-in t :clock-resume t)
+              ("r" "read" entry (file "~/git/org/refile.org")
+               "* TODO %? :READ:\n%U\n" :clock-in t :clock-resume t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               
@@ -1980,6 +1982,7 @@ punch-in into a default org-mode headline.
                             ("PERSONAL" . ?P)
                             ("WORK" . ?W)
                             ("NOTE" . ?n)
+                            ("READ" .?r)
                             ("CANCELLED" . ?c)
                             )))
 ;; Allow setting single tags without the menu
