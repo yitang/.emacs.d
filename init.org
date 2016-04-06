@@ -1215,7 +1215,8 @@ we usually have long scripts, and in Subimetext, one cold folder and unfolder a 
 one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
     
 #+begin_src emacs-lisp :results silent
-;; (add-hook 'prog-mode-hook 'hs-minor-mode)
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+(defalias 'fold-toggle 'hs-toggle-hiding)
 ;; (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
 ;; (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
 ;; (global-set-key (kbd "C-<f3>") 'hs-hide-all) 
