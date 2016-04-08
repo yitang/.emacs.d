@@ -3,34 +3,34 @@ mu4e - Email Client
 
 The advantage of use Emacs as an email client:
 
-1. communication happens at the point where the content is genreated. 
-   as a statisician/programmer, most likely I need to mmunicate with
+1. communication happens at the point where the content is generated. 
+   as a statisician/programmer, most likely I need to communicate with
    numbers, table, graphs, or snippet. I could just copy these results
-   from to email, do an quickly editing.
+   from to email, do a quick editing.
 
 2. HTML email with CSS style.  
-   I like to formate my email use headingline, fonts, and highlhgit
+   I like to format my email use headingline, fonts, and highlight
    the code, I used to be write a report in Word/LatEx and write an
-   email with only onbe line, please see the attachment. which I don't
+   email with only one line, please see the attachment. which I don't
    like.
 
 3. search properly 
    I use search all the time, and this functionality is not working at
-   all in outlkooik 2013, it also shows up random info (mail.app in
+   all in outlook 2013, it also shows up random info (mail.app in
    osx did a great job).
 
 Disadvantage and the things it can't do:
 
 1. book Meeting/Appointment 
-   I didn't aware that you can do it in emacs, and we need an
-   iterative way to do. Outlook Schedule Asistant do a good job, it
-   list agenda of all attendence, and I could spot oen time slot that
+   I am not aware if you can do it in emacs, and we need an
+   iterative way to do. Outlook Schedule Asistant does a good job, it
+   lists agenda of all attendence, and I could spot one time slot that
    suit for all or most people.
 
 2. don't expect me to reply immediately 
-   this is how does it works: 1. download the email from server, 2)
+   this is how it works: 1. download the email from server, 2)
    index with head, body, attachment, user name etc. 3) Emacs talk to
-   and show in GUI. I usually update the meail about 30 imnutes. but I
+   and show in GUI. I usually update the email about 30 minutes. but it
    helps me out of disrupts.
 
 3. calendar 
@@ -38,7 +38,7 @@ Disadvantage and the things it can't do:
    calandar yet. even it can, I doubt I can download and see other
    people's agenda.
 
-This setting need two programms to work: 1) mu, 2) offlineimap. 
+This setting need two programs to work: 1) mu, 2) offlineimap. 
 
 to install *mu* on osx, 
 
@@ -141,7 +141,7 @@ Account
 
 
 set up email account, use office 365 in the office, and iCloud at
-macbook por.
+macbook pro.
 
 .. code-block:: scheme
 
@@ -264,7 +264,7 @@ macbook por.
 
     (yt/email-icloud)
 
-when I sent an email, it will promote and ask for email, I only need
+when I send an email, it will prompt and ask for email address, I only need to
 type once per Emacs session, also, I can save the password to an
 *.authoty* file.
 
@@ -274,8 +274,8 @@ Contacts
 
 
 have problem with BBDB installtion, and use
-org-contact.el to manage contact. add contactor very easy. I cna use
-tab to completet contacts, which is really handy.
+org-contact.el to manage contact. adding contact is very easy. I can use
+tab to complete contacts, which is really handy.
 
 .. code-block:: scheme
 
