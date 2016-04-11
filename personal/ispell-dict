@@ -19,3 +19,5 @@ piecewise
 univariate
 centroid
 backfitting
+PostgreSQL
+parallelisation
