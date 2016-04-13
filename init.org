@@ -207,13 +207,14 @@ are already in the /~/emacs.d/elpa// folder.
                         hl-sentence
                         eval-in-repl
                         auctex
-			elpy
-			git-timemachine
-			snakemake-mode
-			mu4e-alert
-			counsel
-			restart-emacs
-			snakemake-mode
+                        elpy
+                        git-timemachine
+                        snakemake-mode
+                        mu4e-alert
+                        counsel
+                        restart-emacs
+                        snakemake-mode
+                        tldr
                         ))
 
 (require 'package)
