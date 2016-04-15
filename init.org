@@ -3182,10 +3182,10 @@ quickly filter out non-work tasks in org-agenda.
 
 shell mode 
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :eval no
 ;; execute line/region of shell scripts.
 ;; http://stackoverflow.com/questions/6286579/emacs-shell-mode-how-to-send-region-to-shell
-(require 'shell)
+; (require 'shell)
 
 (defun sh-send-line-or-region (&optional step)
   (interactive ())
@@ -3223,8 +3223,11 @@ shell mode
   (interactive)
   (pop-to-buffer (process-buffer (get-process "shell")) t))
 
-(define-key sh-mode-map [C-return] 'sh-send-line-or-region-and-step)
-
+(defun yt/sh-script-editing-keybinds ()
+  (local-set-key (kbd "C-RET") 'sh-send-line-or-region-and-step)
+  (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
+  )
+(add-hook 'sh-mode-hook 'yt/sh-script-keybinds)
 #+end_src
 ** auctex
    [2015-10-03 Sat 13:48]
