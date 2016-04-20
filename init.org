@@ -213,7 +213,8 @@ are already in the /~/emacs.d/elpa// folder.
                         restart-emacs
                         snakemake-mode
                         tldr
-                       ))
+                        yaml-mode
+                        ))
 
 (require 'package)
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
