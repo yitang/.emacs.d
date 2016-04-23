@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: sort
+# key: sort
+# binding: direct-keybinding
+# --
+sort($0, decreasing = TRUE)
