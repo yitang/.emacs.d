@@ -4,6 +4,6 @@
 # binding: direct-keybinding
 # --
 res <- mclapply(${1: $$(yas-choose-value '("seq_len(" "seq_along("
-""))}), function(${2:ii}) {
+" "))}), function(${2:ii}) {
 $0
 }, mc.cores = ${3:2})
