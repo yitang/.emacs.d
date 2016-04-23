@@ -1,9 +1,9 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: sapply
-# key: sapply
+# name: sap
+# key: sap
 # binding: direct-keybinding
 # --
-res <- sapply(${1: $$(yas-choose-value '("seq_len()" "seq_along()"
-""))}, function(${2: i}) {
+res <- sapply(${1: $$(yas-choose-value '("seq_len(" "seq_along("
+""))}), function(${2:ii}) {
 $0
 })
