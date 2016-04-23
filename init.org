@@ -1764,7 +1764,7 @@ Then highlight the keywords using different colours.
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
-	      ("NEXT" :foreground "blue" :weight bold)
+	      ("NEXT" :foreground "red" :weight bold)
 	      ("ORG" :foreground "blue" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
               ("WAITING" :foreground "orange" :weight bold)

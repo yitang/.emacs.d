@@ -19,5 +19,7 @@ piecewise
 univariate
 centroid
 backfitting
+outlier
+outliers
 PostgreSQL
 parallelisation
