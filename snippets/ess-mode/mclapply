@@ -1,9 +1,9 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: sap
-# key: sap
+# name: mcl
+# key: mcl
 # binding: direct-keybinding
 # --
-res <- sapply(${1: $$(yas-choose-value '("seq_len(" "seq_along("
+res <- mclapply(${1: $$(yas-choose-value '("seq_len(" "seq_along("
 " "))}), function(${2:ii}) {
 $0
-})
+}, mc.cores = ${3:2})
