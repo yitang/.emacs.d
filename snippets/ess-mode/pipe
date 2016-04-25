@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pipe
+# key: >
+# binding: direct-keybinding
+# --
+%>% $0
