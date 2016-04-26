@@ -3,6 +3,6 @@
 # key: func
 # binding: direct-keybinding
 # --
-${1: functionName} <- function(${2: arg}) {
-     $0
+${1:functionName} <- function(${2:arg}) {
+$0
 }
