@@ -3539,7 +3539,6 @@ The basical workflow is:
 ;;----------------------------------------------------------
 (add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
 (require 'mu4e)
-(setq mu4e-mu-binary "/usr/bin/mu")
 ;; default
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
@@ -3547,13 +3546,13 @@ The basical workflow is:
 
 ;; allow for updating mail using 'U' in the main view:
 ; get mail
-(setq mu4e-get-mail-command "mbsync -a"
+(setq mu4e-get-mail-command "offlineimap; mu index --maildir=~/Maildir_offlineimap/JBA"
       mu4e-html2text-command "w3m -T text/html"
       mu4e-update-interval 120
       mu4e-headers-auto-update t
       mu4e-compose-signature-auto-include t)
 
-(setq mu4e-maildir "~/Maildir")
+(setq mu4e-maildir "~/Maildir_offlineimap")
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
