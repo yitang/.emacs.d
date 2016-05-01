@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: expect_equal(..., ...)
+# key: ee
+# contributor: Yi Tang <yi.tang.uk@me.com>
+# --
+expect_equal($1, $2)$0
