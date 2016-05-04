@@ -2951,35 +2951,6 @@ comments: true
 [2015-01-23 Fri 17:47]
 
 #+begin_src emacs-lisp :results silent :eval no
-(defun org-to-jekyll-src (lang)
-  " change src block heading to {% highlight %} "
-  ;; (with-temp-buffer
-  ;; (insert-file "current buffer name")
-  (interactive)
-  (goto-char (point-min))
-  (while (not (eobp))
-    (forward-line 1)
-    (cond
-     ((looking-at (concat "^#\\+BEGIN_SRC " lang ".*$"))
-      (goto-char (match-beginning 0))
-      (kill-line)
-      (insert "#+begin_html\n")
-      (insert (concat "{% highlight " lang " %}")))
-     ((looking-at "^#\\+END_SRC")
-      (goto-char (match-beginning 0))
-      (kill-line)
-      (insert "{% endhighlight %}\n")
-      (insert "\#+end_html")))))
-(defun jekyll-highlight-converter ()
-  "use jekyll highlight style"
-  (interactive)
-  (org-to-jekyll-src "R")
-  (org-to-jekyll-src "C++")
-  (org-to-jekyll-src "emacs-lisp")
-  (org-to-jekyll-src "CSS")
-  (org-to-jekyll-src "html")
-  )
-
 (defvar jekyll-highlight-template-open
   "#+begin_html
 {%% highlight %s %%}"
