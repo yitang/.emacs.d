@@ -2951,7 +2951,7 @@ comments: true
 *** code highlight 
 [2015-01-23 Fri 17:47]
 
-#+begin_src emacs-lisp :results silent :eval no
+#+begin_src emacs-lisp :results silent
 (defvar jekyll-highlight-template-open
   "#+begin_html
 {%% highlight %s %%}"
