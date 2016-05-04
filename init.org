@@ -2969,7 +2969,7 @@ comments: true
     (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
-      (replace-match jekyll-highlight-template-close))))
+      (replace-match jekyll-highlight-template-close t))))
 
 ;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
 ;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highligh)
