@@ -1383,7 +1383,6 @@ clean R console
 #+begin_src emacs-lisp :results silent 
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
-			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
 			      (setq-local orgstruct-heading-prefix-regexp "## ")))
 #+end_src
 
