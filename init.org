@@ -1384,6 +1384,7 @@ clean R console
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
 			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
+			      (setq-local orgstruct-heading-prefix-regexp "## ")))
 #+end_src
 
 *increase readability*
