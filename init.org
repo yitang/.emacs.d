@@ -1850,6 +1850,8 @@ The capture mode templates.
               ("j" "Journalsing")
               ("jd" "diary" entry (file+datetree "~/git/org/Journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/Journal/Kaggle.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
               ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
