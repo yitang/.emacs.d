@@ -1382,7 +1382,7 @@ clean R console
 #+begin_src emacs-lisp :results silent 
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
-			      (setq-local orgstruct-heading-prefix-regexp "#### ")))
+			      (setq-local orgstruct-heading-prefix-regexp "## ")))
 #+end_src
 
 *increase readability*
@@ -1848,6 +1848,8 @@ The capture mode templates.
 
               ("j" "Journalsing")
               ("jd" "diary" entry (file+datetree "~/git/org/Journal/diary.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/Journal/Kaggle.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
@@ -2950,36 +2952,7 @@ comments: true
 *** code highlight 
 [2015-01-23 Fri 17:47]
 
-#+begin_src emacs-lisp :results silent :eval no
-(defun org-to-jekyll-src (lang)
-  " change src block heading to {% highlight %} "
-  ;; (with-temp-buffer
-  ;; (insert-file "current buffer name")
-  (interactive)
-  (goto-char (point-min))
-  (while (not (eobp))
-    (forward-line 1)
-    (cond
-     ((looking-at (concat "^#\\+BEGIN_SRC " lang ".*$"))
-      (goto-char (match-beginning 0))
-      (kill-line)
-      (insert "#+begin_html\n")
-      (insert (concat "{% highlight " lang " %}")))
-     ((looking-at "^#\\+END_SRC")
-      (goto-char (match-beginning 0))
-      (kill-line)
-      (insert "{% endhighlight %}\n")
-      (insert "\#+end_html")))))
-(defun jekyll-highlight-converter ()
-  "use jekyll highlight style"
-  (interactive)
-  (org-to-jekyll-src "R")
-  (org-to-jekyll-src "C++")
-  (org-to-jekyll-src "emacs-lisp")
-  (org-to-jekyll-src "CSS")
-  (org-to-jekyll-src "html")
-  )
-
+#+begin_src emacs-lisp :results silent
 (defvar jekyll-highlight-template-open
   "#+begin_html
 {%% highlight %s %%}"
@@ -2989,7 +2962,7 @@ comments: true
   "{% endhighlight %}
 ,#+end_html")
 
-(defun yt/org-to-jekyll-highligh ()
+(defun yt/org-to-jekyll-highlight ()
   "wrap babel src block with jekyll syntax highlight block"
   (interactive)
   (save-excursion
@@ -2998,10 +2971,10 @@ comments: true
     (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
-      (replace-match jekyll-highlight-template-close))))
+      (replace-match jekyll-highlight-template-close t))))
 
 ;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
-;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highligh)
+;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highlight)
 
 ;;;; TODO: 
 ;; it won't be good to add a hook yt/org-jekyl-highlight
@@ -3017,10 +2990,10 @@ comments: true
                (concat jekyll-directory jekyll-posts-dir))
     (message "PROCESS SRC BLOCK")
     (goto-char (point-min))
-    (yt/org-to-jekyll-highligh)))
+    (yt/org-to-jekyll-highlight)))
 
 ;; (setq org-export-before-parsing-hook nil)
-;; (add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
+(add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
 #+end_src
 
 #+results:
@@ -3185,7 +3158,7 @@ quickly filter out non-work tasks in org-agenda.
 
 shell mode 
 
-#+begin_src emacs-lisp :eval no
+#+begin_src emacs-lisp :eval yes
 ;; execute line/region of shell scripts.
 ;; http://stackoverflow.com/questions/6286579/emacs-shell-mode-how-to-send-region-to-shell
 ; (require 'shell)
@@ -3227,10 +3200,11 @@ shell mode
   (pop-to-buffer (process-buffer (get-process "shell")) t))
 
 (defun yt/sh-script-editing-keybinds ()
-  (local-set-key (kbd "C-RET") 'sh-send-line-or-region-and-step)
-  (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
+  (interactive)
+  (local-set-key [(control return)] 'sh-send-line-or-region-and-step)
+  ; (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
   )
-(add-hook 'sh-mode-hook 'yt/sh-script-keybinds)
+(add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
 #+end_src
 ** auctex
    [2015-10-03 Sat 13:48]
