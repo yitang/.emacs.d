@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: file.path(..., ...)
+# key: fp
+# contributor: jrnold <jeffrey.arnold@gmail.com>
+# --
+file.path(${1:dir}, ${2:file})$0
