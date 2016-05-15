@@ -213,7 +213,8 @@ are already in the /~/emacs.d/elpa// folder.
                         snakemake-mode
                         tldr
                         yaml-mode
-			markdown-mode
+                        markdown-mode
+                        ledger-mode
                         ))
 
 (require 'package)
