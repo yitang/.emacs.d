@@ -2344,7 +2344,7 @@ Remove keys
 #+end_src
 
 Show org-mode bullets as UTF-8 characters.
-#+begin_src emacs-lisp :results silent :eval no
+#+begin_src emacs-lisp :results silent :eval yes
 (require 'org-bullets)
 (setq org-bullets-bullet-list '(;;; Large
                                 "◉" "○" ;"◎" "◌"
@@ -2355,6 +2355,10 @@ Show org-mode bullets as UTF-8 characters.
                                 "✚" "✜" 
                                 "●" "☯" ;"☢" 
                                 "♠" "♣" "♦" "♥"))
+(setq org-bullets-bullet-list '("✙" "♱" "♰" "☥" "✞" "✟" "✝" "†" "✠" "✚" "✜" "✛" "✢" "✣" "✤" "✥"))
+;; org ellipsis options, other than the default Go to Node...
+;; not supported in common font, but supported in Symbola (my fall-back font) ⬎, ⤷, ⤵
+(setq org-ellipsis "⚡⚡⚡");; ⤵ ≫
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
