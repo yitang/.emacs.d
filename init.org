@@ -1217,21 +1217,29 @@ we usually have long scripts, and in Subimetext, one cold folder and unfolder a 
 one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
     
 #+begin_src emacs-lisp :results silent
-(add-hook 'prog-mode-hook 'hs-minor-mode)
-(defalias 'fold-toggle 'hs-toggle-hiding)
-(global-set-key (kbd "<f4>") 'hs-toggle-hiding)
-(global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
-(global-set-key (kbd "C-<f4>") 'hs-hide-all) 
-;;   hs-hide-block                      C-c @ C-h
-;;   hs-show-block                      C-c @ C-s
-;;   hs-hide-all                        C-c @ C-M-h
-;;   hs-show-all                        C-c @ C-M-s
-;;   hs-hide-level                      C-c @ C-l
-;;   hs-toggle-hiding 
-;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
-;;   hs-hide-initial-comment-block
+;; (add-hook 'prog-mode-hook 'hs-minor-mode)
+;; (defalias 'fold-toggle 'hs-toggle-hiding)
+;; (global-set-key (kbd "<f4>") 'hs-toggle-hiding)
+;; (global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
+;; (global-set-key (kbd "C-<f4>") 'hs-hide-all) 
+;; ;;   hs-hide-block                      C-c @ C-h
+;; ;;   hs-show-block                      C-c @ C-s
+;; ;;   hs-hide-all                        C-c @ C-M-h
+;; ;;   hs-show-all                        C-c @ C-M-s
+;; ;;   hs-hide-level                      C-c @ C-l
+;; ;;   hs-toggle-hiding 
+;; ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
+;; ;;   hs-hide-initial-comment-block
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
+
+(defhydra hydra-fold (:pre (hs-minor-mode 1))
+  "fold"
+  ("t" hs-toggle-hiding "toggle")
+  ("s" hs-show-all "hide-all")
+  ("h" hs-hide-all "show-all")
+  ("q" nil "quit"))
+(global-set-key (kbd "<f4>") 'hydra-fold/body)
     #+end_src
     
 
