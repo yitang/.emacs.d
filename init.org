@@ -1080,9 +1080,9 @@ There three features that have me made the decision:
 (setq ess-ask-for-ess-directory nil) ;; start R on default folder
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter) ;;
-(setq comint-scroll-to-bottom-on-input t)
-(setq comint-scroll-to-bottom-on-output t)
-(setq comint-move-point-for-output t)
+;; (setq comint-scroll-to-bottom-on-input t)
+;; (setq comint-scroll-to-bottom-on-output nil)
+;; (setq comint-move-point-for-output nil)
 (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
 (defun my-ess-start-R ()
   (interactive)
