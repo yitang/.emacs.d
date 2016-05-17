@@ -3157,7 +3157,7 @@ voca-builde
 (require 'voca-builder)
 (setq voca-builder/voca-file "~/git/org/vocabulary.org")
 (setq voca-builder/current-tag "General")
-(global-set-key (kbd "<f4>") 'voca-builder/search-popup)
+;; (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
 (setq sentence-end-double-space nil)
 #+end_src
 
