@@ -1218,9 +1218,9 @@ one potentially solution is to use =org-strct-mode=, to show/hide the whole sect
 #+begin_src emacs-lisp :results silent
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 (defalias 'fold-toggle 'hs-toggle-hiding)
-;; (global-set-key (kbd "<f3>") 'hs-toggle-hiding)
-;; (global-set-key (kbd "S-<f3>") 'hs-show-all) ;; S->show 
-;; (global-set-key (kbd "C-<f3>") 'hs-hide-all) 
+(global-set-key (kbd "<f4>") 'hs-toggle-hiding)
+(global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
+(global-set-key (kbd "C-<f4>") 'hs-hide-all) 
 ;;   hs-hide-block                      C-c @ C-h
 ;;   hs-show-block                      C-c @ C-s
 ;;   hs-hide-all                        C-c @ C-M-h
