@@ -1832,7 +1832,7 @@ the LOGBOOK drawer.
 Add a cross line for the headline with DONE status. Note currently it
 is disabled before of the performance issues in OS X.
 
-#+begin_src emacs-lisp :results silent :eval no
+#+begin_src emacs-lisp :results silent :eval yes
 (defun my/modify-org-done-face ()
   (setq org-fontify-done-headline t)
   (set-face-attribute 'org-done nil :strike-through t)
@@ -1840,9 +1840,9 @@ is disabled before of the performance issues in OS X.
                       :strike-through t
                       :foreground "light gray"))
 (add-hook 'org-mode-hook 'my/modify-org-done-face)
-(setq org-fontify-done-headline t)
-(set-face-attribute 'org-done nil :strike-through t)
-(set-face-attribute 'org-headline-done nil :strike-through t)
+;; (setq org-fontify-done-headline t)
+;; (set-face-attribute 'org-done nil :strike-through t)
+;; (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
 
 
