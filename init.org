@@ -2258,6 +2258,15 @@ use 30 days.
 (setq org-deadline-warning-days 30)
 #+end_src
 
+check clock entries if some are too long/short.
+
+#+begin_src emacs-lisp :results silent 
+(setq org-agenda-clock-consistency-checks
+      (quote (:max-duration "4:00"                 ;; highligh clock entries longer than 5 hours.
+			    :min-duration "00:05"  ;; highlight clock smaller than 5 mins 
+			    :max-gap "00:05"       ;; highlight clock gap loger than 5 mins.
+			    :gap-ok-around ("4:00")))) 
+#+end_src
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
