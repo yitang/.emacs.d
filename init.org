@@ -163,6 +163,7 @@ are already in the /~/emacs.d/elpa// folder.
 (setq my-package-list '(ess
                         ssh
                         auto-complete
+                        ac-R
                         nyan-mode
                         yasnippet
                         projectile
