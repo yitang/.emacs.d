@@ -985,6 +985,26 @@ following settings, I can use =F9-f= to select temporal buffers.
 (global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
 
 #+end_src
+
+*** Frequently visiting buffers
+    [2016-05-17 Tue 17:14]
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-find-file (filepath)
+  (interactive)
+  (find-file (expand-file-name filepath "~/git/org") nil))
+
+(defhydra hydra/open-common-files (:color blue)
+  "Open file:
+      "
+  ("R" (yt/org-find-file "Profession/R.org") "R.org")
+  ("p" (yt/org-find-file "python.org") "python.org")
+  ("l" (yt/org-find-file "linux.org") "linux.org")
+  ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
+  ("e" (find-file "~/.emacs" t) ".emacs")
+  )
+(global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
+#+end_src
 ** ESS - Emacs Speaks Statistics                                :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
