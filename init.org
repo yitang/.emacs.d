@@ -308,8 +308,8 @@ start-up.
 #+begin_src emacs-lisp :results silent
 (require 'yasnippet)
 (yas/global-mode 1)
-(setq yas/snippet-dirs '("~/.emacs.d/elpa/yasnippet-20151212.2133/snippets"
-                         "~/git/.emacs.d/snippets"))
+(setq yas-default-snippets (concat (file-name-directory (pkg-info-library-source "yasnippet")) "snippets" ))
+(setq yas/snippet-dirs '(yas-default-snippets "~/git/.emacs.d/snippets"))
 (yas/reload-all)
 #+end_src
 
