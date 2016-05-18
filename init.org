@@ -3817,8 +3817,6 @@ when the cursr is in a twitter:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
 :END:
 
-
-
 voca-builde 
 
 #+begin_src emacs-lisp :results silent 
@@ -3835,71 +3833,6 @@ weather forecasting
 ;; sunshine: weather forcaste service
 (setq sunshine-units 'metric)
 (setq sunshine-location "Keighley, GB")
-#+end_src
-
-Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
-function at the end of the day.
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/qs-backup-log ()
-  (interactive)
-  (load "~/git/qs/auto_back.el"))
-#+end_src
-
-
-*org-project set up *
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-setup-project ()
-  (interactive)
-  (org-insert-heading-respect-content)
-  (insert "Tasks")
-  (org-demote)
-  (org-insert-heading-respect-content)
-  (insert "Notes")
-  (org-toggle-tag "NOTE" 'on))
-#+end_src
-
-*help function*
-
-#+begin_src emacs-lisp :results silent 
-;; (defun yt/describe-function (function)
-;;   ;; (describe-function)
-;;   ;; (defun describe-function (function)
-;;   "Display the full documentation of FUNCTION (a symbol)."
-;;   (interactive
-;;    (let ((fn (function-called-at-point))
-;;          (enable-recursive-minibuffers t)
-;;          val)
-;;      (setq val (completing-read (if fn
-;;                                     (format "Describe function (default %s): " fn)
-;;                                   "Describe function: ")
-;;                                 obarray 'fboundp t nil nil
-;;                                 (and fn (symbol-name fn))))
-;;      (list (if (equal val "")
-;;                fn (intern val)))))
-  
-;;   (if (null function)
-;;       (message "You didn't specify a function")
-;;     (help-setup-xref (list #'describe-function function)
-;;                      (called-interactively-p 'interactive))
-;;     (save-excursion
-;;       (with-help-window (help-buffer)
-;;         (prin1 function)
-;;         ;; Use " is " instead of a colon so that
-;;         ;; it is easier to get out the function name using forward-sexp.
-;;         (princ " is ")
-;;         (describe-function-1 function)
-;;         (with-current-buffer standard-output
-;;           ;; Return the text we displayed.
-;;           (buffer-string))))
-;;     ;;    ))
-;;     (let* ((doc (with-current-buffer (help-buffer)
-;;                   (buffer-string)))
-           
-;;            (voca-builder/current-tag "Emacs")
-;;            (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
-;;       (append-to-file org-doc nil "LearnEmacs.org"))))
-;; (global-set-key (kbd "C-h f") 'yt/describe-function)
 #+end_src
 
 quickly filter out non-work tasks in org-agenda. 
