@@ -3155,159 +3155,6 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 #+end_src
-
-** Refile                                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
-:END:
-
-
-
-voca-builde 
-
-#+begin_src emacs-lisp :results silent 
-(require 'voca-builder)
-(setq voca-builder/voca-file "~/git/org/vocabulary.org")
-(setq voca-builder/current-tag "General")
-;; (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
-(setq sentence-end-double-space nil)
-#+end_src
-
-
-weather forecasting 
-#+begin_src emacs-lisp :results silent 
-;; sunshine: weather forcaste service
-(setq sunshine-units 'metric)
-(setq sunshine-location "Keighley, GB")
-#+end_src
-
-Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
-function at the end of the day.
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/qs-backup-log ()
-  (interactive)
-  (load "~/git/qs/auto_back.el"))
-#+end_src
-
-
-*org-project set up *
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-setup-project ()
-  (interactive)
-  (org-insert-heading-respect-content)
-  (insert "Tasks")
-  (org-demote)
-  (org-insert-heading-respect-content)
-  (insert "Notes")
-  (org-toggle-tag "NOTE" 'on))
-#+end_src
-
-*help function*
-
-#+begin_src emacs-lisp :results silent 
-;; (defun yt/describe-function (function)
-;;   ;; (describe-function)
-;;   ;; (defun describe-function (function)
-;;   "Display the full documentation of FUNCTION (a symbol)."
-;;   (interactive
-;;    (let ((fn (function-called-at-point))
-;;          (enable-recursive-minibuffers t)
-;;          val)
-;;      (setq val (completing-read (if fn
-;;                                     (format "Describe function (default %s): " fn)
-;;                                   "Describe function: ")
-;;                                 obarray 'fboundp t nil nil
-;;                                 (and fn (symbol-name fn))))
-;;      (list (if (equal val "")
-;;                fn (intern val)))))
-  
-;;   (if (null function)
-;;       (message "You didn't specify a function")
-;;     (help-setup-xref (list #'describe-function function)
-;;                      (called-interactively-p 'interactive))
-;;     (save-excursion
-;;       (with-help-window (help-buffer)
-;;         (prin1 function)
-;;         ;; Use " is " instead of a colon so that
-;;         ;; it is easier to get out the function name using forward-sexp.
-;;         (princ " is ")
-;;         (describe-function-1 function)
-;;         (with-current-buffer standard-output
-;;           ;; Return the text we displayed.
-;;           (buffer-string))))
-;;     ;;    ))
-;;     (let* ((doc (with-current-buffer (help-buffer)
-;;                   (buffer-string)))
-           
-;;            (voca-builder/current-tag "Emacs")
-;;            (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
-;;       (append-to-file org-doc nil "LearnEmacs.org"))))
-;; (global-set-key (kbd "C-h f") 'yt/describe-function)
-#+end_src
-
-quickly filter out non-work tasks in org-agenda. 
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/filter-life-agenda (tag)
-  (concat "-" "life"))
-(defun yt/filter-office-agenda (tag)
-  (concat "-" "@office"))
-(if (eq system-type 'darwin)
-    (setq org-agenda-auto-exclude-function 'yt/filter-office-agenda)
-  (setq org-agenda-auto-exclude-function 'yt/filter-life-agenda))
-#+end_src
-
-shell mode 
-
-#+begin_src emacs-lisp :eval yes
-;; execute line/region of shell scripts.
-;; http://stackoverflow.com/questions/6286579/emacs-shell-mode-how-to-send-region-to-shell
-; (require 'shell)
-
-(defun sh-send-line-or-region (&optional step)
-  (interactive ())
-  (let ((proc (get-process "shell"))
-        pbuf min max command)
-    (unless proc
-      (let ((currbuff (current-buffer)))
-        (shell)
-        (switch-to-buffer currbuff)
-        (setq proc (get-process "shell"))
-        ))
-    (setq pbuff (process-buffer proc))
-    (if (use-region-p)
-        (setq min (region-beginning)
-              max (region-end))
-      (setq min (point-at-bol)
-            max (point-at-eol)))
-    (setq command (concat (buffer-substring min max) "\n"))
-    (with-current-buffer pbuff
-      (goto-char (process-mark proc))
-      (insert command)
-      (move-marker (process-mark proc) (point))
-      ) ;;pop-to-buffer does not work with save-current-buffer -- bug?
-    (process-send-string  proc command)
-    (display-buffer (process-buffer proc) t)
-    (when step 
-      (goto-char max)
-      (next-line))
-    ))
-
-(defun sh-send-line-or-region-and-step ()
-  (interactive)
-  (sh-send-line-or-region t))
-(defun sh-switch-to-process-buffer ()
-  (interactive)
-  (pop-to-buffer (process-buffer (get-process "shell")) t))
-
-(defun yt/sh-script-editing-keybinds ()
-  (interactive)
-  (local-set-key [(control return)] 'sh-send-line-or-region-and-step)
-  ; (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
-  )
-(add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
-#+end_src
 ** auctex
    [2015-10-03 Sat 13:48]
 
@@ -3963,6 +3810,159 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+#+end_src
+
+** Refile                                                       :ExportFile:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
+:END:
+
+
+
+voca-builde 
+
+#+begin_src emacs-lisp :results silent 
+(require 'voca-builder)
+(setq voca-builder/voca-file "~/git/org/vocabulary.org")
+(setq voca-builder/current-tag "General")
+;; (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
+(setq sentence-end-double-space nil)
+#+end_src
+
+
+weather forecasting 
+#+begin_src emacs-lisp :results silent 
+;; sunshine: weather forcaste service
+(setq sunshine-units 'metric)
+(setq sunshine-location "Keighley, GB")
+#+end_src
+
+Add ad wrapper function =yt/qs-bakcup-log= for auto_bakc.el. call this
+function at the end of the day.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/qs-backup-log ()
+  (interactive)
+  (load "~/git/qs/auto_back.el"))
+#+end_src
+
+
+*org-project set up *
+#+begin_src emacs-lisp :results silent 
+(defun yt/org-setup-project ()
+  (interactive)
+  (org-insert-heading-respect-content)
+  (insert "Tasks")
+  (org-demote)
+  (org-insert-heading-respect-content)
+  (insert "Notes")
+  (org-toggle-tag "NOTE" 'on))
+#+end_src
+
+*help function*
+
+#+begin_src emacs-lisp :results silent 
+;; (defun yt/describe-function (function)
+;;   ;; (describe-function)
+;;   ;; (defun describe-function (function)
+;;   "Display the full documentation of FUNCTION (a symbol)."
+;;   (interactive
+;;    (let ((fn (function-called-at-point))
+;;          (enable-recursive-minibuffers t)
+;;          val)
+;;      (setq val (completing-read (if fn
+;;                                     (format "Describe function (default %s): " fn)
+;;                                   "Describe function: ")
+;;                                 obarray 'fboundp t nil nil
+;;                                 (and fn (symbol-name fn))))
+;;      (list (if (equal val "")
+;;                fn (intern val)))))
+  
+;;   (if (null function)
+;;       (message "You didn't specify a function")
+;;     (help-setup-xref (list #'describe-function function)
+;;                      (called-interactively-p 'interactive))
+;;     (save-excursion
+;;       (with-help-window (help-buffer)
+;;         (prin1 function)
+;;         ;; Use " is " instead of a colon so that
+;;         ;; it is easier to get out the function name using forward-sexp.
+;;         (princ " is ")
+;;         (describe-function-1 function)
+;;         (with-current-buffer standard-output
+;;           ;; Return the text we displayed.
+;;           (buffer-string))))
+;;     ;;    ))
+;;     (let* ((doc (with-current-buffer (help-buffer)
+;;                   (buffer-string)))
+           
+;;            (voca-builder/current-tag "Emacs")
+;;            (org-doc (voca-builder/voca-org-entry (symbol-name function) doc nil)))
+;;       (append-to-file org-doc nil "LearnEmacs.org"))))
+;; (global-set-key (kbd "C-h f") 'yt/describe-function)
+#+end_src
+
+quickly filter out non-work tasks in org-agenda. 
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/filter-life-agenda (tag)
+  (concat "-" "life"))
+(defun yt/filter-office-agenda (tag)
+  (concat "-" "@office"))
+(if (eq system-type 'darwin)
+    (setq org-agenda-auto-exclude-function 'yt/filter-office-agenda)
+  (setq org-agenda-auto-exclude-function 'yt/filter-life-agenda))
+#+end_src
+
+shell mode 
+
+#+begin_src emacs-lisp :eval yes
+;; execute line/region of shell scripts.
+;; http://stackoverflow.com/questions/6286579/emacs-shell-mode-how-to-send-region-to-shell
+; (require 'shell)
+
+(defun sh-send-line-or-region (&optional step)
+  (interactive ())
+  (let ((proc (get-process "shell"))
+        pbuf min max command)
+    (unless proc
+      (let ((currbuff (current-buffer)))
+        (shell)
+        (switch-to-buffer currbuff)
+        (setq proc (get-process "shell"))
+        ))
+    (setq pbuff (process-buffer proc))
+    (if (use-region-p)
+        (setq min (region-beginning)
+              max (region-end))
+      (setq min (point-at-bol)
+            max (point-at-eol)))
+    (setq command (concat (buffer-substring min max) "\n"))
+    (with-current-buffer pbuff
+      (goto-char (process-mark proc))
+      (insert command)
+      (move-marker (process-mark proc) (point))
+      ) ;;pop-to-buffer does not work with save-current-buffer -- bug?
+    (process-send-string  proc command)
+    (display-buffer (process-buffer proc) t)
+    (when step 
+      (goto-char max)
+      (next-line))
+    ))
+
+(defun sh-send-line-or-region-and-step ()
+  (interactive)
+  (sh-send-line-or-region t))
+(defun sh-switch-to-process-buffer ()
+  (interactive)
+  (pop-to-buffer (process-buffer (get-process "shell")) t))
+
+(defun yt/sh-script-editing-keybinds ()
+  (interactive)
+  (local-set-key [(control return)] 'sh-send-line-or-region-and-step)
+  ; (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
+  )
+(add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
 #+end_src
 * Babel Library                                                  :ExportFile:
 :PROPERTIES:
