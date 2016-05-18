@@ -98,6 +98,11 @@ Add the following scripts to your /.emacs/
 
 #+begin_src emacs-lisp :eval no 
 (package-initialize)
+(setq package-archives '("org" . "http://orgmode.org/elpa/"))
+(unless (package-installed-p 'org-plus-contrib)
+  (package-install 'org-plus-contrib))
+
+(package-initialize)
 (require 'org)
 (setq org-confirm-babel-evaluate nil)  ;; evaluate src block without confirmation 
 
