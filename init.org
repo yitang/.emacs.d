@@ -1004,9 +1004,10 @@ following settings, I can use =F9-f= to select temporal buffers.
       "
   ("R" (yt/org-find-file "Profession/R.org") "R.org")
   ("p" (yt/org-find-file "python.org") "python.org")
-  ("l" (yt/org-find-file "linux.org") "linux.org")
+  ("l" (yt/org-find-file "life.org") "life.org")
   ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
+  ("A" (find-file "~/git/jbarm/ADRG_2016.org") "ADRG.org")
   )
 (global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
 #+end_src
@@ -3640,8 +3641,7 @@ The basical workflow is:
     (goto-char (point-min))))
 (setq mu4e-html2text-command 'my-render-html-message)
 
-;; yt
-(setq mu4e-view-prefer-html t) ;; try to render 
+;; (setq mu4e-view-prefer-html t) ;; try to render 
 (add-to-list 'mu4e-view-actions 
              '("ViewInBrowser" . mu4e-action-view-in-browser) t) ;; read in browser 
 ;; mu4e as default email agent in emacs
