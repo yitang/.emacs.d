@@ -5304,28 +5304,3 @@ git push
 
 #+end_example
 
-** image process 
-#+name: Extract_PDF_Pages
-#+begin_src sh :var pageStart=5 pageEnd=10 pdfFile="CompareWithCFSRDataset_final.pdf.pdf"
-## http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
-function pdfpextr() 
-{
-    # this function uses 3 arguments:
-    #     $1 is the first page of the range to extract
-    #     $2 is the last page of the range to extract
-    #     $3 is the input file
-    #     output file will be named "inputfile_pXX-pYY.pdf"
-    # TODO: add format=png option 
-    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-       -dFirstPage=${1} \
-       -dLastPage=${2} \
-       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
-       ${3}
-}
-pdfpextr $pageStart $pageEnd $pdfFile 
-#+end_src
-
-#+begin_example
-#+name: Extract_PDF_Pages[:dir ~/git/org/img](1, 10, "tmp.pdf")
-#+end_example
-
