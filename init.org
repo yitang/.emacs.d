@@ -168,6 +168,7 @@ are already in the /~/emacs.d/elpa// folder.
 (setq my-package-list '(ess
                         ssh
                         auto-complete
+                        ac-R
                         nyan-mode
                         yasnippet
                         projectile
@@ -276,8 +277,11 @@ most recent, but un-saved version, after power off.
 ;; do default config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
-
-
+(setq ac-delay 0.1)       
+(setq ac-auto-show-menu 0.2)
+(setq ac-quick-help-delay 0.2)
+(setq ac-quick-help-height 10)
+(setq ac-candidate-limit 100)
 #+end_src 
 
 I use =helm-mini= to navigate between files, which is a lot
