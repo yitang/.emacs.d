@@ -288,12 +288,10 @@ I use =helm-mini= to navigate between files, which is a lot
 convenient and faster than actually locate the file path. 
 
 #+begin_src emacs-lisp :results silent 
-    (recentf-mode 1)
-    (setq recentf-max-saved-items 200
-          recentf-max-menu-items 15)
-    (setq inhibit-startup-message t)        ; Disable startup message
-
-
+(recentf-mode 1)
+(setq recentf-max-saved-items 200
+      recentf-max-menu-items 15)
+(setq inhibit-startup-message t)        ; Disable startup message
 #+end_src
 
 Shows an notication for invalid operations. 
