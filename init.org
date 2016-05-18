@@ -3834,6 +3834,20 @@ tab to completet contacts, which is really handy.
              '("show-org-contact" . yt/mu4e-show-org-contact) t)
 #+end_src 
 
+#+begin_src emacs-lisp :results silent 
+(defun GetContactGroup (contact-file search-tag contact-type)
+  (interactive)
+  (let ((name-address (org-map-entries (lambda()
+                                 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
+                                       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
+                               search-tag
+                               contact-file)))
+    (mapconcat (lambda (a-list)
+                  (concat (car a-list) " <" (cdr a-list) ">"))
+               name-address ", ")))
+(defun yt/get-email-group (search-tag)
+  (GetContactGroup org-contacts-files search-tag "EMAIL"))
+#+end_src
 *** Workflow
 [2015-01-23 Fri 17:28]
 
