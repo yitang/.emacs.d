@@ -2327,6 +2327,8 @@ check clock entries if some are too long/short.
 			    :max-gap "00:05"       ;; highlight clock gap loger than 5 mins.
 			    :gap-ok-around ("4:00")))) 
 #+end_src
+
+(setq org-read-date-prefer-future 'time)
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
