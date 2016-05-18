@@ -115,12 +115,12 @@ Add the following scripts to your /.emacs/
   (insert-file "~/git/.emacs.d/yt/init.org")
   (goto-char (point-min))
 
-  ;; org babels 
-  (search-forward "\n* Babel Library")
-  (org-copy-subtree)
-  (let ((tmp-file (make-temp-file "tmp")))
-    (with-temp-file tmp-file (yank))
-    (org-babel-lob-ingest tmp-file))
+  ;; ;; org babels 
+  ;; (search-forward "\n* Babel Library")
+  ;; (org-copy-subtree)
+  ;; (let ((tmp-file (make-temp-file "tmp")))
+  ;;   (with-temp-file tmp-file (yank))
+  ;;   (org-babel-lob-ingest tmp-file))
 
   ;; emacs lisp functions 
   (goto-char (point-min))
