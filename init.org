@@ -100,6 +100,7 @@ Add the following scripts to your /.emacs/
 (package-initialize)
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
                          ("org" . "http://orgmode.org/elpa/")))
+(package-refresh-contents)
 (unless (package-installed-p 'org-plus-contrib)
   (package-install 'org-plus-contrib))
 
