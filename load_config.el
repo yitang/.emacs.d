@@ -1,6 +1,3 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize "~/git/.emacs.d")
-
 (require 'org)
 (setq org-confirm-babel-evaluate nil)  ;; evaluate src block without confirmation 
 
