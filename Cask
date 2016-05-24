@@ -3,6 +3,7 @@
 (source org)
 (source marmalade)
 
+(depends-on "auto-complete")
 (depends-on "ac-R")
 (depends-on "ace-jump-mode")
 (depends-on "ace-window")
