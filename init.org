@@ -3776,6 +3776,13 @@ shell mode
   )
 (add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
 #+end_src
+
+use swiper to replace default isearch
+
+#+begin_src emacs-lisp :results silent 
+(global-set-key "\C-s" 'swiper)
+#+end_src
+
 * End 
 [2015-01-19 Mon 11:43]
 
