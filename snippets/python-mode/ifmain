@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: if main
+# key: ifm2
+# --
+if __name__ == "__main__":
+   import sys
+   args = sys.args[1:]
+   main($0)
