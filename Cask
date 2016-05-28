@@ -40,6 +40,7 @@
 (depends-on "olivetti")
 (depends-on "org-download")
 (depends-on "org-plus-contrib")
+(depends-on "org-bullets")
 (depends-on "paradox")
 (depends-on "powerline")
 (depends-on "pretty-mode")
