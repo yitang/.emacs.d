@@ -1809,8 +1809,10 @@ Set the refile targets, they are all level 1 2 3 in current buffer and
 all the files in /org-agenda-files/. 
 
 #+begin_src emacs-lisp :results silent 
-(setq org-refile-targets (quote ((nil :maxlevel . 3)
-                                 (org-agenda-files :maxlevel . 3))))
+(setq org-refile-targets
+      '((nil :maxlevel . 3)
+        (org-agenda-files :maxlevel . 3)))
+(setq org-outline-path-complete-in-steps nil)
 #+end_src
 
 but exclude DONE state tasks from refile targets
