@@ -2006,7 +2006,7 @@ _j_ump      _o_ut        ^ ^      _r_eport
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
-(setq org-agenda-files '("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/Statistics" "~/git/jbarm"))
+(setq org-agenda-files '("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
 (setq org-list-allow-alphabetical t)
 
 (defun yt/org-agenda-files--choose (candidate)
