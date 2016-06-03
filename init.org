@@ -3693,7 +3693,7 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 #+end_src
 
-** Sphinix-doc for documentation
+** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
 
 #+begin_src emacs-lisp :results silent
