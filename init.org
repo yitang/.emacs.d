@@ -762,7 +762,7 @@ commands, also it comes with excellent [[http://magit.github.io/master/magit.htm
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-auto-revert-mode nil)
 (global-set-key (kbd "<f9> g") 'magit-status)
-(global-auto-revert-mode)
+(global-auto-revert-mode t)
 #+end_src 
             
 # I use Emacs/org-mode as a unified system to do everything, at home and
@@ -1782,7 +1782,7 @@ The capture mode templates.
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
               ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
                "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
-              ("v" "Vocabulary" entry (file "~/git/Learning/Vocabulary.org")
+              ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
               ("j" "Journalsing")
