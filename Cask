@@ -61,3 +61,4 @@
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 (depends-on "zenburn-theme")
+(depends-on "sphinx-doc")

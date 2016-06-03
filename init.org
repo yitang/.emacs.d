@@ -3693,6 +3693,20 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 #+end_src
 
+** Sphinix-doc for documentation
+   [2016-06-03 Fri 15:33]
+
+#+begin_src emacs-lisp :results silent
+(cl-defstruct sphinx-doc-doc
+  (summary "FIXME: briefly describe function") ; summary line that fits on the first line
+  before-fields                                ; list of comments before fields
+  after-fields                                 ; list of comments after fields
+  fields)                                      ; list of field objects
+
+(add-hook 'python-mode-hook (lambda ()
+                              ;; (require 'sphinx-doc)
+                              (sphinx-doc-mode t)))
+#+end_src
 ** Refile                                                       :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
