@@ -891,6 +891,7 @@ following settings, I can use =F9-f= to select temporal buffers.
   ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
   ("A" (find-file "~/git/jbarm/ADRG_2016.org") "ADRG.org")
+  ("d" (yt/org-find-file "Journal/diary.org") "diary.org")
   )
 (global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
 #+end_src
