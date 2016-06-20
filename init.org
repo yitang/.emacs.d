@@ -2221,9 +2221,25 @@ check clock entries if some are too long/short.
 			    :min-duration "00:05"  ;; highlight clock smaller than 5 mins 
 			    :max-gap "00:05"       ;; highlight clock gap loger than 5 mins.
 			    :gap-ok-around ("4:00")))) 
+(setq org-read-date-prefer-future 'time)
 #+end_src
 
-(setq org-read-date-prefer-future 'time)
+agenda reminder
+#+begin_src emacs-lisp :results silent 
+;; Erase all reminders and rebuilt reminders for today from the agenda
+(defun bh/org-agenda-to-appt ()
+  (interactive)
+  (setq appt-time-msg-list nil)
+  (setq appt-display-format 'window) ;; YT: show notification in separate window
+  (org-agenda-to-appt))
+
+                                        ; Rebuild the reminders everytime the agenda is displayed
+(add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
+
+                                        ; This is at the end of my .emacs - so appointments are set up when Emacs starts
+(bh/org-agenda-to-appt)
+#+end_src
+
 *** customised 
 
 #+begin_src emacs-lisp :results silent 
