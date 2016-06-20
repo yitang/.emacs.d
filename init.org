@@ -2011,12 +2011,12 @@ remove empty clock entrys at checkout
 (defun bh/insert-inactive-timestamp ()
   (interactive)
   (org-insert-time-stamp nil t t nil nil nil))
-(defun bh/insert-heading-inactive-timestamp ()
-  (save-excursion
-    (org-return)
-    (org-cycle)
-    (bh/insert-inactive-timestamp)))
-(add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+;; (defun bh/insert-heading-inactive-timestamp ()
+;;   (save-excursion
+;;     (org-return)
+;;     (org-cycle)
+;;     (bh/insert-inactive-timestamp)))
+;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
 (setq org-file-apps (quote ((auto-mode . emacs)
                             ("\\.png\\'" . system)
                             ("\\.svg\\'" . system)
