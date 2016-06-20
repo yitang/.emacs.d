@@ -1,4 +1,4 @@
-#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
+n#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
@@ -602,9 +602,10 @@ cross reference.
   "copy buffer's full path to kill ring"
   (interactive)
   (when buffer-file-name
-    (let* ((file-truename buffer-file-name)
-	   (rel-name (file-relative-name file-truename "~/")))  ; BUG: if filename is not relative to home directory.
-      (kill-new (concat "~/" rel-name)))))
+    (let* ((file-truename buffer-file-name))
+      ;;(rel-name (file-relative-name file-truename "~/")))  ; BUG: if filename is not relative to home directory.
+      ;; (kill-new (concat "~/" rel-name)))))
+      (kill-new file-truename))))
 #+end_src
 
 Open a file as a rooter in Emacs, very handy. 
