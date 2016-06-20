@@ -1943,6 +1943,12 @@ _j_ump      _o_ut        ^ ^      _r_eport
 
 (global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 #+end_src
+
+remove empty clock entrys at checkout 
+
+#+begin_src emacs-lisp :results silent 
+(add-hook 'org-clock-out-hook 'org-clock-remove-empty-clock-drawer 'append)
+#+end_src
 *** org-tags
 [2015-07-20 Mon 14:57]
 
