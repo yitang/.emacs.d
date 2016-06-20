@@ -115,7 +115,7 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 [2015-03-18 Wed 15:32]
 
 All the packages used in this configuration are available the
-major Emacs repositories. it is recommended to install them via Emacs's
+major Emacs repositories. It is recommended to install them via Emacs's
 package management tool, and by the following snippets. Note the
 initial installation may takes a while to finish, depends on how many
 are already in the /~/emacs.d/elpa// folder.
@@ -123,7 +123,35 @@ are already in the /~/emacs.d/elpa// folder.
 ** General                                                      :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
-:END:
+:END:    
+*** Utilities
+[2015-01-19 Mon 12:14]
+
+Firstly, define a function for reloading Emacs configuration, need
+this function in debugging this configuration file.
+#+begin_src emacs-lisp
+(defun yt/reload-dot-emacs ()
+  "Save the .emacs buffer if needed, then reload .emacs."
+  (interactive)
+  (let ((dot-emacs "~/.emacs"))
+    (and (get-file-buffer dot-emacs)
+         (save-buffer (get-file-buffer dot-emacs)))
+    (load-file dot-emacs))
+  (message "Re-initialized!"))
+#+end_src
+
+Life is too short to type "yes" or "no". 'y' or 'n' is enough.
+#+begin_src emacs-lisp :results silent 
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+Use keyfreq package to record the commands I use in Emacs.
+#+begin_src emacs-lisp :results silent 
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+#+end_src
+
 *** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
 (global-unset-key (kbd "C-x b"))
@@ -132,9 +160,8 @@ are already in the /~/emacs.d/elpa// folder.
 *** Assorted Pieces 
 [2015-01-19 Mon 12:21]
 
-Define an auto-save feature, the backup files are saved in
-/~/.emacs.d/backup/ folder. I've used it several times to recover the
-most recent, but un-saved version, after power off. 
+Automatically backup buffers/files into the working directory and the
+/~/.emacs.d/backup// directory. 
 
 #+begin_src emacs-lisp
 ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
@@ -166,19 +193,24 @@ most recent, but un-saved version, after power off.
 (setq ac-candidate-limit 100)
 #+end_src 
 
-I use =helm-mini= to navigate between files, which is a lot
-convenient and faster than actually locate the file path. 
+Configure recent opened files. I use =helm-mini= to navigate between
+files, which is a lot convenient and faster than actually locate the
+file path.
 
 #+begin_src emacs-lisp :results silent 
 (recentf-mode 1)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
-(setq inhibit-startup-message t)        ; Disable startup message
 #+end_src
 
 Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
 (setq visible-bell nil) 
+#+end_src
+
+Disable startup message
+#+begin_src emacs-lisp :results silent 
+(setq inhibit-startup-message t)        
 #+end_src
 
 yasnippet is a powerful package that I'd like to explore in the
@@ -196,7 +228,7 @@ start-up.
 [2015-01-19 Mon 12:13]
     
 Quickly jump between windows using =ace-window=, I used it frequently and
-bind it ~F1~.
+bind it ~F2~.
 
 #+begin_src emacs-lisp :results silent 
 (require 'ace-window)
@@ -232,32 +264,6 @@ reference/searching.
       (new-frame '((name . "***********************REFERENCE*******************")))
     nil))
 (global-set-key (kbd "M-`") 'other-frame)
-#+end_src
-
-    
-
-*** Utilities
-[2015-01-19 Mon 12:14]
-
-#+begin_src emacs-lisp
-;; Change "yes or no" to "y or n"
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(defun yt/reload-dot-emacs ()
-  "Save the .emacs buffer if needed, then reload .emacs."
-  (interactive)
-  (let ((dot-emacs "~/.emacs"))
-    (and (get-file-buffer dot-emacs)
-         (save-buffer (get-file-buffer dot-emacs)))
-    (load-file dot-emacs))
-  (message "Re-initialized!"))
-#+end_src
-
-Use keyfreq package to record the commands I use in Emacs.
-#+begin_src emacs-lisp :results silent 
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
 #+end_src
 *** System Path/Keyboard
 [2015-01-19 Mon 12:15]
@@ -297,6 +303,9 @@ terminal and C-z won't stop the program without asking.
 
 Open PDF files using external program.
 
+[2016-06-20 Mon 21:43] =helm-find-files= has open with default tool
+functionality. This block is no longer needed.
+
 #+begin_src emacs-lisp :results silent 
 ;; (require 'openwith)
 ;; (openwith-mode t)
@@ -319,17 +328,23 @@ define such set of pairing characters.
 (sp-pair "'" nil :actions :rem)
 #+end_src
 
-It is a terrible idea to have lines of context that expand the whole
-screen, especially nowadays we have wide-screens, which just make it is
-hard to read. A well accepted rule is to set the width of lines to 80
-characters, and force a logical line breaks. This funcitonality is
-called =auto-fill= in Emacs, and I can do the filling by call =fill-paragraph=.
+Modern display is widen. Like many of the Emacs users, I prefer to
+have the text wrapper inside a small region rather than have a stretch
+across the whole screen. It's easier to read in this way. 
+
+A well accepted rule is to set the width of lines to 80 characters,
+and force a logical line breaks. This funcitonality is called
+=auto-fill= in Emacs, and I can do the filling by call
+=fill-paragraph=.
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'text-mode-hook 'turn-on-auto-fill) ;; 
 #+end_src
 
 Just in case I need to reverse the auto-fill process.
+
+[2016-06-20 Mon 21:47] Can't remember when was the last time I use
+unfill. This snippet is not long used.
 #+begin_src emacs-lisp :results silent 
 (defun yt/unfill-paragraph ()
   (interactive)
@@ -341,7 +356,8 @@ Just in case I need to reverse the auto-fill process.
     (fill-region (region-beginning) (region-end) nil)))
 #+end_src
 *** Minibuffer history 
-=savehist= is an very powerful mode.
+Let Emacs remember what I've typed, so I don't need to tediously type
+the whole thing. Most of the time, I could just select using =helm=.
 
 #+begin_src emacs-lisp :results silent 
 (setq savehist-file "~/git/.emacs.d/personal/emacs-history")
@@ -356,7 +372,8 @@ Just in case I need to reverse the auto-fill process.
 [2015-07-20 Mon 11:46]
 
 I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
-claimed to be suitable for coding environments. But I use it for all modes.
+claimed to be suitable for coding environments but I use it for all
+modes.
 
 #+begin_src emacs-lisp :results silent :eval no
 (set-default-font "Source Code Pro-14" nil t)
@@ -365,22 +382,28 @@ claimed to be suitable for coding environments. But I use it for all modes.
 *** Minimalists GUI 
 [2015-07-20 Mon 11:46]
 
-I never click any buttons in the menu-bar/tool-bar, nor need the
-scroll-bar to tell me the cursor position the in the buffer, so I removed all of
+I never click any buttons in the tool-bar, nor need the scroll-bar to
+tell me the cursor position the in the buffer, so I removed all of
 them to have minimalist GUI of Emacs. 
+
+Recently I found menu-bar is really useful, it shows commonly used
+functions for a particular mode. Occasionally I found something
+useful.
 
 #+begin_src emacs-lisp :results silent 
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+; (menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
 *** Theme 
 [2015-07-20 Mon 11:46]
 
-I have been using /zenburn/ theme for a while. It is a popular low contrast
-colour theme and easy on the eye. Occasionally I apply /tsdh-dark/
-theme on the top when I really need to focus on.
+I have been using /zenburn/ theme for a while. It is a popular low
+contrast colour theme and easy on the eye. Occasionally I apply
+/tsdh-dark/ theme on the top when I really need to focus on.
 
+/leuven/ theme is highly customised for org-mode and I like to use it
+when my eyes are tired of the /zenburn/ theme.
 #+begin_src emacs-lisp :eval yes
 ;; (load-theme 'zenburn t) 
 (load-theme 'leuven t)
@@ -391,8 +414,8 @@ theme on the top when I really need to focus on.
 [2015-07-20 Mon 11:46]
 
 The mode line is at the bottom of every Emacs Window aside from
-MiniBuffer windows. It has most of the relevant information about the buffer,
-including Git status, Major mode, clock info, etc. 
+MiniBuffer windows. It has most of the relevant information about the
+buffer, including Git status, Major mode, clock info, etc.
 
 The smart-mode-line packages can make mode-line "smart and sexy".
 There are many options to tweak.
@@ -422,7 +445,6 @@ This will leave empty spaces which can be removed by
 #+end_src
 
 Finally, show the current time in the mode-line. 
-
 #+begin_src emacs-lisp :results silent
 (display-time-mode)
 #+end_src
@@ -608,7 +630,7 @@ cross reference.
       (kill-new file-truename))))
 #+end_src
 
-Open a file as a rooter in Emacs, very handy. 
+Open a file as a root user in Emacs, very handy. 
 
 #+begin_src emacs-lisp :results silent 
 (defun yt/sudo-find-file (file-name)
