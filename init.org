@@ -3726,6 +3726,7 @@ when the cursr is in a twitter:
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
+(add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
 (require 'elpy)
 (elpy-enable)
