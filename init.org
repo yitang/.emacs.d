@@ -206,6 +206,7 @@ file path.
 Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
 (setq visible-bell nil) 
+(setq ring-bell-function 'ignore)
 #+end_src
 
 Disable startup message
