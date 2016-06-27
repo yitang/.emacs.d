@@ -2552,6 +2552,26 @@ define the markups.
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (setq org-latex-default-class "yt/org-article")
 
+(add-to-list 'org-latex-classes
+             '("beamer"
+               "\\documentclass\[presentation\]\{beamer\}
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\defaultfontfeatures{Mapping=tex-text}
+% \\setromanfont[BoldFont={Gentium Basic Bold},
+%                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
+\\setsansfont{Charis SIL}
+\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+\\usepackage{minted}
+[NO-DEFAULT-PACKAGES]
+[NO-PACKAGES]
+"
+               ("\\section\{%s\}" . "\\section*\{%s\}")
+               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+
+(require 'ox-beamer)
+
 ;; code highlights using minted package 
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
