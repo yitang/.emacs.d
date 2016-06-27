@@ -57,7 +57,7 @@
 (depends-on "synosaurus")
 (depends-on "tldr")
 (depends-on "voca-builder")
-(depends-on "w3m")
+; (depends-on "w3m")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 (depends-on "zenburn-theme")

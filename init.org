@@ -206,6 +206,7 @@ file path.
 Shows an notication for invalid operations. 
 #+begin_src emacs-lisp :results silent 
 (setq visible-bell nil) 
+(setq ring-bell-function 'ignore)
 #+end_src
 
 Disable startup message
@@ -3746,6 +3747,7 @@ when the cursr is in a twitter:
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
+(add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
 (require 'elpy)
 (elpy-enable)
