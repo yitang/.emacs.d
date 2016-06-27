@@ -1,4 +1,4 @@
-n#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
+#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
