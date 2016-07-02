@@ -1,4 +1,4 @@
-n#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
+#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
@@ -1795,7 +1795,7 @@ The capture mode templates.
 #+begin_src emacs-lisp :results silent 
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
-               "* TODO %?\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
+               "* TODO %?\n\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
               ("o" "org" entry (file "~/git/org/refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
               ;; ("r" "respond" entry (file "~/git/org/refile.org")
@@ -2552,6 +2552,26 @@ define the markups.
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (setq org-latex-default-class "yt/org-article")
+
+(add-to-list 'org-latex-classes
+             '("beamer"
+               "\\documentclass\[presentation\]\{beamer\}
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\defaultfontfeatures{Mapping=tex-text}
+% \\setromanfont[BoldFont={Gentium Basic Bold},
+%                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
+\\setsansfont{Charis SIL}
+\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
+\\usepackage{minted}
+[NO-DEFAULT-PACKAGES]
+[NO-PACKAGES]
+"
+               ("\\section\{%s\}" . "\\section*\{%s\}")
+               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+
+(require 'ox-beamer)
 
 ;; code highlights using minted package 
 (add-to-list 'org-latex-packages-alist '("" "minted"))
