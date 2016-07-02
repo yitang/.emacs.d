@@ -2019,11 +2019,11 @@ remove empty clock entrys at checkout
 ;;     (bh/insert-inactive-timestamp)))
 ;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
 (setq org-file-apps (quote ((auto-mode . emacs)
-                            ("\\.png\\'" . system)
+                            ("\\.png\\'" . emacs)
                             ("\\.svg\\'" . system)
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . emacs))))
+                            ("\\.pdf\\'" . system))))
                                         ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
 
