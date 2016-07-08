@@ -191,6 +191,17 @@ Automatically backup buffers/files into the working directory and the
 (setq ac-quick-help-delay 0.2)
 (setq ac-quick-help-height 10)
 (setq ac-candidate-limit 100)
+;; (require 'company-mode)
+(setq company-idle-delay              0
+      company-tooltip-flip-when-above t
+      company-minimum-prefix-length   2
+      company-show-numbers            t
+      company-tooltip-limit           20
+      company-dabrev-downcase         nil
+      )
+(add-hook 'ess-mode-hook
+          '(lambda()
+             (company-mode-on)))
 #+end_src 
 
 Configure recent opened files. I use =helm-mini= to navigate between
