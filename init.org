@@ -2012,6 +2012,8 @@ remove empty clock entrys at checkout
 (defun bh/insert-inactive-timestamp ()
   (interactive)
   (org-insert-time-stamp nil t t nil nil nil))
+(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+
 ;; (defun bh/insert-heading-inactive-timestamp ()
 ;;   (save-excursion
 ;;     (org-return)
