@@ -145,12 +145,12 @@ Life is too short to type "yes" or "no". 'y' or 'n' is enough.
 (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
-Use keyfreq package to record the commands I use in Emacs.
-#+begin_src emacs-lisp :results silent 
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
-#+end_src
+# Use keyfreq package to record the commands I use in Emacs.
+# #+begin_src emacs-lisp :results silent 
+# (require 'keyfreq)
+# (keyfreq-mode 1)
+# (keyfreq-autosave-mode 1)
+# #+end_src
 
 *** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
