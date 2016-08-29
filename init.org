@@ -1818,7 +1818,7 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger")
+              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2016.org")
                "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
