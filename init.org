@@ -2052,179 +2052,205 @@ remove empty clock entrys at checkout
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
-(setq org-agenda-files '("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
-(setq org-list-allow-alphabetical t)
+  ;; recursively find .org files in provided directory
+  ;; modified from an Emacs Lisp Intro example
+  (defun sa-find-org-file-recursively (&optional directory filext)
+    "Return .org and .org_archive files recursively from DIRECTORY.
+  If FILEXT is provided, return files with extension FILEXT instead."
+    (interactive "DDirectory: ")
+    (let* (org-file-list
+           (case-fold-search t)         ; filesystems are case sensitive
+           (file-name-regex "^[^.#].*") ; exclude dot, autosave, and backup files
+           (filext (or filext "org$\\\|org_archive"))
+           (fileregex (format "%s\\.\\(%s$\\)" file-name-regex filext))
+           (cur-dir-list (directory-files directory t file-name-regex)))
+      ;; loop over directory listing
+      (dolist (file-or-dir cur-dir-list org-file-list) ; returns org-file-list
+        (cond
+         ((file-regular-p file-or-dir) ; regular files
+          (if (string-match fileregex file-or-dir) ; org files
+              (add-to-list 'org-file-list file-or-dir)))
+         ((file-directory-p file-or-dir)
+          (dolist (org-file (sa-find-org-file-recursively file-or-dir filext)
+                            org-file-list) ; add files found to result
+            (add-to-list 'org-file-list org-file)))))))
 
-(defun yt/org-agenda-files--choose (candidate)
-  (mapc 'identity (helm-marked-candidates)))
-(defun yt/org-agenda-files-set-helm ()
-  (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                    (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
-                    (action . yt/org-agenda-files--choose)))))
-(defun yt/org-agenda-files-set ()
-  (interactive)
-  (setq org-agenda-files (yt/org-agenda-files-set-helm)))
-;; (yt/org-agenda-files-set)
+  (setq org-agenda-files (append (sa-find-org-file-recursively "~/git/org")
+                                 (sa-find-org-file-recursively "~/git/jbarm")
+                                 (sa-find-org-file-recursively "~/git/career")))
 
-(global-set-key (kbd "<f12>") 'org-agenda)
+  (setq org-list-allow-alphabetical t)
 
-;; Do not dim blocked tasks
-(setq org-agenda-dim-blocked-tasks nil)
+  (defun yt/org-agenda-files--choose (candidate)
+    (mapc 'identity (helm-marked-candidates)))
+  (defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
+    (helm :sources '(((name . "Add directories to org-agenda-files variable")
+                      (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
+                      (action . yt/org-agenda-files--choose)))))
+  (defun yt/org-agenda-files-set ()
+    (interactive)
+    (setq org-agenda-files (yt/org-agenda-files-set-helm)))
+  ;; (yt/org-agenda-files-set)
 
-;; Compact the block agenda view
-(setq org-agenda-compact-blocks nil)
+  (global-set-key (kbd "<f12>") 'org-agenda)
 
+  ;; Do not dim blocked tasks
+  (setq org-agenda-dim-blocked-tasks nil)
 
-
-;; Custom agenda command definitions
-(defvar bh/hide-scheduled-and-waiting-next-tasks t)
-(setq org-agenda-custom-commands
-      (quote (("N" "Notes" tags "NOTE"
-               ((org-agenda-overriding-header "Notes")
-                (org-tags-match-list-sublevels t)))
-              ("h" "Habits" tags-todo "STYLE=\"habit\""
-               ((org-agenda-overriding-header "Habits")
-                (org-agenda-sorting-strategy
-                 '(todo-state-down effort-up category-keep))))
-	      ("d" "deadline" agenda ""
-	       (
-		(org-agenda-entry-types '(:deadline))
-		(org-agenda-start-day "2016-01-01")
-		(org-agenda-span 'year)
-		(org-agenda-include-diary nil)
-		(org-agenda-show-all-dates nil)))
-	      ("s" "scheduled" agenda ""
-	       (
-		(org-agenda-entry-types '(:scheduled))
-		(org-agenda-start-day "2016-01-01")
-		(org-agenda-span 'year)
-		(org-agenda-include-diary nil)
-		(org-agenda-show-all-dates nil)))
-              (" " "Agenda"
-               ((agenda "" nil)
-                (tags-todo "-CANCELLED+WAITING|HOLD/!"
-                           ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks (Ask them)"
-                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                      ""
-                                                                    " (including WAITING and SCHEDULED tasks)")))
-                            (org-agenda-skip-function 'bh/skip-non-tasks)
-                            (org-tags-match-list-sublevels nil)
-                            (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
-                (tags "RESPONSE"
-                      ((org-agenda-overriding-header "Response (Make other's life easier)")
-                       (org-tags-match-list-sublevels nil)))
-                (tags-todo "-CANCELLED/!NEXT"
-                           ((org-agenda-overriding-header (concat "Project Next Tasks (Running out of things to do? pick one)"
-                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                      ""
-                                                                    " (including WAITING and SCHEDULED tasks)")))
-                            (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-                            (org-tags-match-list-sublevels t)
-                            (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-sorting-strategy
-                             '(todo-state-down effort-up category-keep))))
-                (tags-todo "-CANCELLED/!"
-                           ((org-agenda-overriding-header "Stuck Projects (Make the project flows, assign Next)")
-                            (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags-todo "-HOLD-CANCELLED/!"
-                           ((org-agenda-overriding-header "Projects (on-going)")
-                            (org-agenda-skip-function 'bh/skip-non-projects)
-                            (org-tags-match-list-sublevels 'indented)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                           ((org-agenda-overriding-header (concat "Project Subtasks (Will do in the furture)"
-                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                      ""
-                                                                    " (including WAITING and SCHEDULED tasks)")))
-                            (org-agenda-skip-function 'bh/skip-non-project-tasks)
-                            (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                           ((org-agenda-overriding-header (concat "Standalone Tasks (One-off/Small Tasks to pick)"
-                                                                  (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                      ""
-                                                                    " (including WAITING and SCHEDULED tasks)")))
-                            (org-agenda-skip-function 'bh/skip-project-tasks)
-                            (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags "-REFILE/"
-                      ((org-agenda-overriding-header "Tasks to Archive (Two month old)")
-                       (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-                       (org-tags-match-list-sublevels nil)))
-                (tags "REFILE"
-                      ((org-agenda-overriding-header "Tasks to Refile")
-                       (org-tags-match-list-sublevels nil)))
-                nil)))))
-
-;; Limit restriction lock highlighting to the headline only
-(setq org-agenda-restriction-lock-highlight-subtree nil)
-
-;; Always hilight the current agenda line
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (hl-line-mode 1))
-          'append)
-
-;;;; * agenda ignore items 
-;; Keep tasks with dates on the global todo lists
-(setq org-agenda-todo-ignore-with-date nil)
-
-;; Keep tasks with deadlines on the global todo lists
-(setq org-agenda-todo-ignore-deadlines nil)
-
-;; Keep tasks with scheduled dates on the global todo lists
-(setq org-agenda-todo-ignore-scheduled nil)
-
-;; Keep tasks with timestamps on the global todo lists
-(setq org-agenda-todo-ignore-timestamp nil)
-
-;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
-
-;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
-
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
-
-(setq org-agenda-include-diary nil)
-(setq org-agenda-diary-file "~/git/org/diary.org")
-
-
-(setq org-agenda-insert-diary-extract-time t)
-
-;; Include agenda archive files when searching for things
-(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
-
-;; Show all future entries for repeating tasks
-(setq org-agenda-repeating-timestamp-show-all t)
-
-;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
-
-;; Sorting order for tasks on the agenda
-(setq org-agenda-sorting-strategy
-      (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
-              (todo category-up effort-up)
-              (tags category-up effort-up)
-              (search category-up))))
+  ;; Compact the block agenda view
+  (setq org-agenda-compact-blocks nil)
 
 
 
-;; (setq org-agenda-tags-column -102)
-;; Use sticky agenda's so they persist
-;; (setq org-agenda-sticky t)
+  ;; Custom agenda command definitions
+  (defvar bh/hide-scheduled-and-waiting-next-tasks t)
+  (setq org-agenda-custom-commands
+        (quote (("N" "Notes" tags "NOTE"
+                 ((org-agenda-overriding-header "Notes")
+                  (org-tags-match-list-sublevels t)))
+                ("h" "Habits" tags-todo "STYLE=\"habit\""
+                 ((org-agenda-overriding-header "Habits")
+                  (org-agenda-sorting-strategy
+                   '(todo-state-down effort-up category-keep))))
+                ("d" "deadline" agenda ""
+                 (
+                  (org-agenda-entry-types '(:deadline))
+                  (org-agenda-start-day "2016-01-01")
+                  (org-agenda-span 'year)
+                  (org-agenda-include-diary nil)
+                  (org-agenda-show-all-dates nil)))
+                ("s" "scheduled" agenda ""
+                 (
+                  (org-agenda-entry-types '(:scheduled))
+                  (org-agenda-start-day "2016-01-01")
+                  (org-agenda-span 'year)
+                  (org-agenda-include-diary nil)
+                  (org-agenda-show-all-dates nil)))
+                (" " "Agenda"
+                 ((agenda "" nil)
+                  (tags-todo "-CANCELLED+WAITING|HOLD/!"
+                             ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks (Ask them)"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-non-tasks)
+                              (org-tags-match-list-sublevels nil)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
+                  (tags "RESPONSE"
+                        ((org-agenda-overriding-header "Response (Make other's life easier)")
+                         (org-tags-match-list-sublevels nil)))
+                  (tags-todo "-CANCELLED/!NEXT"
+                             ((org-agenda-overriding-header (concat "Project Next Tasks (Running out of things to do? pick one)"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                              (org-tags-match-list-sublevels t)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(todo-state-down effort-up category-keep))))
+                  (tags-todo "-CANCELLED/!"
+                             ((org-agenda-overriding-header "Stuck Projects (Make the project flows, assign Next)")
+                              (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-HOLD-CANCELLED/!"
+                             ((org-agenda-overriding-header "Projects (on-going)")
+                              (org-agenda-skip-function 'bh/skip-non-projects)
+                              (org-tags-match-list-sublevels 'indented)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                             ((org-agenda-overriding-header (concat "Project Subtasks (Will do in the furture)"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-non-project-tasks)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                             ((org-agenda-overriding-header (concat "Standalone Tasks (One-off/Small Tasks to pick)"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-project-tasks)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags "-REFILE/"
+                        ((org-agenda-overriding-header "Tasks to Archive (Two month old)")
+                         (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
+                         (org-tags-match-list-sublevels nil)))
+                  (tags "REFILE"
+                        ((org-agenda-overriding-header "Tasks to Refile")
+                         (org-tags-match-list-sublevels nil)))
+                  nil)))))
+
+  ;; Limit restriction lock highlighting to the headline only
+  (setq org-agenda-restriction-lock-highlight-subtree nil)
+
+  ;; Always hilight the current agenda line
+  (add-hook 'org-agenda-mode-hook
+            '(lambda () (hl-line-mode 1))
+            'append)
+
+  ;;;; * agenda ignore items 
+  ;; Keep tasks with dates on the global todo lists
+  (setq org-agenda-todo-ignore-with-date nil)
+
+  ;; Keep tasks with deadlines on the global todo lists
+  (setq org-agenda-todo-ignore-deadlines nil)
+
+  ;; Keep tasks with scheduled dates on the global todo lists
+  (setq org-agenda-todo-ignore-scheduled nil)
+
+  ;; Keep tasks with timestamps on the global todo lists
+  (setq org-agenda-todo-ignore-timestamp nil)
+
+  ;; Remove completed deadline tasks from the agenda view
+  (setq org-agenda-skip-deadline-if-done t)
+
+  ;; Remove completed scheduled tasks from the agenda view
+  (setq org-agenda-skip-scheduled-if-done t)
+
+  ;; Remove completed items from search results
+  (setq org-agenda-skip-timestamp-if-done t)
+
+  (setq org-agenda-include-diary nil)
+  (setq org-agenda-diary-file "~/git/org/diary.org")
+
+
+  (setq org-agenda-insert-diary-extract-time t)
+
+  ;; Include agenda archive files when searching for things
+  (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+
+  ;; Show all future entries for repeating tasks
+  (setq org-agenda-repeating-timestamp-show-all t)
+
+  ;; Show all agenda dates - even if they are empty
+  (setq org-agenda-show-all-dates t)
+
+  ;; Sorting order for tasks on the agenda
+  (setq org-agenda-sorting-strategy
+        (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
+                (todo category-up effort-up)
+                (tags category-up effort-up)
+                (search category-up))))
+
+
+
+  ;; (setq org-agenda-tags-column -102)
+  ;; Use sticky agenda's so they persist
+  ;; (setq org-agenda-sticky t)
 
 #+end_src
 
