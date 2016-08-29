@@ -3774,6 +3774,8 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+(setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "--simple-prompt --pprint")
 #+end_src
 
 ** Sphinx-doc for documentation
