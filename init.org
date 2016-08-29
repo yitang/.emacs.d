@@ -893,18 +893,18 @@ also need temporary buffers for testing R code and org-mode. In the
 following settings, I can use =F9-f= to select temporal buffers.
 
 #+begin_src emacs-lisp :results silent 
-(defvar yt/temp-dir "~/git/org/temp"
+(defvar yt/temp-dir "~/tmp"
   "temporay folders")
 
 (defun yt/open-tmp-R ()
   (interactive)
-  (find-file (expand-file-name "temp.R" yt/temp-dir)))
+  (find-file (expand-file-name "tmp.R" yt/temp-dir)))
 (defun yt/open-tmp-el ()
   (interactive)
-  (find-file (expand-file-name "temp.el" yt/temp-dir)))
+  (find-file (expand-file-name "tmp.el" yt/temp-dir)))
 (defun yt/open-tmp-org ()
   (interactive)
-  (find-file (expand-file-name "temp.org" yt/temp-dir)))
+  (find-file (expand-file-name "tmp.org" yt/temp-dir)))
 (global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
 (global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
 (global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
