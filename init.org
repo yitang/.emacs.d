@@ -3904,10 +3904,17 @@ shell mode
 (add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
 #+end_src
 
-use swiper to replace default isearch
+use swiper to replace default =isearch=
 
 #+begin_src emacs-lisp :results silent 
 (global-set-key "\C-s" 'swiper)
+#+end_src
+
+
+use snakemake-mode for smake file.
+
+#+begin_src emacs-lisp :results silent 
+(add-to-list 'auto-mode-alist '("sfile" . snakemake-mode))
 #+end_src
 
 
