@@ -63,3 +63,7 @@
 (depends-on "zenburn-theme")
 (depends-on "sphinx-doc")
 (depends-on "company")
+(depends-on "eww")
+(depends-on "swiper")
+(depends-on "ivy")
+; (depends-on "w3m" :git "git@github.com:rejeep/w3m.git" :branch "cask")
