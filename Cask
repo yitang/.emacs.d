@@ -4,7 +4,7 @@
 (source marmalade)
 
 (depends-on "auto-complete")
-(depends-on "ac-R")
+; (depends-on "ac-R")
 (depends-on "ace-jump-mode")
 (depends-on "ace-window")
 (depends-on "artbollocks-mode")
@@ -39,7 +39,7 @@
 (depends-on "nyan-mode")
 (depends-on "olivetti")
 (depends-on "org-download")
-(depends-on "org-plus-contrib")
+; (depends-on "org-plus-contrib")
 (depends-on "org-bullets")
 (depends-on "paradox")
 (depends-on "powerline")
