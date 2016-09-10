@@ -3910,6 +3910,7 @@ use swiper to replace default =isearch=
 (global-set-key "\C-s" 'swiper)
 #+end_src
 
+
 use snakemake-mode for smake file.
 
 #+begin_src emacs-lisp :results silent 
@@ -3917,6 +3918,12 @@ use snakemake-mode for smake file.
 #+end_src
 
 
+#+begin_src emacs-lisp :results silent 
+(defun yt/sh-chunk-args ()
+(interactive)
+(replace-string " -" " \\\n -")
+)
+#+end_src
 ** open buffer with external application
    [2016-06-20 Mon 16:34]
 
