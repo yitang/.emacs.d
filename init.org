@@ -2531,6 +2531,10 @@ define the markups.
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
 \\usepackage{hyperref}
+\\hypersetup{
+     colorlinks   = true,
+     citecolor    = gray
+}
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
