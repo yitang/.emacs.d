@@ -2459,6 +2459,8 @@ then type *.
          (latex . t)
          (sql . t))))
 
+(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
+
 ;; (add-to-list 'org-babel-default-header-args:R
 ;;              ;; '(:session . "*R-main*")
 ;;              '((:width . 640) (:height . 640)))
