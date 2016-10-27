@@ -2471,6 +2471,8 @@ then type *.
          (latex . t)
          (sql . t))))
 
+(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
+
 ;; (add-to-list 'org-babel-default-header-args:R
 ;;              ;; '(:session . "*R-main*")
 ;;              '((:width . 640) (:height . 640)))
@@ -3960,7 +3962,23 @@ use snakemake-mode for smake file.
                        " "
                        (shell-quote-argument buffer-file-name)))))
    #+end_src
-   
+** C++
+
+   #+begin_src emacs-lisp :results silent 
+   (defun my-c++-compile-cmd ()
+  "for the course i am studying"
+  (let ((file (file-relative-name (buffer-file-name))))
+    (format "g++ --std=c++14 -pipe -o %s %s -lm&& ./%s"
+		  (file-name-sans-extension file)
+		  file
+		  (file-name-sans-extension file))
+    ))
+(defun my-c++-compile ()
+  (interactive)
+  (setq-default compile-command (my-c++-compile-cmd))
+  (compile (default-value 'compile-command)))
+(global-set-key (kbd "<f9> c") 'my-c++-compile)
+   #+end_src
 * End 
 [2015-01-19 Mon 11:43]
 
