@@ -2083,13 +2083,25 @@ remove empty clock entrys at checkout
 
   (defun yt/org-agenda-files--choose (candidate)
     (mapc 'identity (helm-marked-candidates)))
-  (defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
+    
+
+(defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
     (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                      (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
+                      (candidates . ("~/git/org/" "~/git/career" "~/git/jbarm"))
                       (action . yt/org-agenda-files--choose)))))
-  (defun yt/org-agenda-files-set ()
-    (interactive)
-    (setq org-agenda-files (yt/org-agenda-files-set-helm)))
+(defun yt/org-agenda-files-set ()
+  (interactive)
+  (setq org-agenda-files (list))
+  (dolist (dir (yt/org-agenda-files-set-helm))
+    (mapcar (lambda (arg)
+	      (add-to-list 'org-agenda-files arg))
+	    (sa-find-org-file-recursively dir))    
+	    ))   
+
+
+	    ;; (defun yt/org-agenda-files-set ()
+  ;; (interactive)
+    ;; (setq org-agenda-files (yt/org-agenda-files-set-helm)))
   ;; (yt/org-agenda-files-set)
 
   (global-set-key (kbd "<f12>") 'org-agenda)
@@ -3815,6 +3827,8 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "--simple-prompt --pprint")
+(setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "-i")
 #+end_src
 
 ** Sphinx-doc for documentation
