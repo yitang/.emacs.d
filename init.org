@@ -2572,6 +2572,13 @@ define the markups.
 \\usepackage{marvosym}
 \\usepackage{wasysym}
 \\usepackage{ulem}
+\\usepackage{amsthm}
+
+\\theoremstyle{definition}
+\\newtheorem{definition}{Definition}[section]% Conjecture is numbered
+                                % within \section
+\\newtheorem{lemma}[definition]{Lemma}
+
 
 %% \\renewcommand\\texttt[1]{{\\mint{cl}|#1|}} 
 
