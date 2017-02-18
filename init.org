@@ -2083,13 +2083,25 @@ remove empty clock entrys at checkout
 
   (defun yt/org-agenda-files--choose (candidate)
     (mapc 'identity (helm-marked-candidates)))
-  (defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
+    
+
+(defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
     (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                      (candidates . ("~/git/org/" "~/git/org/Journal" "~/git/org/Profession" "~/git/org/statistics" "~/git/jbarm"))
+                      (candidates . ("~/git/org/" "~/git/career" "~/git/jbarm"))
                       (action . yt/org-agenda-files--choose)))))
-  (defun yt/org-agenda-files-set ()
-    (interactive)
-    (setq org-agenda-files (yt/org-agenda-files-set-helm)))
+(defun yt/org-agenda-files-set ()
+  (interactive)
+  (setq org-agenda-files (list))
+  (dolist (dir (yt/org-agenda-files-set-helm))
+    (mapcar (lambda (arg)
+	      (add-to-list 'org-agenda-files arg))
+	    (sa-find-org-file-recursively dir))    
+	    ))   
+
+
+	    ;; (defun yt/org-agenda-files-set ()
+  ;; (interactive)
+    ;; (setq org-agenda-files (yt/org-agenda-files-set-helm)))
   ;; (yt/org-agenda-files-set)
 
   (global-set-key (kbd "<f12>") 'org-agenda)
@@ -2459,6 +2471,8 @@ then type *.
          (latex . t)
          (sql . t))))
 
+(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
+
 ;; (add-to-list 'org-babel-default-header-args:R
 ;;              ;; '(:session . "*R-main*")
 ;;              '((:width . 640) (:height . 640)))
@@ -2531,6 +2545,10 @@ define the markups.
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
 \\usepackage{hyperref}
+\\hypersetup{
+     colorlinks   = true,
+     citecolor    = gray
+}
 \\usepackage{amsmath}
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
@@ -3802,6 +3820,8 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "--simple-prompt --pprint")
+(setq python-shell-interpreter "ipython3"
+      python-shell-interpreter-args "-i")
 #+end_src
 
 ** Sphinx-doc for documentation
@@ -3942,7 +3962,23 @@ use snakemake-mode for smake file.
                        " "
                        (shell-quote-argument buffer-file-name)))))
    #+end_src
-   
+** C++
+
+   #+begin_src emacs-lisp :results silent 
+   (defun my-c++-compile-cmd ()
+  "for the course i am studying"
+  (let ((file (file-relative-name (buffer-file-name))))
+    (format "g++ --std=c++14 -pipe -o %s %s -lm&& ./%s"
+		  (file-name-sans-extension file)
+		  file
+		  (file-name-sans-extension file))
+    ))
+(defun my-c++-compile ()
+  (interactive)
+  (setq-default compile-command (my-c++-compile-cmd))
+  (compile (default-value 'compile-command)))
+(global-set-key (kbd "<f9> c") 'my-c++-compile)
+   #+end_src
 * End 
 [2015-01-19 Mon 11:43]
 
