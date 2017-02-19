@@ -2590,7 +2590,7 @@ define the markups.
 \\newtheorem{definition}{Definition}[section]% Conjecture is numbered
                                 % within \section
 \\newtheorem{lemma}[definition]{Lemma}
-\\newcommand{\twodots}{\mathinner {\ldotp \ldotp}}
+\\newcommand{\\twodots}{\\mathinner {\\ldotp \\ldotp}}
 
 %% \\renewcommand\\texttt[1]{{\\mint{cl}|#1|}} 
 
