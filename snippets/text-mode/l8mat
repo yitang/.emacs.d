@@ -1,7 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: matrix
-# key: l8mat
-# binding: direct-keybinding
-# --
-${1:X}_{${2:i}, ${3:j}}$0
-
