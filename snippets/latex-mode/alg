@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: algorithm
+# key: alg
+# binding: direct-keybinding
+# --
+
+\begin{algorithm}
+\caption{$1}
+$0
+
+\end{algorithm}
