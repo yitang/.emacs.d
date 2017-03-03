@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: eqt
+# key: eqt
+# binding: direct-keybinding
+# --
+equivalent to $0

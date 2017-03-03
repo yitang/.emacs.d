@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: iff
+# key: iff
+# binding: direct-keybinding
+# --
+if and only if $0

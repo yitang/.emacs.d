@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: wrt
+# key: wrt
+# binding: direct-keybinding
+# --
+with respect to $0
