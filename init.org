@@ -3937,6 +3937,17 @@ shell mode
 (add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
 #+end_src
 
+open this gnome-terminal here
+#+begin_src emacs-lisp :results silent
+(defun yt/open-terminal ()
+  (interactive)
+  (shell-command (concat "gnome-terminal "
+			 "--working-directory="
+			 (file-truename default-directory)
+			 )))
+(global-set-key (kbd "<f5>") 'yt/open-terminal)
+#+end_src
+
 use swiper to replace default =isearch=
 
 #+begin_src emacs-lisp :results silent 
