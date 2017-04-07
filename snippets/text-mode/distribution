@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: roma text in math rode
-# key: l8mr
+# name: d/n
+# key: d/n
 # binding: direct-keybinding
 # --
-\mathrm{$1}$0
+distribution $0

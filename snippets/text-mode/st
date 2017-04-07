@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: sum
-# key: l8sum
+# name: st
+# key: st
 # binding: direct-keybinding
 # --
-\sum_{${1:i}=1}^{${2:j}}$0
+such that $0

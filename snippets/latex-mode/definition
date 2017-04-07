@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: definition, lemma, theory etc
+# key: def
+# binding: direct-keybinding
+# --
+\begin{${1: $$(yas-choose-value '("definition" "lemma" "theorem"))}}[${2:name}]
+$0
+\qed
+\end{$1}
