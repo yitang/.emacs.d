@@ -187,8 +187,8 @@ Automatically backup buffers/files into the working directory and the
 (require 'auto-complete-config)
 (ac-config-default)
 (setq ac-delay 0.1)       
-(setq ac-auto-show-menu 0.2)
-(setq ac-quick-help-delay 0.2)
+; (setq ac-auto-show-menu 0.2)
+; (setq ac-quick-help-delay 0.2)
 (setq ac-quick-help-height 10)
 (setq ac-candidate-limit 100)
 ;; (require 'company-mode)
@@ -1818,7 +1818,7 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2016.org")
+              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2017.org")
                "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
@@ -2590,7 +2590,10 @@ define the markups.
 \\newtheorem{definition}{Definition}[section]% Conjecture is numbered
                                 % within \section
 \\newtheorem{lemma}[definition]{Lemma}
-\\newcommand{\twodots}{\mathinner {\ldotp \ldotp}}
+\\newtheorem{theorem}[definition]{Theorem}
+
+
+\\newcommand{\\twodots}{\\mathinner {\\ldotp \\ldotp}}
 
 %% \\renewcommand\\texttt[1]{{\\mint{cl}|#1|}} 
 
@@ -3581,8 +3584,7 @@ set up email account, use office 365 in the office, and iCloud at
 macbook por.
 
 #+begin_src emacs-lisp 
-(setq  mu4e-maildir-shortcuts  '(("/JBA/INBOX"    . ?j)
-                                 ("/iCloud/INBOX" . ?a)
+(setq  mu4e-maildir-shortcuts  '(("/iCloud/INBOX" . ?a)
                                  ("/Gmail/INBOX" . ?g)))
 
 
@@ -3626,30 +3628,8 @@ macbook por.
                                   "Statistician\n"
                                   "T: 07445510033\n")))
 
-(defun yt/email-jba ()
-  (interactive)
-  ;; setup for smtp 
-  (setq   mu4e-get-mail-command "mbsync JBA; mu index --maildir=~/Maildir/work"
-          mu4e-maildir "~/Maildir/work"
-          smtpmail-default-smtp-server "smtp.office365.com"
-          smtpmail-smtp-server "smtp.office365.com"
-          smtpmail-smtp-service 587
-          smtpmail-smtp-user "yi.tang@jbarisk.com"
-          ;; account info 
-          user-mail-address "yi.tang@jbarisk.com"
-          user-full-name  "Yi Tang"
-          ;; mu4e 
-          mu4e-drafts-folder "/JBA/Drafts"
-          mu4e-sent-folder   "/JBA/Outbox"
-          mu4e-trash-folder  "/JBA/Trash"
-
-          mu4e-compose-signature (concat
-                                  "Yi Tang\n"
-                                  "Statistician\n"
-                                  "T: +44 (0) 1756 799919\n")))
-
 (setq yt/email-account-list
-      '(("JBA" . yt/email-jba)
+      '(
         ("Gmail" . yt/email-gmail)
         ("iCloud" . yt/email-icloud)))
 
