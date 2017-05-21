@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: clock table for weekly reviews
+# key: #+wrct+
+# binding: direct-keybinding
+# --
+$0#+BEGIN: clocktable :maxlevel 3 :scope agenda :tags "$1" :block thisweek :fileskip0 t :formula % :narrow 70
+#+END:   
