@@ -775,7 +775,7 @@ is suspended because it fails when the file size is large.
 ;;   (interactive)
 ;;   "copy all files in remote:~/LR_share to local:~/LR_share,
 ;; does not support the ther way"
-;;   (find-file "/ssh:JBA28:/home/local/JBANORTHWEST/yitang/LR_share")
+;;   (find-file "/ssh:remote_host:/remote_directory")
 ;;   ;; (mark-whole-buffer)
 ;;   (dired-mark-subdir-files)
 ;;   ;; (find-file "~/LR_share")
@@ -3732,7 +3732,7 @@ M-o=.
   (goto-char (point-min))
   (search-forward "Subject: ")
   (beginning-of-line)
-  (insert "Cc: Yi Tang <yi.tang@jbarisk.com>\n")
+  (insert "Cc: Yi Tang <yi.tang@somewhere.com>\n")
   (search-forward "--text follows this line--")
   (forward-char 1))
 (defun yt/org-mime-subtree ()
