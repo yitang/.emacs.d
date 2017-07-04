@@ -199,9 +199,9 @@ Automatically backup buffers/files into the working directory and the
       company-tooltip-limit           20
       company-dabrev-downcase         nil
       )
-(add-hook 'ess-mode-hook
-          '(lambda()
-             (company-mode-on)))
+;; (add-hook 'ess-mode-hook
+;;           '(lambda()
+;;              (company-mode-on)))
 #+end_src 
 
 Configure recent opened files. I use =helm-mini= to navigate between
