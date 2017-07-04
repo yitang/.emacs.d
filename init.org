@@ -1,4 +1,4 @@
-#+TITLE: Build a Machine That Understands You - an Attempt via Emacs 
+#+TITLE: Yet Another Emacs Configuration
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
 #+LANGUAGE: en
