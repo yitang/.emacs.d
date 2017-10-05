@@ -181,19 +181,6 @@ Automatically backup buffers/files into the working directory and the
 ;; (setq guide-key/guide-key-sequence t) ;; on for all key-bindings 
 ;; (guide-key-mode 1) 
 
-;; start auto-complete with emacs
-(require 'auto-complete)
-;; do default config for auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-delay 0.1)       
-; (setq ac-auto-show-menu 0.2)
-; (setq ac-quick-help-delay 0.2)
-(setq ac-quick-help-height 10)
-(setq ac-candidate-limit 100)
-;; (require 'company-mode)
-
-
 ;; use company for all except few modes
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
@@ -220,6 +207,22 @@ Automatically backup buffers/files into the working directory and the
      (add-to-list 'company-backends 'company-dabbrev-code)
      )
 (add-hook 'ess-mode-hook 'yt/ess_company_mode_setup)
+
+
+(defun text-mode-hook-setup ()
+  (make-local-variable 'company-backends)
+  (add-to-list 'company-backends 'company-ispell)
+  (setq company-ispell-dictionary (file-truename "~/git/.emacs.d/english_words.txt"))
+  )
+
+(add-hook 'text-mode-hook 'text-mode-hook-setup)
+(company-quickhelp-mode 1)
+(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)
+(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
+
+(setq company-dabbrev-downcase nil)
+
+
 #+end_src 
 
 Configure recent opened files. I use =helm-mini= to navigate between
@@ -436,7 +439,7 @@ contrast colour theme and easy on the eye. Occasionally I apply
 when my eyes are tired of the /zenburn/ theme.
 #+begin_src emacs-lisp :eval yes
 ;; (load-theme 'zenburn t) 
-(load-theme 'leuven t)
+;; (load-theme 'leuven t)
 #+end_src
 *** Mode Line
 :LOGBOOK:
@@ -1328,31 +1331,6 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 #+end_src
 
-
-clean R console 
-#+begin_src emacs-lisp :results silent 
-;;;; * clean up ESS or sh buffer 
-(defun yt/prog-previous-output-region ()
-  "return start/end points of previous output region"
-  (save-excursion
-    (beginning-of-line)
-    (setq sp (point))
-    (comint-previous-prompt 1)
-    (next-line)
-    (beginning-of-line)
-    (setq ep (point))
-    (cons sp ep)))
-
-(defun yt/prog-kill-output-backwards ()
-  (interactive)
-  (save-excursion
-    (let ((reg (yt/prog-previous-output-region)))
-      (delete-region (car reg) (cdr reg))
-      (goto-char (cdr reg))
-      (insert "*** output flushed ***\n"))))
-
-(global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
-#+end_src
 #+begin_src emacs-lisp :results silent 
 (add-hook 'ess-mode-hook '(lambda ()
 			      (turn-on-orgstruct)
@@ -1418,27 +1396,28 @@ ggplot(obs.gc.table, aes(rp, duration)) +
 
 #+end_src
 
-** Auto-complete 
-     [2016-05-13 Fri 14:17]
+*** Auto-complete 
+      [2016-05-13 Fri 14:17]
      
- #+begin_src emacs-lisp :results silent 
- ;; see https://github.com/tavisrudd/emacs.d/blob/master/dss-ess.el
- (defun dss/ess-ac-setup ()
-   (interactive)
-   (require 'ac-R)
-   (make-local-variable 'ac-ignore-case)
-   (make-local-variable 'ess-use-R-completion)
-   (setq ess-use-R-completion nil)
-   (setq ac-ignore-case t)
-   (setq ac-sources
-         '(ac-source-filename                    ;; for file names 
-           ac-source-words-in-same-mode-buffers  ;; as it says
-           ac-source-R                           ;; for R objects
-           ac-source-abbrev                      ;; 
-           ac-source-dictionary)))
+      Define in auto-complete section.
 
- (add-hook 'ess-mode-hook 'dss/ess-ac-setup)
- #+end_src
+*** Run R script using subprocess
+    #+begin_src emacs-lisp :results silent 
+    (defun yt/bash_run_R ()
+         (interactive)
+         (let* ((args (concat "R --no-save --no-restore < " (file-name-nondirectory (buffer-file-name))))
+                (output-buf-name (concat "*R:" (file-name-nondirectory (buffer-file-name)) "*"))
+                )
+           (async-shell-command args output-buf-name)
+           (with-current-buffer output-buf-name
+             (inferior-ess-mode))
+           ))
+    #+end_src
+
+*** Code navigation
+    #+begin_src emacs-lisp :results silent 
+    (visit-tags-table "~/R_tags")
+    #+end_src
 ** Writing in Emacs                                             :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
@@ -1488,6 +1467,7 @@ again to select the next one.
 #+begin_src emacs-lisp :results silent
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
+(define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
 #+end_src 
 
 I need an grammar check to let me know that 
@@ -2529,7 +2509,7 @@ General export options, it applys to all the export-backend.
       org-export-with-planning nil
       org-export-with-author t
       org-export-with-timestamps nil
-      org-export-babel-evaluate nil
+      org-export-babel-evaluate t
       org-export-with-drawers nil)
 #+end_src
 
@@ -3214,16 +3194,21 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 (setq TeX-PDF-mode t)
 ;; make latexmk available via C-c C-c
 (add-hook 'LaTeX-mode-hook (lambda ()
-			     (push
-			      '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
-				:help "Run latexmk on file")
-			      TeX-command-list)))
+                             (push
+                              '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+                                :help "Run latexmk on file")
+                              TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 (setq TeX-view-program-selection '((output-pdf "evince")))
 (if (string= system-type "darwin")
     (setq TeX-view-program-selection '((output-dvi "open")
-				       (output-pdf "open")
-				       (output-html "open"))))
+                                       (output-pdf "open")
+                                       (output-html "open"))))
+
+(add-hook 'LaTeX-mode-hook #'outline-minor-mode)
+(require 'company-auctex)
+(company-auctex-init)
+
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
@@ -3827,8 +3812,8 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "--simple-prompt --pprint")
-(setq python-shell-interpreter "ipython3"
-      python-shell-interpreter-args "-i")
+;; (setq python-shell-interpreter "ipython3"
+;;       python-shell-interpreter-args "-i")
 #+end_src
 
 ** Sphinx-doc for documentation
