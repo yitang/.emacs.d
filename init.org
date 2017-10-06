@@ -1465,6 +1465,7 @@ auto-correlection. I press =C-.= select the first one, and press it
 again to select the next one.
 
 #+begin_src emacs-lisp :results silent
+(require 'flyspell)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
 (define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
