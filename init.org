@@ -1163,7 +1163,7 @@ In Emacs, syntax highlighting is known as font-locking.  You can customize the a
 use pretty mode 
 
 #+begin_src emacs-lisp :results silent 
-(add-hook 'ess-mode-hook 'turn-on-pretty-mode)
+;; (add-hook 'ess-mode-hook 'turn-on-pretty-mode)
 #+end_src
 *** Programming Mode 
 After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
