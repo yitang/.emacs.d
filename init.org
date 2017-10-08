@@ -1793,7 +1793,6 @@ is disabled before of the performance issues in OS X.
 ;; (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
 
-
 *** org-capture
 [2015-07-20 Mon 14:57]
 
@@ -2401,8 +2400,11 @@ then type *.
 (sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
 (sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
 #+end_src
-
-
+*** External Links
+    
+    #+begin_src emacs-lisp :results silent 
+      (global-set-key (kbd "C-c l") 'org-store-link)
+    #+end_src
 *** Babel
 [2015-01-29 Thu 14:16]
 
