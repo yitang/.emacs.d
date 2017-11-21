@@ -1,0 +1,25 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Python in Org-mode
+# key: FT_orgpy
+# binding: direct-keybinding
+# --
+#+title: $1
+#+PROPERTY: header-args:R  :session *py_test* :eval never-export :colnames yes
+
+#+name: setup
+#+begin_src ipython
+%matplot inline
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import os
+os.chdir(path)
+#+end_src
+
+
+* Setup
+
+* Preprocess
+
+* EAD
