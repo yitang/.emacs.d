@@ -212,7 +212,7 @@ Automatically backup buffers/files into the working directory and the
 (defun text-mode-hook-setup ()
   (make-local-variable 'company-backends)
   (add-to-list 'company-backends 'company-ispell)
-  (setq company-ispell-dictionary (file-truename "~/git/.emacs.d/english_words.txt"))
+  ;; (setq company-ispell-dictionary (file-truename "~/git/.emacs.d/english_words.txt"))
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
@@ -2033,7 +2033,7 @@ remove empty clock entrys at checkout
 (setq org-use-speed-commands t)
 (defun bh/insert-inactive-timestamp ()
   (interactive)
-  (org-insert-time-stamp nil nil t nil nil nil))
+  (org-insert-time-stamp nil t t nil nil nil))
 (global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
 
 ;; (defun bh/insert-heading-inactive-timestamp ()
@@ -3965,6 +3965,15 @@ use snakemake-mode for smake file.
 (interactive)
 (replace-string " -" " \\\n -")
 )
+#+end_src
+
+insert git sha1 value into current point.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/insert-git-hash-value ()
+  (interactive)
+  (insert (shell-command-to-string (concat "git rev-parse HEAD"))))
+(global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)
 #+end_src
 ** open buffer with external application
    [2016-06-20 Mon 16:34]
