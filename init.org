@@ -3835,6 +3835,28 @@ when the cursr is in a twitter:
 ;;       python-shell-interpreter-args "-i")
 #+end_src
 
+** Python for data analysis
+
+   this allows me to run multiple python process and switch between them.
+   #+begin_src emacs-lisp :results silent 
+   (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
+
+   (defvar elpy-shell-python-shell-names '("Python")
+	 "List of existing python shell names.")
+
+   (defun elpy-shell-switch-python-shell (&optional dont-display)
+	 "Switch to another Python shell.
+
+   Create a new one if it does not exist.
+   If DONT-DISPLAY is non nil, do not display the python shell afterwards."
+	 (interactive)
+	 (let ((shell-name (completing-read "Python shell name: "
+										'elpy-shell-python-shell-names)))
+	   (setq python-shell-buffer-name shell-name)
+	   (add-to-list 'elpy-shell-python-shell-names shell-name t)
+	   (when (not dont-display)
+		 (elpy-shell-display-buffer))))
+   #+end_src
 ** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
 
