@@ -69,3 +69,7 @@
 (depends-on "swiper")
 (depends-on "ivy")
 ; (depends-on "w3m" :git "git@github.com:rejeep/w3m.git" :branch "cask")
+(depends-on "company-quickhelp")
+(depends-on "ob-ipython")
+(depends-on "company-auctex")
+(depends-on "org-mime")
