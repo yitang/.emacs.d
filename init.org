@@ -537,6 +537,8 @@ Helm and fuzzy match makes selection a lot easier.  in
                   (insert cand "\n")))))
 ;; by default, Cc Ci copy marked to buffer.
 (define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
+
+(setq helm-ff-guess-ffap-urls nil)
 #+end_src
 
 *** Multi-Cursor & Helm-swoop  - Multiple Selection 
@@ -3826,7 +3828,7 @@ when the cursr is in a twitter:
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
-(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
+;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython3"
@@ -3856,6 +3858,8 @@ when the cursr is in a twitter:
 	   (add-to-list 'elpy-shell-python-shell-names shell-name t)
 	   (when (not dont-display)
 		 (elpy-shell-display-buffer))))
+
+   (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-switch-python-shell)
    #+end_src
 ** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
