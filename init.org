@@ -138,6 +138,7 @@ this function in debugging this configuration file.
          (save-buffer (get-file-buffer dot-emacs)))
     (load-file dot-emacs))
   (message "Re-initialized!"))
+(setq confirm-kill-emacs 'y-or-n-p)
 #+end_src
 
 Life is too short to type "yes" or "no". 'y' or 'n' is enough.
