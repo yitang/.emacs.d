@@ -16,7 +16,7 @@ Previously, I have about 7 ``.el`` files, for example, ``setup-org.el``,
 ``setup-email.el``, and I document on each file. Inpisraed by Sachua's
 new posts, I think it would be an brilliant idea to org Emacs
 configuration code into one single org file, letting along the
-conviencen of orgnising and share my seetting, the precious thing I
+conviencen of orgnising and share my setting, the precious thing I
 would appreciate is it provide an way I could start with a long
 comments, thoughts or workflow. in this way, the code becomes less
 important as it should be.
