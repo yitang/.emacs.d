@@ -222,8 +222,7 @@ Automatically backup buffers/files into the working directory and the
 (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
 
 (setq company-dabbrev-downcase nil)
-
-
+(setq company-show-numbers t)
 #+end_src 
 
 Configure recent opened files. I use =helm-mini= to navigate between
@@ -2438,6 +2437,7 @@ then type *.
               ("Rgp" "#+begin_src R :session :exports results :results graphics :width 11 :height 6.5 :pointsize 14 :file (org-babel-temp-file \"figure-\" \".pdf\") \n?\n#+end_src")   ;; for high resolution figures for exporting to pdf
               ("p" "#+begin_src python\n?\n#+end_src" "<src lang=python\"?\">\n\n</src>")
 	      ("ip" "#+begin_src ipython\n?\n#+end_src" "<src lang=python\"?\">\n\n</src>")
+	      ("ipg" "#+begin_src ipython :exports both :results raw drawer \n?\n#+end_src" "<src lang=python\"?\">\n\n</src>")
               ("b" "#+begin_src bash\n?\n#+end_src" "<src lang=bash\"?\">\n\n</src>")
               ("el" "#+begin_src emacs-lisp :results silent \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
               ("n" "#+begin_note\n?\n#+end_note" "<note>\n?\n</note>") ;; TOOD: add note tag in html css stylesheet 
