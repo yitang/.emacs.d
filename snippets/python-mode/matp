@@ -2,4 +2,6 @@
 # name: import matplot
 # key: matp
 # --
+import matplotlib
+matplotlib.interactive(True)
 import matplotlib.pyplot as plt
