@@ -4,17 +4,18 @@
 # binding: direct-keybinding
 # --
 #+title: $1
-#+PROPERTY: header-args:ipython  :session *orgPY* :eval never-export :colnames yes
+#+property: header-args:ipython :session py2 :exports none :eval never-export :async nil
 
 #+name: setup
 #+begin_src ipython
-%matplot inline
+%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import os
-os.chdir(path)
+
+plt.rcParams['figure.figsize'] = [12.0, 12.0]
 #+end_src
 
 
