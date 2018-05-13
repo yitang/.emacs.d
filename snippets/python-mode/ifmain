@@ -3,7 +3,5 @@
 # key: ifm2
 # --
 if __name__ == "__main__":
-    import sys
-    args = sys.args[1:]
-    n = len(args)
-    main($0)
+   import fire
+   fire.Fire($0)
