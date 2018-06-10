@@ -3,9 +3,12 @@
 # key: rule
 # contributor: Yi <yi.tang.uni@gmail.com>
 # --
-rule ${1}:
-    input: ${2}
-    output: ${3}
+rule ${1:name}:
+    input: ${2:input}
+    output: ${3:output}
+    log: $3.txt
+    benchmark: $3.ben
     shell: ${4}
 $0
+
 
