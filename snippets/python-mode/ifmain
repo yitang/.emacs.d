@@ -3,5 +3,5 @@
 # key: ifm2
 # --
 if __name__ == "__main__":
-   import fire
-   fire.Fire($0)
+    import fire
+    fire.Fire($0)

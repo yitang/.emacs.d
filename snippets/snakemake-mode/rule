@@ -10,5 +10,3 @@ rule ${1:name}:
     benchmark: $3.ben
     shell: ${4}
 $0
-
-
