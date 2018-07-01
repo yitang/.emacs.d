@@ -924,6 +924,7 @@ Note this workflow is suspended for it's unsafe.
 also need temporary buffers for testing R code and org-mode. In the
 following settings, I can use =F9-f= to select temporal buffers.
 
+
 #+begin_src emacs-lisp :results silent 
 (defvar yt/temp-dir "~/tmp"
   "temporay folders")
@@ -1428,7 +1429,7 @@ ggplot(obs.gc.table, aes(rp, duration)) +
 
 *** Code navigation
     #+begin_src emacs-lisp :results silent 
-    (visit-tags-table "~/R_tags")
+    ;; (visit-tags-table "~/R_tags")
     #+end_src
 ** Writing in Emacs                                             :ExportFile:
 :PROPERTIES:
@@ -2116,7 +2117,7 @@ remove empty clock entrys at checkout
     ;; (setq org-agenda-files (yt/org-agenda-files-set-helm)))
   ;; (yt/org-agenda-files-set)
 
-  (global-set-key (kbd "<f12>") 'org-agenda)
+  (global-set-key (kbd "<C-f12>") 'org-agenda)
 
   ;; Do not dim blocked tasks
   (setq org-agenda-dim-blocked-tasks nil)
@@ -2448,15 +2449,15 @@ then type *.
               ("l" "#+begin_latex\n?\n#+end_latex" "<literal style=\"latex\">\n?\n</literal>")
               ;;  ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
               ("L" "#+begin_src emacs-lisp \n?\n#+end_src" "<src lang=emacs-lisp\"?\">\n\n</src>")
-              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
+              ("h" "#+begin_export html\n?\n#+end_export" "<literal style=\"html\">\n?\n</literal>")
               ("H" "#+html: " "<literal style=\"html\">?</literal>")
               ("a" "#+begin_ascii\n?\n#+end_ascii")
               ("A" "#+ascii: ")
               ("i" "#+index: ?" "#+index: ?")
-              ("ln" "#+begin_latex\n\\begin{note}\n?\n\\end{note}\n#+end_latex")
-              ("le" "#+begin_latex\n\\begin{equation}\n?\n\\end{equation}\n#+end_latex")
-              ("la" "#+begin_latex\n\\begin{align}\n?\n\\end{align}\n#+end_latex")
-              ("lc" "#+begin_latex\n\\begin{cases}\n?\n\\end{cases}\n#+end_latex")
+              ("ln" "#+begin_export latex\n\\begin{note}\n?\n\\end{note}\n#+end_export")
+              ("le" "#+begin_export latex\n\\begin{equation}\n?\n\\end{equation}\n#+end_export")
+              ("la" "#+begin_export latex\n\\begin{align}\n?\n\\end{align}\n#+end_export")
+              ("lc" "#+begin_export latex\n\\begin{cases}\n?\n\\end{cases}\n#+end_export")
               ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
@@ -2860,7 +2861,7 @@ characters that jeklly don;t like.
 #+begin_src emacs-lisp :results silent 
 (defvar jekyll-post-template
   " 
-,#+BEGIN_HTML
+,#+begin_export html
 ---
 layout: post
 title: %s
@@ -2871,13 +2872,13 @@ tags:
   -
 comments: true 
 ---
-,#+END_HTML
+,#+END_export
 
-,#+begin_html
+,#+begin_export html
 <script type=\"text/javascript\"
     src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">
 </script>
-,#+end_html
+,#+end_export
 
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
 
@@ -2997,7 +2998,7 @@ only, and without TOC, which are again, required by JEKLLY.
 
 (defvar jekyll-post-template
   " 
-,#+BEGIN_HTML
+,#+begin_export html
 ---
 layout: post
 title: %s
@@ -3008,7 +3009,7 @@ tags:
   -
 comments: true 
 ---
-,#+END_HTML
+,#+END_export
 
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
 
@@ -3095,13 +3096,13 @@ comments: true
 
 #+begin_src emacs-lisp :results silent
 (defvar jekyll-highlight-template-open
-  "#+begin_html
+  "#+begin_export html
 {%% highlight %s %%}"
   "%s will be replaced by the language identifier")
 
 (defvar jekyll-highlight-template-close
   "{% endhighlight %}
-,#+end_html")
+,#+end_export")
 
 (defun yt/org-to-jekyll-highlight ()
   "wrap babel src block with jekyll syntax highlight block"
@@ -3822,7 +3823,7 @@ when the cursr is in a twitter:
 (setq python-fill-docstring-style 'django)
 (require 'elpy)
 (elpy-enable)
-(elpy-use-ipython "ipython3")
+;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
 (global-set-key (kbd "M-*") 'pop-tag-mark)
 (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
@@ -3836,6 +3837,13 @@ when the cursr is in a twitter:
       python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq python-shell-interpreter "ipython3"
 ;;       python-shell-interpreter-args "-i")
+
+
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter")
 #+end_src
 
 ** Python for data analysis
