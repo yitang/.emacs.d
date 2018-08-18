@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
-# name: self.__logger.info("")
+# name: self.logger.info("")
 # key: sli
 # --
-self.__logger.info("$1")$0
+self.logger.info("$1")
+$0
