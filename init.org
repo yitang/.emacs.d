@@ -4046,6 +4046,11 @@ insert git sha1 value into current point.
   (compile (default-value 'compile-command)))
 (global-set-key (kbd "<f9> c") 'my-c++-compile)
    #+end_src
+** eshell 
+
+   #+begin_src emacs-lisp :results silent 
+(defalias 'open 'find-file)
+   #+end_src
 * End 
 [2015-01-19 Mon 11:43]
 
