@@ -6,5 +6,10 @@
 #!/usr/bin/env bash
 set -x
 {
+    echo "Process start at" $(date "+%Y-%m-%d %H:%M:%S")
+
     $0
+    
+    echo "Process finish at" $(date "+%Y-%m-%d %H:%M:%S")
 } 2>&1 | tee ${1:tmp.log}
+
