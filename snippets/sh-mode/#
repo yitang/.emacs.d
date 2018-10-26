@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: shebang
+# key: #
+# binding: direct-keybinding
+# --
+#!/usr/bin/env bash
+set -x
+{
+    $0
+} 2>&1 | tee ${1:tmp.log}
