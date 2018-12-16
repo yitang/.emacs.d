@@ -3,10 +3,11 @@
 # key: rule
 # contributor: Yi <yi.tang.uni@gmail.com>
 # --
+
 rule ${1:name}:
-    input: ${2:input}
-    output: ${3:output}
-    log: $3.txt
-    benchmark: $3.ben
-    shell: ${4}
+    input: "input/${2:input}"
+    output: "output/${3:output}"
+    log: "./log/$1.log"
+    benchmark: "./benchmark/$1.dat"
+    shell: "$4 2>&1 | tee {log}"
 $0
