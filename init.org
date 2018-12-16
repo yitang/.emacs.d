@@ -3835,15 +3835,16 @@ when the cursr is in a twitter:
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython3"
       python-shell-interpreter-args "--simple-prompt --pprint")
+
 ;; (setq python-shell-interpreter "ipython3"
 ;;       python-shell-interpreter-args "-i")
 
 
-(setq python-shell-interpreter "jupyter"
-      python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters
-             "jupyter")
+;; (setq python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+;;              "jupyter")
 #+end_src
 
 ** Python for data analysis
