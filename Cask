@@ -73,3 +73,4 @@
 (depends-on "ob-ipython")
 (depends-on "company-auctex")
 (depends-on "org-mime")
+(depends-on "helm-flyspell")
