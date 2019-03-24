@@ -764,6 +764,10 @@ to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
 (require 'projectile)
 (helm-projectile-on)
 (require 'helm-projectile)
@@ -1241,7 +1245,7 @@ highlights the text that are longer than 80 columns rule.
 
 Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -3833,7 +3837,7 @@ when the cursr is in a twitter:
 ;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
-(setq python-shell-interpreter "ipython3"
+(setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt --pprint")
 
 ;; (setq python-shell-interpreter "ipython3"
