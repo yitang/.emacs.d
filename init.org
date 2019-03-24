@@ -1684,9 +1684,9 @@ that helps me to set the moode.
 
 ;; word count
 ;; https://bitbucket.org/gvol/nanowrimo.el
-(require 'org-wc)
-(require 'nanowrimo)
-(setq nanowrimo-today-goal 500)
+;; (require 'org-wc)
+;; (require 'nanowrimo)
+;; (setq nanowrimo-today-goal 500)
 
 ;; [2014-12-23 Tue 22:06]
 ;; Highlight sentence
@@ -2043,12 +2043,12 @@ remove empty clock entrys at checkout
   (org-insert-time-stamp nil t t nil nil nil))
 (global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
 
-;; (defun bh/insert-heading-inactive-timestamp ()
-;;   (save-excursion
-;;     (org-return)
-;;     (org-cycle)
-;;     (bh/insert-inactive-timestamp)))
-;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+(defun bh/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (org-return)
+    (org-cycle)
+    (bh/insert-inactive-timestamp)))
+(add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
 (setq org-file-apps (quote ((auto-mode . emacs)
                             ("\\.png\\'" . emacs)
                             ("\\.svg\\'" . system)
@@ -2291,9 +2291,9 @@ current time
  (800 1000 1200 1400 1600 1800 2000)
  "......" "----------------")))
 
-(quote ((daily today remove-match)
-                                   #("----------------" 0 16 (org-heading t))
-                                   (0700 0800 0900 1000 1100 1200 1200 1300 1400 1500 1600 1700))))
+;; (quote ((daily today remove-match)
+;;                                    #("----------------" 0 16 (org-heading t))
+;;                                    (0700 0800 0900 1000 1100 1200 1200 1300 1400 1500 1600 1700))))
 #+end_src
 
 Start the weekly agenda on Monday.
@@ -3834,7 +3834,7 @@ when the cursr is in a twitter:
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
-;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
+(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython"
@@ -4035,7 +4035,7 @@ insert git sha1 value into current point.
    #+end_src
 ** C++
 
-   #+begin_src emacs-lisp :results silent 
+   #+begin_src emacs-lisp :results silent :exports none
    (defun my-c++-compile-cmd ()
   "for the course i am studying"
   (let ((file (file-relative-name (buffer-file-name))))
@@ -4054,6 +4054,85 @@ insert git sha1 value into current point.
 
    #+begin_src emacs-lisp :results silent 
 (defalias 'open 'find-file)
+
+
+;; from emacs-reddit
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the current buffer's file."
+  (interactive)
+  (let* ((parent (file-name-directory (buffer-file-name)))
+         (name   (car
+                  (last
+                   (split-string parent "/" t)))))
+    (split-window-vertically)
+    (other-window 1)
+    (eshell "new")
+    (rename-buffer (concat "*eshell: " name "*"))
+
+    (insert (concat "ls"))
+    (eshell-send-input)))
+
+(global-set-key (kbd "C-!") 'eshell-here)
+
+(defun delete-single-window (&optional window)
+  "Remove WINDOW from the display.  Default is `selected-window'.
+If WINDOW is the only one in its frame, then `delete-frame' too."
+  (interactive)
+  (save-current-buffer
+    (setq window (or window (selected-window)))
+    (select-window window)
+    (kill-buffer)
+    (if (one-window-p t)
+        (delete-frame)
+      (delete-window (selected-window)))))
+
+(defun eshell/x (&rest args)
+  (delete-single-window))
+
+
+
+   #+end_src
+** move region/line up or donw/
+   [2019-03-24 Sun 19:51]
+
+   #+begin_src emacs-lisp :results silent 
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key [(meta up)]  'move-line-up)
+(global-set-key [(meta down)]  'move-line-down)
+
+   #+end_src
+** agenda 
+   [2019-03-24 Sun 19:52]
+
+   #+begin_src emacs-lisp :results silent 
+(setq yt/org_folder '("~/git/org/" "~/git/career"))
+
+(setq yt/kaggle_competition_folders '(;; "~/kaggle"
+				      "~/quickdraw-doodle-recognition/notebook"
+				      "~/two_sigma_financial_news/notebooks"))
+
+(setq yt/org_agenda_folder_candidates (append yt/org_folder yt/kaggle_competition_folders))
+
+
+(defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
+  (helm :sources '(((name . "Add directories to org-agenda-files variable")
+		    (candidates . yt/org_agenda_folder_candidates)   ;; ("~/git/org/" "~/git/career"))
+		    (action . yt/org-agenda-files--choose)))))
+   
    #+end_src
 * End 
 [2015-01-19 Mon 11:43]

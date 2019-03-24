@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: class logger
+# key: clogger
+# --
+self.logger = logging.getLogger(self.__class__.__name__)
