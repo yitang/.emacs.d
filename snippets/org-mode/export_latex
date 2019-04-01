@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: latex equation export
+# key: <le
+# binding: direct-keybinding
+# --
+#+BEGIN_EXPORT latex
+$0
+#+END_EXPORT

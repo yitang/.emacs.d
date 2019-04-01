@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: R block
+# key: <Rg
+# binding: direct-keybinding
+# --
+#+begin_src R :session :exports results :results graphics :width 400 :height 400 :file (org-babel-temp-file "figure-" ".png")
+$0
+#+end_src

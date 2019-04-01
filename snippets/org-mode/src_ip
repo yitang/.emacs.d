@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: R block
+# key: <ip
+# binding: direct-keybinding
+# --
+#+begin_src ipython :exports both :results raw drawer
+$0
+#+end_src

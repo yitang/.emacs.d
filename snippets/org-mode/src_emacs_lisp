@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: emacs_lisp block
+# key: <el
+# binding: direct-keybinding
+# --
+#+begin_src emacs-lisp :results silent :tangle no
+$0
+#+end_src
