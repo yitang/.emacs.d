@@ -1,5 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: R block
+# name: src ipython block
 # key: <ip
 # binding: direct-keybinding
 # --

@@ -1,5 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: R block
+# name: src R block
 # key: <R
 # binding: direct-keybinding
 # --
