@@ -1,6 +1,6 @@
 (source gnu)
 (source melpa)
-(source org)
+; (source org)
 (source marmalade)
 
 (depends-on "auto-complete")
@@ -39,8 +39,8 @@
 (depends-on "nyan-mode")
 (depends-on "olivetti")
 (depends-on "org-download")
-(depends-on "org-plus-contrib")
-(depends-on "org")
+; (depends-on "org-plus-contrib")
+; (depends-on "org")
 (depends-on "org-bullets")
 (depends-on "ox-gfm")
 (depends-on "paradox")
