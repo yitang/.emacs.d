@@ -1854,6 +1854,8 @@ The capture mode templates.
                "* %?\n%U\n" :clock-in t :clock-resume t)
 	      ("jf" "Finance" entry (file+datetree "~/git/org/Journal/Finance.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
+	      ("jc" "Career" entry (file+datetree "~/git/org/Journal/Career.org")
+               "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
 #+end_src
 
