@@ -268,6 +268,7 @@ bind it ~F2~.
 #+begin_src emacs-lisp :results silent 
 (require 'ace-window)
 (global-set-key (kbd "<f2>") 'ace-window)
+(global-set-key (kbd "M-o") 'ace-window)
 (setq aw-scope 'frame)
 #+end_src
 
@@ -2438,7 +2439,7 @@ then type *.
 #+begin_src emacs-lisp :results silent 
 ;;;; * org-babel 
 (setq org-src-window-setup 'current-window)
-(setq org-src-fontify-natively t)
+(setq org-src-fontify-natively nil)
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
 (setq org-catch-invisible-edits 'error)
@@ -2680,7 +2681,7 @@ href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/foundation/css/found
 <link rel=\"stylesheet\" type=\"text/css\" href=\"http://sachachua.com/blog/wp-content/themes/sacha-v3/style.css\"></link>
 <script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js\"></script>")
 (setq org-html-htmlize-output-type 'css)
-(setq org-src-fontify-natively t)
+(setq org-src-fontify-natively nil)
 (setq org-html-preamble "<a name=\"top\" id=\"top\"></a>")
 (setq org-html-postamble "
 <style type=\"text/css\">
