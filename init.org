@@ -555,8 +555,11 @@ that is highlighted and then modify all of them at the same time.
 
 #+begin_src emacs-lisp
 (require 'multiple-cursors)
-(global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
+;; (global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
+;; (global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
 ;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 ;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 ;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -1351,12 +1354,6 @@ apply the clean scripts to the tangled file.  also, preappend the date and my na
 (add-hook 'org-babel-post-tangle-hook 'yt/clean-R)
 #+end_src
 
-#+begin_src emacs-lisp :results silent 
-(add-hook 'ess-mode-hook '(lambda ()
-			      (turn-on-orgstruct)
-			      (setq-local orgstruct-heading-prefix-regexp "## ")))
-#+end_src
-
 *increase readability*
 #+begin_src emacs-lisp :results silent 
 (defun yt/ess-chunk-args--line ()
@@ -1749,69 +1746,70 @@ extension.
 #+end_src
 
 *** org-todos
-[2015-07-20 Mon 14:57]
+ [2015-07-20 Mon 14:57]
 
-First, define the TODO keywords. 
+ First, define the TODO keywords. 
 
-#+begin_src emacs-lisp :results silent 
-(setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "ORG(o@/!)" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
-#+end_src
+ #+begin_src emacs-lisp :results silent 
+ (setq org-todo-keywords
+       (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "ORG(o@/!)" "|" "DONE(d)")
+               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "RUNNING(r)" "|" "CANCELLED(c@/!)" "MEETING"))))
+ #+end_src
 
-Then highlight the keywords using different colours. 
+ Then highlight the keywords using different colours. 
 
-#+begin_src emacs-lisp :results silent 
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "red" :weight bold)
-	      ("NEXT" :foreground "red" :weight bold)
-	      ("ORG" :foreground "blue" :weight bold)
-              ("DONE" :foreground "forest green" :weight bold)
-              ("WAITING" :foreground "orange" :weight bold)
-              ("HOLD" :foreground "magenta" :weight bold)
-              ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING" :foreground "forest green" :weight bold))))
-#+end_src
+ #+begin_src emacs-lisp :results silent 
+ (setq org-todo-keyword-faces
+       (quote (("TODO" :foreground "red" :weight bold)
+	       ("NEXT" :foreground "red" :weight bold)
+	       ("ORG" :foreground "blue" :weight bold)
+               ("DONE" :foreground "forest green" :weight bold)
+               ("WAITING" :foreground "orange" :weight bold)
+	       ("RUNNING" :foreground "orange" :weight bold)
+               ("HOLD" :foreground "magenta" :weight bold)
+               ("CANCELLED" :foreground "forest green" :weight bold)
+               ("MEETING" :foreground "forest green" :weight bold))))
+ #+end_src
 
-Define an event when a TODO status changes, for example, if changed to
-HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
-both HOLD and WAITING tags. 
+ Define an event when a TODO status changes, for example, if changed to
+ HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
+ both HOLD and WAITING tags. 
 
-#+begin_src emacs-lisp :results silent 
-(setq org-todo-state-tags-triggers
-      (quote (("CANCELLED" ("CANCELLED" . t))
-              ("WAITING" ("WAITING" . t))
-              ("HOLD" ("WAITING") ("HOLD" . t))
-              (done ("WAITING") ("HOLD"))
-              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-#+end_src
+ #+begin_src emacs-lisp :results silent 
+ (setq org-todo-state-tags-triggers
+       (quote (("CANCELLED" ("CANCELLED" . t))
+               ("WAITING" ("WAITING" . t))
+               ("HOLD" ("WAITING") ("HOLD" . t))
+               (done ("WAITING") ("HOLD"))
+               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+ #+end_src
 
-Especially, when a task is marked as DONE, a timestamp is added to
-the LOGBOOK drawer. 
+ Especially, when a task is marked as DONE, a timestamp is added to
+ the LOGBOOK drawer. 
 
-#+begin_src emacs-lisp :results silent 
-;; (setq org-log-done (quote time))
-;; (setq org-log-into-drawer t)
-;; (setq org-log-state-notes-insert-after-drawers nil)
-#+end_src
+ #+begin_src emacs-lisp :results silent 
+ ;; (setq org-log-done (quote time))
+ ;; (setq org-log-into-drawer t)
+ ;; (setq org-log-state-notes-insert-after-drawers nil)
+ #+end_src
 
-Add a cross line for the headline with DONE status. Note currently it
-is disabled before of the performance issues in OS X.
+ Add a cross line for the headline with DONE status. Note currently it
+ is disabled before of the performance issues in OS X.
 
-#+begin_src emacs-lisp :results silent :eval no
-(defun my/modify-org-done-face ()
-  (setq org-fontify-done-headline t)
-  (set-face-attribute 'org-done nil :strike-through t)
-  (set-face-attribute 'org-headline-done nil
-                      :strike-through t
-                      :foreground "light gray"))
-(add-hook 'org-mode-hook 'my/modify-org-done-face)
-;; (setq org-fontify-done-headline t)
-;; (set-face-attribute 'org-done nil :strike-through t)
-;; (set-face-attribute 'org-headline-done nil :strike-through t)
-#+end_src
+ #+begin_src emacs-lisp :results silent :eval no
+ (defun my/modify-org-done-face ()
+   (setq org-fontify-done-headline t)
+   (set-face-attribute 'org-done nil :strike-through t)
+   (set-face-attribute 'org-headline-done nil
+                       :strike-through t
+                       :foreground "light gray"))
+ (add-hook 'org-mode-hook 'my/modify-org-done-face)
+ ;; (setq org-fontify-done-headline t)
+ ;; (set-face-attribute 'org-done nil :strike-through t)
+ ;; (set-face-attribute 'org-headline-done nil :strike-through t)
+ #+end_src
 
 *** org-capture
 [2015-07-20 Mon 14:57]
