@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: src ipython block with graphics
+# key: <ipg
+# binding: direct-keybinding
+# --
+#+begin_src ipython :exports both :results raw drawer :ipyfile (concate output-dir "$1.png")
+$0
+#+end_src
