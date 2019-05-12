@@ -23,7 +23,7 @@
 (depends-on "guide-key")
 (depends-on "helm-mu")
 (depends-on "helm-projectile")
-(depends-on "helm-swoop")
+; (depends-on "helm-swoop")
 (depends-on "hl-sentence")
 (depends-on "htmlize")
 (depends-on "hydra")
@@ -74,3 +74,4 @@
 (depends-on "company-auctex")
 (depends-on "org-mime")
 (depends-on "helm-flyspell")
+(depends-on "openwith")
