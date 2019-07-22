@@ -4,7 +4,7 @@
 # binding: direct-keybinding
 # --
 #!/usr/bin/env bash
-set -x
+set -ex
 {
     echo "Process start at" $(date "+%Y-%m-%d %H:%M:%S")
 

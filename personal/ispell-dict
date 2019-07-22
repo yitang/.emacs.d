@@ -6,6 +6,7 @@ add
 dendrogram
 GPD
 Jilly
+specialization
 dataset
 PostgreSQL
 anesthetic
@@ -36,6 +37,7 @@ eventset
 Kaggle
 outlier
 workflow
+monotonicity
 overfitting
 AMAX
 outliers

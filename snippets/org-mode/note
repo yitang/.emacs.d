@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: note block for org-mode/latex
+# key: <n
+# binding: direct-keybinding
+# --
+#+BEGIN_NOTE
+$0
+#+END_NOTE
