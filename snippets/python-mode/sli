@@ -2,5 +2,4 @@
 # name: self.logger.info("")
 # key: sli
 # --
-self.logger.info("$1")
-$0
+self.logger.info(f"$1")$0

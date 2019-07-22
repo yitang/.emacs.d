@@ -1,0 +1,4 @@
+#+title: $1
+#+PROPERTY: header-args:sh :session *$2* :dir ../ :results drawer :shebang #!/bin/bash -i :eval no-export
+
+$0

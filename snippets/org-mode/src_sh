@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: src sh block
+# key: <sh
+# binding: direct-keybinding
+# --
+#+begin_src sh
+$0
+#+end_src
