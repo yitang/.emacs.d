@@ -3397,9 +3397,9 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 
 use org-struct mode for emacs-lisp. 
 #+begin_src emacs-lisp :results silent 
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                              (turn-on-orgstruct)
-                              (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
+;; (add-hook 'emacs-lisp-mode-hook '(lambda ()
+;;                               (turn-on-orgstruct)
+;;                               (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
 #+end_src
 
 
