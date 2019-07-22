@@ -6,8 +6,8 @@
 
 rule ${1:name}:
     input: "input/${2:input}"
-    output: "output/${3:output}"
+    output: "output/${3:$1}"
     log: "./log/$1.log"
     benchmark: "./benchmark/$1.dat"
-    shell: "$4 2>&1 | tee {log}"
+    shell: "${4:python} 2>&1 | tee {log}"
 $0

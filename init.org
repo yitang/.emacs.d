@@ -764,16 +764,18 @@ to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp
-(require 'projectile)
-(helm-projectile-on)
-(require 'helm-projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-remember-window-configs t )
-(setq projectile-completion-system 'helm)
-(setq projectile-switch-project-action 'helm-projectile)
-(setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
+  (require 'projectile)
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (helm-projectile-on)
+  (require 'helm-projectile)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (setq projectile-switch-project-action 'projectile-dired)
+  (setq projectile-remember-window-configs t )
+  (setq projectile-completion-system 'helm)
+  (setq projectile-switch-project-action 'helm-projectile)
+  (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
@@ -2493,6 +2495,7 @@ then type *.
 	 (ipython .t)
          (octave . t)
          (latex . t)
+	 (ipython . t)
          (sql . t))))
 
 (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
