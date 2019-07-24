@@ -1085,6 +1085,10 @@ There three features that have me made the decision:
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 (setq ess-history-file "~/.Rhisotry")
 (setq ess-indent-with-fancy-comments nil)
+
+
+(define-key ess-r-mode-map "_" #'ess-insert-assign)
+(define-key inferior-ess-r-mode-map "_" #'ess-insert-assign)
 #+end_src
 *** Start-up							    :ARCHIVE:
 [2015-05-20 Wed 13:42]
