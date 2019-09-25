@@ -1839,8 +1839,8 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2017.org")
-               "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
+              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2019.org")
+	       "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" )
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
@@ -2049,6 +2049,13 @@ remove empty clock entrys at checkout
   (interactive)
   (org-insert-time-stamp nil t t nil nil nil))
 (global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+
+(defun yt/insert-ts-as-file ()
+    (interactive)
+  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
+  )
+
+(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
 
 (defun bh/insert-heading-inactive-timestamp ()
   (save-excursion
@@ -3812,9 +3819,9 @@ when the cursr is in a twitter:
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
-(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-current-statement)
-(define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
-(define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
+;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt --pprint")
 
