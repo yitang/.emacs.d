@@ -4135,10 +4135,18 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
    #+end_src
 
    then =fg= to bring back emacs. 
+** highlight TODO, IMP in text mode
+   [2019-10-13 Sun 04:46]
 
    
+   #+begin_src emacs-lisp :results silent :tangle no
+;; highlights FIXME: TODO: and BUG: in prog-mode 
+(add-hook 'text-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
 
-   
+   #+end_src
 * End 
 [2015-01-19 Mon 11:43]
 
