@@ -3834,6 +3834,10 @@ when the cursr is in a twitter:
 ;;       python-shell-prompt-detect-failure-warning nil)
 ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
 ;;              "jupyter")
+
+;; for new elpy version
+(setq elpy-shell-starting-directory 'current-directory)
+(setq elpy-rpc-virtualenv-path 'current)
 #+end_src
 
 ** Python for data analysis
