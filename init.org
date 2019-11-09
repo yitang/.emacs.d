@@ -963,9 +963,10 @@ following settings, I can use =F9-f= to select temporal buffers.
 (defhydra hydra/open-common-files (:color blue)
   "Open file:
       "
-  ("R" (yt/org-find-file "Profession/R.org") "R.org")
-  ("p" (yt/org-find-file "python.org") "python.org")
-  ("l" (yt/org-find-file "life.org") "life.org")
+  ("R" (find-file "~/git/career/Profession/R.org") "R.org")
+  ("p" (find-file "~/git/career/Profession/Python.org") "Python.org")
+  ("E" (find-file "~/git/career/Profession/Emacs.org") "Emacs.org") 
+  ("l" (find-file "~/git/org/life/life.org") "life.org")
   ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
   ("d" (yt/org-find-file "Journal/diary.org") "diary.org")
