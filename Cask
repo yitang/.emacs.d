@@ -1,7 +1,6 @@
-(source gnu)
 (source melpa)
-; (source org)
-(source marmalade)
+(source org)
+
 
 (depends-on "auto-complete")
 ; (depends-on "ac-R")
@@ -43,7 +42,7 @@
 ; (depends-on "org")
 (depends-on "org-bullets")
 (depends-on "ox-gfm")
-(depends-on "paradox")
+; (depends-on "paradox")
 (depends-on "powerline")
 (depends-on "pretty-mode")
 (depends-on "projectile")
@@ -71,7 +70,7 @@
 ; (depends-on "w3m" :git "git@github.com:rejeep/w3m.git" :branch "cask")
 (depends-on "company-quickhelp")
 (depends-on "ob-ipython")
-(depends-on "company-auctex")
+; (depends-on "company-auctex")
 (depends-on "org-mime")
 (depends-on "helm-flyspell")
 (depends-on "openwith")

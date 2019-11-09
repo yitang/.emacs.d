@@ -963,9 +963,10 @@ following settings, I can use =F9-f= to select temporal buffers.
 (defhydra hydra/open-common-files (:color blue)
   "Open file:
       "
-  ("R" (yt/org-find-file "Profession/R.org") "R.org")
-  ("p" (yt/org-find-file "python.org") "python.org")
-  ("l" (yt/org-find-file "life.org") "life.org")
+  ("R" (find-file "~/git/career/Profession/R.org") "R.org")
+  ("p" (find-file "~/git/career/Profession/Python.org") "Python.org")
+  ("E" (find-file "~/git/career/Profession/Emacs.org") "Emacs.org") 
+  ("l" (find-file "~/git/org/life/life.org") "life.org")
   ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
   ("d" (yt/org-find-file "Journal/diary.org") "diary.org")
@@ -1085,6 +1086,10 @@ There three features that have me made the decision:
 (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
 (setq ess-history-file "~/.Rhisotry")
 (setq ess-indent-with-fancy-comments nil)
+
+
+(define-key ess-r-mode-map "_" #'ess-insert-assign)
+(define-key inferior-ess-r-mode-map "_" #'ess-insert-assign)
 #+end_src
 *** Start-up							    :ARCHIVE:
 [2015-05-20 Wed 13:42]
@@ -1835,8 +1840,8 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2017.org")
-               "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" :immediate-finish :clock-in t :clock-resume t)
+              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2019.org")
+	       "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" )
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
@@ -2045,6 +2050,13 @@ remove empty clock entrys at checkout
   (interactive)
   (org-insert-time-stamp nil t t nil nil nil))
 (global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+
+(defun yt/insert-ts-as-file ()
+    (interactive)
+  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
+  )
+
+(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
 
 (defun bh/insert-heading-inactive-timestamp ()
   (save-excursion
@@ -3823,6 +3835,10 @@ when the cursr is in a twitter:
 ;;       python-shell-prompt-detect-failure-warning nil)
 ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
 ;;              "jupyter")
+
+;; for new elpy version
+(setq elpy-shell-starting-directory 'current-directory)
+(setq elpy-rpc-virtualenv-path 'current)
 #+end_src
 
 ** Python for data analysis
@@ -4124,10 +4140,60 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
    #+end_src
 
    then =fg= to bring back emacs. 
+** highlight TODO, IMP in text mode
+   [2019-10-13 Sun 04:46]
 
    
+   #+begin_src emacs-lisp :results silent :tangle no
+;; highlights FIXME: TODO: and BUG: in prog-mode 
+(add-hook 'text-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
 
-   
+   #+end_src
+** move region up/down
+   [2019-11-09 Sat 11:52]
+
+#+begin_src emacs-lisp :results silent 
+(defun move-text-internal (arg)
+   (cond
+    ((and mark-active transient-mark-mode)
+     (if (> (point) (mark))
+            (exchange-point-and-mark))
+     (let ((column (current-column))
+              (text (delete-and-extract-region (point) (mark))))
+       (forward-line arg)
+       (move-to-column column t)
+       (set-mark (point))
+       (insert text)
+       (exchange-point-and-mark)
+       (setq deactivate-mark nil)))
+    (t
+     (beginning-of-line)
+     (when (or (> arg 0) (not (bobp)))
+       (forward-line)
+       (when (or (< arg 0) (not (eobp)))
+            (transpose-lines arg))
+       (forward-line -1)))))
+
+(defun move-text-down (arg)
+   "Move region (transient-mark-mode active) or current line
+  arg lines down."
+   (interactive "*p")
+   (move-text-internal arg))
+
+(defun move-text-up (arg)
+   "Move region (transient-mark-mode active) or current line
+  arg lines up."
+   (interactive "*p")
+   (move-text-internal (- arg)))
+
+(global-set-key [\M-\S-up] 'move-text-up)
+(global-set-key [\M-\S-down] 'move-text-down)
+#+end_src
+
+
 * End 
 [2015-01-19 Mon 11:43]
 
