@@ -3,5 +3,7 @@
 # key: ifm2
 # --
 if __name__ == "__main__":
+    from yp.utils.logger import setup_simple_logging
+    setup_simple_logging(file_only=False)
     import fire
     fire.Fire($0)
