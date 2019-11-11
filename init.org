@@ -769,7 +769,7 @@ Open the file manager at the default directory.
 to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
   (require 'projectile)
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -3821,8 +3821,8 @@ when the cursr is in a twitter:
 
 ;; make elpy more like ESS
 (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
-;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
-;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+(define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+(define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt --pprint")
 
