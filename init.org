@@ -969,8 +969,9 @@ following settings, I can use =F9-f= to select temporal buffers.
   ("l" (find-file "~/git/org/life/life.org") "life.org")
   ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
-  ("d" (yt/org-find-file "Journal/diary.org") "diary.org")
+  ("d" (yt/org-find-file "dournal/diary.org") "diary.org")
   ("r" (yt/org-find-file "life/review.org") "review.org")
+  ("f" (yt/org-find-file "finance/ledger_transaction_2019.org") "ledger.org")
   )
 (global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
 #+end_src
@@ -1840,23 +1841,23 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/Finance/ledger_transaction_2019.org")
+              ("l" "Ledger Journal" plain (file "~/git/org/finance/ledger_transaction_2019.org")
 	       "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:Checking" )
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
               ("j" "Journalsing")
-              ("jd" "diary" entry (file+datetree "~/git/org/Journal/diary.org")
+              ("jd" "diary" entry (file+datetree "~/git/org/journal/diary.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/Journal/Kaggle.org")
+              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/journal/Kaggle.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("js" "Statistician" entry (file+datetree "~/git/org/Journal/Statistics.org")
+              ("js" "Statistician" entry (file+datetree "~/git/org/journal/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("jo" "Office" entry (file+datetree "~/git/org/Journal/Office.org")
+              ("jo" "Office" entry (file+datetree "~/git/org/journal/Office.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-	      ("jf" "Finance" entry (file+datetree "~/git/org/Journal/Finance.org")
+	      ("jf" "Finance" entry (file+datetree "~/git/org/journal/Finance.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-	      ("jc" "Career" entry (file+datetree "~/git/org/Journal/Career.org")
+	      ("jc" "Career" entry (file+datetree "~/git/org/journal/Career.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
 #+end_src
@@ -2119,8 +2120,9 @@ remove empty clock entrys at checkout
 
 (defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
     (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                      (candidates . ("~/git/org/" "~/git/career"))
+                      (candidates . ("~/git/org/" "~/git/career" "~/git/org/finance"))
                       (action . yt/org-agenda-files--choose)))))
+
 (defun yt/org-agenda-files-set ()
   (interactive)
   (setq org-agenda-files (list))
