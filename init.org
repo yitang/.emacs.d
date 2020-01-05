@@ -1828,15 +1828,15 @@ The capture mode templates.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/git/org/refile.org")
+      (quote (("t" "todo" entry (file "~/git/org/life//refile.org")
                "* TODO %?\n\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
-              ("o" "org" entry (file "~/git/org/refile.org")
+              ("o" "org" entry (file "~/git/org/life//refile.org")
                "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-              ;; ("r" "respond" entry (file "~/git/org/refile.org")
+              ;; ("r" "respond" entry (file "~/git/org/life//refile.org")
               ;;  "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n%a" :clock-in t :clock-resume t)
-              ("r" "read" entry (file "~/git/org/refile.org")
+              ("r" "read" entry (file "~/git/org/life//refile.org")
                "* TODO %? :READ:\n%U\n" :clock-in t :clock-resume t)
-              ("n" "note" entry (file "~/git/org/refile.org")
+              ("n" "note" entry (file "~/git/org/life//refile.org")
                "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
