@@ -13,6 +13,16 @@
 
    I would expect a great improvement productivity and experience for
    using R in Emacs, and maybe for python as well.
+
+   #+begin_src emacs-lisp :results silent :tangle no
+   (require 'lsp-mode)
+   (add-hook 'python-mode-hook #'lsp)
+
+   (setq lsp-keymap-prefix "C-c C-l")
+
+   (lsp-treemacs-sync-mode 1)
+   (add-hook 'ess-mode #'lsp)
+   #+end_src
 ** orgalist and outshine
    [2020-06-25 Thu 07:10]
 
