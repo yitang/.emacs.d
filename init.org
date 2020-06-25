@@ -1206,9 +1206,15 @@ One thing I find particulaar usefull and necessary is to highliht  characters in
 
     #+end_src 
     
-we usually have long scripts, and in Subimetext, one cold folder and unfolder a function. in Emacs, this feature could be extended to furture, by define folder-characters.  at this statge, I tented to used the deafault, I.e. folder functions only.  in the folliwng setting, I could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to folder/unfolder all functions. 
+we usually have long scripts, and in Subimetext, one cold folder and
+unfolder a function. in Emacs, this feature could be extended to
+furture, by define folder-characters. at this statge, I tented to used
+the deafault, I.e. folder functions only. in the folliwng setting, I
+could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to
+folder/unfolder all functions.
     
-one potentially solution is to use =org-strct-mode=, to show/hide the whole section, I havne;t tryied it before, but it sounds a good idea.
+One potentially solution is to use =outshine= package, to show/hide
+the whole section.
     
 #+begin_src emacs-lisp :results silent
 ;; (add-hook 'prog-mode-hook 'hs-minor-mode)
@@ -3409,15 +3415,6 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 :END:
 [2015-07-05 Sun 19:46]
 
-use org-struct mode for emacs-lisp. 
-#+begin_src emacs-lisp :results silent 
-;; (add-hook 'emacs-lisp-mode-hook '(lambda ()
-;;                               (turn-on-orgstruct)
-;;                               (setq-local orgstruct-heading-prefix-regexp ";;;; ")))
-#+end_src
-
-
-
 (rep "a" 3) --> "aaa"
 
 #+begin_src emacs-lisp :results silent 
@@ -3773,7 +3770,7 @@ some quick fix in message mode, save me few seconds in going back to
 org-mode.
 
 #+begin_src emacs-lisp :results silent 
-(add-hook 'message-mode-hook 'orgstruct++-mode 'append)
+;; (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
 ;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
 (add-hook 'message-mode-hook 'orgtbl-mode 'append)
