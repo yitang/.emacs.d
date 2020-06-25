@@ -3612,8 +3612,9 @@ macbook por.
 
 
 (defun yt/email-icloud ()
+
   (push '("/iCloud/INBOX" . ?i) mu4e-maildir-shortcuts)
-  (setq  mu4e-get-mail-command "mbsync iCloud Gmail; mu index --maildir=~/Maildir/personal"
+  (setq  mu4e-get-mail-command "mbsync -c ~/git/debian-dot/.mbsyncrc Gmail; mu index --maildir=~/Maildir/personal"
          mu4e-maildir "~/Maildir/personal"
          smtpmail-default-smtp-server "smtp.mail.me.com"
          smtpmail-smtp-server "smtp.mail.me.com"
