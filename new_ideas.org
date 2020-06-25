@@ -1,0 +1,48 @@
+#+title: New Ideas and Features
+
+* New Pakcages
+  [2020-06-25 Thu 07:13]
+** [#A] lsp-mode and lsp-treemacs
+   [2020-06-25 Thu 07:05]
+
+   it provides IDE-like experiences for all languages. so far, I'm
+   happy with Elpy for python, but ESS for R requires a lot of work.
+
+   The feature i missed in the last 5 years is tree view of the
+   codebase. this would be very useful.
+
+   I would expect a great improvement productivity and experience for
+   using R in Emacs, and maybe for python as well.
+** orgalist and outshine
+   [2020-06-25 Thu 07:10]
+
+   copied from org-mode 9.2 release:
+
+   #+begin_quote
+   If you want to manipulate lists like in Org in other modes, we suggest to use orgalist.el, which you can install from GNU ELPA.
+
+   If you want to use Org folding outside of Org buffers, you can have a look at the outshine package in the MELPA repository.
+   #+end_quote
+
+* New Workflow
+  [2020-06-25 Thu 07:10]
+
+** Password management
+   [2020-06-25 Thu 07:13]
+
+   to start with, save all passwords in a org file, and encrypt it.
+
+   the fancy approach is to use pass (the standard unix password
+   manager) program in command line, and pass package in Emacs if
+   necessary.
+
+* System Integration
+  [2020-06-25 Thu 07:15]
+   
+  
+** Double/Right click
+   [2020-06-25 Thu 07:16]
+
+   double click a yaml file and open it using emacsclient, so it won't
+   load init file etc. also provide right click option.
+   
