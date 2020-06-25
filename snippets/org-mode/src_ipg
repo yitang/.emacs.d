@@ -3,6 +3,6 @@
 # key: <ipg
 # binding: direct-keybinding
 # --
-#+begin_src ipython :exports both :results raw drawer :ipyfile (concate output-dir "$1.png")
+#+begin_src ipython :exports both :results raw drawer :ipyfile (concat output-dir "$1.png")
 $0
 #+end_src
