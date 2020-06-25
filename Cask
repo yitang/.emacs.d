@@ -1,4 +1,5 @@
 (source melpa)
+(source gnu)
 (source org)
 
 
@@ -22,7 +23,7 @@
 (depends-on "guide-key")
 (depends-on "helm-mu")
 (depends-on "helm-projectile")
-; (depends-on "helm-swoop")
+(depends-on "helm-swoop")
 (depends-on "hl-sentence")
 (depends-on "htmlize")
 (depends-on "hydra")
@@ -70,7 +71,11 @@
 ; (depends-on "w3m" :git "git@github.com:rejeep/w3m.git" :branch "cask")
 (depends-on "company-quickhelp")
 (depends-on "ob-ipython")
-; (depends-on "company-auctex")
+(depends-on "company-auctex")
 (depends-on "org-mime")
 (depends-on "helm-flyspell")
 (depends-on "openwith")
+(depends-on "lsp-mode")
+(depends-on "treemacs")
+(depends-on "lsp-treemacs")
+(depends-on "lsp-ui")
