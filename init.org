@@ -1847,8 +1847,6 @@ The capture mode templates.
               
               ("h" "Habit" entry (file "~/git/org/habits.org")
                "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("l" "Ledger Journal" plain (file "~/git/org/finance/ledger_transaction_2019.org")
-	       "%(org-read-date) * %^{Payee}\n\t%^{Account}\t£ %^{Amount}\n\tAssets:%^{Checking}" )
               ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
                "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
@@ -1866,6 +1864,15 @@ The capture mode templates.
 	      ("jc" "Career" entry (file+datetree "~/git/org/journal/Career.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
+
+;; ledger entries
+
+(push '("l" "Ledger Journal" plain (file "~/git/data_finance/ledger/refile.ledger")
+	   "%(org-read-date) * %(yt/helm-ledger-payee)
+    %(yt/helm-ledger-account)    £ %(yt/helm-ledger-amount)
+    %(yt/helm-ledger-account)")
+	 org-capture-templates
+	 )
 #+end_src
 
 Speed up the process by using cache.
