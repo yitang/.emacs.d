@@ -3497,7 +3497,13 @@ The basical workflow is:
 
 #+begin_src emacs-lisp
 ;;----------------------------------------------------------
-(add-to-list 'load-path "~/git/.emacs.d/elpa/mu4e")
+; note on debian, the mu program is installed via maildir-utils system
+; package. the mu4e is installed via mu4e package. this method ensures
+; the version of mu and mu4e matchs. otherwise, it would be difficult
+; to install a specific version of mu4e via emacs's package manager to
+; match the installed mu program.
+
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (require 'mu4e)
 ;; default
 
