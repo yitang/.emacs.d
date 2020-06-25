@@ -1,0 +1,39 @@
+#+title: Emacs 27.0.91
+
+* Download Source Code
+  [2020-06-25 Thu 19:00] 
+
+  emacs 27.0.91 from https://github.com/emacs-mirror/emacs/tags
+* Configuration
+  [2020-06-25 Thu 19:00]
+  
+  generally speaking, 
+  - /usr/bin :: for distribution level programs, like apt-get
+  - /usr/local/bin :: for programs installed by system admin
+  - ~/.local/bin :: for program installed by and only used by the user
+
+#+begin_src bash
+sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev
+
+./configure --prefix=~/bin/emacs27 --disable-silent-rules \
+	    --with-modules --with-file-notification=inotify \
+	    --with-x=yes --with-x-toolkit=gtk3 --with-xwidgets --with-lcms2 \
+	    --with-json
+#+end_src
+* Compile
+  [2020-06-25 Thu 19:02]
+installation: 
+#+begin_src bash
+make
+sudo make install
+#+end_src
+* Test
+  [2020-06-25 Thu 19:02]
+#+begin_src bash
+emacs --version
+which emacs
+#+end_src
+* Reference
+  [2020-06-25 Thu 19:02]
+
+  https://tom10.net/compiling-emacs-27-on-ubuntu-18-04/
