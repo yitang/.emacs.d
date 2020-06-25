@@ -3633,9 +3633,12 @@ macbook por.
                                  "\n")))
 
 (defun yt/email-gmail ()
-  (push '("/Gmail/[Google Mail].All Mail" . ?i) mu4e-maildir-shortcuts)
+  (setq mu4e-sent-folder   "/Gmail/[Google Mail]/Sent Mail"
+	mu4e-trash-folder  "/Gmail/[Google Mail]/Trash"
+	mu4e-refile-folder "/Gmail/[Google Mail]/All Mail")
+  (push '("/Gmail/[Google Mail]/All Mail" . ?i) mu4e-maildir-shortcuts)
   ;; sent emails 
-  (setq   mu4e-get-mail-command "mbsync iCloud Gmail; mu index --maildir=~/Maildir/personal"
+  (setq   mu4e-get-mail-command "mbsync -c ~/git/debian-dot/.mbsyncrc Gmail; mu index --maildir=~/Maildir/personal"
           mu4e-maildir "~/Maildir/personal"
           smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
           smtpmail-default-smtp-server "smtp.gmail.com"
