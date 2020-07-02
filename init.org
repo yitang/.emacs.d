@@ -1199,10 +1199,10 @@ One thing I find particulaar usefull and necessary is to highliht  characters in
     
 #+begin_src emacs-lisp :results silent
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+;; (add-hook 'prog-mode-hook
+;;           (lambda ()
+;;             (font-lock-add-keywords nil
+;;                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
     #+end_src 
     
@@ -1261,7 +1261,7 @@ highlights the text that are longer than 80 columns rule.
 
 Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results silent :eval no
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
@@ -4169,11 +4169,11 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 
    
    #+begin_src emacs-lisp :results silent :tangle no
-;; highlights FIXME: TODO: and BUG: in prog-mode 
-(add-hook 'text-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
+;; ;; highlights FIXME: TODO: and BUG: in prog-mode 
+;; (add-hook 'text-mode-hook
+;;           (lambda ()
+;;             (font-lock-add-keywords nil
+;;                                     '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
 
    #+end_src
 ** move region up/down
