@@ -33,7 +33,32 @@
 
    If you want to use Org folding outside of Org buffers, you can have a look at the outshine package in the MELPA repository.
    #+end_quote
+** NEXT Emacs X Window Manager - EWXM
+   [2020-07-13 Mon 10:10]
 
+   this is a change to current setup, also, not sure if its' suitable
+   for daily normal users. 
+
+   https://technomancy.us/184
+
+   Gnome -> i3wm -> EWXM in emacs -> StumpWM (common lisp, but not in Emacs).
+** Grammar checks
+   [2020-07-18 Sat 06:22]
+
+   based on  https://www.reddit.com/r/emacs/comments/a3of2k/any_way_to_integrate_grammarly_with_emacs/
+   
+   proselint seems a good out of book solution. only need to install
+   proselint and use it with flycheck.
+
+   this is a better solution than langtool (it depends on java).
+   there's no way to use gramarly in side emacs.
+
+   #+begin_src bash
+   pip install proselint
+   #+end_src
+   #+begin_src emacs-lisp :results silent :tangle no
+   (flycheck-add-mode 'proselint 'org-mode)
+   #+end_src
 * New Workflow
   [2020-06-25 Thu 07:10]
 
