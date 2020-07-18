@@ -1495,7 +1495,7 @@ will highlight the word like /shuold/ or /I think/, which reminds to
 confirm with what I am not sure about, and have more confidence in
 what I am saying.
 
-#+begin_src emacs-lisp :results silent :eval no 
+#+begin_src emacs-lisp :results silent :eval yes
 (require 'artbollocks-mode)
 (add-hook 'text-mode-hook 'artbollocks-mode)
 (setq artbollocks-weasel-words-regex
