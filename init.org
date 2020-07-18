@@ -411,8 +411,8 @@ I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
 claimed to be suitable for coding environments but I use it for all
 modes.
 
-#+begin_src emacs-lisp :results silent :eval no
-(set-default-font "Source Code Pro-14" nil t)
+#+begin_src emacs-lisp :results silent
+(set-frame-font "Source Code Pro-11" nil t)
 ;; (set-face-attribute 'default nil :height 100)
 #+end_src
 *** Minimalists GUI 
