@@ -1445,7 +1445,7 @@ get it works, so I am not using it anymore.
 I have been writing in Emacs/org-mode a lot, have been really tired of
 capitalise i to I, so I use abbrevitation table.
 
-#+NAME: my_text_abbrevs
+#+NAME: my-text-abbrevs
 | name      | expand            | Category |
 |-----------+-------------------+----------|
 | i         | I                 | write    |
@@ -1461,41 +1461,37 @@ capitalise i to I, so I use abbrevitation table.
 | obs       | observation       | stats    |
 | obss      | observations      | stats    |
 
-#+NAME: my_text_abbrevs
-:value 2
+#+begin_src emacs-lisp :colnames yes :hlines no :results silent :eval yes :var my-text-abbrevs=my-text-abbrevs
+(defun my-text-abbrev-expand-p ()
+  "Return t if the abbrev is in a text context, which is: in
+   comments and strings only when in a prog-mode derived-mode or
+   src block in org-mode, and anywhere else."
+  (if (or (derived-mode-p 'prog-mode)
+          (and (eq major-mode 'org-mode)
+               (org-in-src-block-p 'inside)))
+      (nth 8 (syntax-ppss))
+    t))
 
-# :var my-text-abbrevs=my_text_abbrevs
+(define-abbrev-table 'my-text-abbrev-table ()
+  "Abbrev table for text-only abbrevs. Expands only in comments and strings."
+  :enable-function #'my-text-abbrev-expand-p)
 
-#+begin_src emacs-lisp :colnames yes :hlines no :results silent :eval yes
-  ;; (defun my-text-abbrev-expand-p ()
-  ;;   "Return t if the abbrev is in a text context, which is: in
-  ;;  comments and strings only when in a prog-mode derived-mode or
-  ;;  src block in org-mode, and anywhere else."
-  ;;   (if (or (derived-mode-p 'prog-mode)
-  ;;           (and (eq major-mode 'org-mode)
-  ;;                (org-in-src-block-p 'inside)))
-  ;;       (nth 8 (syntax-ppss))
-  ;;     t))
+(dolist (table (list text-mode-abbrev-table
+                     prog-mode-abbrev-table))
+  (abbrev-table-put table
+                    :parents (list my-text-abbrev-table)))
 
-  ;; (define-abbrev-table 'my-text-abbrev-table ()
-  ;;   "Abbrev table for text-only abbrevs. Expands only in comments and strings."
-  ;;   :enable-function #'my-text-abbrev-expand-p)
-
-  ;; (dolist (table (list text-mode-abbrev-table
-  ;;                      prog-mode-abbrev-table))
-  ;;   (abbrev-table-put table
-  ;;                     :parents (list my-text-abbrev-table)))
-
-  ;; (defun my-text-abbrev-table-init (abbrevs-org-list)
-  ;;   "Parse 'name: expansion' pairs from an org list and insert into abbrev table."
-  ;;   (message "Creating text-abbrev table...")
-  ;;   (dolist (abbrev abbrevs-org-list)
-  ;;     (let ((name (nth 0 abbrev))
-  ;;           (expansion (nth 1 abbrev)))
-  ;;       ;; (print (cons name expansion))
-  ;;       (define-abbrev my-text-abbrev-table name expansion nil :system t))))
-  ;; (my-text-abbrev-table-init my-text-abbrevs)
+(defun my-text-abbrev-table-init (abbrevs-org-list)
+  "Parse 'name: expansion' pairs from an org list and insert into abbrev table."
+  (message "Creating text-abbrev table...")
+  (dolist (abbrev abbrevs-org-list)
+    (let ((name (nth 0 abbrev))
+          (expansion (nth 1 abbrev)))
+      ;; (print (cons name expansion))
+      (define-abbrev my-text-abbrev-table name expansion nil :system t))))
+(my-text-abbrev-table-init my-text-abbrevs)
 #+end_src
+
 
 *** Style 
 [2015-05-26 Tue 12:13]
