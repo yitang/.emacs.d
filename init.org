@@ -1598,69 +1598,6 @@ Version 2015-05-07"
                (replace-match (aref ξx 1) 'FIXEDCASE 'LITERAL)))
            ξstrPairs))))))
 #+end_src
-*** Write-Mode
-[2015-07-20 Mon 10:37]
-
-For about one month, I tried to write at least 500 words per day. I
-also set up a special =write-mode= that has different color scheldules
-that helps me to set the moode.
-
-#+begin_src emacs-lisp :results silent :eval no
-;; [2014-12-25 Thu 22:21]
-(defun yt/write-mode ()
-  (interactive)
-  (hl-sentence-mode)
-  (variable-pitch-mode)
-  (nanowrimo-mode))
-
-;; word count
-;; https://bitbucket.org/gvol/nanowrimo.el
-;; (require 'org-wc)
-;; (require 'nanowrimo)
-;; (setq nanowrimo-today-goal 500)
-
-;; [2014-12-23 Tue 22:06]
-;; Highlight sentence
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Attribute-Functions.html
-(require 'hl-sentence)
-(add-hook 'nanowrimo-mode 'hl-sentence-mode)
-(set-face-attribute 'hl-sentence-face nil
-                    ;; :foreground "black")
-                    :foreground "white")
-(add-hook 'nanowrimo-mode 'variable-pitch-mode)
-(set-face-attribute 'variable-pitch nil
-                    :foreground "gray40")
-#+end_src
-
-*** Random Quotes 
-[2015-01-22 Thu 23:14]
-
-If I run out of idea, and I didn't write anything for 1 minutes, Emacs
-will pop a random quote that I collected in the echo area. The random
-quotes can inspire me sometimes.
-
-#+begin_src emacs-lisp :eval no
-(defconst yt/quotes
-  '("You can't see paradise, if you don't pedal.  - Chicken Run "
-    "He who who says he can and he who says he can’t are both usually right ― Confucius"
-    "Why waste time proving over and over how great you are when you could be getting better? - Dweck The Mindset"
-    "You’re not a failure until you start to assign blame. - The legendary basketball coach John Wooden"
-    "I could hear my heart beating. I could hear everyone's heart. I could hear the human noise we sat there making, not one of us moving, not even when the room went dark. - Raymond Carver"
-    "A writer is a sum of their experiences. Go get some - Stuck in Love (2012)"
-    "If there is any one secret of success, it lies in the ability to get the other person's point of view and see things from that person's angle as well as from your own. - Henry Ford"
-    "People who can put themselves in the place of other people who can understand the workings of their minds, need never worry about what the future has in store for them. - Owen D. Young"
-    )
-  "Good quotes 
-   they can be useful for creative writers as well.")
-(defun yt/show-random-quotes ()
-  "Show random quotes to minibuffer"
-  (interactive)
-  (message "%s"
-           (nth (random (length yt/quotes))
-                yt/quotes)))
-(run-with-idle-timer 60 t 'yt/show-random-quotes)
-
-#+end_src
 
 ** Org mode                                                     :ExportFile:
 :PROPERTIES:
