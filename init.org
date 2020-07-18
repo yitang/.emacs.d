@@ -456,8 +456,8 @@ buffer, including Git status, Major mode, clock info, etc.
 The smart-mode-line packages can make mode-line "smart and sexy".
 There are many options to tweak.
 
-#+begin_src emacs-lisp :results silent :eval no
 #+begin_src emacs-lisp :results silent
+(setq sml/no-confirm-load-theme t)
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
