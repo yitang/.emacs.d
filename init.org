@@ -1454,7 +1454,8 @@ capitalise i to I, so I use abbrevitation table.
 | obs       | observation       | stats    |
 | obss      | observations      | stats    |
 
-#+begin_src emacs-lisp :colnames yes :hlines no :results silent :eval yes :var my-text-abbrevs=my-text-abbrevs
+# :var my-text-abbrevs=my-text-abbrevs
+#+begin_src emacs-lisp :colnames yes :hlines no :results silent :eval no 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
    comments and strings only when in a prog-mode derived-mode or
