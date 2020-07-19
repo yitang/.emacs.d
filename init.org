@@ -3371,7 +3371,7 @@ The basical workflow is:
 ;; allow for updating mail using 'U' in the main view:
 ; get mail
 (setq mu4e-html2text-command "w3m -T text/html"
-      mu4e-update-interval 120
+      mu4e-update-interval 3600
       mu4e-headers-auto-update t
       mu4e-compose-signature-auto-include t)
 
