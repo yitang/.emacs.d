@@ -1,9 +1,11 @@
+=====
 Hydra
 =====
 
 
 
-.. code-block:: scheme
+
+.. code:: common-lisp
 
     (defhydra yt-hydra/help (:color blue :hint nil)
       "
@@ -21,16 +23,12 @@ Hydra
 
 hydra 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (require 'hydra)
-    (defhydra hydra-zoom (global-map "<f2>")
-      "zoom"
-      ("g" text-scale-increase "in")
-      ("l" text-scale-decrease "out"))
 
     (defhydra hydra-search (:color blue
-                                   :hint nil)
+    			       :hint nil)
       "
     Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
     Multiple Buffers : helm-multi-_S_woop 

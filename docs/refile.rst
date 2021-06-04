@@ -1,30 +1,59 @@
+======
 Refile
 ======
 
-voca-builde 
 
-.. code-block:: scheme
+quickly filter out non-work tasks in org-agenda. 
 
-    (require 'voca-builder)
-    (setq voca-builder/voca-file "~/git/org/vocabulary.org")
-    (setq voca-builder/current-tag "General")
-    (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
-    (setq sentence-end-double-space nil)
+.. code:: common-lisp
+
+    (defun yt/filter-life-agenda (tag)
+      (concat "-" "life"))
+    (defun yt/filter-office-agenda (tag)
+      (concat "-" "@office"))
+    (if (eq system-type 'darwin)
+        (setq org-agenda-auto-exclude-function 'yt/filter-office-agenda)
+      (setq org-agenda-auto-exclude-function 'yt/filter-life-agenda))
 
 
-weather forecasting 
+open this gnome-terminal here
 
-.. code-block:: scheme
+.. code:: common-lisp
 
-    ;; sunshine: weather forcaste service
-    (setq sunshine-units 'metric)
-    (setq sunshine-location "Keighley, GB")
-
-Add ad wrapper function ``yt/qs-bakcup-log`` for auto\ :sub:`bakc.el`\. call this
-function at the end of the day.
-
-.. code-block:: scheme
-
-    (defun yt/qs-backup-log ()
+    (defun yt/open-terminal ()
       (interactive)
-      (load "~/git/qs/auto_back.el"))
+      (shell-command (concat "gnome-terminal "
+    			 "--working-directory="
+    			 (file-truename default-directory)
+    			 )))
+    ;; (global-set-key (kbd "<f5>") 'yt/open-terminal)
+
+use swiper to replace default ``isearch``
+
+.. code:: common-lisp
+
+    (global-set-key "\C-s" 'swiper)
+
+
+use snakemake-mode for smake file.
+
+.. code:: common-lisp
+
+    (add-to-list 'auto-mode-alist '("sfile" . snakemake-mode))
+
+
+.. code:: common-lisp
+
+    (defun yt/sh-chunk-args ()
+    (interactive)
+    (replace-string " -" " \\\n -")
+    )
+
+insert git sha1 value into current point.
+
+.. code:: common-lisp
+
+    (defun yt/insert-git-hash-value ()
+      (interactive)
+      (insert (shell-command-to-string (concat "git rev-parse HEAD"))))
+    (global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)

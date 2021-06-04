@@ -1,5 +1,7 @@
+========================
 Completion and Selection
 ========================
+
 
 
 
@@ -10,7 +12,7 @@ Helm - Fuzzy Match
 
 Helm and fuzzy match makes selection a lot easier.  in 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (require 'helm)
     (require 'helm-config)
@@ -48,6 +50,18 @@ Helm and fuzzy match makes selection a lot easier.  in
     (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
     (helm-mode 1)
 
+    (defun yt/helm-copy-unmarked-to-buffer ()
+      (interactive)
+      (with-helm-buffer
+        (helm-mark-all)
+        (cl-loop for cand in (helm-marked-candidates)
+    	     do (with-helm-current-buffer
+    		  (insert cand "\n")))))
+    ;; by default, Cc Ci copy marked to buffer.
+    (define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
+
+    (setq helm-ff-guess-ffap-urls nil)
+
 Multi-Cursor & Helm-swoop  - Multiple Selection
 -----------------------------------------------
 
@@ -59,11 +73,14 @@ the normal way to do that is via searching and replacing.
 that is highlighted and then modify all of them at the same time. 
 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (require 'multiple-cursors)
-    (global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
-    (global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
+    ;; (global-set-key (kbd "C-S-<right>") 'mc/mark-next-like-this)
+    ;; (global-set-key (kbd "C-S-<left>") 'mc/mark-previous-like-this)
     ;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
     ;; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
     ;; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -73,7 +90,7 @@ that is highlighted and then modify all of them at the same time.
 I usually use ``multi-cursor`` with ``helm-swoop``, which allows me to search, and then narrow down all
 the occurrences in a temporary buffer, and then start to edit. 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (require 'helm-swoop)
     ;; Change the keybinds to whatever you like :)
@@ -106,7 +123,7 @@ jump directly to there places, just by pressing 4-5 keys. The places
 can be a character, line, or word. Personally I found it is really
 efficient to jump to a word when editing. 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (global-set-key (kbd "C-c w") 'ace-jump-word-mode)
 
@@ -132,7 +149,7 @@ syntax around a word, I press ``C-=`` to select it, then insert quote or
 forward slash, the whole word will be warped inside of quote or
 forward flash. 
 
-.. code-block:: scheme
+.. code:: common-lisp
 
     (require 'expand-region)
     (global-set-key (kbd "C-=") 'er/expand-region)
