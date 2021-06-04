@@ -1,4 +1,5 @@
 personal/emacs-history
 .cask/
 snippets/org-mode/weekly_review_tree
-personal/ispell-dict
+local/
+!local/readme.org
