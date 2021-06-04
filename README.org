@@ -1,2 +1,5 @@
+https://readthedocs.org/projects/emacs/badge/?version=latest
+[[https://readthedocs.org/projects/emacs/badge/?version=latest]]
+
 * Yet Another Emacs Configuration
   [2021-06-04 Fri 08:40]
