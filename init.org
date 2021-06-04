@@ -396,7 +396,7 @@ Let Emacs remember what I've typed, so I don't need to tediously type
 the whole thing. Most of the time, I could just select using =helm=.
 
 #+begin_src emacs-lisp :results silent 
-(setq savehist-file "~/git/.emacs.d/personal/emacs-history")
+(setq savehist-file "~/git/.emacs.d/local/emacs-history")
 (savehist-mode 1)
 #+end_src
 ** GUI - Emacs Looks Cool                                        :ExportFile:
@@ -1391,7 +1391,7 @@ I have a personal spelling dictionary, most are abbreviations and
 jargon. I can tell aspell that they are not misspellings. 
 
 #+begin_src emacs-lisp :results silent 
-(setq ispell-personal-dictionary "~/git/.emacs.d/personal/ispell-dict") ;; add personal dictionary 
+(setq ispell-personal-dictionary "~/git/.emacs.d/local/ispell-dict") ;; add personal dictionary 
 #+end_src
 
 
