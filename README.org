@@ -1,14 +1,3 @@
-
-[[https://readthedocs.org/projects/emacs/badge/?version=latest][https://readthedocs.org/projects/emacs/badge/?version=latest]]
-
-An example of Circle CI badge in Org: [[https://circleci.com/gh/akirak/emacs.d/tree/master][https://circleci.com/gh/akirak/emacs.d/tree/master.svg?style=svg]]
-
-MELPA: [[https://melpa.org/#/org-reverse-datetree][https://melpa.org/packages/org-reverse-datetree-badge.svg]]
-
-Travis CI:
-[[https://travis-ci.org/akirak/org-reverse-datetree][https://travis-ci.org/akirak/org-reverse-datetree.svg?branch=master]]
-
-
 * Yet Another Emacs Configuration
   [2021-06-04 Fri 08:40]
   
