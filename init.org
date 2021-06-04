@@ -935,7 +935,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 
 #+begin_src emacs-lisp :results silent 
-(defvar yt/temp-dir "~/tmp"
+(defvar yt/temp-dir "~/.tmp"
   "temporay folders")
 
 (defun yt/open-tmp-R ()
@@ -1213,7 +1213,7 @@ use f8 to remove the R process buffer.
       (delete-region (car reg) (cdr reg))
       (goto-char (cdr reg))
       (insert "*** output flushed ***\n"))))
-(global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
+;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
 #+end_src
 *** Documentation  
     [2015-01-23 Fri 17:53]
@@ -3371,7 +3371,7 @@ The basical workflow is:
 ;; allow for updating mail using 'U' in the main view:
 ; get mail
 (setq mu4e-html2text-command "w3m -T text/html"
-      mu4e-update-interval 120
+      mu4e-update-interval 3600
       mu4e-headers-auto-update t
       mu4e-compose-signature-auto-include t)
 

@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: src bibtex block
+# key: <bib
+# binding: direct-keybinding
+# --
+#+begin_src bibtex
+$0
+#+end_src
