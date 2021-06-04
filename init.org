@@ -412,7 +412,7 @@ claimed to be suitable for coding environments but I use it for all
 modes.
 
 #+begin_src emacs-lisp :results silent
-(set-frame-font "Source Code Pro-11" nil t)
+;; (set-frame-font "Source Code Pro-11" nil t)
 ;; (set-face-attribute 'default nil :height 100)
 #+end_src
 *** Minimalists GUI 
@@ -1705,15 +1705,15 @@ The capture mode templates.
               ("j" "Journalsing")
               ("jd" "diary" entry (file+datetree "~/git/org/diary/2020.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/journal/Kaggle.org")
+              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/diary/Kaggle.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("js" "Statistician" entry (file+datetree "~/git/org/journal/Statistics.org")
+              ("js" "Statistician" entry (file+datetree "~/git/org/diary/Statistics.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               ("jo" "Office" entry (file+datetree "~/git/org/diary/2020.org")
                "* %?:office:\n%U\n" :clock-in t :clock-resume t)
 	      ("jf" "Finance" entry (file+datetree "~/git/org/diary/2020.org")
                "* %?:finance:\n%U\t\n" :clock-in t :clock-resume t)
-	      ("jc" "Career" entry (file+datetree "~/git/org/journal/Career.org")
+	      ("jc" "Career" entry (file+datetree "~/git/org/diary/Career.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
               )))
 
@@ -2347,6 +2347,7 @@ then type *.
          (dot . t)
          (python .t)
 	 (ipython .t)
+	 ;; (bibtex .t)
          (octave . t)
          (latex . t)
 	 ;; (jupyter . t)
@@ -3276,12 +3277,6 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 :END:
 [2015-07-05 Sun 19:46]
 
-(rep "a" 3) --> "aaa"
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/lisp-rep (arg n)
-  (apply 'concat (make-list n arg)))
-#+end_src
 *** Org-Mode API 
 [2015-07-05 Sun 19:47]
 
@@ -3303,376 +3298,6 @@ Get the link to current headline as an external link.
                       (concat "headline: " title)
                       "]]"))))
 #+end_src
-** mu4e - Email Client
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/mu4e__email_client
-:END:
-:LOGBOOK:  
-CLOCK: [2015-06-03 Wed 21:27]--[2015-06-03 Wed 21:38] =>  0:11
-:END:      
-   
-The advantage of use Emacs as an email client:
-   
-1. communication happens at the point where the content is genreated. 
-   as a statisician/programmer, most likely I need to mmunicate with
-   numbers, table, graphs, or snippet. I could just copy these results
-   from to email, do an quickly editing.
-2. HTML email with CSS style.  
-   I like to formate my email use headingline, fonts, and highlhgit
-   the code, I used to be write a report in Word/LatEx and write an
-   email with only onbe line, please see the attachment. which I don't
-   like.
-3. search properly 
-   I use search all the time, and this functionality is not working at
-   all in outlkooik 2013, it also shows up random info (mail.app in
-   osx did a great job).
-   
-Disadvantage and the things it can't do:
-1. book Meeting/Appointment 
-   I didn't aware that you can do it in emacs, and we need an
-   iterative way to do. Outlook Schedule Asistant do a good job, it
-   list agenda of all attendence, and I could spot oen time slot that
-   suit for all or most people.
-2. don't expect me to reply immediately 
-   this is how does it works: 1. download the email from server, 2)
-   index with head, body, attachment, user name etc. 3) Emacs talk to
-   and show in GUI. I usually update the meail about 30 imnutes. but I
-   helps me out of disrupts.
-3. calendar 
-   I don't know how to integrate Office 365 calendar with Org-mode
-   calandar yet. even it can, I doubt I can download and see other
-   people's agenda.
-
-This setting need two programms to work: 1) mu, 2) offlineimap. 
-
-To install /mu/ on osx, 
-
-The basical workflow is: 
-1. offlineimap download the Emails from server,
-2. /mu/ index them, 
-3. and /mu4e/ package render the emails in Emacs.
-4. smtpmail for senting out emails. 
-
-#+begin_src emacs-lisp
-;;----------------------------------------------------------
-; note on debian, the mu program is installed via maildir-utils system
-; package. the mu4e is installed via mu4e package. this method ensures
-; the version of mu and mu4e matchs. otherwise, it would be difficult
-; to install a specific version of mu4e via emacs's package manager to
-; match the installed mu program.
-
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-(require 'mu4e)
-;; default
-
-;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-(setq mu4e-sent-messages-behavior 'sent)
-
-;; allow for updating mail using 'U' in the main view:
-; get mail
-(setq mu4e-html2text-command "w3m -T text/html"
-      mu4e-update-interval 3600
-      mu4e-headers-auto-update t
-      mu4e-compose-signature-auto-include t)
-
-;; don't keep message buffers around
-(setq message-kill-buffer-on-exit t)
-
-;; attempt to show images when viewing messages
-(setq mu4e-view-show-images t
-      mu4e-show-images t
-      mu4e-view-image-max-width 800)
-
-
-;; (setq mu4e-html2text-command "html2text -utf8 -width 72") ;; nil "Shel command that converts HTML
-;; ref: http://emacs.stackexchange.com/questions/3051/how-can-i-use-eww-as-a-renderer-for-mu4e
-(defun my-render-html-message ()
-  (let ((dom (libxml-parse-html-region (point-min) (point-max))))
-    (erase-buffer)
-    (shr-insert-document dom)
-    (goto-char (point-min))))
-(setq mu4e-html2text-command 'my-render-html-message)
-
-;; (setq mu4e-view-prefer-html t) ;; try to render 
-(add-to-list 'mu4e-view-actions 
-             '("ViewInBrowser" . mu4e-action-view-in-browser) t) ;; read in browser 
-;; mu4e as default email agent in emacs
-(setq mail-user-agent 'mu4e-user-agent)
-(require 'org-mu4e)
-                                        ;== M-x org-mu4e-compose-org-mode==
-(setq org-mu4e-convert-to-html t) ;; org -> html
-                                        ; = M-m C-c.= 
-
-;; give me ISO(ish) format date-time stamps in the header list
-(setq  mu4e-headers-date-format "%Y-%m-%d %H:%M")
-
-;; customize the reply-quote-string
-;; M-x find-function RET message-citation-line-format for docs
-(setq message-citation-line-format "%N @ %Y-%m-%d %H:%M %Z:\n")
-(setq message-citation-line-function 'message-insert-formatted-citation-line)
-
-;; the headers to show in the headers list -- a pair of a field
-;; and its width, with `nil' meaning 'unlimited'
-;; (better only use that for the last field.
-;; These are the defaults:
-(setq mu4e-headers-fields
-      '( (:date          .  25)
-         (:flags         .   6)
-         (:from          .  22)
-         (:subject       .  nil)))
-
-;; don't keep message buffers around
-(setq message-kill-buffer-on-exit t)
-;; attachments go here
-(setq mu4e-attachment-dir  "~/Downloads")
-
-;; should mu4e use fancy utf characters? NO. they're ugly.
-;;(setq mu4e-use-fancy-chars 't)
-
-;; sending mail -- replace USERNAME with your gmail username
-;; also, make sure the gnutls command line utils are installed
-;; package 'gnutls-bin' in Debian/Ubuntu
-(require 'smtpmail)
-(setq smtpmail-default-smtp-server "smtpserver") ; needs to be specified before the (require)
-(setq send-mail-function 'smtpmail-send-it)
-(setq smtpmail-stream-type 'starttls)
-#+end_src 
-
-use helm-mu to search emails 
-
-#+begin_src emacs-lisp :results silent 
-(global-set-key (kbd "<f9> e") 'helm-mu)
-#+end_src
-
-#+begin_src emacs-lisp :results silent 
-(add-to-list 'mu4e-bookmarks
-             '("date:20100930..now"       "All Messages"     ?a))
-(add-to-list 'mu4e-bookmarks
-             '("flag:flagged" "Flagged messages" ?f))
-#+end_src
-
-#+begin_src emacs-lisp :results silent 
-;; use helm-style completion for jumpping mail directory.
-;; https://github.com/djcb/mu/issues/286
-(defun pyl-helm-mu-compl-read (prompt maildirs-list &optional ignore1 ignore2 ignore3)
-  (helm-comp-read prompt maildirs-list
-		  :name prompt
-		  :must-match t))
-(setq mu4e-completing-read-function 'pyl-helm-mu-compl-read)
-#+end_src
-
-*** Account 
-[2015-01-23 Fri 17:32] 
-
-set up email account, use office 365 in the office, and iCloud at
-macbook por.
-
-#+begin_src emacs-lisp 
-(setq  mu4e-maildir-shortcuts  '(("/iCloud/INBOX" . ?a)
-                                 ("/Gmail/INBOX" . ?g)))
-
-
-(defun yt/email-icloud ()
-
-  (push '("/iCloud/INBOX" . ?i) mu4e-maildir-shortcuts)
-  (setq  mu4e-get-mail-command "mbsync -c ~/git/debian-dot/.mbsyncrc Gmail; mu index --maildir=~/Maildir/personal"
-         mu4e-maildir "~/Maildir/personal"
-         smtpmail-default-smtp-server "smtp.mail.me.com"
-         smtpmail-smtp-server "smtp.mail.me.com"
-         smtpmail-smtp-service 587
-         smtpmail-smtp-user "yi.tang.uk@me.com"
-         user-mail-address "yi.tang.uk@me.com"
-         user-full-name  "Yi Tang"
-         mu4e-drafts-folder "/iCloud/Drafts"
-         mu4e-sent-folder   "/iCloud/Sent Messages"
-         mu4e-trash-folder  "/iCloud/Deleted Messages"
-         mu4e-compose-signature (concat
-                                 "唐毅 (Yi Tang)\n"
-                                 "Email: yi.tang.uk@me.com\n"
-                                 "\n")))
-
-(defun yt/email-gmail ()
-  (setq mu4e-sent-folder   "/Gmail/[Google Mail]/Sent Mail"
-	mu4e-trash-folder  "/Gmail/[Google Mail]/Trash"
-	mu4e-refile-folder "/Gmail/[Google Mail]/All Mail")
-  (push '("/Gmail/[Google Mail]/All Mail" . ?i) mu4e-maildir-shortcuts)
-  ;; sent emails 
-  (setq   mu4e-get-mail-command "mbsync -c ~/git/debian-dot/.mbsyncrc Gmail; mu index --maildir=~/Maildir/personal"
-          mu4e-maildir "~/Maildir/personal"
-          smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-          smtpmail-default-smtp-server "smtp.gmail.com"
-          smtpmail-smtp-server "smtp.gmail.com"
-          smtpmail-smtp-service 587
-          smtpmail-smtp-user "yi.tang.uni@gmail.com"
-          
-          user-mail-address "yi.tang.uni@gmail.com" 
-          user-full-name  "Yi Tang"
-          mu4e-drafts-folder "/Gmail/[Google Mail].Drafts" 
-          mu4e-sent-folder   "/Gmail/[Google Mail].Sent Messages" 
-          mu4e-trash-folder  "/Gmail/[Google Mail].Trash"
-
-          mu4e-compose-signature (concat
-                                  "Yi Tang\n"
-                                  "Statistician\n"
-                                  "T: 07445510033\n")))
-
-(setq yt/email-account-list
-      '(
-        ("Gmail" . yt/email-gmail)
-        ("iCloud" . yt/email-icloud)))
-
-(defun yt/email-switch-account (&optional account)
-  (interactive)
-  (let* ((account (if (equal account nil)
-                      (completing-read "Choose Email Account: " yt/email-account-list nil t)
-                    account))
-         (email-setup  (cdr (assoc account yt/email-account-list))))
-    (funcall email-setup)
-    (format "User %s email account" account)))
-(yt/email-switch-account "Gmail")
-
-#+end_src 
-
-when I sent an email, it will promote and ask for email, I only need
-type once per Emacs session, also, I can save the password to an
-/.authoty/ file.
-*** Contacts 
-[2015-01-23 Fri 17:28] 
-
-have problem with BBDB installtion, and use
-org-contact.el to manage contact. add contactor very easy. I cna use
-tab to completet contacts, which is really handy.
-
-#+begin_src emacs-lisp :results silent
-(require 'org-contacts)
-(setq org-contacts-files '("~/git/org/contacts.org"))
-(setq mu4e-org-contacts-file "~/git/org/contacts.org")
-(add-to-list 'mu4e-headers-actions
-             '("add-org-contact" . mu4e-action-add-org-contact) t)
-(add-to-list 'mu4e-view-actions
-             '("add-org-contact" . mu4e-action-add-org-contact) t)
-
-(defun yt/mu4e-show-org-contact (msg)
-  "show the first sender in the org-contact file"
-  (let* ((sender (car-safe (mu4e-message-field msg :from))))
-    (find-file  mu4e-org-contacts-file)
-    (search-forward (car sender))))
-(add-to-list 'mu4e-headers-actions
-             '("show-org-contact" . yt/mu4e-show-org-contact) t)
-(add-to-list 'mu4e-view-actions
-             '("show-org-contact" . yt/mu4e-show-org-contact) t)
-#+end_src 
-
-#+begin_src emacs-lisp :results silent 
-(defun GetContactGroup (contact-file search-tag contact-type)
-  (interactive)
-  (let ((name-address (org-map-entries (lambda()
-                                 (cons (elt (org-heading-components) 4)  ;; get headline (name) 
-                                       (org-entry-get nil contact-type))) ;; get Email/phone etc property 
-                               search-tag
-                               contact-file)))
-    (mapconcat (lambda (a-list)
-                  (concat (car a-list) " <" (cdr a-list) ">"))
-               name-address ", ")))
-(defun yt/get-email-group (search-tag)
-  (GetContactGroup org-contacts-files search-tag "EMAIL"))
-#+end_src
-*** Workflow
-[2015-01-23 Fri 17:28]
-
-I am trying to avoid use =C-x m= to write/sent email directy, unless
-it is really short. otherwise, if it relates to a project, I will make
-an org headline to keep track the project communciation, to do that, I
-compose email/message in org mode, then sent the whole subtree by =C-c
-M-o=.
-
-
-
-#+begin_src emacs-lisp :results silent 
-(require 'org-mime)
-(setq org-mime-library 'mml)
-(add-hook 'message-mode-hook
-          (lambda ()
-            (local-set-key "\C-c\M-o" 'org-mime-htmlize)))
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             (local-set-key "\C-c\M-o" 'org-mime-org-buffer-htmlize)))
-(add-hook 'org-mime-html-hook
-          (lambda ()
-            (insert-file-contents "~/git/.emacs.d/personal/css/office.css")
-            ;; (goto-char 5)
-            )
-          t)
-
-
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             (local-set-key (kbd "C-c M-o") 'org-mime-subtree))
-;;           'append)
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c M-o") 'yt/org-mime-subtree)))
-
-(defun yt/mu4e-cc-myself ()
-  (goto-char (point-min))
-  (search-forward "Subject: ")
-  (beginning-of-line)
-  (insert "Cc: Yi Tang <yi.tang@somewhere.com>\n")
-  (search-forward "--text follows this line--")
-  (forward-char 1))
-(defun yt/org-mime-subtree ()
-  (interactive)
-  (org-mime-subtree)
-  (yt/mu4e-cc-myself))
-#+end_src
-
-just in case I didn't get the format right at the first place and need
-some quick fix in message mode, save me few seconds in going back to
-org-mode.
-
-#+begin_src emacs-lisp :results silent 
-;; (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
-(add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
-;; (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
-(add-hook 'message-mode-hook 'orgtbl-mode 'append)
-(add-hook 'message-mode-hook 'turn-on-flyspell 'append)
-;; (add-hook 'message-mode-hook
-;;           '(lambda () (setq fill-column 270))
-;;           'append)
-
-#+end_src
-*** TODO Comprehensive Email   
-[2015-01-23 Fri 14:36]
-
-*Attach and Inline Image* 
-I got an email from an estate agency where there are few images are inlined, but also in the attachment.  why not just save the attachment online and inline the image as a normal HTML do? 
-
-1) add an png attachment, display it as inline image.  
-
-*Render LaTeX code as image*
-currently it is broken.  the error message is the path issues, and seems the file is not generated. 
-** SNS Client
-[2015-08-14 Fri 10:07]
-
-*** Twitter
-[2015-08-14 Fri 10:07]
-
-#+begin_src emacs-lisp :results silent 
-(setq twittering-use-master-password t)
-(setq twittering-icon-mode t)
-;; (setq twittering-convert-fix-size 48)
-(setq twittering-use-icon-storage t)
-;; (setq twittering-retweet-format '(nil _ " %u RT @%s: %t"))
-#+end_src
-
-use =V= to swtich timline, to show replies or direst messages.
-
-when the cursr is in a twitter: 
-
-- enter :: - reply.
-- d :: to sent direct message
-- u :: to post a tweet
 
 ** Python 
 [2015-07-05 Sun 19:49]
@@ -3715,53 +3340,80 @@ commented out and continue as it is.
 ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
 ;;              "jupyter")
 #+end_src
-** Python for data analysis
 
-   this allows me to run multiple python process and switch between them.
-   #+begin_src emacs-lisp :results silent 
-   (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
+TODO: replace this by using native elpy function.
 
-   (defvar elpy-shell-python-shell-names '("Python")
-	 "List of existing python shell names.")
+    this allows me to run multiple python process and switch between them.
+    #+begin_src emacs-lisp :results silent 
+    (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
 
-   (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
-   #+end_src
-** Sphinx-doc for documentation
-   [2016-06-03 Fri 15:33]
+    (defvar elpy-shell-python-shell-names '("Python")
+	  "List of existing python shell names.")
 
-#+begin_src emacs-lisp :results silent
-(cl-defstruct sphinx-doc-doc
-  (summary "FIXME: briefly describe function") ; summary line that fits on the first line
-  before-fields                                ; list of comments before fields
-  after-fields                                 ; list of comments after fields
-  fields)                                      ; list of field objects
+    ;; (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
+    #+end_src
 
-(add-hook 'python-mode-hook (lambda ()
-                              ;; (require 'sphinx-doc)
-                              (sphinx-doc-mode t)))
-#+end_src
+*** lsp for python
+    [2020-08-22 Sat 19:03]
+    
+    replace elpy by LSP mode for python dev..
+
+    #+begin_src emacs-lisp :results silent :tangle no :eval no
+    (use-package lsp-mode
+      :config
+      (require 'lsp-clients)
+      (add-hook 'python-mode-hook 'lsp))
+    (use-package company-lsp)
+    (use-package lsp-ui)
+
+
+
+    (defun my-python-line ()
+      (interactive)
+      (save-excursion
+	(setq the_script_buffer (format (buffer-name)))
+	(end-of-line)
+	(kill-region (point) (progn (back-to-indentation) (point)))
+	(if  (get-buffer  "*Python*")
+	    (message "")
+	  (run-python "ipython" nil nil))
+	;; (setq the_py_buffer (format "*Python[%s]*" (buffer-file-name)))
+	(setq the_py_buffer "*Python*")
+	(switch-to-buffer-other-window  the_py_buffer)
+	(goto-char (buffer-end 1))
+	(yank)
+	(comint-send-input)
+	(switch-to-buffer-other-window the_script_buffer)
+	(yank))
+      (end-of-line)
+      (next-line)
+      )
+
+    (add-hook 'python-mode-hook
+	      (lambda ()
+		(define-key python-mode-map "\C-cn" 'my-python-line)))
+
+    #+end_src
+*** Sphinx-doc for documentation
+    [2016-06-03 Fri 15:33]
+
+ #+begin_src emacs-lisp :results silent
+ (cl-defstruct sphinx-doc-doc
+   (summary "FIXME: briefly describe function") ; summary line that fits on the first line
+   before-fields                                ; list of comments before fields
+   after-fields                                 ; list of comments after fields
+   fields)                                      ; list of field objects
+
+ (add-hook 'python-mode-hook (lambda ()
+                               ;; (require 'sphinx-doc)
+                               (sphinx-doc-mode t)))
+ #+end_src
 ** Refile                                                       :ExportFile:
 :PROPERTIES:
 :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
 :END:
 
-voca-builde 
 
-#+begin_src emacs-lisp :results silent 
-(require 'voca-builder)
-(setq voca-builder/voca-file "~/git/org/vocabulary.org")
-(setq voca-builder/current-tag "General")
-;; (global-set-key (kbd "<f4>") 'voca-builder/search-popup)
-(setq sentence-end-double-space nil)
-#+end_src
-
-
-weather forecasting 
-#+begin_src emacs-lisp :results silent 
-;; sunshine: weather forcaste service
-(setq sunshine-units 'metric)
-(setq sunshine-location "Keighley, GB")
-#+end_src
 
 quickly filter out non-work tasks in org-agenda. 
 
@@ -3775,56 +3427,6 @@ quickly filter out non-work tasks in org-agenda.
   (setq org-agenda-auto-exclude-function 'yt/filter-life-agenda))
 #+end_src
 
-shell mode 
-
-#+begin_src emacs-lisp :eval yes
-;; execute line/region of shell scripts.
-;; http://stackoverflow.com/questions/6286579/emacs-shell-mode-how-to-send-region-to-shell
-; (require 'shell)
-
-(defun sh-send-line-or-region (&optional step)
-  (interactive ())
-  (let ((proc (get-process "shell"))
-        pbuf min max command)
-    (unless proc
-      (let ((currbuff (current-buffer)))
-        (shell)
-        (switch-to-buffer currbuff)
-        (setq proc (get-process "shell"))
-        ))
-    (setq pbuff (process-buffer proc))
-    (if (use-region-p)
-        (setq min (region-beginning)
-              max (region-end))
-      (setq min (point-at-bol)
-            max (point-at-eol)))
-    (setq command (concat (buffer-substring min max) "\n"))
-    (with-current-buffer pbuff
-      (goto-char (process-mark proc))
-      (insert command)
-      (move-marker (process-mark proc) (point))
-      ) ;;pop-to-buffer does not work with save-current-buffer -- bug?
-    (process-send-string  proc command)
-    (display-buffer (process-buffer proc) t)
-    (when step 
-      (goto-char max)
-      (next-line))
-    ))
-
-(defun sh-send-line-or-region-and-step ()
-  (interactive)
-  (sh-send-line-or-region t))
-(defun sh-switch-to-process-buffer ()
-  (interactive)
-  (pop-to-buffer (process-buffer (get-process "shell")) t))
-
-(defun yt/sh-script-editing-keybinds ()
-  (interactive)
-  (local-set-key [(control return)] 'sh-send-line-or-region-and-step)
-  ; (local-set-key (kbd "C-c C-z") ''sh-switch-to-process-buffer)         
-  )
-(add-hook 'sh-mode-hook 'yt/sh-script-editing-keybinds)
-#+end_src
 
 open this gnome-terminal here
 #+begin_src emacs-lisp :results silent
@@ -3866,41 +3468,6 @@ insert git sha1 value into current point.
   (insert (shell-command-to-string (concat "git rev-parse HEAD"))))
 (global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)
 #+end_src
-** open buffer with external application
-   [2016-06-20 Mon 16:34]
-
-   #+begin_src emacs-lisp :results silent 
-   (defun prelude-open-with (arg)
-     "Open visited file in default external program.
-
-   With a prefix ARG always prompt for command to use."
-     (interactive "P")
-     (when buffer-file-name
-       (shell-command (concat
-                       (cond
-                        ((and (not arg) (eq system-type 'darwin)) "open")
-                        ((and (not arg) (member system-type '(gnu gnu/linux gnu/kfreebsd))) "xdg-open")
-                        (t (read-shell-command "Open current file with: ")))
-                       " "
-                       (shell-quote-argument buffer-file-name)))))
-   #+end_src
-** C++
-
-   #+begin_src emacs-lisp :results silent :exports none
-   (defun my-c++-compile-cmd ()
-  "for the course i am studying"
-  (let ((file (file-relative-name (buffer-file-name))))
-    (format "g++ --std=c++14 -pipe -o %s %s -lm&& ./%s"
-		  (file-name-sans-extension file)
-		  file
-		  (file-name-sans-extension file))
-    ))
-(defun my-c++-compile ()
-  (interactive)
-  (setq-default compile-command (my-c++-compile-cmd))
-  (compile (default-value 'compile-command)))
-(global-set-key (kbd "<f9> c") 'my-c++-compile)
-   #+end_src
 ** eshell 
 
    #+begin_src emacs-lisp :results silent 
@@ -3958,29 +3525,6 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 
 
    #+end_src
-** move region/line up or donw/
-   [2019-03-24 Sun 19:51]
-
-   #+begin_src emacs-lisp :results silent 
-(defun move-line-up ()
-  "Move up the current line."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
-
-(defun move-line-down ()
-  "Move down the current line."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-(global-set-key [(meta up)]  'move-line-up)
-(global-set-key [(meta down)]  'move-line-down)
-
-   #+end_src
 ** agenda 
    [2019-03-24 Sun 19:52]
 
@@ -4028,7 +3572,7 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 ;;                                     '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
 
    #+end_src
-** move region up/down
+** move line/region up/down
    [2019-11-09 Sat 11:52]
 
 #+begin_src emacs-lisp :results silent 
