@@ -1,5 +1,5 @@
 
-[[https://readthedocs.org/projects/emacs/badge/?version=latest][Documentation Status]]
+[[https://readthedocs.org/projects/emacs/badge/?version=latest][https://readthedocs.org/projects/emacs/badge/?version=latest]]
 
 An example of Circle CI badge in Org: [[https://circleci.com/gh/akirak/emacs.d/tree/master][https://circleci.com/gh/akirak/emacs.d/tree/master.svg?style=svg]]
 
