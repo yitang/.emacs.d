@@ -11,7 +11,7 @@
 4. including problematic settings are turned off temperately. 
 
 
-* TODO This configration does not include
+* This configration does not include
 [2015-05-21 Thu 09:07]
 
 1. few third party software, like mu, ispell, plantuml. However they
