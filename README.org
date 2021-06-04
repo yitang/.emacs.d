@@ -1,5 +1,4 @@
-
 * Yet Another Emacs Configuration
   [2021-06-04 Fri 08:40]
-
-  An online version of this doc can be found at https://readthedocs.org/projects/emacs/badge/?version=latest
+  
+  An online version of this doc can be found at https://emacs.readthedocs.io/en/latest/

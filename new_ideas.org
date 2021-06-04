@@ -75,9 +75,23 @@
   [2020-06-25 Thu 07:15]
    
   
-** Double/Right click
+** DONE Double/Right click
    [2020-06-25 Thu 07:16]
 
    double click a yaml file and open it using emacsclient, so it won't
    load init file etc. also provide right click option.
-   
+  
+ 
+* Simplify Configuration 
+  [2021-06-04 Fri 08:42]
+
+  categorise configuration into
+  - essential :: something I use everyday
+  - enhanced :: provide nice experience
+  - fancy :: looks great, but rarely used
+
+    
+  Try to find a way so that I can extract essential.el, enhanced.el,
+  and fancy.el. if anything breaks in essential.el, i need to fix
+  a.s.a.p. 
+
