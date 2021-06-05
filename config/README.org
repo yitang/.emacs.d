@@ -1,0 +1,6 @@
+This directory lists the configuration for Emacs. 
+
+Each .el file is automatically generated from ../config.org. Do not
+edit by hand.
+
+To use them, simple load them in Emacs, for example (load "dev-python.el")
