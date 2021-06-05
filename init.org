@@ -19,86 +19,6 @@
 (yt-sphinx/update-documentation)
 #+end_src
 
-* About This Document                                     :ExportFile:README:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/index
-:END:
-[2015-01-23 Fri 10:58]
-  
-The road to Emacs is not easy: I have tried to use Emacs for many
-years, and started using on daily basis from Jun 2014. The transition
-is difficulty, and full of tears and bloody, and every day I feel like
-being doomed in the dark. About Jan 2015, I start to the light. And
-conquered Emacs, and it now becomes a symbol of me, and I use it does
-most of productive work.
-
-As the configuration grows bigger and bigger, a single /init.el/ is
-not suitable for organising, testing, and expanding any more.
-Previously, I have about 7 =.el= files, for example, =setup-org.el=,
-=setup-email.el=, and I document on each file. Inspired by Sachua's
-new posts, I think it would be a brilliant idea to org Emacs
-configuration code into one single org file, letting along the
-convince of organising and share my settings, the precious thing I
-would appreciate is it provide a way I could start with a long
-comments, thoughts or workflow. In this way, the code becomes less
-important as it should be.
-
-My configuration file is initially separated by different purpose or
-mode, but as it growths, it became probelmatic in tracking, and, As for
-other Emacs user, my configuration is keep growing, and This
-documents is first combined by 5 configuration files, and it keeps
-expanding, I use literate programming to include all the notes, and
-keep a log of how I use them
-
-This Emacs configuration is free of bug and fully tested on Ubuntu and
-OS X.
-
-Normally you could tangle an org file to extract all the source code
-into one file, that you could use. But I would like to push literate
-programming further in two aspects: 1) the source code takes input
-from this org file, I.e. table. 2) it facility Babel Library to
-integrate not only Emacs Lisp, but also sh and R functions that could
-be run in Emacs, and I found it particular useful.
-* Licence                                                        :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/licence
-:END:
-[2015-01-23 Fri 10:58]
-  
-#+begin_example
-Copyright (C)  2015  Yi Tang
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.3
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
-
-Code in this document is free software: you can redistribute it
-and/or modify it under the terms of the GNU General Public
-License as published by the Free Software Foundation, either
-version 3 of the License, or (at your option) any later version.
-
-This code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-#+end_example
-  
-This document [[http://yitang.github.io/emacs.d/init.html]] (either in its
-HTML format or in its Org format) is licensed under the GNU Free
-Documentation License version 1.3 or later
-(http://www.gnu.org/copyleft/fdl.html).
-  
-* How to Use This Document                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/how_to_use_this_document
-:END:
-[2015-01-20 Tue 08:09]
-
-Add the following scripts to your /.emacs/
-
-#+begin_src emacs-lisp :eval no :tangle no
-(load-file "~/git/.emacs.d/load_config.el")
-#+end_src
 * Emacs Configuration
 :LOGBOOK:  
 CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
@@ -108,23 +28,16 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 :END:      
 [2015-01-19 Mon 11:42]
 
-** Install Packages                                             :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/install_packages
-:END:
-[2015-03-18 Wed 15:32]
+* General                                                        :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
+  :header-args: :tangle config/general.el
+  :END:    
 
-All the packages used in this configuration are available the
-major Emacs repositories. It is recommended to install them via Emacs's
-package management tool, and by the following snippets. Note the
-initial installation may takes a while to finish, depends on how many
-are already in the /~/emacs.d/elpa// folder.
-
-** General                                                      :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
-:END:    
-*** Utilities
+** Utilities
+   :PROPERTIES:
+   
+   :END:
 [2015-01-19 Mon 12:14]
 
 Firstly, define a function for reloading Emacs configuration, need
@@ -153,14 +66,14 @@ Life is too short to type "yes" or "no". 'y' or 'n' is enough.
 # (keyfreq-autosave-mode 1)
 # #+end_src
 
-*** Remove Keybind 
+** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
 (global-unset-key (kbd "C-x b"))
 (global-unset-key (kbd "C-x C-b"))
 (global-unset-key (kbd "C-x C-c"))  ;; save-buffers-kill-terminal
 (global-unset-key (kbd "C-x o"))  ;; other window. replace by f2 - ace-window.
 #+end_src
-*** Assorted Pieces 
+** Assorted Pieces 
 [2015-01-19 Mon 12:21]
 
 Automatically backup buffers/files into the working directory and the
@@ -259,7 +172,7 @@ start-up.
 (yas/reload-all)
 #+end_src
 
-*** Window Layout/Navigation 
+** Window Layout/Navigation 
 [2015-01-19 Mon 12:13]
     
 Quickly jump between windows using =ace-window=, I used it frequently and
@@ -301,7 +214,7 @@ reference/searching.
     nil))
 (global-set-key (kbd "M-`") 'other-frame)
 #+end_src
-*** System Path/Keyboard
+** System Path/Keyboard
 [2015-01-19 Mon 12:15]
 
 Solve the PATH issues for the software installed via Homebrew in OS
@@ -350,7 +263,7 @@ functionality. This block is no longer needed.
 ;;   (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
 #+end_src
 
-*** General Editing  
+** General Editing  
 
 There are a set of characters that are more likely to occur as a pair,
 for example, quote and brackets. /smartparens mode/ allows me to
@@ -391,7 +304,7 @@ unfill. This snippet is not long used.
   (let ((fill-column (point-max)))
     (fill-region (region-beginning) (region-end) nil)))
 #+end_src
-*** Minibuffer history 
+** Minibuffer history 
 Let Emacs remember what I've typed, so I don't need to tediously type
 the whole thing. Most of the time, I could just select using =helm=.
 
@@ -399,12 +312,66 @@ the whole thing. Most of the time, I could just select using =helm=.
 (setq savehist-file "~/git/.emacs.d/local/emacs-history")
 (savehist-mode 1)
 #+end_src
-** GUI - Emacs Looks Cool                                        :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
-:END:
+** highlight TODO, IMP in text mode
+    [2019-10-13 Sun 04:46]
+
+   
+    #+begin_src emacs-lisp :results silent :tangle no
+ ;; ;; highlights FIXME: TODO: and BUG: in prog-mode 
+ ;; (add-hook 'text-mode-hook
+ ;;           (lambda ()
+ ;;             (font-lock-add-keywords nil
+ ;;                                     '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
+
+    #+end_src
+** move line/region up/down
+    [2019-11-09 Sat 11:52]
+
+ #+begin_src emacs-lisp :results silent 
+ (defun move-text-internal (arg)
+    (cond
+     ((and mark-active transient-mark-mode)
+      (if (> (point) (mark))
+             (exchange-point-and-mark))
+      (let ((column (current-column))
+               (text (delete-and-extract-region (point) (mark))))
+	(forward-line arg)
+	(move-to-column column t)
+	(set-mark (point))
+	(insert text)
+	(exchange-point-and-mark)
+	(setq deactivate-mark nil)))
+     (t
+      (beginning-of-line)
+      (when (or (> arg 0) (not (bobp)))
+	(forward-line)
+	(when (or (< arg 0) (not (eobp)))
+             (transpose-lines arg))
+	(forward-line -1)))))
+
+ (defun move-text-down (arg)
+    "Move region (transient-mark-mode active) or current line
+   arg lines down."
+    (interactive "*p")
+    (move-text-internal arg))
+
+ (defun move-text-up (arg)
+    "Move region (transient-mark-mode active) or current line
+   arg lines up."
+    (interactive "*p")
+    (move-text-internal (- arg)))
+
+ (global-set-key [\M-\S-up] 'move-text-up)
+ (global-set-key [\M-\S-down] 'move-text-down)
+ #+end_src
+
+* GUI - Emacs Looks Cool                                         :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
+  :header-args: :tangle config/editor_GUI
+  :END:
 [2015-01-19 Mon 12:16]
-*** Fonts 
+** Fonts 
 [2015-07-20 Mon 11:46]
 
 I use the Adobe's /Source Code Pro/ font, it is Monospaced font and
@@ -415,7 +382,7 @@ modes.
 ;; (set-frame-font "Source Code Pro-11" nil t)
 ;; (set-face-attribute 'default nil :height 100)
 #+end_src
-*** Minimalists GUI 
+** Minimalists GUI 
 [2015-07-20 Mon 11:46]
 
 I never click any buttons in the tool-bar, nor need the scroll-bar to
@@ -431,7 +398,7 @@ useful.
 ; (menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
-*** Theme 
+** Theme 
 [2015-07-20 Mon 11:46]
 
 I have been using /zenburn/ theme for a while. It is a popular low
@@ -444,7 +411,7 @@ when my eyes are tired of the /zenburn/ theme.
 ;; (load-theme 'zenburn t) 
 ;; (load-theme 'leuven t)
 #+end_src
-*** Mode Line
+** Mode Line
 :LOGBOOK:
 :END:
 [2015-07-20 Mon 11:46]
@@ -486,12 +453,30 @@ Finally, show the current time in the mode-line.
 (display-time-mode)
 #+end_src
 
-** Completion and Selection                                     :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/completion_and_selection
-:END:
+** running Emacs in terminal 
+   [2019-04-01 Mon 21:43]
+
+   later i found that Emacs runs much faster in Terminal. for the
+   reason i don't know but I really enjoy the lightning speed. here's
+   a selection of confugratino for working Emacs in terminal.
+
+   #+begin_src emacs-lisp :results silent 
+   (add-hook 'suspend-hook
+	     (lambda () (or (y-or-n-p "Really suspend? ")
+			    (error "Suspend canceled"))))
+   (add-hook 'suspend-resume-hook (lambda () (message "Resumed!")
+				    (sit-for 2)))
+   #+end_src
+
+   then =fg= to bring back emacs. 
+
+* Completion and Selection                                       :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/completion_and_selection
+  :header-args: :tangle config/editor-auto-completion.el
+  :END:
 [2015-01-23 Fri 18:44]
-*** Helm - Fuzzy Match  
+** Helm - Fuzzy Match  
 [2015-02-22 Sun 11:40]
 
 Helm and fuzzy match makes selection a lot easier.  in 
@@ -545,7 +530,7 @@ Helm and fuzzy match makes selection a lot easier.  in
 (setq helm-ff-guess-ffap-urls nil)
 #+end_src
 
-*** Multi-Cursor & Helm-swoop  - Multiple Selection 
+** Multi-Cursor & Helm-swoop  - Multiple Selection 
 [2015-01-19 Mon 12:10]
     
 When refactoring code, I need to rename a variable or function names,
@@ -597,7 +582,7 @@ the occurrences in a temporary buffer, and then start to edit.
 
     #+end_src
     
-*** ace-jump 
+** ace-jump 
 
 Instead of moving into the place I want, ace-jump provides a way to
 jump directly to there places, just by pressing 4-5 keys. The places
@@ -608,7 +593,7 @@ efficient to jump to a word when editing.
 (global-set-key (kbd "C-c w") 'ace-jump-word-mode)
 #+end_src
 
-*** Expand-Region - Incremental Selection
+** Expand-Region - Incremental Selection
 [2015-01-20 Tue 07:47]
     
 [[https://github.com/magnars/expand-region.el][expand-region]] provides smart way of sectioning, by expanding the scope
@@ -630,13 +615,14 @@ forward flash.
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
-** File Management                                              :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
-:END:
+* File Management                                                :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
+  :header-args: :tangle config/file_management.el
+  :END:
 [2015-01-23 Fri 18:52]
 
-*** Alternative to shell 
+** Alternative to shell 
 [2015-01-28 Wed 07:46]
 
 For the file management tasks like rename and delete, I'd like to
@@ -763,7 +749,7 @@ Open the file manager at the default directory.
     ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. ⁖ with nautilus
     )))
 #+end_src
-*** Projectile - Directory Access 
+** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
 
 /Projectile/ is an powerful Emacs package but I only use /projectile/
@@ -789,7 +775,7 @@ There are many things work out of box. For example, use =C-p p= to
 choose which project to jump to, but I can type =M-g= to invoke Magit
 or =M-e= to invoke Eshell for that project. 
 
-*** Remote (SSH)
+** Remote (SSH)
 [2015-01-22 Thu 23:11]
 
 I can work on the remote files in Emacs via ssh or tramp, both are
@@ -824,109 +810,7 @@ is suspended because it fails when the file size is large.
 ;;   (dired-do-copy))
 #+end_src
 
-*** Git Sync
-:LOGBOOK:  
-CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
-:END:      
-[2015-01-19 Mon 12:09]
-    
-I use git and Github a lot, and usually in =shell-mode=, but I just
-can't remember all the commands. Magit provides an interface to Git,
-and it is really pleasant to use. So I don't need to remmeber all the
-commands, also it comes with excellent [[http://magit.github.io/master/magit.html][manual]] and [[http://daemianmack.com/magit-cheatsheet.html][cheatsheet]].
-    
-#+begin_src emacs-lisp
-(require 'magit)
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-auto-revert-mode nil)
-(global-set-key (kbd "<f9> g") 'magit-status)
-(global-auto-revert-mode t)
-#+end_src 
-            
-# I use Emacs/org-mode as a unified system to do everything, at home and
-# in the office. I used to use Dropbox/Copy to
-# automatically sync the files on multiple machines, but this work-flow
-# can be dangerous. Image if I was editing same files on two machines at
-# the same time, then I can't track which is which.
-    
-# The good thing about Git is that you can see what exactlly has been
-# changed by each version, and auto log, with commit information and
-# timesatmp. Magit helps me to do it conviently but I need 3 more
-# features:
-
-# 1. automatically save all the buffers
-   
-Occasionally my office machine goes down because I run R with big
-data, and it consumes all the memory. If that happens, I
-potentially lose the newsiest version of scripts, which is bit
-annoy. The following snippets will save all buffers in every hours.
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/save-all-buffers ()
-  "save all files-visiting buffers without user confirmation"
-  (interactive)
-  (save-some-buffers t nil)
-  (message "save all buffers... done"))
-(run-at-time "05:59" 3600 'yt/save-all-buffers)
-#+end_src
-
-Sometimes I have to leave at the last minutes, then what I do is call
-a functions that commits and upload to the repo so that I can
-continue work at home.
-
-The =yt/git-up= function will do
-   1. pull from the remote repo, and make sure the local repo is always
-      up-to-date.
-   2. add everything and commit with a timesamp.
-   3. push local changes to the remote repo.
-      
-Here is the snippets.
-#+begin_src emacs-lisp :results silent 
-(defun yt/git-backup ()
-  (let ((git-sh-scripts "
-echo Start to Sync: $(date) 
-
-REPOS=\"org\"
-for REPO in $REPOS
-do
-    echo
-    echo \"Repository: $REPO\"
-    cd ~/git/$REPO
-    # update
-    git pull 
-    # Remove deleted files
-    git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
-    # Add new files
-    git add -A . >/dev/null 2>&1
-    git commit -m \"$(date)\"
-    git push origin master 
-done
-
-echo Finished Sync: $(date)
-"))
-    (async-shell-command git-sh-scripts))
-  (message "all git sync... done"))
-
-(defun yt/git-up ()
-  (interactive)
-  (yt/save-all-buffers)
-  (yt/git-backup))
-#+end_src
-
-  
-Few times I did some important work over the weenend, but once I
-arrived office I realised I forgot uploading, These situations are
-quick frustrating. The following snippets will start to uploads once
-every three hours on my MacbookPro, but I don't use it anymore, since
-I can get most of my work done in the office. 
-
-Note this workflow is suspended for it's unsafe. 
-   #+begin_src emacs-lisp
-;; (cond ((eq system-type 'darwin)
-;;        (run-at-time "05:59" 10800 'yt/git-up)))
-#+end_src
-
-*** Testing Buffers
+** Testing Buffers
 [2015-07-20 Mon 11:39]
 
 /scratch/ buffer is usually used for testing Emacs lisp functions. I
@@ -953,7 +837,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 #+end_src
 
-*** Frequently visiting buffers
+** Frequently visiting buffers
     [2016-05-17 Tue 17:14]
 
 #+begin_src emacs-lisp :results silent 
@@ -976,10 +860,11 @@ following settings, I can use =F9-f= to select temporal buffers.
   )
 (global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
 #+end_src
-** ESS - Emacs Speaks Statistics                                :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
-:END:
+* ESS - Emacs Speaks Statistics                                  :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
+  :header-args: :tangle config/Dev-R.el
+  :END:
 :LOGBOOK:  
 CLOCK: [2015-06-03 Wed 21:21]--[2015-06-03 Wed 21:27] =>  0:06
 CLOCK: [2015-01-28 Wed 06:09]--[2015-01-28 Wed 07:55] =>  1:46
@@ -1006,7 +891,7 @@ There three features that have me made the decision:
    lines. Here's an example. Also if I miss placed a ')' or ']' the
    formatting will become strange and it reminders me to check.
    
-   #+begin_src R :eval no
+   #+begin_src R :eval no :tangle no
    rainfall.subset <- data.table(rainfall.london,
                                 rainfall.pairs,
                                 rainfall.dublin)
@@ -1094,7 +979,7 @@ There three features that have me made the decision:
 (define-key inferior-ess-r-mode-map "_" #'ess-insert-assign)
 #+end_src
 
-*** Syntax highlight 
+** Syntax highlight 
 
 In Emacs, syntax highlighting is known as font-locking.  You can customize the amount of syntax highlighting that you want to see.  At the top of the Emacs window, click on the ESS menu and select "Font Lock".  This will display a menu of buttons corresponding to language elements that you can syntax highlight.  
 
@@ -1118,7 +1003,7 @@ use pretty mode
 #+begin_src emacs-lisp :results silent 
 ;; (add-hook 'ess-mode-hook 'turn-on-pretty-mode)
 #+end_src
-*** Programming Mode 
+** Programming Mode 
 After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
 One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
@@ -1215,22 +1100,22 @@ use f8 to remove the R process buffer.
       (insert "*** output flushed ***\n"))))
 ;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
 #+end_src
-*** Documentation  
-    [2015-01-23 Fri 17:53]
-    #+begin_src emacs-lisp :results silent
-    ;; edit roxy template
-    ;; ess-roxy-update-entry
-    (setq ess-roxy-template-alist '(("description" . " content for description")
-                                    ("details" . "content for details")
-                                    ("title" . "")
-                                    ("param" . "")
-                                    ("return" . "")
-                                    ("export" . "")
-                                    ("author" . "Yi Tang")))
-    #+end_src
+** Documentation  
+   [2015-01-23 Fri 17:53]
+   #+begin_src emacs-lisp :results silent
+   ;; edit roxy template
+   ;; ess-roxy-update-entry
+   (setq ess-roxy-template-alist '(("description" . " content for description")
+                                   ("details" . "content for details")
+                                   ("title" . "")
+                                   ("param" . "")
+                                   ("return" . "")
+                                   ("export" . "")
+                                   ("author" . "Yi Tang")))
+   #+end_src
     
     
-*** R Style Check - Flycheck 
+** R Style Check - Flycheck 
 [2015-01-20 Tue 10:49]
     
 https://github.com/jimhester/lintr
@@ -1241,10 +1126,10 @@ the default R-style is not meet my with current R project style, has to turn it 
 ;; (add-hook 'ess-mode-hook
 ;;           (lambda () (flycheck-mode t)))
 #+end_src
-*** Scripts editing
+** Scripts editing
 [2015-06-25 Thu 10:02]
 
-*** R programming 
+** R programming 
 [2015-05-26 Tue 12:41]
 
 clean up the messy R scripts buffer. it will 
@@ -1341,35 +1226,36 @@ ggplot(obs.gc.table, aes(rp, duration)) +
 
 #+end_src
 
-*** Auto-complete 
-      [2016-05-13 Fri 14:17]
+** Auto-complete 
+     [2016-05-13 Fri 14:17]
      
-      Define in auto-complete section.
+     Define in auto-complete section.
 
-*** Run R script using subprocess
-    #+begin_src emacs-lisp :results silent 
-    (defun yt/bash_run_R ()
-         (interactive)
-         (let* ((args (concat "R --no-save --no-restore < " (file-name-nondirectory (buffer-file-name))))
-                (output-buf-name (concat "*R:" (file-name-nondirectory (buffer-file-name)) "*"))
-                )
-           (async-shell-command args output-buf-name)
-           (with-current-buffer output-buf-name
-             (inferior-ess-mode))
-           ))
-    #+end_src
+** Run R script using subprocess
+   #+begin_src emacs-lisp :results silent 
+   (defun yt/bash_run_R ()
+        (interactive)
+        (let* ((args (concat "R --no-save --no-restore < " (file-name-nondirectory (buffer-file-name))))
+               (output-buf-name (concat "*R:" (file-name-nondirectory (buffer-file-name)) "*"))
+               )
+          (async-shell-command args output-buf-name)
+          (with-current-buffer output-buf-name
+            (inferior-ess-mode))
+          ))
+   #+end_src
 
-*** Code navigation
-    #+begin_src emacs-lisp :results silent 
-    ;; (visit-tags-table "~/R_tags")
-    #+end_src
-** Writing in Emacs                                             :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
-:END:
+** Code navigation
+   #+begin_src emacs-lisp :results silent 
+   ;; (visit-tags-table "~/R_tags")
+   #+end_src
+* Writing in Emacs                                               :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
+  :header-args: :tangle config/editor-writing.el
+  :END:
 [2015-01-19 Mon 12:11]
 
-*** Spell and Grammar
+** Spell and Grammar
 [2015-01-23 Fri 17:43]
 
 Spell checking and correcting are essential in writing. Emacs need
@@ -1433,7 +1319,7 @@ get it works, so I am not using it anymore.
 (setq langtool-mother-tongue "en")
 #+end_src 
 
-*** Abbreviation 
+** Abbreviation 
 
 I have been writing in Emacs/org-mode a lot, have been really tired of
 capitalise i to I, so I use abbrevitation table.
@@ -1483,11 +1369,11 @@ capitalise i to I, so I use abbrevitation table.
           (expansion (nth 1 abbrev)))
       ;; (print (cons name expansion))
       (define-abbrev my-text-abbrev-table name expansion nil :system t))))
-(my-text-abbrev-table-init my-text-abbrevs)
+;;(my-text-abbrev-table-init my-text-abbrevs)  ; BUG: only work in org-mode
 #+end_src
 
 
-*** Style 
+** Style 
 [2015-05-26 Tue 12:13]
 
 English is my second language, and I am trying to avoid certain
@@ -1593,10 +1479,11 @@ Version 2015-05-07"
            ξstrPairs))))))
 #+end_src
 
-** Org mode                                                     :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/org_mode
-:END:
+* Org mode                                                       :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/org_mode
+  :header-args: :tangle config/org-mode.el
+  :END:
 
 I started to learn Emacs by reading Bernt Hansen's [[http://doc.norang.ca/org-mode.html][Org Mode - Organize
 Your Life In Plain Text!]] .My settings based on Bernt's 
@@ -1607,73 +1494,73 @@ extension.
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 #+end_src
 
-*** org-todos
- [2015-07-20 Mon 14:57]
+** org-todos
+[2015-07-20 Mon 14:57]
 
- First, define the TODO keywords. 
+First, define the TODO keywords. 
 
- #+begin_src emacs-lisp :results silent 
- (setq org-todo-keywords
-       (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "ORG(o@/!)" "|" "DONE(d)")
-               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "RUNNING(r)" "|" "CANCELLED(c@/!)" "MEETING"))))
- #+end_src
+#+begin_src emacs-lisp :results silent 
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "ORG(o@/!)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "RUNNING(r)" "|" "CANCELLED(c@/!)" "MEETING"))))
+#+end_src
 
- Then highlight the keywords using different colours. 
+Then highlight the keywords using different colours. 
 
- #+begin_src emacs-lisp :results silent 
- (setq org-todo-keyword-faces
-       (quote (("TODO" :foreground "red" :weight bold)
-	       ("NEXT" :foreground "red" :weight bold)
-	       ("ORG" :foreground "blue" :weight bold)
-               ("DONE" :foreground "forest green" :weight bold)
-               ("WAITING" :foreground "orange" :weight bold)
-	       ("RUNNING" :foreground "orange" :weight bold)
-               ("HOLD" :foreground "magenta" :weight bold)
-               ("CANCELLED" :foreground "forest green" :weight bold)
-               ("MEETING" :foreground "forest green" :weight bold))))
- #+end_src
+#+begin_src emacs-lisp :results silent 
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+	      ("NEXT" :foreground "red" :weight bold)
+	      ("ORG" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+	      ("RUNNING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold))))
+#+end_src
 
- Define an event when a TODO status changes, for example, if changed to
- HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
- both HOLD and WAITING tags. 
+Define an event when a TODO status changes, for example, if changed to
+HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
+both HOLD and WAITING tags. 
 
- #+begin_src emacs-lisp :results silent 
- (setq org-todo-state-tags-triggers
-       (quote (("CANCELLED" ("CANCELLED" . t))
-               ("WAITING" ("WAITING" . t))
-               ("HOLD" ("WAITING") ("HOLD" . t))
-               (done ("WAITING") ("HOLD"))
-               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
- #+end_src
+#+begin_src emacs-lisp :results silent 
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+#+end_src
 
- Especially, when a task is marked as DONE, a timestamp is added to
- the LOGBOOK drawer. 
+Especially, when a task is marked as DONE, a timestamp is added to
+the LOGBOOK drawer. 
 
- #+begin_src emacs-lisp :results silent 
- ;; (setq org-log-done (quote time))
- ;; (setq org-log-into-drawer t)
- ;; (setq org-log-state-notes-insert-after-drawers nil)
- #+end_src
+#+begin_src emacs-lisp :results silent 
+;; (setq org-log-done (quote time))
+;; (setq org-log-into-drawer t)
+;; (setq org-log-state-notes-insert-after-drawers nil)
+#+end_src
 
- Add a cross line for the headline with DONE status. Note currently it
- is disabled before of the performance issues in OS X.
+Add a cross line for the headline with DONE status. Note currently it
+is disabled before of the performance issues in OS X.
 
- #+begin_src emacs-lisp :results silent :eval no
- (defun my/modify-org-done-face ()
-   (setq org-fontify-done-headline t)
-   (set-face-attribute 'org-done nil :strike-through t)
-   (set-face-attribute 'org-headline-done nil
-                       :strike-through t
-                       :foreground "light gray"))
- (add-hook 'org-mode-hook 'my/modify-org-done-face)
- ;; (setq org-fontify-done-headline t)
- ;; (set-face-attribute 'org-done nil :strike-through t)
- ;; (set-face-attribute 'org-headline-done nil :strike-through t)
- #+end_src
+#+begin_src emacs-lisp :results silent :eval no
+(defun my/modify-org-done-face ()
+  (setq org-fontify-done-headline t)
+  (set-face-attribute 'org-done nil :strike-through t)
+  (set-face-attribute 'org-headline-done nil
+                      :strike-through t
+                      :foreground "light gray"))
+(add-hook 'org-mode-hook 'my/modify-org-done-face)
+;; (setq org-fontify-done-headline t)
+;; (set-face-attribute 'org-done nil :strike-through t)
+;; (set-face-attribute 'org-headline-done nil :strike-through t)
+#+end_src
 
-*** org-capture
+** org-capture
 [2015-07-20 Mon 14:57]
 
 Use ~C-c c~ anywhere to quickly create a org headline and save it to a
@@ -1732,7 +1619,7 @@ Speed up the process by using cache.
 #+begin_src emacs-lisp :results silent 
 (setq org-refile-use-cache t)
 #+end_src
-*** org-refile
+** org-refile
 [2015-07-20 Mon 14:57]
 
 Set the refile targets, they are all level 1 2 3 in current buffer and
@@ -1765,7 +1652,7 @@ Use helm for matching the target path. a low easier.
 (setq org-completion-handler 'helm)
 #+end_src
 
-*** org-clock
+** org-clock
 :LOGBOOK:
 :END:
 [2015-07-20 Mon 14:57]
@@ -1875,7 +1762,7 @@ remove empty clock entrys at checkout
 #+begin_src emacs-lisp :results silent 
 (add-hook 'org-clock-out-hook 'org-clock-remove-empty-clock-drawer 'append)
 #+end_src
-*** org-tags
+** org-tags
 [2015-07-20 Mon 14:57]
 
 #+begin_src emacs-lisp :results silent 
@@ -1896,7 +1783,7 @@ remove empty clock entrys at checkout
 (setq org-agenda-tags-todo-honor-ignore-options t)
 #+end_src
 
-*** Others
+** Others
 [2015-07-20 Mon 14:57]
 #+begin_src emacs-lisp :results silent 
 ;;;; * Custom Key Bindings
@@ -1947,7 +1834,7 @@ remove empty clock entrys at checkout
 
 (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 #+end_src
-*** Agenda 
+** Agenda 
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
@@ -2217,7 +2104,7 @@ agenda reminder
 (bh/org-agenda-to-appt)
 #+end_src
 
-*** customised 
+** customised 
 
 #+begin_src emacs-lisp :results silent 
 (setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
@@ -2242,7 +2129,7 @@ Start up options
       org-hide-block-startup t
       org-startup-indented nil)
 #+end_src
-*** Deep Configuration 
+** Deep Configuration 
 
 Remove keys
 
@@ -2303,12 +2190,12 @@ then type *.
 (sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
 (sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
 #+end_src
-*** External Links
+** External Links
     
-    #+begin_src emacs-lisp :results silent 
-      (global-set-key (kbd "C-c l") 'org-store-link)
-    #+end_src
-*** Babel
+   #+begin_src emacs-lisp :results silent 
+     (global-set-key (kbd "C-c l") 'org-store-link)
+   #+end_src
+** Babel
 [2015-01-29 Thu 14:16]
 
 #+begin_src emacs-lisp :results silent 
@@ -2370,7 +2257,7 @@ then type *.
 (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 #+end_src
 
-*** Export 
+** Export 
 [2015-02-04 Wed 12:23]
 
 Add export back-end, I need HTML, PDF, MarkDown, and Ascii. 
@@ -2414,7 +2301,7 @@ define the markups.
                                  ("=" org-code "<code>" "</code>" verbatim)
                                  ("~" org-verbatim "<code>" "</code>" verbatim))))
 #+end_src
-*** PDF Export
+** PDF Export
 [2015-01-19 Mon 15:45]
 
 #+begin_src emacs-lisp
@@ -2538,7 +2425,10 @@ define the markups.
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 #+end_src
 
-** Blogging with Jekyll
+* Blogging with Jekyll
+  :PROPERTIES:
+  :header-args: :tangle config/blogging.el
+  :END:
 
 Jeklly have few conventins, like the new, YAML etc, it is better to
 solve it autoamtilcally and in Emacs, as part of the export process.
@@ -2819,7 +2709,7 @@ comments: true
 #+end_src
 
 
-*** code highlight 
+** code highlight 
 [2015-01-23 Fri 17:47]
 
 #+begin_src emacs-lisp :results silent
@@ -2867,7 +2757,7 @@ comments: true
 #+end_src
 
 #+results:
-*** Path Issues 
+** Path Issues 
 
 When publishing, the org-file is firstly exported to html file, and when Jekyll build the website, the html file will be saved in to some folder that depends on the YMAL. Then the relative path to image files are broken. To solve that, according to the Jeklyy web site, is to save all the image or downloade files in assets/ folder.  Then those image files are referende by org-mode. 
 
@@ -2885,7 +2775,7 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
 #+end_src
-*** Org-link 
+** Org-link 
 [2015-07-18 Sat 09:15]
 
 *magit*
@@ -2909,7 +2799,7 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 #+end_src
 
-*** *cross reference*
+** *cross reference*
 [2015-07-21 Tue 10:59]
 
 #+begin_src emacs-lisp :results silent 
@@ -2923,7 +2813,10 @@ First, define a img link, that when exporting, the image a_img.png will be set t
 
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 #+end_src
-** auctex
+* auctex
+  :PROPERTIES:
+  :header-args: :tangle config/latex.el
+  :END:
    [2015-10-03 Sat 13:48]
 
 http://tex.stackexchange.com/questions/50827/a-simpletons-guide-to-tex-workflow-with-emacs
@@ -3096,10 +2989,11 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
         ("setlistdepth" "{")
         ("restartlist" "{")))
 #+end_src
-** Hydra                                                        :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
-:END:
+* Hydra                                                          :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
+  :header-args: :tangle config/hydra.el
+  :END:
 [2015-06-22 Mon 14:11]
 
 #+begin_src emacs-lisp :results silent 
@@ -3139,13 +3033,13 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
 
 #+end_src
 
-** Emacs Lisp Programming                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
-:END:
+* Emacs Lisp Programming                                         :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
+  :END:
 [2015-07-05 Sun 19:46]
 
-*** Org-Mode API 
+** Org-Mode API 
 [2015-07-05 Sun 19:47]
 
 Get the link to current headline as an external link. 
@@ -3167,7 +3061,10 @@ Get the link to current headline as an external link.
                       "]]"))))
 #+end_src
 
-** Python 
+* Python 
+  :PROPERTIES:
+  :header-args: :tangle config/dev-python.el
+  :END:
 [2015-07-05 Sun 19:49]
 
 #+begin_src emacs-lisp :results silent 
@@ -3221,65 +3118,66 @@ TODO: replace this by using native elpy function.
     ;; (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
     #+end_src
 
-*** lsp for python
-    [2020-08-22 Sat 19:03]
+** lsp for python
+   [2020-08-22 Sat 19:03]
     
-    replace elpy by LSP mode for python dev..
+   replace elpy by LSP mode for python dev..
 
-    #+begin_src emacs-lisp :results silent :tangle no :eval no
-    (use-package lsp-mode
-      :config
-      (require 'lsp-clients)
-      (add-hook 'python-mode-hook 'lsp))
-    (use-package company-lsp)
-    (use-package lsp-ui)
+   #+begin_src emacs-lisp :results silent :tangle no :eval no
+   (use-package lsp-mode
+     :config
+     (require 'lsp-clients)
+     (add-hook 'python-mode-hook 'lsp))
+   (use-package company-lsp)
+   (use-package lsp-ui)
 
 
 
-    (defun my-python-line ()
-      (interactive)
-      (save-excursion
-	(setq the_script_buffer (format (buffer-name)))
-	(end-of-line)
-	(kill-region (point) (progn (back-to-indentation) (point)))
-	(if  (get-buffer  "*Python*")
-	    (message "")
-	  (run-python "ipython" nil nil))
-	;; (setq the_py_buffer (format "*Python[%s]*" (buffer-file-name)))
-	(setq the_py_buffer "*Python*")
-	(switch-to-buffer-other-window  the_py_buffer)
-	(goto-char (buffer-end 1))
-	(yank)
-	(comint-send-input)
-	(switch-to-buffer-other-window the_script_buffer)
-	(yank))
-      (end-of-line)
-      (next-line)
-      )
+   (defun my-python-line ()
+     (interactive)
+     (save-excursion
+       (setq the_script_buffer (format (buffer-name)))
+       (end-of-line)
+       (kill-region (point) (progn (back-to-indentation) (point)))
+       (if  (get-buffer  "*Python*")
+	   (message "")
+	 (run-python "ipython" nil nil))
+       ;; (setq the_py_buffer (format "*Python[%s]*" (buffer-file-name)))
+       (setq the_py_buffer "*Python*")
+       (switch-to-buffer-other-window  the_py_buffer)
+       (goto-char (buffer-end 1))
+       (yank)
+       (comint-send-input)
+       (switch-to-buffer-other-window the_script_buffer)
+       (yank))
+     (end-of-line)
+     (next-line)
+     )
 
-    (add-hook 'python-mode-hook
-	      (lambda ()
-		(define-key python-mode-map "\C-cn" 'my-python-line)))
+   (add-hook 'python-mode-hook
+	     (lambda ()
+	       (define-key python-mode-map "\C-cn" 'my-python-line)))
 
-    #+end_src
-*** Sphinx-doc for documentation
-    [2016-06-03 Fri 15:33]
+   #+end_src
+** Sphinx-doc for documentation
+   [2016-06-03 Fri 15:33]
 
- #+begin_src emacs-lisp :results silent
- (cl-defstruct sphinx-doc-doc
-   (summary "FIXME: briefly describe function") ; summary line that fits on the first line
-   before-fields                                ; list of comments before fields
-   after-fields                                 ; list of comments after fields
-   fields)                                      ; list of field objects
+#+begin_src emacs-lisp :results silent
+(cl-defstruct sphinx-doc-doc
+  (summary "FIXME: briefly describe function") ; summary line that fits on the first line
+  before-fields                                ; list of comments before fields
+  after-fields                                 ; list of comments after fields
+  fields)                                      ; list of field objects
 
- (add-hook 'python-mode-hook (lambda ()
-                               ;; (require 'sphinx-doc)
-                               (sphinx-doc-mode t)))
- #+end_src
-** Refile                                                       :ExportFile:
-:PROPERTIES:
-:EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
-:END:
+(add-hook 'python-mode-hook (lambda ()
+                              ;; (require 'sphinx-doc)
+                              (sphinx-doc-mode t)))
+#+end_src
+* Refile                                                         :ExportFile:
+  :PROPERTIES:
+  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
+  :header-args: :tangle config/refile.el
+  :END:
 
 
 
@@ -3336,176 +3234,170 @@ insert git sha1 value into current point.
   (insert (shell-command-to-string (concat "git rev-parse HEAD"))))
 (global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)
 #+end_src
+
+* Scripting
+  :PROPERTIES:
+  :header-args: :tangle config/scripting.el
+  :END:
+  [2021-06-05 Sat 12:00]
+
 ** eshell 
 
-   #+begin_src emacs-lisp :results silent 
-(defalias 'open 'find-file)
+    #+begin_src emacs-lisp :results silent 
+ (defalias 'open 'find-file)
 
 
-;; from emacs-reddit
-;; (defun eshell-here ()
-;;   "Opens up a new shell in the directory associated with the current buffer's file."
-;;   (interactive)
-;;   (let* ((parent (file-name-directory (buffer-file-name)))
-;;          (name   (car
-;;                   (last
-;;                    (split-string parent "/" t)))))
-;;     (split-window-vertically)
-;;     (other-window 1)
-;;     (eshell "new")
-;;     (rename-buffer (concat "*eshell: " name "*"))
+ ;; from emacs-reddit
+ ;; (defun eshell-here ()
+ ;;   "Opens up a new shell in the directory associated with the current buffer's file."
+ ;;   (interactive)
+ ;;   (let* ((parent (file-name-directory (buffer-file-name)))
+ ;;          (name   (car
+ ;;                   (last
+ ;;                    (split-string parent "/" t)))))
+ ;;     (split-window-vertically)
+ ;;     (other-window 1)
+ ;;     (eshell "new")
+ ;;     (rename-buffer (concat "*eshell: " name "*"))
 
-;;     (insert (concat "ls"))
-;;     (eshell-send-input)))
+ ;;     (insert (concat "ls"))
+ ;;     (eshell-send-input)))
 
-(defun eshell-here ()
-  "Opens up a new shell in the directory associated with the current buffer's file."
-  (interactive)
-  (let* ((parent (if (buffer-file-name)
-                     (file-name-directory (buffer-file-name))
-                   default-directory))
-         (name (car (last (split-string parent "/" t)))))
-    (split-window-vertically)
-    (other-window 1)
-    (eshell "new")
-    (rename-buffer (concat "*eshell: " name "*"))
+ (defun eshell-here ()
+   "Opens up a new shell in the directory associated with the current buffer's file."
+   (interactive)
+   (let* ((parent (if (buffer-file-name)
+                      (file-name-directory (buffer-file-name))
+                    default-directory))
+          (name (car (last (split-string parent "/" t)))))
+     (split-window-vertically)
+     (other-window 1)
+     (eshell "new")
+     (rename-buffer (concat "*eshell: " name "*"))
 
-    (insert (concat "ls"))
-    (eshell-send-input)))
+     (insert (concat "ls"))
+     (eshell-send-input)))
 
-(global-set-key (kbd "C-!") 'eshell-here)
+ (global-set-key (kbd "C-!") 'eshell-here)
 
-(defun delete-single-window (&optional window)
-  "Remove WINDOW from the display.  Default is `selected-window'.
-If WINDOW is the only one in its frame, then `delete-frame' too."
-  (interactive)
-  (save-current-buffer
-    (setq window (or window (selected-window)))
-    (select-window window)
-    (kill-buffer)
-    (if (one-window-p t)
-        (delete-frame)
-      (delete-window (selected-window)))))
+ (defun delete-single-window (&optional window)
+   "Remove WINDOW from the display.  Default is `selected-window'.
+ If WINDOW is the only one in its frame, then `delete-frame' too."
+   (interactive)
+   (save-current-buffer
+     (setq window (or window (selected-window)))
+     (select-window window)
+     (kill-buffer)
+     (if (one-window-p t)
+         (delete-frame)
+       (delete-window (selected-window)))))
 
-(defun eshell/x (&rest args)
-  (delete-single-window))
-
-
-
-   #+end_src
-** agenda 
-   [2019-03-24 Sun 19:52]
-
-   #+begin_src emacs-lisp :results silent 
-(setq yt/org_folder '("~/git/org/" "~/git/career"))
-
-(setq yt/kaggle_competition_folders '(;; "~/kaggle"
-				      "~/quickdraw-doodle-recognition/notebook"
-				      "~/two_sigma_financial_news/notebooks"))
-
-(setq yt/org_agenda_folder_candidates (append yt/org_folder yt/kaggle_competition_folders))
+ (defun eshell/x (&rest args)
+   (delete-single-window))
 
 
-(defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
-  (helm :sources '(((name . "Add directories to org-agenda-files variable")
-		    (candidates . yt/org_agenda_folder_candidates)   ;; ("~/git/org/" "~/git/career"))
-		    (action . yt/org-agenda-files--choose)))))
+
+    #+end_src
+** Git Sync
+:LOGBOOK:  
+CLOCK: [2015-01-25 Sun 21:15]--[2015-01-25 Sun 22:25] =>  1:10
+:END:      
+[2015-01-19 Mon 12:09]
+    
+I use git and Github a lot, and usually in =shell-mode=, but I just
+can't remember all the commands. Magit provides an interface to Git,
+and it is really pleasant to use. So I don't need to remmeber all the
+commands, also it comes with excellent [[http://magit.github.io/master/magit.html][manual]] and [[http://daemianmack.com/magit-cheatsheet.html][cheatsheet]].
+    
+#+begin_src emacs-lisp
+(require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
+(setq magit-auto-revert-mode nil)
+(global-set-key (kbd "<f9> g") 'magit-status)
+(global-auto-revert-mode t)
+#+end_src 
+            
+# I use Emacs/org-mode as a unified system to do everything, at home and
+# in the office. I used to use Dropbox/Copy to
+# automatically sync the files on multiple machines, but this work-flow
+# can be dangerous. Image if I was editing same files on two machines at
+# the same time, then I can't track which is which.
+    
+# The good thing about Git is that you can see what exactlly has been
+# changed by each version, and auto log, with commit information and
+# timesatmp. Magit helps me to do it conviently but I need 3 more
+# features:
+
+# 1. automatically save all the buffers
    
-   #+end_src
-** running Emacs in terminal 
-   [2019-04-01 Mon 21:43]
-
-   later i found that Emacs runs much faster in Terminal. for the
-   reason i don't know but I really enjoy the lightning speed. here's
-   a selection of confugratino for working Emacs in terminal.
-
-   #+begin_src emacs-lisp :results silent 
-   (add-hook 'suspend-hook
-	     (lambda () (or (y-or-n-p "Really suspend? ")
-			    (error "Suspend canceled"))))
-   (add-hook 'suspend-resume-hook (lambda () (message "Resumed!")
-				    (sit-for 2)))
-   #+end_src
-
-   then =fg= to bring back emacs. 
-** highlight TODO, IMP in text mode
-   [2019-10-13 Sun 04:46]
-
-   
-   #+begin_src emacs-lisp :results silent :tangle no
-;; ;; highlights FIXME: TODO: and BUG: in prog-mode 
-;; (add-hook 'text-mode-hook
-;;           (lambda ()
-;;             (font-lock-add-keywords nil
-;;                                     '(("\\<\\(YT\\|TODO\\|IMP\\):" 1 font-lock-warning-face t)))))
-
-   #+end_src
-** move line/region up/down
-   [2019-11-09 Sat 11:52]
+Occasionally my office machine goes down because I run R with big
+data, and it consumes all the memory. If that happens, I
+potentially lose the newsiest version of scripts, which is bit
+annoy. The following snippets will save all buffers in every hours.
 
 #+begin_src emacs-lisp :results silent 
-(defun move-text-internal (arg)
-   (cond
-    ((and mark-active transient-mark-mode)
-     (if (> (point) (mark))
-            (exchange-point-and-mark))
-     (let ((column (current-column))
-              (text (delete-and-extract-region (point) (mark))))
-       (forward-line arg)
-       (move-to-column column t)
-       (set-mark (point))
-       (insert text)
-       (exchange-point-and-mark)
-       (setq deactivate-mark nil)))
-    (t
-     (beginning-of-line)
-     (when (or (> arg 0) (not (bobp)))
-       (forward-line)
-       (when (or (< arg 0) (not (eobp)))
-            (transpose-lines arg))
-       (forward-line -1)))))
-
-(defun move-text-down (arg)
-   "Move region (transient-mark-mode active) or current line
-  arg lines down."
-   (interactive "*p")
-   (move-text-internal arg))
-
-(defun move-text-up (arg)
-   "Move region (transient-mark-mode active) or current line
-  arg lines up."
-   (interactive "*p")
-   (move-text-internal (- arg)))
-
-(global-set-key [\M-\S-up] 'move-text-up)
-(global-set-key [\M-\S-down] 'move-text-down)
+(defun yt/save-all-buffers ()
+  "save all files-visiting buffers without user confirmation"
+  (interactive)
+  (save-some-buffers t nil)
+  (message "save all buffers... done"))
+(run-at-time "05:59" 3600 'yt/save-all-buffers)
 #+end_src
 
+Sometimes I have to leave at the last minutes, then what I do is call
+a functions that commits and upload to the repo so that I can
+continue work at home.
 
-* End 
-[2015-01-19 Mon 11:43]
+The =yt/git-up= function will do
+   1. pull from the remote repo, and make sure the local repo is always
+      up-to-date.
+   2. add everything and commit with a timesamp.
+   3. push local changes to the remote repo.
+      
+Here is the snippets.
+#+begin_src emacs-lisp :results silent 
+(defun yt/git-backup ()
+  (let ((git-sh-scripts "
+echo Start to Sync: $(date) 
 
-End of Emacs configuration. The initalisetion stop here. 
+REPOS=\"org\"
+for REPO in $REPOS
+do
+    echo
+    echo \"Repository: $REPO\"
+    cd ~/git/$REPO
+    # update
+    git pull 
+    # Remove deleted files
+    git ls-files --deleted -z | xargs -0 git rm >/dev/null 2>&1
+    # Add new files
+    git add -A . >/dev/null 2>&1
+    git commit -m \"$(date)\"
+    git push origin master 
+done
 
-* Update Emacs library
+echo Finished Sync: $(date)
+"))
+    (async-shell-command git-sh-scripts))
+  (message "all git sync... done"))
 
-#+name: UpdateEmacsPackages
-#+begin_src sh :results scalar 
-cask install --path ~/git/.emacs.d
-cask upgrade-cask --path ~/git/.emacs.d
-git add -A 
-git commit -m "cask update $(date)"
-git push 
+(defun yt/git-up ()
+  (interactive)
+  (yt/save-all-buffers)
+  (yt/git-backup))
 #+end_src
 
-#+begin_example
+  
+Few times I did some important work over the weenend, but once I
+arrived office I realised I forgot uploading, These situations are
+quick frustrating. The following snippets will start to uploads once
+every three hours on my MacbookPro, but I don't use it anymore, since
+I can get most of my work done in the office. 
 
-#+call: UpdateEmacsPackages()
+Note this workflow is suspended for it's unsafe. 
+   #+begin_src emacs-lisp
+;; (cond ((eq system-type 'darwin)
+;;        (run-at-time "05:59" 10800 'yt/git-up)))
+#+end_src
 
-#+results:
-: [master 3f5c750] cask update Sat Nov  8 18:06:08 GMT 2014
-:  2 files changed, 7 insertions(+), 3 deletions(-)
-:  delete mode 120000 .#yi.babel.org
-
-#+end_example
 
