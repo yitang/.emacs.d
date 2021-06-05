@@ -1,3 +1,6 @@
+; Here lists the packages used in my Emacs configuration.
+; It will be used by Cask program to install them.
+
 (source melpa)
 (source gnu)
 (source org)
