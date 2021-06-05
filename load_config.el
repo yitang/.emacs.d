@@ -1,11 +1,13 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize "~/git/.emacs.d")
 
-(defun yt/load-emacs-config (config-dir)
-  "docstring"
+(require 'org)
+(require 'golden-ratio)
+
+(defun yt/load-direcotry (dir)
+  "load .el files in a direcotry dir"
   (interactive "P")
-  (let ((config-files (directory-files config-dir t ".el$")))
+  (let ((config-files (directory-files dir t ".el$")))
     (mapcar #'load config-files))
   )
-(yt/load-config "./config")
-
+(yt/load-direcotry "~/git/.emacs.d/config")
