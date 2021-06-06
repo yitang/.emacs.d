@@ -1,7 +1,5 @@
 #+title: Yet Another Emacs Configuration
-* Yet Another Emacs Configuration
-  [2021-06-04 Fri 08:40]
-  
+
   An online version of this doc can be found at
   https://emacs.readthedocs.io/en/latest/
 
@@ -17,7 +15,6 @@
    :PROPERTIES:
    :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/install_packages
    :END:
- [2015-03-18 Wed 15:32]
 
  The configurations are tested in Emacs 26 and 27.1.
 
