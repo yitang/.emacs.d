@@ -86,6 +86,8 @@ git push
    Restructuring major update to simply this project. Unused
    configurations and 3rd party dependences are removed. All
    configurations are tracked in config/*.el.
+
+   The cores of this project are
   
    - config.org :: It has the emacs configuration implemented in
      org-mode. Remove unused configuration.
