@@ -81,8 +81,13 @@ git push
 
 * Change Log
 
-  Restructuring major update to simply this project.
-  - config.org :: It has the emacs configuration implemented in
-    org-mode. Remove unused configuration.
-  - config/*.el :: Load emacs configuration from config/*.el instead
-    of init.org. It is 40% faster and does not depends on org-mode.
+  
+** 2020 June
+   Restructuring major update to simply this project. Unused
+   configurations and 3rd party dependences are removed. All
+   configurations are tracked in config/*.el.
+  
+   - config.org :: It has the emacs configuration implemented in
+     org-mode. Remove unused configuration.
+   - config/*.el :: Load emacs configuration from config/*.el instead
+     of init.org. It is 40% faster and does not depends on org-mode.
