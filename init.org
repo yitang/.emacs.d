@@ -379,7 +379,7 @@ claimed to be suitable for coding environments but I use it for all
 modes.
 
 #+begin_src emacs-lisp :results silent
-;; (set-frame-font "Source Code Pro-11" nil t)
+(set-frame-font "Source Code Pro-11" nil t)
 ;; (set-face-attribute 'default nil :height 100)
 #+end_src
 ** Minimalists GUI 
@@ -395,7 +395,7 @@ useful.
 
 #+begin_src emacs-lisp :results silent 
 (tool-bar-mode -1)
-; (menu-bar-mode -1)
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+end_src
 ** Theme 
