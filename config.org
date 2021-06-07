@@ -2147,40 +2147,6 @@ Remove keys
 
 Show org-mode bullets as UTF-8 characters.
 
-TODO: to remove as not necessary.
-#+begin_src emacs-lisp :results silent :eval yes :tangle no
-(require 'org-bullets)
-(setq org-bullets-bullet-list '(;;; Large
-                                "◉" "○" ;"◎" "◌"
-                                "◈" "◇"
-                                "◼" "◻"
-                                "▲" "△"
-                                "❀" "✿" ;"✸"
-                                "✚" "✜" 
-                                "●" "☯" ;"☢" 
-                                "♠" "♣" "♦" "♥"))
-(setq org-bullets-bullet-list '("✙" "♱" "♰" "☥" "✞" "✟" "✝" "†" "✠" "✚" "✜" "✛" "✢" "✣" "✤" "✥"))
-;; org ellipsis options, other than the default Go to Node...
-;; not supported in common font, but supported in Symbola (my fall-back font) ⬎, ⤷, ⤵
-(setq org-ellipsis "⚡⚡⚡");; ⤵ ≫
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-#+end_src
-
-org-download 
-
-TODO: to remove as not necessary.
-#+begin_src emacs-lisp :results silent :tangle no
-(require 'org-download)
-(setq-default org-download-image-dir "~/Downloads/img")
-(setq-default org-download-heading-lvl nil)
-;; (if (eq system-type 'darwin)
-;;     "org-download: default download method"
-;;     (setq org-download-screenshot-method "gnome-screens
-;; hot -w --delay=1 -f %s"))
-(setq org-download-image-wdith 400)
-
-;; (setq org-download-screenshot-method "gnome-screenshot -a -f %s")
-#+end_src
 
 Add markup wrapper for org-mode. to turn a word into bold, wrapper in
 a selected region, by using expand-region, which is bound to =C-==
@@ -2263,7 +2229,6 @@ Add export back-end, I need HTML, PDF, MarkDown, and Ascii.
 (require 'ox-ascii)
 (require 'ox-md)
 (require 'htmlize)
-(require 'ox-gfm)
 #+end_src
 
 General export options, it applys to all the export-backend. 
