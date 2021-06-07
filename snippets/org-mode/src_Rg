@@ -3,6 +3,6 @@
 # key: <Rg
 # binding: direct-keybinding
 # --
-#+begin_src R :exports results :results graphics :width 400 :height 400 :file (expand-file-name "figures/$1.png")
+#+begin_src R :exports results :results graphics file :width 400 :height 400 :file (expand-file-name "figures/$1.png")
 $0
 #+end_src
