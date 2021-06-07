@@ -368,7 +368,7 @@ the whole thing. Most of the time, I could just select using =helm=.
 * GUI - Emacs Looks Cool                                         :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
-  :header-args: :tangle config/editor_GUI
+  :header-args: :tangle config/editor_GUI.el
   :END:
 [2015-01-19 Mon 12:16]
 ** Fonts 
@@ -1567,57 +1567,10 @@ default place.
 (global-set-key (kbd "C-c c") 'org-capture)
 #+end_src
 
-The capture mode templates.
+# The capture mode templates.
 
-TODO: simplify this
-#+begin_src emacs-lisp :results silent 
-(setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/git/org/life//refile.org")
-               "* TODO %?\n\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c
-              ("o" "org" entry (file "~/git/org/life//refile.org")
-               "* TODO %?General Org\n%U\n" :clock-in t :clock-resume t) ;; TODO: %? %U %a, what does these means??? %: %c 
-              ;; ("r" "respond" entry (file "~/git/org/life//refile.org")
-              ;;  "* To %? about :RESPONSE:  \nSCHEDULED: %t\n%U\n%a" :clock-in t :clock-resume t)
-              ("r" "read" entry (file "~/git/org/life//refile.org")
-               "* TODO %? :READ:\n%U\n" :clock-in t :clock-resume t)
-              ("n" "note" entry (file "~/git/org/life//refile.org")
-               "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t)
-              
-              ("h" "Habit" entry (file "~/git/org/habits.org")
-               "* NEXT %?\nSCHEDULED: %(format-time-string \"<%Y-%m-%d .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
-              ("v" "Vocabulary" entry (file "~/git/org/vocabulary.org")
-               "* %? :VOCA:\n%U" :clock-in t :clock-resume t)
 
-              ("j" "Journalsing")
-              ("jd" "diary" entry (file+datetree "~/git/org/diary/2020.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("jk" "Kaggle Competition" entry (file+datetree "~/git/org/diary/Kaggle.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("js" "Statistician" entry (file+datetree "~/git/org/diary/Statistics.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("jo" "Office" entry (file+datetree "~/git/org/diary/2020.org")
-               "* %?:office:\n%U\n" :clock-in t :clock-resume t)
-	      ("jf" "Finance" entry (file+datetree "~/git/org/diary/2020.org")
-               "* %?:finance:\n%U\t\n" :clock-in t :clock-resume t)
-	      ("jc" "Career" entry (file+datetree "~/git/org/diary/Career.org")
-               "* %?\n%U\n" :clock-in t :clock-resume t)
-              )))
 
-;; ledger entries
-
-(push '("l" "Ledger Journal" plain (file "~/git/data_finance/ledger/refile.ledger")
-	   "%(org-read-date) * %(yt/helm-ledger-payee)
-    %(yt/helm-ledger-account)    £ %(yt/helm-ledger-amount)
-    %(yt/helm-ledger-account)")
-	 org-capture-templates
-	 )
-#+end_src
-
-Speed up the process by using cache.
-
-#+begin_src emacs-lisp :results silent 
-(setq org-refile-use-cache t)
-#+end_src
 ** org-refile
 [2015-07-20 Mon 14:57]
 
@@ -1649,6 +1602,12 @@ available as level1/level2/level3.
 Use helm for matching the target path. 
 #+begin_src emacs-lisp :results silent 
 (setq org-completion-handler 'helm)
+#+end_src
+
+Speed up the process by using cache.
+
+#+begin_src emacs-lisp :results silent 
+(setq org-refile-use-cache t)
 #+end_src
 
 ** org-clock
@@ -1730,31 +1689,6 @@ punch-in into a default org-mode headline.
 (global-set-key (kbd "<f9> I") 'yt/punch-in)
 #+end_src
 
-use hydra to define a function that use most frequently 
-#+begin_src emacs-lisp :results silent 
-;; https://github.com/abo-abo/hydra/wiki/Org-clock
-(defhydra hydra-org-clock (:color blue :hint nil)
-  "
-Clock       In/out^     ^Edit^   ^Summary     (_?_)
----------------------------------------------------
-            _i_n         _e_dit   _g_oto entry
-_h_istory   _c_ontinue   _q_uit   _d_isplay
-_j_ump      _o_ut        ^ ^      _r_eport
-      "
-  ("i" org-clock-in)
-  ("o" org-clock-out)
-  ("c" org-clock-in-last)
-  ("e" org-clock-modify-effort-estimate)
-  ("q" org-clock-cancel)
-  ("g" org-clock-goto)
-  ("d" org-clock-display)
-  ("r" org-clock-report)
-  ("j" org-clock-jump-to-current-clock)
-  ("h" yt/org-clock-in-select)
-  ("?" (org-info "Clocking commands")))
-
-(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
-#+end_src
 
 remove empty clock entrys at checkout. 
 
@@ -1838,217 +1772,74 @@ TODO: how to remove clock with less than 5 min?
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
-  ;; recursively find .org files in provided directory
-  ;; modified from an Emacs Lisp Intro example
-  (defun sa-find-org-file-recursively (&optional directory filext)
-    "Return .org and .org_archive files recursively from DIRECTORY.
-  If FILEXT is provided, return files with extension FILEXT instead."
-    (interactive "DDirectory: ")
-    (let* (org-file-list
-           (case-fold-search t)         ; filesystems are case sensitive
-           (file-name-regex "^[^.#].*") ; exclude dot, autosave, and backup files
-           (filext (or filext "org$\\\|org_archive"))
-           (fileregex (format "%s\\.\\(%s$\\)" file-name-regex filext))
-           (cur-dir-list (directory-files directory t file-name-regex)))
-      ;; loop over directory listing
-      (dolist (file-or-dir cur-dir-list org-file-list) ; returns org-file-list
-        (cond
-         ((file-regular-p file-or-dir) ; regular files
-          (if (string-match fileregex file-or-dir) ; org files
-              (add-to-list 'org-file-list file-or-dir)))
-         ((file-directory-p file-or-dir)
-          (dolist (org-file (sa-find-org-file-recursively file-or-dir filext)
-                            org-file-list) ; add files found to result
-            (add-to-list 'org-file-list org-file)))))))
+(global-set-key (kbd "<C-f12>") 'org-agenda)
 
-  (setq org-agenda-files (append (sa-find-org-file-recursively "~/git/org")
-                                 (sa-find-org-file-recursively "~/git/career")))
+;; Do not dim blocked tasks
+(setq org-agenda-dim-blocked-tasks nil)
 
-  (setq org-list-allow-alphabetical t)
-
-  (defun yt/org-agenda-files--choose (candidate)
-    (mapc 'identity (helm-marked-candidates)))
-    
-
-(defun yt/org-agenda-files-set-helm ()  ;; FIXME: path broken.
-    (helm :sources '(((name . "Add directories to org-agenda-files variable")
-                      (candidates . ("~/git/org/" "~/git/career" "~/git/org/finance"))
-                      (action . yt/org-agenda-files--choose)))))
-
-(defun yt/org-agenda-files-set ()
-  (interactive)
-  (setq org-agenda-files (list))
-  (dolist (dir (yt/org-agenda-files-set-helm))
-    (mapcar (lambda (arg)
-	      (add-to-list 'org-agenda-files arg))
-	    (sa-find-org-file-recursively dir))    
-	    ))   
-
-
-	    ;; (defun yt/org-agenda-files-set ()
-  ;; (interactive)
-    ;; (setq org-agenda-files (yt/org-agenda-files-set-helm)))
-  ;; (yt/org-agenda-files-set)
-
-  (global-set-key (kbd "<C-f12>") 'org-agenda)
-
-  ;; Do not dim blocked tasks
-  (setq org-agenda-dim-blocked-tasks nil)
-
-  ;; Compact the block agenda view
-  (setq org-agenda-compact-blocks nil)
+;; Compact the block agenda view
+(setq org-agenda-compact-blocks nil)
 
 
 
-  ;; Custom agenda command definitions
-  (defvar bh/hide-scheduled-and-waiting-next-tasks t)
-  (setq org-agenda-custom-commands
-        (quote (("N" "Notes" tags "NOTE"
-                 ((org-agenda-overriding-header "Notes")
-                  (org-tags-match-list-sublevels t)))
-                ("h" "Habits" tags-todo "STYLE=\"habit\""
-                 ((org-agenda-overriding-header "Habits")
-                  (org-agenda-sorting-strategy
-                   '(todo-state-down effort-up category-keep))))
-                ("d" "deadline" agenda ""
-                 (
-                  (org-agenda-entry-types '(:deadline))
-                  (org-agenda-start-day "2016-01-01")
-                  (org-agenda-span 'year)
-                  (org-agenda-include-diary nil)
-                  (org-agenda-show-all-dates nil)))
-                ("s" "scheduled" agenda ""
-                 (
-                  (org-agenda-entry-types '(:scheduled))
-                  (org-agenda-start-day "2016-01-01")
-                  (org-agenda-span 'year)
-                  (org-agenda-include-diary nil)
-                  (org-agenda-show-all-dates nil)))
-                (" " "Agenda"
-                 ((agenda "" nil)
-                  (tags-todo "-CANCELLED+WAITING|HOLD/!"
-                             ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks (Ask them)"
-                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                        ""
-                                                                      " (including WAITING and SCHEDULED tasks)")))
-                              (org-agenda-skip-function 'bh/skip-non-tasks)
-                              (org-tags-match-list-sublevels nil)
-                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
-                  (tags "RESPONSE"
-                        ((org-agenda-overriding-header "Response (Make other's life easier)")
-                         (org-tags-match-list-sublevels nil)))
-                  (tags-todo "-CANCELLED/!NEXT"
-                             ((org-agenda-overriding-header (concat "Project Next Tasks (Running out of things to do? pick one)"
-                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                        ""
-                                                                      " (including WAITING and SCHEDULED tasks)")))
-                              (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-                              (org-tags-match-list-sublevels t)
-                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-sorting-strategy
-                               '(todo-state-down effort-up category-keep))))
-                  (tags-todo "-CANCELLED/!"
-                             ((org-agenda-overriding-header "Stuck Projects (Make the project flows, assign Next)")
-                              (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                              (org-agenda-sorting-strategy
-                               '(category-keep))))
-                  (tags-todo "-HOLD-CANCELLED/!"
-                             ((org-agenda-overriding-header "Projects (on-going)")
-                              (org-agenda-skip-function 'bh/skip-non-projects)
-                              (org-tags-match-list-sublevels 'indented)
-                              (org-agenda-sorting-strategy
-                               '(category-keep))))
-                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                             ((org-agenda-overriding-header (concat "Project Subtasks (Will do in the furture)"
-                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                        ""
-                                                                      " (including WAITING and SCHEDULED tasks)")))
-                              (org-agenda-skip-function 'bh/skip-non-project-tasks)
-                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-sorting-strategy
-                               '(category-keep))))
-                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-                             ((org-agenda-overriding-header (concat "Standalone Tasks (One-off/Small Tasks to pick)"
-                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
-                                                                        ""
-                                                                      " (including WAITING and SCHEDULED tasks)")))
-                              (org-agenda-skip-function 'bh/skip-project-tasks)
-                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                              (org-agenda-sorting-strategy
-                               '(category-keep))))
-                  (tags "-REFILE/"
-                        ((org-agenda-overriding-header "Tasks to Archive (Two month old)")
-                         (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-                         (org-tags-match-list-sublevels nil)))
-                  (tags "REFILE"
-                        ((org-agenda-overriding-header "Tasks to Refile")
-                         (org-tags-match-list-sublevels nil)))
-                  nil)))))
 
-  ;; Limit restriction lock highlighting to the headline only
-  (setq org-agenda-restriction-lock-highlight-subtree nil)
+;; Limit restriction lock highlighting to the headline only
+(setq org-agenda-restriction-lock-highlight-subtree nil)
 
-  ;; Always hilight the current agenda line
-  (add-hook 'org-agenda-mode-hook
-            '(lambda () (hl-line-mode 1))
-            'append)
+;; Always hilight the current agenda line
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (hl-line-mode 1))
+          'append)
 
   ;;;; * agenda ignore items 
-  ;; Keep tasks with dates on the global todo lists
-  (setq org-agenda-todo-ignore-with-date nil)
+;; Keep tasks with dates on the global todo lists
+(setq org-agenda-todo-ignore-with-date nil)
 
-  ;; Keep tasks with deadlines on the global todo lists
-  (setq org-agenda-todo-ignore-deadlines nil)
+;; Keep tasks with deadlines on the global todo lists
+(setq org-agenda-todo-ignore-deadlines nil)
 
-  ;; Keep tasks with scheduled dates on the global todo lists
-  (setq org-agenda-todo-ignore-scheduled nil)
+;; Keep tasks with scheduled dates on the global todo lists
+(setq org-agenda-todo-ignore-scheduled nil)
 
-  ;; Keep tasks with timestamps on the global todo lists
-  (setq org-agenda-todo-ignore-timestamp nil)
+;; Keep tasks with timestamps on the global todo lists
+(setq org-agenda-todo-ignore-timestamp nil)
 
-  ;; Remove completed deadline tasks from the agenda view
-  (setq org-agenda-skip-deadline-if-done t)
+;; Remove completed deadline tasks from the agenda view
+(setq org-agenda-skip-deadline-if-done t)
 
-  ;; Remove completed scheduled tasks from the agenda view
-  (setq org-agenda-skip-scheduled-if-done t)
+;; Remove completed scheduled tasks from the agenda view
+(setq org-agenda-skip-scheduled-if-done t)
 
-  ;; Remove completed items from search results
-  (setq org-agenda-skip-timestamp-if-done t)
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
 
-  (setq org-agenda-include-diary nil)
-  (setq org-agenda-diary-file "~/git/org/diary.org")
-
-
-  (setq org-agenda-insert-diary-extract-time t)
-
-  ;; Include agenda archive files when searching for things
-  (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
-
-  ;; Show all future entries for repeating tasks
-  (setq org-agenda-repeating-timestamp-show-all t)
-
-  ;; Show all agenda dates - even if they are empty
-  (setq org-agenda-show-all-dates t)
-
-  ;; Sorting order for tasks on the agenda
-  (setq org-agenda-sorting-strategy
-        (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
-                (todo category-up effort-up)
-                (tags category-up effort-up)
-                (search category-up))))
+(setq org-agenda-include-diary nil)
+(setq org-agenda-diary-file "~/git/org/diary.org")
 
 
+(setq org-agenda-insert-diary-extract-time t)
 
-  ;; (setq org-agenda-tags-column -102)
-  ;; Use sticky agenda's so they persist
-  ;; (setq org-agenda-sticky t)
+;; Include agenda archive files when searching for things
+(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+
+;; Show all future entries for repeating tasks
+(setq org-agenda-repeating-timestamp-show-all t)
+
+;; Show all agenda dates - even if they are empty
+(setq org-agenda-show-all-dates t)
+
+;; Sorting order for tasks on the agenda
+(setq org-agenda-sorting-strategy
+      (quote ((agenda habit-down time-up user-defined-up effort-up category-keep)
+              (todo category-up effort-up)
+              (tags category-up effort-up)
+              (search category-up))))
+
+
+
+;; (setq org-agenda-tags-column -102)
+;; Use sticky agenda's so they persist
+;; (setq org-agenda-sticky t)
 
 #+end_src
 
@@ -2181,41 +1972,40 @@ then type *.
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
-  (defun bh/display-inline-images ()
-    (condition-case nil
-	(org-display-inline-images)
-      (error nil)))
-  
-  
-  (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
-  
-  (setq org-babel-results-keyword "results")
-  (org-babel-do-load-languages
-   (quote org-babel-load-languages)
-   (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
-	   (R . t)
-	   (shell . t)
-	   (ledger . t)
-	   (org . t)
-	   (plantuml . t)
-	   (dot . t)
-	   (python .t)
-	   (ipython .t)
-	   ;; (bibtex .t)
-	   (octave . t)
-	   (latex . t)
-	   ;; (jupyter . t)
-	   (shell . t)
-	   (ledger . t)
-	   (sql . t))))
-  
-  (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
-  
-  ;; (add-to-list 'org-babel-default-header-args:R
-  ;;              ;; '(:session . "*R-main*")
-  ;;              '((:width . 640) (:height . 640)))
-  
-  (setq org-confirm-babel-evaluate nil)
+(defun bh/display-inline-images ()
+  (condition-case nil
+      (org-display-inline-images)
+    (error nil)))
+
+
+(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
+
+(setq org-babel-results-keyword "results")
+(org-babel-do-load-languages
+ (quote org-babel-load-languages)
+ (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
+	 (R . t)
+	 (shell . t)
+	 (ledger . t)
+	 (org . t)
+	 (dot . t)
+	 (python .t)
+	 (ipython .t)
+	 ;; (bibtex .t)
+	 (octave . t)
+	 (latex . t)
+	 ;; (jupyter . t)
+	 (shell . t)
+	 (ledger . t)
+	 (sql . t))))
+
+(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
+
+;; (add-to-list 'org-babel-default-header-args:R
+;;              ;; '(:session . "*R-main*")
+;;              '((:width . 640) (:height . 640)))
+
+(setq org-confirm-babel-evaluate nil)
 #+end_src
 
 ** Export 
@@ -2991,6 +2781,34 @@ Project Directory: projectile-_g_rep  helm-projectile-_G_rep
   ("G" helm-projectile-grep))
 (global-set-key [f5] 'hydra-search/body)
 
+#+end_src
+** org-mode
+   [2021-06-07 Mon 12:40]
+
+   use hydra to define a function that use most frequently 
+#+begin_src emacs-lisp :results silent 
+;; https://github.com/abo-abo/hydra/wiki/Org-clock
+(defhydra hydra-org-clock (:color blue :hint nil)
+  "
+Clock       In/out^     ^Edit^   ^Summary     (_?_)
+---------------------------------------------------
+            _i_n         _e_dit   _g_oto entry
+_h_istory   _c_ontinue   _q_uit   _d_isplay
+_j_ump      _o_ut        ^ ^      _r_eport
+      "
+  ("i" org-clock-in)
+  ("o" org-clock-out)
+  ("c" org-clock-in-last)
+  ("e" org-clock-modify-effort-estimate)
+  ("q" org-clock-cancel)
+  ("g" org-clock-goto)
+  ("d" org-clock-display)
+  ("r" org-clock-report)
+  ("j" org-clock-jump-to-current-clock)
+  ("h" yt/org-clock-in-select)
+  ("?" (org-info "Clocking commands")))
+
+(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 #+end_src
 
 * Emacs Lisp Programming                                         :ExportFile:
