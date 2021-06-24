@@ -2901,41 +2901,22 @@ TODO: replace this by using native elpy function.
     
    replace elpy by LSP mode for python dev..
 
-   #+begin_src emacs-lisp :results silent :tangle no :eval no
+   #+begin_src emacs-lisp :results silent :eval no
+   ;; this requires pip install -U jedi-language-server
    (use-package lsp-mode
      :config
      (require 'lsp-clients)
      (add-hook 'python-mode-hook 'lsp))
    (use-package company-lsp)
    (use-package lsp-ui)
-
-
-
-   (defun my-python-line ()
-     (interactive)
-     (save-excursion
-       (setq the_script_buffer (format (buffer-name)))
-       (end-of-line)
-       (kill-region (point) (progn (back-to-indentation) (point)))
-       (if  (get-buffer  "*Python*")
-	   (message "")
-	 (run-python "ipython" nil nil))
-       ;; (setq the_py_buffer (format "*Python[%s]*" (buffer-file-name)))
-       (setq the_py_buffer "*Python*")
-       (switch-to-buffer-other-window  the_py_buffer)
-       (goto-char (buffer-end 1))
-       (yank)
-       (comint-send-input)
-       (switch-to-buffer-other-window the_script_buffer)
-       (yank))
-     (end-of-line)
-     (next-line)
-     )
-
-   (add-hook 'python-mode-hook
-	     (lambda ()
-	       (define-key python-mode-map "\C-cn" 'my-python-line)))
-
+   
+   
+   (use-package lsp-jedi
+     :ensure t
+     :config
+     (with-eval-after-load "lsp-mode"
+       (add-to-list 'lsp-disabled-clients 'pyls)
+       (add-to-list 'lsp-enabled-clients 'jedi)))
    #+end_src
 ** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
