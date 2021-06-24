@@ -82,4 +82,5 @@
 (depends-on "treemacs")
 (depends-on "lsp-treemacs")
 (depends-on "lsp-ui")
+(depends-on "lsp-jedi")
 (depends-on "ob-ipython")
