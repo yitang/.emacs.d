@@ -2905,7 +2905,6 @@ TODO: replace this by using native elpy function.
    ;; this requires pip install -U jedi-language-server
    (use-package lsp-mode
      :config
-     (require 'lsp-clients)
      (add-hook 'python-mode-hook 'lsp))
    (use-package company-lsp)
    (use-package lsp-ui)
