@@ -517,15 +517,16 @@ Helm and fuzzy match makes selection a lot easier.  in
 (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
 (helm-mode 1)
 
-(defun yt/helm-copy-unmarked-to-buffer ()
-  (interactive)
-  (with-helm-buffer
-    (helm-mark-all)
-    (cl-loop for cand in (helm-marked-candidates)
-             do (with-helm-current-buffer
-                  (insert cand "\n")))))
-;; by default, Cc Ci copy marked to buffer.
-(define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
+;; TODO: remove this. use C-c i from Helm isntead.
+;; (defun yt/helm-copy-unmarked-to-buffer ()
+;;   (interactive)
+;;   (with-helm-buffer
+;;     (helm-mark-all)
+;;     (cl-loop for cand in (helm-marked-candidates)
+;;              do (with-helm-current-buffer
+;;                   (insert cand "\n")))))
+;; ;; by default, Cc Ci copy marked to buffer.
+;; (define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
 
 (setq helm-ff-guess-ffap-urls nil)
 #+end_src
@@ -1663,7 +1664,7 @@ List recently clocked headline and clock in.
   (setq current-prefix-arg '(4)) ;; C-u, 
   (call-interactively 'org-clock-in))
 (global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
-(global-set-key (kbd "<f11>") 'org-clock-jump-to-current-clock)
+(global-set-key (kbd "<f11>") 'org-clock-goto)
 #+end_src
 
 When clock in to a TODO headline, turn the keywords into NEXT. 
@@ -2905,7 +2906,6 @@ TODO: replace this by using native elpy function.
    ;; this requires pip install -U jedi-language-server
    (use-package lsp-mode
      :config
-     (require 'lsp-clients)
      (add-hook 'python-mode-hook 'lsp))
    (use-package company-lsp)
    (use-package lsp-ui)
