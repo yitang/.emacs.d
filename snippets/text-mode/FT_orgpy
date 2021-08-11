@@ -4,7 +4,7 @@
 # binding: direct-keybinding
 # --
 #+title: $1
-#+property: header-args:ipython :session py2 :exports none :eval never-export :async nil
+#+property: header-args:ipython :session py2 :exports none :eval never-export :async nil :tangle yes
 
 #+begin_src emacs-lisp :results silent :tangle no
 (setq output-dir "`(file-name-directory buffer-file-name)`report/")
