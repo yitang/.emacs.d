@@ -380,7 +380,7 @@ modes.
 
 #+begin_src emacs-lisp :results silent
 (set-frame-font "Source Code Pro-11" nil t)
-;; (set-face-attribute 'default nil :height 100)
+;; (set-face-attribute 'default nil :height 140)
 #+end_src
 ** Minimalists GUI 
 [2015-07-20 Mon 11:46]
@@ -853,7 +853,7 @@ following settings, I can use =F9-f= to select temporal buffers.
   ("p" (find-file "~/git/career/Profession/Python.org") "Python.org")
   ("E" (find-file "~/git/career/Profession/Emacs.org") "Emacs.org") 
   ("l" (find-file "~/git/org/life/life.org") "life.org")
-  ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
+  ("i" (find-file "~/git/.emacs.d/config.org" t) "config.org")
   ("e" (find-file "~/.emacs" t) ".emacs")
   ("d" (yt/org-find-file "dournal/diary.org") "diary.org")
   ("r" (yt/org-find-file "life/review.org") "review.org")
@@ -1007,14 +1007,17 @@ use pretty mode
 ** Programming Mode 
 After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
-One thing I find particulaar usefull and necessary is to highliht  characters in comments that has particullar meaning, like TODO, FIXME or other.  which can be particular handy in code reivew, I can navite and jump between the code quickly. 
+One thing I find particular usefull and necessary is to highlight
+characters in comments that has particullar meaning, like TODO, FIXME
+or other.  which can be particular handy in code reivew, I can
+navigate and jump between the code quickly.
     
 #+begin_src emacs-lisp :results silent
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
-;; (add-hook 'prog-mode-hook
-;;           (lambda ()
-;;             (font-lock-add-keywords nil
-;;                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
     #+end_src 
     
@@ -2773,13 +2776,16 @@ hydra
 Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
 Multiple Buffers : helm-multi-_S_woop 
 Project Directory: projectile-_g_rep  helm-projectile-_G_rep
+Python: elpy rgrep _p_ython project
 "
   ("i" isearch-forward)
   ("s" helm-swoop)
   ("a" ace-jump-word-mode)
   ("S" helm-multi-swoop)
   ("g" projectile-grep)
-  ("G" helm-projectile-grep))
+  ("G" helm-projectile-grep)
+  ("p" elpy-rgrep-symbol)
+  )
 (global-set-key [f5] 'hydra-search/body)
 
 #+end_src
@@ -3003,59 +3009,59 @@ insert git sha1 value into current point.
 ** eshell 
 
     #+begin_src emacs-lisp :results silent 
- (defalias 'open 'find-file)
-
-
- ;; from emacs-reddit
- ;; (defun eshell-here ()
- ;;   "Opens up a new shell in the directory associated with the current buffer's file."
- ;;   (interactive)
- ;;   (let* ((parent (file-name-directory (buffer-file-name)))
- ;;          (name   (car
- ;;                   (last
- ;;                    (split-string parent "/" t)))))
- ;;     (split-window-vertically)
- ;;     (other-window 1)
- ;;     (eshell "new")
- ;;     (rename-buffer (concat "*eshell: " name "*"))
-
- ;;     (insert (concat "ls"))
- ;;     (eshell-send-input)))
-
- (defun eshell-here ()
-   "Opens up a new shell in the directory associated with the current buffer's file."
-   (interactive)
-   (let* ((parent (if (buffer-file-name)
-                      (file-name-directory (buffer-file-name))
-                    default-directory))
-          (name (car (last (split-string parent "/" t)))))
-     (split-window-vertically)
-     (other-window 1)
-     (eshell "new")
-     (rename-buffer (concat "*eshell: " name "*"))
-
-     (insert (concat "ls"))
-     (eshell-send-input)))
-
- (global-set-key (kbd "C-!") 'eshell-here)
-
- (defun delete-single-window (&optional window)
-   "Remove WINDOW from the display.  Default is `selected-window'.
- If WINDOW is the only one in its frame, then `delete-frame' too."
-   (interactive)
-   (save-current-buffer
-     (setq window (or window (selected-window)))
-     (select-window window)
-     (kill-buffer)
-     (if (one-window-p t)
-         (delete-frame)
-       (delete-window (selected-window)))))
-
- (defun eshell/x (&rest args)
-   (delete-single-window))
-
-
-
+    (defalias 'open 'find-file)
+    
+    
+    ;; from emacs-reddit
+    ;; (defun eshell-here ()
+    ;;   "Opens up a new shell in the directory associated with the current buffer's file."
+    ;;   (interactive)
+    ;;   (let* ((parent (file-name-directory (buffer-file-name)))
+    ;;          (name   (car
+    ;;                   (last
+    ;;                    (split-string parent "/" t)))))
+    ;;     (split-window-vertically)
+    ;;     (other-window 1)
+    ;;     (eshell "new")
+    ;;     (rename-buffer (concat "*eshell: " name "*"))
+    
+    ;;     (insert (concat "ls"))
+    ;;     (eshell-send-input)))
+    
+    (defun eshell-here ()
+      "Opens up a new shell in the directory associated with the current buffer's file."
+      (interactive)
+      (let* ((parent (if (buffer-file-name)
+			 (file-name-directory (buffer-file-name))
+		       default-directory))
+	     (name (car (last (split-string parent "/" t)))))
+	(split-window-vertically)
+	(other-window 1)
+	(eshell "new")
+	(rename-buffer (concat "*eshell: " name "*"))
+    
+	(insert (concat "ls"))
+	(eshell-send-input)))
+    
+    (global-set-key (kbd "C-!") 'eshell-here)
+    
+    (defun delete-single-window (&optional window)
+      "Remove WINDOW from the display.  Default is `selected-window'.
+    If WINDOW is the only one in its frame, then `delete-frame' too."
+      (interactive)
+      (save-current-buffer
+	(setq window (or window (selected-window)))
+	(select-window window)
+	(kill-buffer)
+	(if (one-window-p t)
+	    (delete-frame)
+	  (delete-window (selected-window)))))
+    
+    (defun eshell/x (&rest args)
+      (delete-single-window))
+    
+    
+    
     #+end_src
 ** Git Sync
 :LOGBOOK:  
