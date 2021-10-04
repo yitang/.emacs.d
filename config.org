@@ -2816,11 +2816,11 @@ Python: elpy rgrep _p_ython project
 ;; https://github.com/abo-abo/hydra/wiki/Org-clock
 (defhydra hydra-org-clock (:color blue :hint nil)
   "
-Clock       In/out^     ^Edit^   ^Summary     (_?_)
+Clock       In/out^     ^Edit^   ^Summary     Doc(_?_)
 ---------------------------------------------------
-            _i_n         _e_dit   _g_oto entry
+            _i_n         _e_dit   
 _h_istory   _c_ontinue   _q_uit   _d_isplay
-_j_ump      _o_ut        ^ ^      _r_eport
+_g_oto      _o_ut        ^ ^      _r_eport
       "
   ("i" org-clock-in)
   ("o" org-clock-out)
@@ -2830,11 +2830,11 @@ _j_ump      _o_ut        ^ ^      _r_eport
   ("g" org-clock-goto)
   ("d" org-clock-display)
   ("r" org-clock-report)
-  ("j" org-clock-jump-to-current-clock)
+  ;; ("j" org-clock-jump-to-current-clock)
   ("h" yt/org-clock-in-select)
   ("?" (org-info "Clocking commands")))
 
-(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
+(global-set-key (kbd "<f11>") 'hydra-org-clock/body)g
 #+end_src
 
 * Emacs Lisp Programming                                         :ExportFile:
