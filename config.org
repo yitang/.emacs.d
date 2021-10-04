@@ -2843,28 +2843,6 @@ _j_ump      _o_ut        ^ ^      _r_eport
   :END:
 [2015-07-05 Sun 19:46]
 
-** Org-Mode API 
-[2015-07-05 Sun 19:47]
-
-Get the link to current headline as an external link. 
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-get-heading-link ()
-  (interactive)
-  (let* ((file-name (file-truename buffer-file-name))
-         (headline (org-heading-components))
-         (level (nth 0 headline))
-         (title (nth 4 headline))
-         (link (concat file-name
-                       "::"
-                       "*" ;; (yt/lisp-rep "*" level)
-                       title)))
-    (kill-new (concat "[["
-                      link
-                      "]["
-                      (concat "headline: " title)
-                      "]]"))))
-#+end_src
-
 * Python 
   :PROPERTIES:
   :header-args: :tangle config/dev-python.el
