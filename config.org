@@ -2011,7 +2011,26 @@ then type *.
 
 (setq org-confirm-babel-evaluate nil)
 #+end_src
+*** Fix org-babel-switch-to-session for bash src block
+    [2021-10-04 Mon 08:03]
 
+#+begin_src emacs-lisp :results silent
+;; copy of org-sh-bash-initiate-session in ob-shell.el but with different name
+;; per https://emacs.stackexchange.com/questions/55957/error-no-org-babel-initiate-session-function-for-bash
+(defun org-babel-bash-initiate-session (&optional session _params)
+  "Initiate a session named SESSION according to PARAMS."
+  (when (and session (not (string= session "none")))
+    (save-window-excursion
+      (or (org-babel-comint-buffer-livep session)
+          (progn
+	    (shell session)
+	    ;; Needed for Emacs 23 since the marker is initially
+	    ;; undefined and the filter functions try to use it without
+	    ;; checking.
+	    (set-marker comint-last-output-start (point))
+	    (get-buffer (current-buffer)))))))
+
+#+end_src    
 ** Export 
 [2015-02-04 Wed 12:23]
 
