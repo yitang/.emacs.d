@@ -1,8 +1,9 @@
 # -*- mode: snippet -*-
-# name: abstractmethod
-# key: am
+# name: abstrac property
+# key: ap
 # group: object oriented
 # --
+@property
 @abc.abstractmethod
-def ${1:meth}(self, $2):
+def ${1:meth}(self):
     raise NotImplementedError(f"abstrct method in {self.__class__.__name__}")
