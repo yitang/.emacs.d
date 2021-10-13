@@ -2164,22 +2164,28 @@ define the markups.
 (setq org-latex-default-class "yt/org-article")
 
 (add-to-list 'org-latex-classes
-             '("beamer"
-               "\\documentclass\[presentation\]\{beamer\}
+             '("yt/beamer"
+               "\\documentclass[aspectratio=169]{beamer}
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
-\\defaultfontfeatures{Mapping=tex-text}
-% \\setromanfont[BoldFont={Gentium Basic Bold},
-%                 ItalicFont={Gentium Basic Italic}]{Gentium Plus}
-\\setsansfont{Charis SIL}
-\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
-\\usepackage{minted}
+\\usetheme[faculty=fi]{fibeamer}
+\\usepackage[utf8]{inputenc}
+
+\\usepackage[
+  main=english, %% By using `czech` or `slovak` as the main locale
+                %% instead of `english`, you can typeset the
+                %% presentation in either Czech or Slovak,
+                %% respectively.
+  czech, slovak %% The additional keys allow foreign texts to be
+]{babel}        %% typeset as follows:
+
+
 [NO-DEFAULT-PACKAGES]
 [NO-PACKAGES]
 "
-               ("\\section\{%s\}" . "\\section*\{%s\}")
-               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
-               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
 (require 'ox-beamer)
 
