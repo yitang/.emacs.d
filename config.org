@@ -2926,6 +2926,14 @@ TODO: replace this by using native elpy function.
      (with-eval-after-load "lsp-mode"
        (add-to-list 'lsp-disabled-clients 'pyls)
        (add-to-list 'lsp-enabled-clients 'jedi)))
+   
+   
+   
+   (use-package lsp-pyright
+		:ensure t
+		:hook (python-mode . (lambda ()
+				       (require 'lsp-pyright)
+				       (lsp))))  ; or lsp-deferred
    #+end_src
 ** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
