@@ -2840,7 +2840,7 @@ _g_oto      _o_ut        ^ ^      _r_eport
   ("h" yt/org-clock-in-select)
   ("?" (org-info "Clocking commands")))
 
-(global-set-key (kbd "<f11>") 'hydra-org-clock/body)g
+(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 #+end_src
 
 * Emacs Lisp Programming                                         :ExportFile:
