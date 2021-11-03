@@ -2872,26 +2872,19 @@ _g_oto      _o_ut        ^ ^      _r_eport
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "--simple-prompt --pprint")
-
-;; (setq python-shell-interpreter "ipython3"
-;;       python-shell-interpreter-args "-i")
-
 ;; for new elpy version
 (setq elpy-shell-starting-directory 'current-directory)
 (setq elpy-rpc-virtualenv-path 'current)
 #+end_src
 
-Elpy suggests to use Jupyter interface, but I don't like it. So I
-commented out and continue as it is.
+Use Jupyter for python interactive shell.
 
 #+begin_src emacs-lisp :results silent
-;; (setq python-shell-interpreter "jupyter"
-;;       python-shell-interpreter-args "console --simple-prompt"
-;;       python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-;;              "jupyter")
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter")
 #+end_src
 
 TODO: replace this by using native elpy function.
