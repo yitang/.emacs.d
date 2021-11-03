@@ -82,6 +82,7 @@ Automatically backup buffers/files into the working directory and the
 #+begin_src emacs-lisp
 ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; save all backup files (foo~) to this directory.
+(setq make-backup-files nil) ; stop creating ~ files
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
@@ -145,7 +146,7 @@ files, which is a lot convenient and faster than actually locate the
 file path.
 
 #+begin_src emacs-lisp :results silent 
-(recentf-mode 1)
+(recentf-mode 0)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 #+end_src
