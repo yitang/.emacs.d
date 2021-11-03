@@ -1760,7 +1760,7 @@ TODO: how to remove clock with less than 5 min?
                             ("\\.svg\\'" . system)
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . system))))
+                            ("\\.pdf\\'" . "evince %s"))))
                                         ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
 
