@@ -1550,16 +1550,17 @@ Add a cross line for the headline with DONE status. Note currently it
 is disabled before of the performance issues in OS X.
 
 #+begin_src emacs-lisp :results silent :eval yes
-  (defun yt/modify-org-done-face ()
-    (setq org-fontify-done-headline t)
-    (set-face-attribute 'org-done nil :strike-through t)
-    (set-face-attribute 'org-headline-done nil
-			:strike-through t
-			:foreground "light gray"))
-  (add-hook 'org-mode-hook 'yt/modify-org-done-face)
+(defun yt/modify-org-done-face ()
   (setq org-fontify-done-headline t)
-  (set-face-attribute 'org-done nil :strike-through t)
-  (set-face-attribute 'org-headline-done nil :strike-through t)
+  (set-face-attribute 'org-done nil :strike-through nil)
+  (set-face-attribute 'org-headline-done nil
+		      :strike-through t
+		      :foreground "light gray"))
+;; turn it off for now.
+;; (add-hook 'org-mode-hook 'yt/modify-org-done-face)
+;; (setq org-fontify-done-headline t)
+;; (set-face-attribute 'org-done nil :strike-through t)
+;; (set-face-attribute 'org-headline-done nil :strike-through t)
 #+end_src
 
 ** org-capture
@@ -1896,7 +1897,7 @@ agenda reminder
 (add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
 
                                         ; This is at the end of my .emacs - so appointments are set up when Emacs starts
-(bh/org-agenda-to-appt)
+;; (bh/org-agenda-to-appt)
 #+end_src
 
 ** customised 
