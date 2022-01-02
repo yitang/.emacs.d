@@ -2940,7 +2940,7 @@ TODO: replace this by using native elpy function.
   fields)                                      ; list of field objects
 
 (add-hook 'python-mode-hook (lambda ()
-                              ;; (require 'sphinx-doc)
+                              (require 'sphinx-doc)
                               (sphinx-doc-mode t)))
 #+end_src
 * Refile                                                         :ExportFile:
