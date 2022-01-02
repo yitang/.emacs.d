@@ -2864,7 +2864,8 @@ _g_oto      _o_ut        ^ ^      _r_eport
 ;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
 (global-set-key (kbd "M-*") 'pop-tag-mark)
-(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+(setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
