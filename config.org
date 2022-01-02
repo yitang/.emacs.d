@@ -1505,8 +1505,8 @@ First, define the TODO keywords.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "SOMEDAY" "|" "DONE(d)")
+              (sequence "WAITING(@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 #+end_src
 
 Then highlight the keywords using different colours. 
@@ -1853,12 +1853,8 @@ Enable display of the time grid so we can see the marker for the
 current time
 #+begin_src emacs-lisp :results silent 
 (setq org-agenda-time-grid (quote ((daily today require-timed)
- (800 1000 1200 1400 1600 1800 2000)
+ (600 630 700 730 800 830 900 930 1000 1030 1200 1400 1600 1800 2000)
  "......" "----------------")))
-
-;; (quote ((daily today remove-match)
-;;                                    #("----------------" 0 16 (org-heading t))
-;;                                    (0700 0800 0900 1000 1100 1200 1200 1300 1400 1500 1600 1700))))
 #+end_src
 
 Start the weekly agenda on Monday.
