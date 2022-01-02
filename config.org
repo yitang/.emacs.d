@@ -749,6 +749,9 @@ Open the file manager at the default directory.
     (let ((process-connection-type nil)) (start-process "" nil "xdg-open" "."))
     ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. ⁖ with nautilus
     )))
+
+;; sort files in dired mode by datetime
+(setq dired-listing-switches "-lhst")
 #+end_src
 ** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
