@@ -3,7 +3,6 @@
 
 (source melpa)
 (source gnu)
-(source org)
 
 
 (depends-on "auto-complete")
