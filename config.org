@@ -749,6 +749,9 @@ Open the file manager at the default directory.
     (let ((process-connection-type nil)) (start-process "" nil "xdg-open" "."))
     ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. ⁖ with nautilus
     )))
+
+;; sort files in dired mode by datetime
+(setq dired-listing-switches "-lhst")
 #+end_src
 ** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
@@ -1483,8 +1486,8 @@ First, define the TODO keywords.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "SOMEDAY" "|" "DONE(d)")
+              (sequence "WAITING(@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 #+end_src
 
 Then highlight the keywords using different colours. 
@@ -1830,12 +1833,8 @@ Enable display of the time grid so we can see the marker for the
 current time
 #+begin_src emacs-lisp :results silent 
 (setq org-agenda-time-grid (quote ((daily today require-timed)
- (800 1000 1200 1400 1600 1800 2000)
+ (600 630 700 730 800 830 900 930 1000 1030 1200 1400 1600 1800 2000)
  "......" "----------------")))
-
-;; (quote ((daily today remove-match)
-;;                                    #("----------------" 0 16 (org-heading t))
-;;                                    (0700 0800 0900 1000 1100 1200 1200 1300 1400 1500 1600 1700))))
 #+end_src
 
 Start the weekly agenda on Monday.
@@ -2840,7 +2839,8 @@ _g_oto      _o_ut        ^ ^      _r_eport
 ;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
 (global-set-key (kbd "M-*") 'pop-tag-mark)
-(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+(setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
@@ -2915,7 +2915,7 @@ TODO: replace this by using native elpy function.
   fields)                                      ; list of field objects
 
 (add-hook 'python-mode-hook (lambda ()
-                              ;; (require 'sphinx-doc)
+                              (require 'sphinx-doc)
                               (sphinx-doc-mode t)))
 #+end_src
 * Refile                                                         :ExportFile:
@@ -2980,6 +2980,10 @@ insert git sha1 value into current point.
 (global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)
 #+end_src
 
+#+begin_src emacs-lisp :results silent
+(require 'which-key)
+(which-key-mode)
+#+end_src
 * Scripting
   :PROPERTIES:
   :header-args: :tangle config/scripting.el
