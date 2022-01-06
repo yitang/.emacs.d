@@ -838,29 +838,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 #+end_src
 
-** Frequently visiting buffers
-    [2016-05-17 Tue 17:14]
 
-#+begin_src emacs-lisp :results silent 
-(defun yt/org-find-file (filepath)
-  (interactive)
-  (find-file (expand-file-name filepath "~/git/org") nil))
-
-(defhydra hydra/open-common-files (:color blue)
-  "Open file:
-      "
-  ("R" (find-file "~/git/career/Profession/R.org") "R.org")
-  ("p" (find-file "~/git/career/Profession/Python.org") "Python.org")
-  ("E" (find-file "~/git/career/Profession/Emacs.org") "Emacs.org") 
-  ("l" (find-file "~/git/org/life/life.org") "life.org")
-  ("i" (find-file "~/git/.emacs.d/config.org" t) "config.org")
-  ("e" (find-file "~/.emacs" t) ".emacs")
-  ("d" (yt/org-find-file "dournal/diary.org") "diary.org")
-  ("r" (yt/org-find-file "life/review.org") "review.org")
-  ("f" (yt/org-find-file "finance/ledger_transaction_2019.org") "ledger.org")
-  )
-(global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
-#+end_src
 * ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
@@ -1819,7 +1797,6 @@ TODO: how to remove clock with less than 5 min?
 (setq org-agenda-skip-timestamp-if-done t)
 
 (setq org-agenda-include-diary nil)
-(setq org-agenda-diary-file "~/git/org/diary.org")
 
 
 (setq org-agenda-insert-diary-extract-time t)
