@@ -3,8 +3,7 @@
 
 (source melpa)
 (source gnu)
-(source org)
-
+(source nongnu)
 
 (depends-on "auto-complete")
 ; (depends-on "ac-R")
@@ -42,9 +41,8 @@
 (depends-on "nyan-mode")
 (depends-on "olivetti")
 (depends-on "org-download")
-(depends-on "org-plus-contrib")
-(depends-on "org")
 (depends-on "org-bullets")
+(depends-on "org-contrib")
 (depends-on "ox-gfm")
 ; (depends-on "paradox")
 (depends-on "powerline")
