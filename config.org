@@ -752,6 +752,8 @@ Open the file manager at the default directory.
 
 ;; sort files in dired mode by datetime
 (setq dired-listing-switches "-lhst")
+(setq dired-recursive-copies 'always)
+(setq dired-dwim-target t)
 #+end_src
 ** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
