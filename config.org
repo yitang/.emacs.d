@@ -1645,13 +1645,7 @@ List recently clocked headline and clock in.
 #+begin_src emacs-lisp :results silent 
 ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
 (setq org-clock-history-length 23)
-;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
-(defun yt/org-clock-in-select ()
-  (interactive)
-  (setq current-prefix-arg '(4)) ;; C-u, 
-  (call-interactively 'org-clock-in))
-(global-set-key (kbd "S-<f11>") 'yt/org-clock-in-select)
-(global-set-key (kbd "<f11>") 'org-clock-goto)
+;; ;; http://stackoverflow.com/questions/6156286/emacs-lisp-call-function-with-prefix-argument-programmatically
 #+end_src
 
 When clock in to a TODO headline, turn the keywords into NEXT. 
