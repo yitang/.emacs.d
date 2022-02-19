@@ -1488,8 +1488,8 @@ First, define the TODO keywords.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(p)" "SOMEDAY" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 #+end_src
 
 Then highlight the keywords using different colours. 
