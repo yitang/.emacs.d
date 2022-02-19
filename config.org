@@ -2070,12 +2070,12 @@ define the markups.
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
 \\usepackage{commath}
-\\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
-\\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
+%% \\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
+%% \\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
 %% \\DeclareMathOperator{\\E}{\\mathbb{E}}
 \\newcommand{\\E}[1]{{\\mathbb E}\\left[ #1 \\right]}
 \\newcommand{\\Var}{\\mathrm{Var}}
-\\DeclareMathOperator{\\P}{\\mathbb{Pr}}
+%% \\DeclareMathOperator{\\P}{\\mathbb{Pr}}
 
 \\usepackage{minted}
 \\defaultfontfeatures{Mapping=tex-text}
