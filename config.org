@@ -1745,16 +1745,13 @@ TODO: how to remove clock with less than 5 min?
 (setq org-time-clocksum-format
       '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
 
-;; (setq org-agenda-span 'day)
-;; (require 'org-habit)
-
 (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 #+end_src
 ** Agenda 
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
-(global-set-key (kbd "<C-f12>") 'org-agenda)
+(global-set-key (kbd "<f12>") 'org-agenda)
 
 ;; Do not dim blocked tasks
 (setq org-agenda-dim-blocked-tasks nil)
@@ -1835,7 +1832,7 @@ current time
 
 Start the weekly agenda on Monday.
 #+begin_src emacs-lisp :results silent 
-(setq org-agenda-span 'day)
+(setq org-agenda-span 'week)
 (setq org-agenda-start-on-weekday 1)
 #+end_src
 
@@ -2176,6 +2173,9 @@ define the markups.
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 #+end_src
+
+#+results:
+| xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f | xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f |
 
 * Blogging with Jekyll
   :PROPERTIES:
