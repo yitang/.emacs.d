@@ -1732,7 +1732,7 @@ TODO: how to remove clock with less than 5 min?
     (org-return)
     (org-cycle)
     (bh/insert-inactive-timestamp)))
-(add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
 (setq org-file-apps (quote ((auto-mode . emacs)
                             ("\\.png\\'" . emacs)
                             ("\\.svg\\'" . system)
