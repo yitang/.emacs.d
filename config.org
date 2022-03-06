@@ -2986,7 +2986,7 @@ copied following configuration from
 https://github.com/Alexander-Miller/treemacs with no additional
 editing.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (use-package treemacs
   :ensure t
   :defer t
@@ -3098,7 +3098,7 @@ editing.
   :config (treemacs-set-scope-type 'Tabs))
 #+end_src
 ** NEXT shelldon
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 ;; (use-package shelldon
 ;;   :straight (shelldon :type git
 ;;                       :host github
