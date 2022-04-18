@@ -1388,7 +1388,7 @@ what I am saying.
 
 add synosaurus
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent :tangle no
 
 ;; [2015-02-12 Thu 21:14]
 ;; https://github.com/rootzlevel/synosaurus
