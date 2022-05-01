@@ -188,10 +188,10 @@ bind it ~F2~.
 
 Instead of equally split the window size, it make a lot sense to have
 the current window, the one I am working one, has bigger size. 
-#+begin_src emacs-lisp :results silent 
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+#+begin_src emacs-lisp :results silent
+;; (require 'golden-ratio)
+;; (golden-ratio-mode 1)
+;; (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 #+end_src
 
 Some actions will add/remove windows, and sometimes I'd like to cycle
