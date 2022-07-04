@@ -1,10 +1,7 @@
-;; (set-frame-font "Source Code Pro-11" nil t)
-;; (set-face-attribute 'default nil :height 140)
-
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-11"))
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
 
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 (scroll-bar-mode -1)
 
 ;; (load-theme 'zenburn t) 
@@ -14,14 +11,14 @@
 (require 'smart-mode-line)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
-(setq sml/theme 'powerline)
+(setq sml/theme 'respectful)
 (sml/setup)
 
 (rich-minority-mode 1)
 (setf rm-blacklist "")
 
-(setq sml/mode-width 0)
-(setq sml/name-width 20)
+(setq sml/mode-width 'full)
+(setq sml/name-width 40)
 
 (display-time-mode)
 

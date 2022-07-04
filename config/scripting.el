@@ -21,9 +21,9 @@
   "Opens up a new shell in the directory associated with the current buffer's file."
   (interactive)
   (let* ((parent (if (buffer-file-name)
-                     (file-name-directory (buffer-file-name))
-                   default-directory))
-         (name (car (last (split-string parent "/" t)))))
+		     (file-name-directory (buffer-file-name))
+		   default-directory))
+	 (name (car (last (split-string parent "/" t)))))
     (split-window-vertically)
     (other-window 1)
     (eshell "new")
@@ -43,7 +43,7 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
     (select-window window)
     (kill-buffer)
     (if (one-window-p t)
-        (delete-frame)
+	(delete-frame)
       (delete-window (selected-window)))))
 
 (defun eshell/x (&rest args)

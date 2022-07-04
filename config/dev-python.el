@@ -6,7 +6,8 @@
 ;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
 (global-set-key (kbd "M-*") 'pop-tag-mark)
-(setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+(setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
 (setq elpy-rpc-backend "jedi")
 
 ;; make elpy more like ESS
@@ -14,21 +15,15 @@
 (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "--simple-prompt --pprint")
-
-;; (setq python-shell-interpreter "ipython3"
-;;       python-shell-interpreter-args "-i")
-
 ;; for new elpy version
 (setq elpy-shell-starting-directory 'current-directory)
 (setq elpy-rpc-virtualenv-path 'current)
 
-;; (setq python-shell-interpreter "jupyter"
-;;       python-shell-interpreter-args "console --simple-prompt"
-;;       python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-;;              "jupyter")
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter")
 
 (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
 
@@ -37,6 +32,29 @@
 
 ;; (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
 
+;; this requires pip install -U jedi-language-server
+(use-package lsp-mode
+  :config
+  (add-hook 'python-mode-hook 'lsp))
+;; (use-package company-lsp)
+(use-package lsp-ui)
+
+
+;; (use-package lsp-jedi
+;;   :ensure t
+;;   :config
+;;   (with-eval-after-load "lsp-mode"
+;;     (add-to-list 'lsp-disabled-clients 'pyls)
+;;     (add-to-list 'lsp-enabled-clients 'jedi)))
+
+
+
+(use-package lsp-pyright
+	     :ensure t
+	     :hook (python-mode . (lambda ()
+				    (require 'lsp-pyright)
+				    (lsp))))  ; or lsp-deferred
+
 (cl-defstruct sphinx-doc-doc
   (summary "FIXME: briefly describe function") ; summary line that fits on the first line
   before-fields                                ; list of comments before fields
@@ -44,5 +62,5 @@
   fields)                                      ; list of field objects
 
 (add-hook 'python-mode-hook (lambda ()
-                              ;; (require 'sphinx-doc)
+                              (require 'sphinx-doc)
                               (sphinx-doc-mode t)))

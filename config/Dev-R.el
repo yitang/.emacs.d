@@ -63,10 +63,10 @@
 ;; (add-hook 'ess-mode-hook 'turn-on-pretty-mode)
 
 ;; highlights FIXME: TODO: and BUG: in prog-mode 
-;; (add-hook 'prog-mode-hook
-;;           (lambda ()
-;;             (font-lock-add-keywords nil
-;;                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;; (add-hook 'prog-mode-hook 'hs-minor-mode)
 ;; (defalias 'fold-toggle 'hs-toggle-hiding)

@@ -49,34 +49,6 @@
       (define-abbrev my-text-abbrev-table name expansion nil :system t))))
 ;;(my-text-abbrev-table-init my-text-abbrevs)  ; BUG: only work in org-mode
 
-(require 'artbollocks-mode)
-(add-hook 'text-mode-hook 'artbollocks-mode)
-(setq artbollocks-weasel-words-regex
-      (concat "\\b" (regexp-opt
-                     '("should"
-                       "just"
-                       "sort of"
-                       "a lot"
-                       "probably"
-                       "maybe"
-                       "perhaps"
-                       "I think"
-                       "really"
-                       "nice") t) "\\b"))
-
-;; [2015-02-12 Thu 21:14]
-;; https://github.com/rootzlevel/synosaurus
-;; synosaurus-lookup
-;; synosaurus-choose-and-replace
-;; brew install wordnet
-(require 'synosaurus)
-(setq synosaurus-choose-method "popup")
-
-;; synosaurus-lookup C-c s l
-;; synosaurus-choose-and-replace C-c s r	
-(setq synosaurus-backend 'synosaurus-backend-wordnet)
-(setq synosaurus-choose-method 'popup)
-
 (defun xah-title-case-region-or-line (φbegin φend)
   "Title case text between nearest brackets, or current line, or text selection.
 Capitalize first letter of each word, except words like {to, of, the, a, in, or, and, …}. If a word already contains cap letters such as HTTP, URL, they are left as is.

@@ -10,13 +10,15 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(global-unset-key (kbd "C-x b"))
-(global-unset-key (kbd "C-x C-b"))
+;; (global-unset-key (kbd "C-x b"))
+;; (global-unset-key (kbd "C-x C-b"))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-unset-key (kbd "C-x C-c"))  ;; save-buffers-kill-terminal
 (global-unset-key (kbd "C-x o"))  ;; other window. replace by f2 - ace-window.
 
 ;; ref: http://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 ;; save all backup files (foo~) to this directory.
+(setq make-backup-files nil) ; stop creating ~ files
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
       backup-by-copying t    ; Don't delink hardlinks
       version-control t      ; Use version numbers on backups
@@ -74,7 +76,7 @@
 (setq company-dabbrev-downcase nil)
 (setq company-show-numbers t)
 
-(recentf-mode 1)
+(recentf-mode 0)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 
@@ -93,9 +95,9 @@
 (global-set-key (kbd "M-o") 'ace-window)
 (setq aw-scope 'frame)
 
-(require 'golden-ratio)
-(golden-ratio-mode 1)
-(add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
+;; (require 'golden-ratio)
+;; (golden-ratio-mode 1)
+;; (add-to-list 'golden-ratio-extra-commands 'ace-window) ;; active golden ratio when using ace-window
 
 (winner-mode 1)
 ;; winner-undo -> C-c <left>

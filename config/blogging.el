@@ -1,4 +1,4 @@
-(defvar jekyll-directory (expand-file-name "~/git/myblog/org/")
+(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -9,10 +9,10 @@
 
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/myblog/org/_posts/")))
+                                  (find-file "~/git/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/myblog/org/_drafts/")))
+                                  (find-file "~/git/mywebsite/org/_drafts/")))
 
 (defvar jekyll-post-template
   " 
@@ -96,9 +96,10 @@ comments: true
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
       '(("myblog"
-         :base-directory "~/git/myblog/org"
+         :base-directory "~/git/mywebsite/org"
          :base-extension "org"
-         :publishing-directory "~/git/myblog"
+         :publishing-directory "~/git/mywebsite/blog"
+         :publishing-directory "~/git/mywebsite/blog"
          :recursive t
          :publishing-function org-html-publish-to-html
          :with-toc nil
@@ -112,7 +113,7 @@ comments: true
          :with-toc nil
          )))
 
-(defvar jekyll-directory (expand-file-name "~/git/myblog/org/")
+(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -208,10 +209,10 @@ comments: true
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/myblog/org/_posts/")))
+                                  (find-file "~/git/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/myblog/org/_drafts/")))
+                                  (find-file "~/git/mywebsite/org/_drafts/")))
 
 (defvar jekyll-highlight-template-open
   "#+begin_export html
@@ -225,11 +226,13 @@ comments: true
 (defun yt/org-to-jekyll-highlight ()
   "wrap babel src block with jekyll syntax highlight block"
   (interactive)
+  ;; (setq case-fold-search t)
   (save-excursion
     (goto-char (point-min))
-(org-show-block-all)
+    (org-show-block-all)
     (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
+      (message "DEBUGGG")
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
       (replace-match jekyll-highlight-template-close t))))
 
@@ -239,11 +242,6 @@ comments: true
 ;;;; TODO: 
 ;; it won't be good to add a hook yt/org-jekyl-highlight
 ;; so that it won't effect my other exporting
-
-;; (defun yt/test (html)
-;;   (message (concat "I am here: " default-directory)))
-;; for /home/itang/git/org/tmp.org, get 
-;; I am here: /home/yitang/git/org/
 
 (defun yt/my-blog-pre-process-hook (html) ;; only for html back-end
   (when (equal default-directory

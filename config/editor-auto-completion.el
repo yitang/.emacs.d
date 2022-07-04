@@ -31,18 +31,19 @@
 (defun pl/helm-alive-p ()
   (if (boundp 'helm-alive-p)
       (symbol-value 'helm-alive-p)))
-(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+;; (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
 (helm-mode 1)
 
-(defun yt/helm-copy-unmarked-to-buffer ()
-  (interactive)
-  (with-helm-buffer
-    (helm-mark-all)
-    (cl-loop for cand in (helm-marked-candidates)
-             do (with-helm-current-buffer
-                  (insert cand "\n")))))
-;; by default, Cc Ci copy marked to buffer.
-(define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
+;; TODO: remove this. use C-c i from Helm isntead.
+;; (defun yt/helm-copy-unmarked-to-buffer ()
+;;   (interactive)
+;;   (with-helm-buffer
+;;     (helm-mark-all)
+;;     (cl-loop for cand in (helm-marked-candidates)
+;;              do (with-helm-current-buffer
+;;                   (insert cand "\n")))))
+;; ;; by default, Cc Ci copy marked to buffer.
+;; (define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
 
 (setq helm-ff-guess-ffap-urls nil)
 

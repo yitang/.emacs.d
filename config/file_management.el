@@ -86,6 +86,11 @@ _g_it sync"
     ;; (shell-command "xdg-open .") ;; 2013-02-10 this sometimes froze emacs till the folder is closed. ⁖ with nautilus
     )))
 
+;; sort files in dired mode by datetime
+(setq dired-listing-switches "-lhst")
+(setq dired-recursive-copies 'always)
+(setq dired-dwim-target t)
+
 (require 'projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -97,7 +102,8 @@ _g_it sync"
 (setq projectile-remember-window-configs t )
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
-(setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
+;; below seems wrong. it ignores .projectile file
+;; (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
 
 (require 'tramp)
 (require 'ssh)
@@ -130,22 +136,3 @@ _g_it sync"
 (global-set-key (kbd "<f9> f r") 'yt/open-tmp-R)
 (global-set-key (kbd "<f9> f e") 'yt/open-tmp-el)
 (global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
-
-(defun yt/org-find-file (filepath)
-  (interactive)
-  (find-file (expand-file-name filepath "~/git/org") nil))
-
-(defhydra hydra/open-common-files (:color blue)
-  "Open file:
-      "
-  ("R" (find-file "~/git/career/Profession/R.org") "R.org")
-  ("p" (find-file "~/git/career/Profession/Python.org") "Python.org")
-  ("E" (find-file "~/git/career/Profession/Emacs.org") "Emacs.org") 
-  ("l" (find-file "~/git/org/life/life.org") "life.org")
-  ("i" (find-file "~/git/.emacs.d/init.org" t) "init.org")
-  ("e" (find-file "~/.emacs" t) ".emacs")
-  ("d" (yt/org-find-file "dournal/diary.org") "diary.org")
-  ("r" (yt/org-find-file "life/review.org") "review.org")
-  ("f" (yt/org-find-file "finance/ledger_transaction_2019.org") "ledger.org")
-  )
-(global-set-key (kbd "<f6>") 'hydra/open-common-files/body)
