@@ -68,8 +68,9 @@ Life is too short to type "yes" or "no". 'y' or 'n' is enough.
 
 ** Remove Keybind 
 #+begin_src emacs-lisp :results silent 
-(global-unset-key (kbd "C-x b"))
-(global-unset-key (kbd "C-x C-b"))
+;; (global-unset-key (kbd "C-x b"))
+;; (global-unset-key (kbd "C-x C-b"))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-unset-key (kbd "C-x C-c"))  ;; save-buffers-kill-terminal
 (global-unset-key (kbd "C-x o"))  ;; other window. replace by f2 - ace-window.
 #+end_src
@@ -412,8 +413,6 @@ when my eyes are tired of the /zenburn/ theme.
 ;; (load-theme 'leuven t)
 #+end_src
 ** Mode Line
-:LOGBOOK:
-:END:
 [2015-07-20 Mon 11:46]
 
 The mode line is at the bottom of every Emacs Window aside from
@@ -763,18 +762,19 @@ to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp :results silent
-  (require 'projectile)
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (helm-projectile-on)
-  (require 'helm-projectile)
-  (projectile-global-mode)
-  (setq projectile-enable-caching t)
-  (setq projectile-switch-project-action 'projectile-dired)
-  (setq projectile-remember-window-configs t )
-  (setq projectile-completion-system 'helm)
-  (setq projectile-switch-project-action 'helm-projectile)
-  (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
+(require 'projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(helm-projectile-on)
+(require 'helm-projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-remember-window-configs t )
+(setq projectile-completion-system 'helm)
+(setq projectile-switch-project-action 'helm-projectile)
+;; below seems wrong. it ignores .projectile file
+;; (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
@@ -842,7 +842,6 @@ following settings, I can use =F9-f= to select temporal buffers.
 (global-set-key (kbd "<f9> f o") 'yt/open-tmp-org)
 
 #+end_src
-
 
 * ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
@@ -1748,6 +1747,9 @@ TODO: how to remove clock with less than 5 min?
 (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 #+end_src
 ** Agenda 
+:PROPERTIES:
+:ID:       E7C78764-3A93-4ACC-89AD-939F6A229FDB
+:END:
 [2015-01-23 Fri 16:54]
 
 #+begin_src emacs-lisp :results silent
@@ -2894,6 +2896,11 @@ _g_oto      _o_ut        ^ ^      _r_eport
   ("?" (org-info "Clocking commands")))
 
 (global-set-key (kbd "<f11>") 'hydra-org-clock/body)
+
+(defun yt/org-clock-in-select ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ;; C-u, 
+  (call-interactively 'org-clock-in))
 #+end_src
 
 * Emacs Lisp Programming                                         :ExportFile:
@@ -2963,19 +2970,19 @@ TODO: replace this by using native elpy function.
    (use-package lsp-mode
      :config
      (add-hook 'python-mode-hook 'lsp))
-   (use-package company-lsp)
+   ;; (use-package company-lsp)
    (use-package lsp-ui)
-   
-   
-   (use-package lsp-jedi
-     :ensure t
-     :config
-     (with-eval-after-load "lsp-mode"
-       (add-to-list 'lsp-disabled-clients 'pyls)
-       (add-to-list 'lsp-enabled-clients 'jedi)))
-   
-   
-   
+
+
+   ;; (use-package lsp-jedi
+   ;;   :ensure t
+   ;;   :config
+   ;;   (with-eval-after-load "lsp-mode"
+   ;;     (add-to-list 'lsp-disabled-clients 'pyls)
+   ;;     (add-to-list 'lsp-enabled-clients 'jedi)))
+
+
+
    (use-package lsp-pyright
 		:ensure t
 		:hook (python-mode . (lambda ()
@@ -3186,6 +3193,27 @@ editing.
 ;;                       :repo "Overdr0ne/shelldon"
 ;;                       :branch "master"
 ;;                       :files ("shelldon.el")))
+#+end_src
+** NEXT nov-mode for reading epub in Emacs
+:PROPERTIES:
+:CREATED:  [2022-05-04 Wed 11:07]
+:END:
+
+https://depp.brause.cc/nov.el/
+
+#+begin_src emacs-lisp :results silent
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
+(defun my-nov-font-setup ()
+  (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
+                           :height 1.0))
+(add-hook 'nov-mode-hook 'my-nov-font-setup)
+;; (setq nov-text-width 80)  ;; or used the following for auto text filling
+(setq nov-text-width t)
+(setq visual-fill-column-center-text t)
+(add-hook 'nov-mode-hook 'visual-line-mode)
+(add-hook 'nov-mode-hook 'visual-fill-column-mode)
+(add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
 #+end_src
 * Scripting
   :PROPERTIES:

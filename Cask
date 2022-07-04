@@ -82,3 +82,4 @@
 (depends-on "lsp-ui")
 (depends-on "lsp-jedi")
 (depends-on "ob-ipython")
+(depends-on "visual-fill-column")
