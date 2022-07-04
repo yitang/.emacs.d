@@ -177,7 +177,7 @@ start-up.
 ** Window Layout/Navigation 
 [2015-01-19 Mon 12:13]
     
-I switched from using =ace-dinwo= to using the build-in package
+I switched from using =ace-window= to using the build-in package
 =movewind=. It uses S+arrow keys to switch to the window adjacent to
 the current window.
 
