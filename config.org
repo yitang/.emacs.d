@@ -2346,7 +2346,7 @@ only, and without TOC, which are again, required by JEKLLY.
          :publishing-directory "~/git/mywebsite/blog"
          :publishing-directory "~/git/mywebsite/blog"
          :recursive t
-         :publishing-function org-html-publish-to-html
+         :publishing-function org-md-publish-to-md
          :with-toc nil
          :headline-levels 4
          :section-numbers nil
