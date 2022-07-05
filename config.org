@@ -2238,6 +2238,7 @@ characters that jeklly don;t like.
 ---
 layout: post
 title: %s
+# date: add publish date when ready
 excerpt: 
 categories:
   -  
