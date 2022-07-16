@@ -90,10 +90,11 @@
 (add-to-list 'yas/snippet-dirs "~/git/.emacs.d/snippets" t)
 (yas/reload-all)
 
-(require 'ace-window)
-(global-set-key (kbd "<f2>") 'ace-window)
-(global-set-key (kbd "M-o") 'ace-window)
-(setq aw-scope 'frame)
+(windmove-default-keybindings)
+(define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
+(define-key org-read-date-minibuffer-local-map (kbd "<right>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
+(define-key org-read-date-minibuffer-local-map (kbd "<up>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1))))
+(define-key org-read-date-minibuffer-local-map (kbd "<down>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1))))
 
 ;; (require 'golden-ratio)
 ;; (golden-ratio-mode 1)
