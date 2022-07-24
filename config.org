@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       52DBC67F-BC0C-46D9-BF29-640A9AACBB91
+:END:
 #+TITLE: Yet Another Emacs Configuration
 #+AUTHOR:  Yi Tang 
 #+EMAIL:   yi.tang.uk@me.com
@@ -1990,6 +1993,9 @@ then type *.
 (setq org-confirm-babel-evaluate nil)
 #+end_src
 *** Fix org-babel-switch-to-session for bash src block
+:PROPERTIES:
+:ID:       1FCAD3D8-987A-47AC-AC03-A7AB48F54388
+:END:
     [2021-10-04 Mon 08:03]
 
 #+begin_src emacs-lisp :results silent
@@ -2522,9 +2528,16 @@ emacs-lisp %} block.
 #+results:
 ** Path Issues 
 
-When publishing, the org-file is firstly exported to html file, and when Jekyll build the website, the html file will be saved in to some folder that depends on the YMAL. Then the relative path to image files are broken. To solve that, according to the Jeklyy web site, is to save all the image or downloade files in assets/ folder.  Then those image files are referende by org-mode. 
+When publishing, the org-file is firstly exported to html file, and
+when Jekyll build the website, the html file will be saved in to some
+folder that depends on the YMAL. Then the relative path to image files
+are broken. To solve that, according to the Jeklyy web site, is to
+save all the image or downloade files in assets/ folder.  Then those
+image files are referende by org-mode.
 
-First, define a img link, that when exporting, the image a_img.png will be set to linked to /assets/a_img.png. when I click, it wil open the img file in Emacs.
+First, define a img link, that when exporting, the image a_img.png
+will be set to linked to /assets/a_img.png. when I click, it wil open
+the img file in Emacs.
 
 #+begin_src emacs-lisp :results silent 
 (defun org-custom-link-img-follow (path)
