@@ -20,12 +20,14 @@
 ---
 layout: post
 title: %s
+# date: add publish date when ready
+published: false
 excerpt: 
 categories:
   -  
 tags:
   -
-comments: true 
+comments: true
 ---
 #+END_export
 
@@ -101,7 +103,7 @@ comments: true
          :publishing-directory "~/git/mywebsite/blog"
          :publishing-directory "~/git/mywebsite/blog"
          :recursive t
-         :publishing-function org-html-publish-to-html
+         :publishing-function org-md-publish-to-md
          :with-toc nil
          :headline-levels 4
          :section-numbers nil
@@ -224,13 +226,17 @@ comments: true
 #+end_export")
 
 (defun yt/org-to-jekyll-highlight ()
-  "wrap babel src block with jekyll syntax highlight block"
+  "wrap babel src block with jekyll syntax highlight block.
+
+so emacs-lisp babel block would be translated to {% highlight
+emacs-lisp %} block.
+"
   (interactive)
   ;; (setq case-fold-search t)
   (save-excursion
     (goto-char (point-min))
     (org-show-block-all)
-    (while (search-forward-regexp "#\\+begin_src \\([a-z]+\\).*$" nil t)
+    (while (search-forward-regexp "#\\+begin_src \\([a-z_-]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (message "DEBUGGG")
       (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 

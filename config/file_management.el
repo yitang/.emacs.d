@@ -87,7 +87,7 @@ _g_it sync"
     )))
 
 ;; sort files in dired mode by datetime
-(setq dired-listing-switches "-lhst")
+(setq dired-listing-switches "-lsh")
 (setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
 
