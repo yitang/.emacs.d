@@ -2081,8 +2081,9 @@ define the markups.
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
 \\usepackage{commath}
-%% \\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
-%% \\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
+\\usepackage{physics}   %% \\pdv for derivative operators https://tex.stackexchange.com/questions/225523/how-to-write-partial-differential-equation-ex-dq-dt-ds-dt-with-real-partial-d
+\\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\\argmin_{b}$
+\\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
 %% \\DeclareMathOperator{\\E}{\\mathbb{E}}
 \\newcommand{\\E}[1]{{\\mathbb E}\\left[ #1 \\right]}
 \\newcommand{\\Var}{\\mathrm{Var}}
