@@ -2971,6 +2971,11 @@ Use Jupyter for python interactive shell.
              "jupyter")
 #+end_src
 
+#+begin_src emacs-lisp :results silent :tangle no
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+#+end_src
+
 TODO: replace this by using native elpy function.
 
     this allows me to run multiple python process and switch between them.
