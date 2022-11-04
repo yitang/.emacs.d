@@ -3235,7 +3235,7 @@ https://depp.brause.cc/nov.el/
 
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
-                           :height 1.0))
+                           :height 2.0))
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
 ;; (setq nov-text-width 80)  ;; or used the following for auto text filling
 (setq nov-text-width t)

@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: latex equation align
+# key: <lea
+# binding: direct-keybinding
+# --
+#+BEGIN_EXPORT latex
+\begin{align}
+$0
+\end{align}
+#+END_EXPORT
