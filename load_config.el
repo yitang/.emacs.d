@@ -1,5 +1,5 @@
 (require 'cask "~/.cask/cask.el")
-(cask-initialize "~/git/.emacs.d")
+(cask--initialize "~/git/.emacs.d")
 
 (require 'org)
 (require 'golden-ratio)
