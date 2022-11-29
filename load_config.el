@@ -1,8 +1,4 @@
-(require 'cask "~/.cask/cask.el")
-(cask--initialize "~/git/.emacs.d")
-
-(require 'org)
-(require 'golden-ratio)
+(setq use-package-always-ensure t)  ;; to ensure also install package
 
 (defun yt/load-direcotry (dir)
   "load .el files in a direcotry dir"

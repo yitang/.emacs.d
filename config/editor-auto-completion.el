@@ -1,5 +1,4 @@
-(require 'helm)
-(require 'helm-config)
+(use-package helm)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -47,7 +46,7 @@
 
 (setq helm-ff-guess-ffap-urls nil)
 
-(require 'multiple-cursors)
+(use-package multiple-cursors)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
@@ -59,7 +58,7 @@
 ;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 ;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-(require 'helm-swoop)
+(use-package helm-swoop)
 ;; Change the keybinds to whatever you like :)
 ;; (global-set-key (kbd "M-i") 'helm-swoop)
 ;; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
@@ -84,5 +83,5 @@
 
 (global-set-key (kbd "C-c w") 'ace-jump-word-mode)
 
-(require 'expand-region)
+(use-package expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)

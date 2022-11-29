@@ -125,7 +125,7 @@ Skips capture tasks"
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 ;; global Effort estimate values
 ;; global STYLE property values for completion
-(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+(setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
                                     ("STYLE_ALL" . "habit"))))
 (setq org-agenda-log-mode-items (quote (closed clock)))
 
@@ -264,7 +264,6 @@ Skips capture tasks"
 
 (setq org-archive-location "::* Archived Tasks") ;;in-file archive 
 
-(require 'org-habit)
 (setq org-habit-show-all-today t)
 (setq org-habit-show-habits nil)
 (setq org-habit-graph-column 80)
@@ -322,17 +321,16 @@ Skips capture tasks"
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
 	 (R . t)
 	 (shell . t)
-	 (ledger . t)
 	 (org . t)
 	 (dot . t)
 	 (python .t)
-	 (ipython .t)
+	 ;; (ipython .t)
 	 ;; (bibtex .t)
 	 (octave . t)
 	 (latex . t)
-	 ;; (jupyter . t)
-	 (shell . t)
-	 (ledger . t)
+	 (jupyter . t)
+	 ;; (shell . t)
+	 ;; (ledger . t)
 	 (sql . t))))
 
 (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
@@ -358,11 +356,11 @@ Skips capture tasks"
 	    (set-marker comint-last-output-start (point))
 	    (get-buffer (current-buffer)))))))
 
-(require 'ox-html)
-(require 'ox-latex)
-(require 'ox-ascii)
-(require 'ox-md)
-(require 'htmlize)
+;; (use-package ox-html)
+;; (use-package ox-latex)
+;; (use-package ox-ascii)
+;; (use-package ox-md)
+(use-package htmlize)
 
 (setq org-export-with-toc nil
       org-export-with-todo-keywords t
@@ -386,6 +384,7 @@ Skips capture tasks"
 ;; http://emacs-fu.blogspot.co.uk/2011/04/nice-looking-pdfs-with-org-mode-and.html
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
 ;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
+(require 'ox-latex)
 (add-to-list 'org-latex-classes
              '("yt/org-article"
                "
@@ -402,8 +401,9 @@ Skips capture tasks"
 \\usepackage{amstext}
 \\usepackage{amssymb} %% checkbox
 \\usepackage{commath}
-%% \\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\argmin_{b}$
-%% \\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
+\\usepackage{physics}   %% \\pdv for derivative operators https://tex.stackexchange.com/questions/225523/how-to-write-partial-differential-equation-ex-dq-dt-ds-dt-with-real-partial-d
+\\DeclareMathOperator*{\\argmin}{\\arg\\!\\min} %% use $\\argmin_{b}$
+\\DeclareMathOperator*{\\argmax}{\\arg\\!\\max} 
 %% \\DeclareMathOperator{\\E}{\\mathbb{E}}
 \\newcommand{\\E}[1]{{\\mathbb E}\\left[ #1 \\right]}
 \\newcommand{\\Var}{\\mathrm{Var}}
@@ -492,7 +492,7 @@ Skips capture tasks"
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
-(require 'ox-beamer)
+;; (use-package ox-beamer)
 
 ;; code highlights using minted package 
 (add-to-list 'org-latex-packages-alist '("" "minted"))

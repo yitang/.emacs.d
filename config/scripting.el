@@ -49,7 +49,8 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
 (defun eshell/x (&rest args)
   (delete-single-window))
 
-(require 'magit)
+(use-package magit
+  :ensure t)
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-auto-revert-mode nil)
 (global-set-key (kbd "<f9> g") 'magit-status)
