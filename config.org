@@ -389,7 +389,7 @@ claimed to be suitable for coding environments but I use it for all
 modes.
 
 #+begin_src emacs-lisp :results silent
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
 #+end_src
 ** Minimalists GUI 
 [2015-07-20 Mon 11:46]
