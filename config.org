@@ -3250,6 +3250,13 @@ https://depp.brause.cc/nov.el/
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
 #+end_src
+** NEXT org-download
+
+#+begin_src emacs-lisp :results silent :tangle no
+(require 'org-download)
+(setq-default org-download-image-dir "~/Downloads/org-download")
+(setq-default org-download-heading-lvl nil)
+#+end_src
 * Scripting
   :PROPERTIES:
   :header-args: :tangle config/scripting.el
