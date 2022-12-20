@@ -1264,7 +1264,7 @@ and use British dictionary.
 
 #+begin_src emacs-lisp :results silent 
 (if (eq system-type 'darwin)
-    (setq ispell-program-name "/usr/local/bin/aspell")
+    (setq ispell-program-name "/opt/homebrew/bin/aspell")   ;; this semes not necessary
   (setq ispell-program-name "/usr/bin/aspell"))
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
