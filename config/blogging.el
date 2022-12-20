@@ -101,7 +101,6 @@ comments: true
          :base-directory "~/git/mywebsite/org"
          :base-extension "org"
          :publishing-directory "~/git/mywebsite/blog"
-         :publishing-directory "~/git/mywebsite/blog"
          :recursive t
          :publishing-function org-md-publish-to-md
          :with-toc nil
@@ -112,7 +111,6 @@ comments: true
          :html-extension "html"
          :htmlized-source t
          :body-only t
-         :with-toc nil
          )))
 
 (defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
@@ -130,6 +128,7 @@ comments: true
 ---
 layout: post
 title: %s
+published: false
 excerpt: 
 categories:
   -  
@@ -282,7 +281,6 @@ emacs-lisp %} block.
       link)))
 (defun org-magit-open (dir)
   "Follow a magit link to DIR."
-  (require 'magit)
   (magit-status dir))
 (org-add-link-type "magit" 'org-magit-open nil)
 (add-hook 'org-store-link-functions 'org-magit-store-link)

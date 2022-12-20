@@ -1,7 +1,10 @@
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
 (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
-(require 'elpy)
+(use-package elpy
+  :ensure t
+  :init)
+
 (elpy-enable)
 ;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
@@ -61,6 +64,8 @@
   after-fields                                 ; list of comments after fields
   fields)                                      ; list of field objects
 
-(add-hook 'python-mode-hook (lambda ()
-                              (require 'sphinx-doc)
-                              (sphinx-doc-mode t)))
+(use-package sphinx-doc
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'sphinx-doc)
+                         (sphinx-doc-mode t))))

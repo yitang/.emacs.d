@@ -28,7 +28,7 @@
   (insert (shell-command-to-string (concat "git rev-parse HEAD"))))
 (global-set-key (kbd "<f9> s") 'yt/insert-git-hash-value)
 
-(require 'which-key)
+(use-package which-key)
 (which-key-mode)
 
 (use-package treemacs
@@ -152,7 +152,7 @@
 
 (defun my-nov-font-setup ()
   (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
-                           :height 1.0))
+                           :height 2.0))
 (add-hook 'nov-mode-hook 'my-nov-font-setup)
 ;; (setq nov-text-width 80)  ;; or used the following for auto text filling
 (setq nov-text-width t)

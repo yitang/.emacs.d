@@ -103,7 +103,8 @@ Automatically backup buffers/files into the working directory and the
 ;; (guide-key-mode 1) 
 
 ;; use company for all except few modes
-(require 'company)
+(use-package company
+  :ensure t)
 (add-hook 'after-init-hook 'global-company-mode)
 ;; Don't enable company-mode in below major modes, OPTIONAL
 (setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
@@ -137,6 +138,7 @@ Automatically backup buffers/files into the working directory and the
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
+(use-package company-quickhelp)
 (company-quickhelp-mode 1)
 (define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)
 (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
@@ -171,7 +173,8 @@ future, and this stage, I turned if off since it will slow down the
 start-up.
 
 #+begin_src emacs-lisp :results silent
-(require 'yasnippet)
+(use-package yasnippet
+  :ensure t)
 (yas/global-mode 1)
 (add-to-list 'yas/snippet-dirs "~/git/.emacs.d/snippets" t)
 (yas/reload-all)
@@ -278,7 +281,8 @@ functionality. This block is no longer needed.
 There are a set of characters that are more likely to occur as a pair,
 for example, quote and brackets. /smartparens mode/ allows me to
 define such set of pairing characters. 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent
+(use-package smartparens)
 (smartparens-global-mode 1)
 (sp-pair "(" ")" :wrap "C-(")
 ;; |foobar
@@ -432,7 +436,8 @@ There are many options to tweak.
 
 #+begin_src emacs-lisp :results silent
 (setq sml/no-confirm-load-theme t)
-(require 'smart-mode-line)
+(use-package smart-mode-line
+  :ensure t)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
 (setq sml/theme 'respectful)
@@ -488,8 +493,7 @@ Finally, show the current time in the mode-line.
 
 Helm and fuzzy match makes selection a lot easier.  in 
 #+begin_src emacs-lisp :results silent
-(require 'helm)
-(require 'helm-config)
+(use-package helm)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -548,7 +552,7 @@ that is highlighted and then modify all of them at the same time.
 
 
 #+begin_src emacs-lisp
-(require 'multiple-cursors)
+(use-package multiple-cursors)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
@@ -565,7 +569,7 @@ I usually use =multi-cursor= with =helm-swoop=, which allows me to search, and t
 the occurrences in a temporary buffer, and then start to edit. 
 
 #+begin_src emacs-lisp :results silent 
-(require 'helm-swoop)
+(use-package helm-swoop)
 ;; Change the keybinds to whatever you like :)
 ;; (global-set-key (kbd "M-i") 'helm-swoop)
 ;; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
@@ -620,7 +624,7 @@ forward slash, the whole word will be warped inside of quote or
 forward flash. 
 
 #+begin_src emacs-lisp
-(require 'expand-region)
+(use-package expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 * File Management                                                :ExportFile:
@@ -770,11 +774,11 @@ to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp :results silent
-(require 'projectile)
+(use-package projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(use-package helm-projectile)
 (helm-projectile-on)
-(require 'helm-projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (setq projectile-switch-project-action 'projectile-dired)
@@ -796,8 +800,8 @@ I can work on the remote files in Emacs via ssh or tramp, both are
 build-in packages.
 
 #+begin_src emacs-lisp :results silent 
-(require 'tramp)
-(require 'ssh)
+(use-package tramp)
+(use-package ssh)
 #+end_src
 
 I'd like catch the password so that I don't need to type it every time
@@ -851,7 +855,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 #+end_src
 
-* ESS - Emacs Speaks Statistics                                  :ExportFile:
+* COMMENT ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
   :header-args: :tangle config/Dev-R.el
@@ -923,7 +927,7 @@ There three features that have me made the decision:
 #+begin_src emacs-lisp :results silent
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-(require 'ess-site)
+(use-package ess)
 (setq ess-ask-for-ess-directory nil) ;; start R on default folder
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter) ;;
@@ -1057,7 +1061,7 @@ use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remo
 highlights the text that are longer than 80 columns rule. 
 
 #+begin_src emacs-lisp :results silent 
-(require 'whitespace)
+(use-package whitespace)
 (setq whitespace-line-column 120) ;; limit line length
 (setq whitespace-style '(face lines-tail))
 (add-hook 'prog-mode-hook 'whitespace-mode)
@@ -1067,7 +1071,7 @@ highlights the text that are longer than 80 columns rule.
 Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
 #+begin_src emacs-lisp :results silent
-(require 'rainbow-delimiters)
+(use-package rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (show-paren-mode t) ;for Emacs
 #+end_src
@@ -1115,7 +1119,7 @@ use f8 to remove the R process buffer.
 https://github.com/jimhester/lintr
 the default R-style is not meet my with current R project style, has to turn it off.     
 #+begin_src emacs-lisp
-(require 'flycheck)
+(use-package flycheck)
 ;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
 ;; (add-hook 'ess-mode-hook
 ;;           (lambda () (flycheck-mode t)))
@@ -1249,7 +1253,7 @@ ggplot(obs.gc.table, aes(rp, duration)) +
   :END:
 [2015-01-19 Mon 12:11]
 
-** Spell and Grammar
+** COMMENT Spell and Grammar
 [2015-01-23 Fri 17:43]
 
 Spell checking and correcting are essential in writing. Emacs need
@@ -1290,7 +1294,7 @@ auto-correlection. I press =C-.= select the first one, and press it
 again to select the next one.
 
 #+begin_src emacs-lisp :results silent
-(require 'flyspell)
+(use-package flyspell)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
 (define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
@@ -1308,7 +1312,7 @@ get it works, so I am not using it anymore.
 
 #+begin_src emacs-lisp :eval no
 ;; check grammar 
-(require 'langtool)
+(use-package langtool)
 (setq langtool-language-tool-jar "~/java/LanguageTool-2.8/languagetool-commandline.jar")
 (setq langtool-mother-tongue "en")
 #+end_src 
@@ -1377,7 +1381,7 @@ confirm with what I am not sure about, and have more confidence in
 what I am saying.
 
 #+begin_src emacs-lisp :results silent :eval yes :tangle no
-(require 'artbollocks-mode)
+(use-package artbollocks-mode)
 (add-hook 'text-mode-hook 'artbollocks-mode)
 (setq artbollocks-weasel-words-regex
       (concat "\\b" (regexp-opt
@@ -1887,7 +1891,6 @@ agenda reminder
 
 (setq org-archive-location "::* Archived Tasks") ;;in-file archive 
 
-(require 'org-habit)
 (setq org-habit-show-all-today t)
 (setq org-habit-show-habits nil)
 (setq org-habit-graph-column 80)
@@ -1971,7 +1974,6 @@ then type *.
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
 	 (R . t)
 	 (shell . t)
-	 (ledger . t)
 	 (org . t)
 	 (dot . t)
 	 (python .t)
@@ -1980,8 +1982,6 @@ then type *.
 	 (octave . t)
 	 (latex . t)
 	 (jupyter . t)
-	 (shell . t)
-	 (ledger . t)
 	 (sql . t))))
 
 (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
@@ -2021,11 +2021,11 @@ then type *.
 Add export back-end, I need HTML, PDF, MarkDown, and Ascii. 
 
 #+begin_src emacs-lisp :results silent 
-(require 'ox-html)
-(require 'ox-latex)
-(require 'ox-ascii)
-(require 'ox-md)
-(require 'htmlize)
+;; (use-package ox-html)
+;; (use-package ox-latex)
+;; (use-package ox-ascii)
+;; (use-package ox-md)
+(use-package htmlize)
 #+end_src
 
 General export options, it applys to all the export-backend. 
@@ -2065,6 +2065,7 @@ define the markups.
 ;; http://emacs-fu.blogspot.co.uk/2011/04/nice-looking-pdfs-with-org-mode-and.html
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
 ;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
+(require 'ox-latex)
 (add-to-list 'org-latex-classes
              '("yt/org-article"
                "
@@ -2172,7 +2173,7 @@ define the markups.
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
-(require 'ox-beamer)
+;; (use-package ox-beamer)
 
 ;; code highlights using minted package 
 (add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -2576,7 +2577,6 @@ the img file in Emacs.
       link)))
 (defun org-magit-open (dir)
   "Follow a magit link to DIR."
-  (require 'magit)
   (magit-status dir))
 (org-add-link-type "magit" 'org-magit-open nil)
 (add-hook 'org-store-link-functions 'org-magit-store-link)
@@ -2634,7 +2634,7 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
                                        (output-html "open"))))
 
 (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
-(require 'company-auctex)
+(use-package company-auctex)
 (company-auctex-init)
 
 #+end_src
@@ -2878,7 +2878,7 @@ _d_ictionary: search meaning of a word"
 #+end_src
 hydra 
 #+begin_src emacs-lisp :results silent 
-(require 'hydra)
+(use-package hydra)
 
 (defhydra hydra-search (:color blue
                                :hint nil)
@@ -2939,7 +2939,7 @@ _g_oto      _o_ut        ^ ^      _r_eport
   :END:
 [2015-07-05 Sun 19:46]
 
-* Python 
+* COMMENT Python 
   :PROPERTIES:
   :header-args: :tangle config/dev-python.el
   :END:
@@ -2949,7 +2949,10 @@ _g_oto      _o_ut        ^ ^      _r_eport
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
 (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
-(require 'elpy)
+(use-package elpy
+  :ensure t
+  :init)
+
 (elpy-enable)
 ;; (elpy-use-ipython "ipython3")
 (setq elpy-rpc-python-command "python3")
@@ -3028,15 +3031,21 @@ TODO: replace this by using native elpy function.
    [2016-06-03 Fri 15:33]
 
 #+begin_src emacs-lisp :results silent
+(use-package sphinx-doc
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'sphinx-doc)
+                         (sphinx-doc-mode t))))
+
 (cl-defstruct sphinx-doc-doc
   (summary "FIXME: briefly describe function") ; summary line that fits on the first line
   before-fields                                ; list of comments before fields
   after-fields                                 ; list of comments after fields
   fields)                                      ; list of field objects
-
-(add-hook 'python-mode-hook (lambda ()
-                              (require 'sphinx-doc)
-                              (sphinx-doc-mode t)))
+#+end_src
+** jupyter 
+#+begin_src emacs-lisp :results silent
+(use-package jupyter)
 #+end_src
 * Refile                                                         :ExportFile:
   :PROPERTIES:
@@ -3073,6 +3082,7 @@ open this gnome-terminal here
 use swiper to replace default =isearch=
 
 #+begin_src emacs-lisp :results silent 
+(use-package swiper)
 (global-set-key "\C-s" 'swiper)
 #+end_src
 
@@ -3101,7 +3111,7 @@ insert git sha1 value into current point.
 #+end_src
 
 #+begin_src emacs-lisp :results silent
-(require 'which-key)
+(use-package which-key)
 (which-key-mode)
 #+end_src
 ** NEXT Treemacs
@@ -3324,7 +3334,8 @@ Magit provides an interface to Git, and it is really pleasant to use.
 The [[https://magit.vc/manual/magit-refcard.pdf][reference card]] lists useful key-bindings and commands.
 
 #+begin_src emacs-lisp
-(require 'magit)
+(use-package magit
+  :ensure t)
 (setq magit-last-seen-setup-instructions "1.4.0")
 (setq magit-auto-revert-mode nil)
 (global-set-key (kbd "<f9> g") 'magit-status)

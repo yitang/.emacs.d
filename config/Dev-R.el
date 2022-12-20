@@ -1,5 +1,9 @@
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
+(use-package ess
+  :ensure t
+  :init)
+	     
 (require 'ess-site)
 (setq ess-ask-for-ess-directory nil) ;; start R on default folder
 (setq ess-local-process-name "R")

@@ -22,7 +22,7 @@
                                        (output-html "open"))))
 
 (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
-(require 'company-auctex)
+(use-package company-auctex)
 (company-auctex-init)
 
 ;;; Brent.Longborough's .emacs

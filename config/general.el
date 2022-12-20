@@ -35,7 +35,8 @@
 ;; (guide-key-mode 1) 
 
 ;; use company for all except few modes
-(require 'company)
+(use-package company
+  :ensure t)
 (add-hook 'after-init-hook 'global-company-mode)
 ;; Don't enable company-mode in below major modes, OPTIONAL
 (setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
@@ -69,6 +70,7 @@
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
+(use-package company-quickhelp)
 (company-quickhelp-mode 1)
 (define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)
 (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
@@ -85,7 +87,8 @@
 
 (setq inhibit-startup-message t)
 
-(require 'yasnippet)
+(use-package yasnippet
+  :ensure t)
 (yas/global-mode 1)
 (add-to-list 'yas/snippet-dirs "~/git/.emacs.d/snippets" t)
 (yas/reload-all)
@@ -142,6 +145,7 @@
 ;;     (setq openwith-associations '(("\\.pdf\\'" "Skim" (file))))
 ;;   (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
 
+(use-package smartparens)
 (smartparens-global-mode 1)
 (sp-pair "(" ")" :wrap "C-(")
 ;; |foobar
