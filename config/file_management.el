@@ -91,11 +91,11 @@ _g_it sync"
 (setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
 
-(require 'projectile)
+(use-package projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(use-package helm-projectile)
 (helm-projectile-on)
-(require 'helm-projectile)
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 (setq projectile-switch-project-action 'projectile-dired)
@@ -105,8 +105,8 @@ _g_it sync"
 ;; below seems wrong. it ignores .projectile file
 ;; (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
 
-(require 'tramp)
-(require 'ssh)
+(use-package tramp)
+(use-package ssh)
 
 (setq password-cache-expiry nil)
 

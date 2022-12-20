@@ -16,7 +16,7 @@ _d_ictionary: search meaning of a word"
   )
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
 
-(require 'hydra)
+(use-package hydra)
 
 (defhydra hydra-search (:color blue
                                :hint nil)
