@@ -3260,6 +3260,55 @@ https://depp.brause.cc/nov.el/
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
 #+end_src
+** org-roam
+:PROPERTIES:
+:CREATED:  [2022-12-20 Tue 21:43]
+:END:
+
+#+begin_src emacs-lisp :results silent
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/git/org/diary")
+  (org-roam-completion-everywhere t)
+  (org-roam-dailies-capture-templates
+    '(("d" "default" entry "* %<%H:%M>: %?"
+       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+  (org-roam-dailies-directory "daily")
+
+  ;; ; change the timestmap aslightly..
+  ;; (org-roam-capture-templates
+  ;;  '(("d" "default" plain "%?"
+  ;;    :target (file+head "%<%Y%m%d_%H%M%S>-${slug}.org"
+  ;;                       "#+title: ${title}\n")
+  ;;    :unnarrowed t)))
+
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+	 ("C-c n D" . yt/dailies)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point)
+         :map org-roam-dailies-map
+         ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  :config
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+  (org-roam-db-autosync-mode))
+
+(defun yt/dailies ()
+  "global function for creating daries"
+  (interactive)
+  (let ((org-roam-directory "~/git/org/diary"))
+    (org-roam-dailies-capture-today)
+    )
+  )
+
+#+end_src
 * Scripting
   :PROPERTIES:
   :header-args: :tangle config/scripting.el
