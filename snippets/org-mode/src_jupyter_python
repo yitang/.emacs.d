@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: jupyter python
+# key: <jp
+# group: YT
+# binding: direct-keybinding
+# --
+#+begin_src jupyter-python :exports both :results raw drawer
+$0
+#+end_src
