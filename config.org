@@ -1251,7 +1251,7 @@ ggplot(obs.gc.table, aes(rp, duration)) +
   :END:
 [2015-01-19 Mon 12:11]
 
-** COMMENT Spell and Grammar
+** Spell and Grammar
 [2015-01-23 Fri 17:43]
 
 Spell checking and correcting are essential in writing. Emacs need
@@ -2937,7 +2937,7 @@ _g_oto      _o_ut        ^ ^      _r_eport
   :END:
 [2015-07-05 Sun 19:46]
 
-* COMMENT Python 
+* Python 
   :PROPERTIES:
   :header-args: :tangle config/dev-python.el
   :END:
