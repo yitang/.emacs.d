@@ -3260,12 +3260,13 @@ https://depp.brause.cc/nov.el/
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
 #+end_src
-** NEXT org-download
+** org-download
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (require 'org-download)
 (setq-default org-download-image-dir "~/Downloads/org-download")
 (setq-default org-download-heading-lvl nil)
+#+end_src
 ** org-roam
 :PROPERTIES:
 :CREATED:  [2022-12-20 Tue 21:43]
