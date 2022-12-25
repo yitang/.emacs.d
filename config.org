@@ -38,9 +38,7 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
   :END:    
 
 ** Utilities
-   :PROPERTIES:
-   
-   :END:
+
 [2015-01-19 Mon 12:14]
 
 Firstly, define a function for reloading Emacs configuration, need
