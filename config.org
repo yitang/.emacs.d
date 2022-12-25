@@ -3228,16 +3228,7 @@ editing.
   :ensure t
   :config (treemacs-set-scope-type 'Tabs))
 #+end_src
-** NEXT shelldon
-#+begin_src emacs-lisp :results silent
-;; (use-package shelldon
-;;   :straight (shelldon :type git
-;;                       :host github
-;;                       :repo "Overdr0ne/shelldon"
-;;                       :branch "master"
-;;                       :files ("shelldon.el")))
-#+end_src
-** NEXT nov-mode for reading epub in Emacs
+** nov-mode for reading epub in Emacs
 :PROPERTIES:
 :CREATED:  [2022-05-04 Wed 11:07]
 :END:
