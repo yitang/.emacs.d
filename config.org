@@ -34,7 +34,7 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 * General                                                        :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
-  :header-args: :tangle config/general.el
+  :header-args: :tangle lisp/general.el
   :END:    
 
 ** Utilities
@@ -380,7 +380,7 @@ the whole thing. Most of the time, I could just select using =helm=.
 * GUI - Emacs Looks Cool                                         :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
-  :header-args: :tangle config/editor_GUI.el
+  :header-args: :tangle lisp/editor_GUI.el
   :END:
 [2015-01-19 Mon 12:16]
 ** Fonts 
@@ -483,7 +483,7 @@ Finally, show the current time in the mode-line.
 * Completion and Selection                                       :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/completion_and_selection
-  :header-args: :tangle config/editor-auto-completion.el
+  :header-args: :tangle lisp/editor-auto-completion.el
   :END:
 [2015-01-23 Fri 18:44]
 ** Helm - Fuzzy Match  
@@ -628,7 +628,7 @@ forward flash.
 * File Management                                                :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
-  :header-args: :tangle config/file_management.el
+  :header-args: :tangle lisp/file_management.el
   :END:
 [2015-01-23 Fri 18:52]
 
@@ -856,7 +856,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 * COMMENT ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
-  :header-args: :tangle config/Dev-R.el
+  :header-args: :tangle lisp/Dev-R.el
   :END:
 :LOGBOOK:  
 CLOCK: [2015-06-03 Wed 21:21]--[2015-06-03 Wed 21:27] =>  0:06
@@ -1247,7 +1247,7 @@ ggplot(obs.gc.table, aes(rp, duration)) +
 * Writing in Emacs                                               :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
-  :header-args: :tangle config/editor-writing.el
+  :header-args: :tangle lisp/editor-writing.el
   :END:
 [2015-01-19 Mon 12:11]
 
@@ -1478,7 +1478,7 @@ Version 2015-05-07"
 * Org mode                                                       :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/org_mode
-  :header-args: :tangle config/org-mode.el
+  :header-args: :tangle lisp/org-mode.el
   :END:
 
 I started to learn Emacs by reading Bernt Hansen's [[http://doc.norang.ca/org-mode.html][Org Mode - Organize
@@ -2193,7 +2193,7 @@ define the markups.
 
 * Blogging with Jekyll
   :PROPERTIES:
-  :header-args: :tangle config/blogging.el
+  :header-args: :tangle lisp/blogging.el
   :END:
 
 Jeklly have few conventins, like the new, YAML etc, it is better to
@@ -2597,7 +2597,7 @@ the img file in Emacs.
 #+end_src
 * auctex
   :PROPERTIES:
-  :header-args: :tangle config/latex.el
+  :header-args: :tangle lisp/latex.el
   :END:
    [2015-10-03 Sat 13:48]
 
@@ -2774,7 +2774,7 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 * Hydra                                                          :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
-  :header-args: :tangle config/hydra.el
+  :header-args: :tangle lisp/hydra.el
   :END:
 [2015-06-22 Mon 14:11]
 
@@ -2939,34 +2939,35 @@ _g_oto      _o_ut        ^ ^      _r_eport
 
 * Python 
   :PROPERTIES:
-  :header-args: :tangle config/dev-python.el
+  :header-args: :tangle lisp/dev-python.el
   :END:
 [2015-07-05 Sun 19:49]
 
 #+begin_src emacs-lisp :results silent 
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
-(add-hook 'python-mode-hook 'elpy-mode)
+;; (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
-(use-package elpy
-  :ensure t
-  :init)
 
-(elpy-enable)
-;; (elpy-use-ipython "ipython3")
-(setq elpy-rpc-python-command "python3")
-(global-set-key (kbd "M-*") 'pop-tag-mark)
-;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
-(setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
-(setq elpy-rpc-backend "jedi")
+;; (use-package elpy
+;;   :ensure t
+;;   :init)
 
-;; make elpy more like ESS
-(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
-(define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
-(define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+;; (elpy-enable)
+;; ;; (elpy-use-ipython "ipython3")
+;; (setq elpy-rpc-python-command "python3")
+;; (global-set-key (kbd "M-*") 'pop-tag-mark)
+;; ;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+;; (setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
+;; (setq elpy-rpc-backend "jedi")
 
-;; for new elpy version
-(setq elpy-shell-starting-directory 'current-directory)
-(setq elpy-rpc-virtualenv-path 'current)
+;; ;; make elpy more like ESS
+;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
+;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+
+;; ;; for new elpy version
+;; (setq elpy-shell-starting-directory 'current-directory)
+;; (setq elpy-rpc-virtualenv-path 'current)
 #+end_src
 
 Use Jupyter for python interactive shell.
@@ -2975,6 +2976,7 @@ Use Jupyter for python interactive shell.
 (setq python-shell-interpreter "jupyter"
       python-shell-interpreter-args "console --simple-prompt"
       python-shell-prompt-detect-failure-warning nil)
+(require 'python)
 (add-to-list 'python-shell-completion-native-disabled-interpreters
              "jupyter")
 #+end_src
@@ -3048,7 +3050,7 @@ TODO: replace this by using native elpy function.
 * Refile                                                         :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
-  :header-args: :tangle config/refile.el
+  :header-args: :tangle lisp/refile.el
   :END:
 
 
@@ -3307,7 +3309,7 @@ https://depp.brause.cc/nov.el/
 #+end_src
 * Scripting
   :PROPERTIES:
-  :header-args: :tangle config/scripting.el
+  :header-args: :tangle lisp/scripting.el
   :END:
   [2021-06-05 Sat 12:00]
 
