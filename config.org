@@ -3307,6 +3307,19 @@ https://depp.brause.cc/nov.el/
   )
 
 #+end_src
+** gpg encryption
+:PROPERTIES:
+:CREATED:  [2022-12-29 Thu 23:58]
+:END:
+#+begin_src emacs-lisp :results silent :tangle no
+(use-package epa-file
+    :ensure nil 
+    :config
+    (setq epa-file-encrypt-to '("yi.tang.uni@gmail.com"))
+    :custom
+    (epa-file-select-keys 1)   ;; seems there's a bug in gpg. it always asks for which key.
+    )
+#+end_src
 * Scripting
   :PROPERTIES:
   :header-args: :tangle lisp/scripting.el
