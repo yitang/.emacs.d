@@ -174,7 +174,7 @@ start-up.
 (use-package yasnippet
   :ensure t)
 (yas/global-mode 1)
-(add-to-list 'yas/snippet-dirs "~/git/.emacs.d/snippets" t)
+(add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t)
 (yas/reload-all)
 #+end_src
 
