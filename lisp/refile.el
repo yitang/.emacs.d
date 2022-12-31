@@ -14,6 +14,7 @@
                          )))
 ;; (global-set-key (kbd "<f5>") 'yt/open-terminal)
 
+(use-package swiper)
 (global-set-key "\C-s" 'swiper)
 
 (add-to-list 'auto-mode-alist '("sfile" . snakemake-mode))
@@ -141,13 +142,6 @@
   :ensure t
   :config (treemacs-set-scope-type 'Tabs))
 
-;; (use-package shelldon
-;;   :straight (shelldon :type git
-;;                       :host github
-;;                       :repo "Overdr0ne/shelldon"
-;;                       :branch "master"
-;;                       :files ("shelldon.el")))
-
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (defun my-nov-font-setup ()
@@ -160,3 +154,49 @@
 (add-hook 'nov-mode-hook 'visual-line-mode)
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
+
+(require 'org-download)
+(setq-default org-download-image-dir "~/Downloads/org-download")
+(setq-default org-download-heading-lvl nil)
+
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/git/org/diary")
+  (org-roam-completion-everywhere t)
+  (org-roam-dailies-capture-templates
+    '(("d" "default" entry "* %<%H:%M>: %?"
+       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+  (org-roam-dailies-directory "daily")
+
+  ;; ; change the timestmap aslightly..
+  ;; (org-roam-capture-templates
+  ;;  '(("d" "default" plain "%?"
+  ;;    :target (file+head "%<%Y%m%d_%H%M%S>-${slug}.org"
+  ;;                       "#+title: ${title}\n")
+  ;;    :unnarrowed t)))
+
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+	 ("C-c n D" . yt/dailies)
+         :map org-mode-map
+         ("C-M-i" . completion-at-point)
+         :map org-roam-dailies-map
+         ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  :config
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+  (org-roam-db-autosync-mode))
+
+(defun yt/dailies ()
+  "global function for creating daries"
+  (interactive)
+  (let ((org-roam-directory "~/git/org/diary"))
+    (org-roam-dailies-capture-today)
+    )
+  )

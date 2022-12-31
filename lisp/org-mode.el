@@ -329,8 +329,6 @@ Skips capture tasks"
 	 (octave . t)
 	 (latex . t)
 	 (jupyter . t)
-	 ;; (shell . t)
-	 ;; (ledger . t)
 	 (sql . t))))
 
 (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))

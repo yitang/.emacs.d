@@ -7,4 +7,4 @@
     (mapcar #'load config-files))
   (message "Doen loading %s" dir)
   )
-(yt/load-direcotry "~/matrix/tools/.emacs.d/config")
+(yt/load-direcotry "~/matrix/tools/.emacs.d/lisp")

@@ -1,4 +1,4 @@
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
 
 (tool-bar-mode -1)
 (menu-bar-mode 1)

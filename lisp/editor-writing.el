@@ -1,3 +1,25 @@
+(if (eq system-type 'darwin)
+    (setq ispell-program-name "/opt/homebrew/bin/aspell")   ;; this semes not necessary
+  (setq ispell-program-name "/usr/bin/aspell"))
+(setq ispell-dictionary "british"
+      ispell-extra-args '() ;; TeX mode "-t"
+      ispell-silently-savep t)
+
+(setq ispell-personal-dictionary "~/git/.emacs.d/local/ispell-dict") ;; add personal dictionary
+
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+
+(use-package flyspell)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode)
+(define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
+
+;; check grammar 
+(use-package langtool)
+(setq langtool-language-tool-jar "~/java/LanguageTool-2.8/languagetool-commandline.jar")
+(setq langtool-mother-tongue "en")
+
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
    comments and strings only when in a prog-mode derived-mode or

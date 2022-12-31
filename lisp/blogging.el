@@ -216,13 +216,11 @@ comments: true
                                   (find-file "~/git/mywebsite/org/_drafts/")))
 
 (defvar jekyll-highlight-template-open
-  "#+begin_export html
-{%% highlight %s %%}"
+  "{%% highlight %s %%}"
   "%s will be replaced by the language identifier")
 
 (defvar jekyll-highlight-template-close
-  "{% endhighlight %}
-#+end_export")
+  "{% endhighlight %}")
 
 (defun yt/org-to-jekyll-highlight ()
   "wrap babel src block with jekyll syntax highlight block.
@@ -235,10 +233,10 @@ emacs-lisp %} block.
   (save-excursion
     (goto-char (point-min))
     (org-show-block-all)
-    (while (search-forward-regexp "#\\+begin_src \\([a-z_-]+\\).*$" nil t)
+    (while (search-forward-regexp "^\s*#\\+begin_src \\([a-z_-]+\\).*$" nil t)
       (replace-match (format jekyll-highlight-template-open (match-string 1)))
       (message "DEBUGGG")
-      (search-forward-regexp "#\\+end_src") ;; will throew error if src block is not closed. 
+      (search-forward-regexp "^\s*#\\+end_src") ;; will throew error if src block is not closed. 
       (replace-match jekyll-highlight-template-close t))))
 
 ;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
@@ -248,12 +246,13 @@ emacs-lisp %} block.
 ;; it won't be good to add a hook yt/org-jekyl-highlight
 ;; so that it won't effect my other exporting
 
-(defun yt/my-blog-pre-process-hook (html) ;; only for html back-end
+(defun yt/my-blog-pre-process-hook (backend) ;; only for html back-end
   (when (equal default-directory
                (concat jekyll-directory jekyll-posts-dir))
-    (message "PROCESS SRC BLOCK")
-    (goto-char (point-min))
-    (yt/org-to-jekyll-highlight)))
+    ;; (when (equal backend 'html)
+      (message "PROCESS SRC BLOCK")
+      (goto-char (point-min))
+      (yt/org-to-jekyll-highlight)))
 
 ;; (setq org-export-before-parsing-hook nil)
 (add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
