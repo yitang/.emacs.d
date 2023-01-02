@@ -10,14 +10,14 @@
 #+OPTIONS: skip:nil d:(HIDE) tags:not-in-toc
 #+STARTUP: align fold nodlcheck lognotestate content showeverything
 
-[[magit:~/git/.emacs.d]]
+[[magit:~/matrix/tools/.emacs.d]]
 
 [[https://github.com/yitang/.emacs.d]]
 
 #+name: Update_Documentaiton
 #+begin_src emacs-lisp :results silent :tangle no
-(setq yt-sphinx/proj-dir "~/git/.emacs.d")
-(setq yt-sphinx/docs-dir "~/git/.emacs.d/docs")
+(setq yt-sphinx/proj-dir "~/matrix/tools/.emacs.d")
+(setq yt-sphinx/docs-dir "~/matrix/tools/.emacs.d/docs")
 (setq yt-sphinx/proj-badge-md (list "[![Documentation Status](https://readthedocs.org/projects/emacs/badge/?version=latest)](https://readthedocs.org/projects/emacs/?badge=latest)"))
 (yt-sphinx/update-documentation)
 #+end_src
@@ -33,7 +33,7 @@ CLOCK: [2015-01-22 Thu 20:26]--[2015-01-23 Fri 01:46] =>  5:20
 
 * General                                                        :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/general
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/general
   :header-args: :tangle lisp/general.el
   :END:    
 
@@ -132,7 +132,7 @@ Automatically backup buffers/files into the working directory and the
 (defun text-mode-hook-setup ()
   (make-local-variable 'company-backends)
   (add-to-list 'company-backends 'company-ispell)
-  ;; (setq company-ispell-dictionary (file-truename "~/git/.emacs.d/english_words.txt"))
+  ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
@@ -321,7 +321,7 @@ Let Emacs remember what I've typed, so I don't need to tediously type
 the whole thing. Most of the time, I could just select using =helm=.
 
 #+begin_src emacs-lisp :results silent 
-(setq savehist-file "~/git/.emacs.d/local/emacs-history")
+(setq savehist-file "~/matrix/tools/.emacs.d/local/emacs-history")
 (savehist-mode 1)
 #+end_src
 ** highlight TODO, IMP in text mode
@@ -379,7 +379,7 @@ the whole thing. Most of the time, I could just select using =helm=.
 
 * GUI - Emacs Looks Cool                                         :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ui__emacs_looks_cool
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/ui__emacs_looks_cool
   :header-args: :tangle lisp/editor_GUI.el
   :END:
 [2015-01-19 Mon 12:16]
@@ -482,7 +482,7 @@ Finally, show the current time in the mode-line.
 
 * Completion and Selection                                       :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/completion_and_selection
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/completion_and_selection
   :header-args: :tangle lisp/editor-auto-completion.el
   :END:
 [2015-01-23 Fri 18:44]
@@ -627,7 +627,7 @@ forward flash.
 #+end_src
 * File Management                                                :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/file_management
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/file_management
   :header-args: :tangle lisp/file_management.el
   :END:
 [2015-01-23 Fri 18:52]
@@ -855,7 +855,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 * COMMENT ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/ess__emacs_speaks_statistics
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/ess__emacs_speaks_statistics
   :header-args: :tangle lisp/Dev-R.el
   :END:
 :LOGBOOK:  
@@ -1246,7 +1246,7 @@ ggplot(obs.gc.table, aes(rp, duration)) +
    #+end_src
 * Writing in Emacs                                               :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/writing_in_emacs
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/writing_in_emacs
   :header-args: :tangle lisp/editor-writing.el
   :END:
 [2015-01-19 Mon 12:11]
@@ -1273,7 +1273,7 @@ I have a personal spelling dictionary, most are abbreviations and
 jargon. I can tell aspell that they are not misspellings. 
 
 #+begin_src emacs-lisp :results silent 
-(setq ispell-personal-dictionary "~/git/.emacs.d/local/ispell-dict") ;; add personal dictionary 
+(setq ispell-personal-dictionary "~/matrix/tools/.emacs.d/local/ispell-dict") ;; add personal dictionary 
 #+end_src
 
 
@@ -1477,7 +1477,7 @@ Version 2015-05-07"
 
 * Org mode                                                       :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/org_mode
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/org_mode
   :header-args: :tangle lisp/org-mode.el
   :END:
 
@@ -2212,7 +2212,7 @@ Program. In this case, I have two folders under Jeklly project
 direcotyr, org/_drafts and org/_posts. 
 
 #+begin_src emacs-lisp :results silent 
-(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
+(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -2230,10 +2230,10 @@ which posts is published in in cease I need to edit it. I bind it to
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_posts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_drafts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
 #+end_src
 
 Jeklyl has a spacial template that requires to add YAML in the front,
@@ -2354,9 +2354,9 @@ only, and without TOC, which are again, required by JEKLLY.
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
       '(("myblog"
-         :base-directory "~/git/mywebsite/org"
+         :base-directory "~/matrix/learning/mywebsite/org"
          :base-extension "org"
-         :publishing-directory "~/git/mywebsite/blog"
+         :publishing-directory "~/matrix/learning/mywebsite/blog"
          :recursive t
          :publishing-function org-md-publish-to-md
          :with-toc nil
@@ -2372,7 +2372,7 @@ only, and without TOC, which are again, required by JEKLLY.
 
 #+name: Jeklly-config-backup
 #+begin_src emacs-lisp :results silent :exports none
-(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
+(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -2469,10 +2469,10 @@ comments: true
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_posts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_drafts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
 
 #+end_src
 
@@ -2773,7 +2773,7 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 #+end_src
 * Hydra                                                          :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/hydra
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/hydra
   :header-args: :tangle lisp/hydra.el
   :END:
 [2015-06-22 Mon 14:11]
@@ -2933,7 +2933,7 @@ _g_oto      _o_ut        ^ ^      _r_eport
 
 * Emacs Lisp Programming                                         :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/emacs_lisp_programming
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/emacs_lisp_programming
   :END:
 [2015-07-05 Sun 19:46]
 
@@ -3049,7 +3049,7 @@ TODO: replace this by using native elpy function.
 #+end_src
 * Refile                                                         :ExportFile:
   :PROPERTIES:
-  :EXPORT_FILE_NAME: ~/git/.emacs.d/docs/refile
+  :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/refile
   :header-args: :tangle lisp/refile.el
   :END:
 
@@ -3220,10 +3220,10 @@ editing.
   :after (treemacs magit)
   :ensure t)
 
-(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
+;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Perspectives))
 
 (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
   :after (treemacs)
@@ -3273,7 +3273,7 @@ https://depp.brause.cc/nov.el/
   (org-roam-completion-everywhere t)
   (org-roam-dailies-capture-templates
     '(("d" "default" entry "* %<%H:%M>: %?"
-       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+       :if-new (file+head "%<%Y-%m-%d>.org.gpg" "#+title: %<%Y-%m-%d>\n"))))
   (org-roam-dailies-directory "daily")
 
   ;; ; change the timestmap aslightly..
