@@ -1,4 +1,4 @@
-(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
+(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -9,10 +9,10 @@
 
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_posts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_drafts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
 
 (defvar jekyll-post-template
   " 
@@ -98,9 +98,9 @@ comments: true
 ;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
 (setq org-publish-project-alist
       '(("myblog"
-         :base-directory "~/git/mywebsite/org"
+         :base-directory "~/matrix/learning/mywebsite/org"
          :base-extension "org"
-         :publishing-directory "~/git/mywebsite/blog"
+         :publishing-directory "~/matrix/learning/mywebsite/blog"
          :recursive t
          :publishing-function org-md-publish-to-md
          :with-toc nil
@@ -113,7 +113,7 @@ comments: true
          :body-only t
          )))
 
-(defvar jekyll-directory (expand-file-name "~/git/mywebsite/org/")
+(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
@@ -210,10 +210,10 @@ comments: true
 (global-set-key (kbd "C-c j P") 'blog-publish-post)
 (global-set-key (kbd "C-c j p") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_posts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
 (global-set-key (kbd "C-c j d") (lambda ()
                                   (interactive)
-                                  (find-file "~/git/mywebsite/org/_drafts/")))
+                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
 
 (defvar jekyll-highlight-template-open
   "{%% highlight %s %%}"

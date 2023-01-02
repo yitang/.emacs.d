@@ -132,10 +132,10 @@
   :after (treemacs magit)
   :ensure t)
 
-(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
+;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Perspectives))
 
 (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
   :after (treemacs)
@@ -156,8 +156,9 @@
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))
 
 (require 'org-download)
-(setq-default org-download-image-dir "~/Downloads/org-download")
-(setq-default org-download-heading-lvl nil)
+(add-hook 'dired-mode-hook 'org-download-enable)
+(setq-default org-download-image-dir "~/Pictures/org-download")
+(setq-default org-download-heading-lvl nil)   ;; flat file systme, otherwise, would be confusing.
 
 (use-package org-roam
   :ensure t
@@ -168,7 +169,7 @@
   (org-roam-completion-everywhere t)
   (org-roam-dailies-capture-templates
     '(("d" "default" entry "* %<%H:%M>: %?"
-       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
+       :if-new (file+head "%<%Y-%m-%d>.org.gpg" "#+title: %<%Y-%m-%d>\n"))))
   (org-roam-dailies-directory "daily")
 
   ;; ; change the timestmap aslightly..
@@ -200,3 +201,93 @@
     (org-roam-dailies-capture-today)
     )
   )
+
+(setq enable-local-variables t)
+
+(use-package dired-rsync
+  :demand t
+  :after dired
+  :bind (:map dired-mode-map ("r" . dired-rsync))
+  :config (add-to-list 'mode-line-misc-info '(:eval dired-rsync-modeline-status 'append)))
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+
+(add-hook 'yaml-mode-hook
+	  '(lambda ()
+             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+(defun yt/bind-to-compliation ()
+  "docstring"
+  (interactive)
+  (let* ((filename (buffer-file-name (current-buffer)))
+	 (default-directory (file-name-directory filename))
+	 (output-buffer-name (concat "*Compilation:" filename "*")))
+    (compile "ls")
+    (with-current-buffer "*compilation*"
+      (rename-buffer output-buffer-name)))
+  )
+(setq compilation-scroll-output 'first-error)
+
+(setq bookmark-save-flag 1)  ; save bookmark file everytime.
+
+;; highlights FIXME: TODO: and BUG: in prog-mode 
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+;; (add-hook 'prog-mode-hook 'hs-minor-mode)
+;; (defalias 'fold-toggle 'hs-toggle-hiding)
+;; (global-set-key (kbd "<f4>") 'hs-toggle-hiding)
+;; (global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
+;; (global-set-key (kbd "C-<f4>") 'hs-hide-all) 
+;; ;;   hs-hide-block                      C-c @ C-h
+;; ;;   hs-show-block                      C-c @ C-s
+;; ;;   hs-hide-all                        C-c @ C-M-h
+;; ;;   hs-show-all                        C-c @ C-M-s
+;; ;;   hs-hide-level                      C-c @ C-l
+;; ;;   hs-toggle-hiding 
+;; ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
+;; ;;   hs-hide-initial-comment-block
+(global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
+(global-set-key (kbd "C-S-d") 'uncomment-region)
+
+(defhydra hydra-fold (:pre (hs-minor-mode 1))
+  "fold"
+  ("t" hs-toggle-hiding "toggle")
+  ("s" hs-show-all "hide-all")
+  ("h" hs-hide-all "show-all")
+  ("q" nil "quit"))
+(global-set-key (kbd "<f4>") 'hydra-fold/body)
+
+(subword-mode 1)
+
+(use-package whitespace)
+(setq whitespace-line-column 120) ;; limit line length
+(setq whitespace-style '(face lines-tail))
+(add-hook 'prog-mode-hook 'whitespace-mode)
+
+(use-package rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode t) ;for Emacs
+
+(defun yt/prog-previous-output-region ()
+  "return start/end points of previous output region"
+  (save-excursion
+    (beginning-of-line)
+    (setq sp (point))
+    (comint-previous-prompt 1)
+    (next-line)
+    (beginning-of-line)
+    (setq ep (point))
+    (cons sp ep)))
+(defun yt/prog-kill-output-backwards ()
+  (interactive)
+  (save-excursion
+    (let ((reg (yt/prog-previous-output-region)))
+      (delete-region (car reg) (cdr reg))
+      (goto-char (cdr reg))
+      (insert "*** output flushed ***\n"))))
+;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)

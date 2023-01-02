@@ -5,7 +5,7 @@
       ispell-extra-args '() ;; TeX mode "-t"
       ispell-silently-savep t)
 
-(setq ispell-personal-dictionary "~/git/.emacs.d/local/ispell-dict") ;; add personal dictionary
+(setq ispell-personal-dictionary "~/matrix/tools/.emacs.d/local/ispell-dict") ;; add personal dictionary
 
 (add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
 (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))

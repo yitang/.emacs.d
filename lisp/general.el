@@ -66,7 +66,7 @@
 (defun text-mode-hook-setup ()
   (make-local-variable 'company-backends)
   (add-to-list 'company-backends 'company-ispell)
-  ;; (setq company-ispell-dictionary (file-truename "~/git/.emacs.d/english_words.txt"))
+  ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
@@ -90,7 +90,7 @@
 (use-package yasnippet
   :ensure t)
 (yas/global-mode 1)
-(add-to-list 'yas/snippet-dirs "~/git/.emacs.d/snippets" t)
+(add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t)
 (yas/reload-all)
 
 (windmove-default-keybindings)
@@ -164,7 +164,7 @@
   (let ((fill-column (point-max)))
     (fill-region (region-beginning) (region-end) nil)))
 
-(setq savehist-file "~/git/.emacs.d/local/emacs-history")
+(setq savehist-file "~/matrix/tools/.emacs.d/local/emacs-history")
 (savehist-mode 1)
 
 (defun move-text-internal (arg)

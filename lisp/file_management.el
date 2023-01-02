@@ -102,8 +102,9 @@ _g_it sync"
 (setq projectile-remember-window-configs t )
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
-;; below seems wrong. it ignores .projectile file
-;; (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
+
+;; when swtich to project, default to open project directory in dired.
+(setq projectile-switch-project-action 'projectile-dired)
 
 (use-package tramp)
 (use-package ssh)
