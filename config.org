@@ -783,8 +783,9 @@ configuration except using =helm= for selection.
 (setq projectile-remember-window-configs t )
 (setq projectile-completion-system 'helm)
 (setq projectile-switch-project-action 'helm-projectile)
-;; below seems wrong. it ignores .projectile file
-;; (setq projectile-project-root-files-bottom-up '(".git" ".projectile")) ;; .projectile comes first
+
+;; when swtich to project, default to open project directory in dired.
+(setq projectile-switch-project-action 'projectile-dired)
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
@@ -995,106 +996,6 @@ use pretty mode
 
 #+begin_src emacs-lisp :results silent 
 ;; (add-hook 'ess-mode-hook 'turn-on-pretty-mode)
-#+end_src
-** Programming Mode 
-After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
-    
-One thing I find particular usefull and necessary is to highlight
-characters in comments that has particullar meaning, like TODO, FIXME
-or other.  which can be particular handy in code reivew, I can
-navigate and jump between the code quickly.
-    
-#+begin_src emacs-lisp :results silent
-;; highlights FIXME: TODO: and BUG: in prog-mode 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
-
-    #+end_src 
-    
-we usually have long scripts, and in Subimetext, one cold folder and
-unfolder a function. in Emacs, this feature could be extended to
-furture, by define folder-characters. at this statge, I tented to used
-the deafault, I.e. folder functions only. in the folliwng setting, I
-could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to
-folder/unfolder all functions.
-    
-One potentially solution is to use =outshine= package, to show/hide
-the whole section.
-    
-#+begin_src emacs-lisp :results silent
-;; (add-hook 'prog-mode-hook 'hs-minor-mode)
-;; (defalias 'fold-toggle 'hs-toggle-hiding)
-;; (global-set-key (kbd "<f4>") 'hs-toggle-hiding)
-;; (global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
-;; (global-set-key (kbd "C-<f4>") 'hs-hide-all) 
-;; ;;   hs-hide-block                      C-c @ C-h
-;; ;;   hs-show-block                      C-c @ C-s
-;; ;;   hs-hide-all                        C-c @ C-M-h
-;; ;;   hs-show-all                        C-c @ C-M-s
-;; ;;   hs-hide-level                      C-c @ C-l
-;; ;;   hs-toggle-hiding 
-;; ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
-;; ;;   hs-hide-initial-comment-block
-(global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
-(global-set-key (kbd "C-S-d") 'uncomment-region)
-
-(defhydra hydra-fold (:pre (hs-minor-mode 1))
-  "fold"
-  ("t" hs-toggle-hiding "toggle")
-  ("s" hs-show-all "hide-all")
-  ("h" hs-hide-all "show-all")
-  ("q" nil "quit"))
-(global-set-key (kbd "<f4>") 'hydra-fold/body)
-    #+end_src
-    
-
-use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remove the Phase and left This. Very useful in CamerCase.
-#+begin_src emacs-lisp :results silent 
-(subword-mode 1)
-#+end_src
-
-
-highlights the text that are longer than 80 columns rule. 
-
-#+begin_src emacs-lisp :results silent 
-(use-package whitespace)
-(setq whitespace-line-column 120) ;; limit line length
-(setq whitespace-style '(face lines-tail))
-(add-hook 'prog-mode-hook 'whitespace-mode)
-#+end_src
-
-
-Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
-
-#+begin_src emacs-lisp :results silent
-(use-package rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(show-paren-mode t) ;for Emacs
-#+end_src
-
-use f8 to remove the R process buffer.
-
-#+begin_src emacs-lisp :results silent 
-(defun yt/prog-previous-output-region ()
-  "return start/end points of previous output region"
-  (save-excursion
-    (beginning-of-line)
-    (setq sp (point))
-    (comint-previous-prompt 1)
-    (next-line)
-    (beginning-of-line)
-    (setq ep (point))
-    (cons sp ep)))
-(defun yt/prog-kill-output-backwards ()
-  (interactive)
-  (save-excursion
-    (let ((reg (yt/prog-previous-output-region)))
-      (delete-region (car reg) (cdr reg))
-      (goto-char (cdr reg))
-      (insert "*** output flushed ***\n"))))
-;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
 #+end_src
 ** Documentation  
    [2015-01-23 Fri 17:53]
@@ -3320,6 +3221,107 @@ https://depp.brause.cc/nov.el/
     (epa-file-select-keys 1)   ;; seems there's a bug in gpg. it always asks for which key.
     )
 #+end_src
+** Programming Mode 
+After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
+    
+One thing I find particular usefull and necessary is to highlight
+characters in comments that has particullar meaning, like TODO, FIXME
+or other.  which can be particular handy in code reivew, I can
+navigate and jump between the code quickly.
+    
+#+begin_src emacs-lisp :results silent
+;; highlights FIXME: TODO: and BUG: in prog-mode 
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+    #+end_src 
+    
+we usually have long scripts, and in Subimetext, one cold folder and
+unfolder a function. in Emacs, this feature could be extended to
+furture, by define folder-characters. at this statge, I tented to used
+the deafault, I.e. folder functions only. in the folliwng setting, I
+could press =F3= to folder/unfolder a function, =C-F3= or =S-F3= to
+folder/unfolder all functions.
+    
+One potentially solution is to use =outshine= package, to show/hide
+the whole section.
+    
+#+begin_src emacs-lisp :results silent
+;; (add-hook 'prog-mode-hook 'hs-minor-mode)
+;; (defalias 'fold-toggle 'hs-toggle-hiding)
+;; (global-set-key (kbd "<f4>") 'hs-toggle-hiding)
+;; (global-set-key (kbd "S-<f4>") 'hs-show-all) ;; S->show 
+;; (global-set-key (kbd "C-<f4>") 'hs-hide-all) 
+;; ;;   hs-hide-block                      C-c @ C-h
+;; ;;   hs-show-block                      C-c @ C-s
+;; ;;   hs-hide-all                        C-c @ C-M-h
+;; ;;   hs-show-all                        C-c @ C-M-s
+;; ;;   hs-hide-level                      C-c @ C-l
+;; ;;   hs-toggle-hiding 
+;; ;;   hs-mouse-toggle-hiding             [(shift mouse-2)]
+;; ;;   hs-hide-initial-comment-block
+(global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
+(global-set-key (kbd "C-S-d") 'uncomment-region)
+
+(defhydra hydra-fold (:pre (hs-minor-mode 1))
+  "fold"
+  ("t" hs-toggle-hiding "toggle")
+  ("s" hs-show-all "hide-all")
+  ("h" hs-hide-all "show-all")
+  ("q" nil "quit"))
+(global-set-key (kbd "<f4>") 'hydra-fold/body)
+    #+end_src
+    
+
+use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remove the Phase and left This. Very useful in CamerCase.
+#+begin_src emacs-lisp :results silent 
+(subword-mode 1)
+#+end_src
+
+
+highlights the text that are longer than 80 columns rule. 
+
+#+begin_src emacs-lisp :results silent 
+(use-package whitespace)
+(setq whitespace-line-column 120) ;; limit line length
+(setq whitespace-style '(face lines-tail))
+(add-hook 'prog-mode-hook 'whitespace-mode)
+#+end_src
+
+
+Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
+
+#+begin_src emacs-lisp :results silent
+(use-package rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(show-paren-mode t) ;for Emacs
+#+end_src
+
+use f8 to remove the R process buffer.
+
+#+begin_src emacs-lisp :results silent 
+(defun yt/prog-previous-output-region ()
+  "return start/end points of previous output region"
+  (save-excursion
+    (beginning-of-line)
+    (setq sp (point))
+    (comint-previous-prompt 1)
+    (next-line)
+    (beginning-of-line)
+    (setq ep (point))
+    (cons sp ep)))
+(defun yt/prog-kill-output-backwards ()
+  (interactive)
+  (save-excursion
+    (let ((reg (yt/prog-previous-output-region)))
+      (delete-region (car reg) (cdr reg))
+      (goto-char (cdr reg))
+      (insert "*** output flushed ***\n"))))
+;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
+#+end_src
+
 * Scripting
   :PROPERTIES:
   :header-args: :tangle lisp/scripting.el
