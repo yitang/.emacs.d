@@ -1011,7 +1011,7 @@ use pretty mode
                                    ("author" . "Yi Tang")))
    #+end_src
     
-    
+   
 ** R Style Check - Flycheck 
 [2015-01-20 Tue 10:49]
     
@@ -3156,8 +3156,9 @@ https://depp.brause.cc/nov.el/
 
 #+begin_src emacs-lisp :results silent
 (require 'org-download)
-(setq-default org-download-image-dir "~/Downloads/org-download")
-(setq-default org-download-heading-lvl nil)
+(add-hook 'dired-mode-hook 'org-download-enable)
+(setq-default org-download-image-dir "~/Pictures/org-download")
+(setq-default org-download-heading-lvl nil)   ;; flat file systme, otherwise, would be confusing.
 #+end_src
 ** org-roam
 :PROPERTIES:
@@ -3218,9 +3219,134 @@ https://depp.brause.cc/nov.el/
     :config
     (setq epa-file-encrypt-to '("yi.tang.uni@gmail.com"))
     :custom
-    (epa-file-select-keys 1)   ;; seems there's a bug in gpg. it always asks for which key.
+    (epa-file-select-keys nil)   ;; seems there's a bug in gpg. it always asks for which key.
     )
 #+end_src
+** .dir-locals.el
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:00]
+:END:
+
+by default, ask for setting up local dir variables. this is useful in debugging.
+#+begin_src emacs-lisp :results silent
+(setq enable-local-variables t)
+#+end_src
+** dired-rsync 
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:02]
+:END:
+
+called rsync in dired. useful in copy files between servers.
+#+begin_src emacs-lisp :results silent
+
+(use-package dired-rsync
+  :demand t
+  :after dired
+  :bind (:map dired-mode-map ("r" . dired-rsync))
+  :config (add-to-list 'mode-line-misc-info '(:eval dired-rsync-modeline-status 'append)))
+#+end_src
+** yaml file
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:03]
+:END:
+make yaml file a bit easier to work with.
+#+begin_src emacs-lisp :results silent
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+
+(add-hook 'yaml-mode-hook
+	  '(lambda ()
+             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+#+end_src
+** org-mode
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:06]
+:END:
+
+
+#+begin_src emacs-lisp :results silent :tangle no
+(setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
+(setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
+
+;; somehow relative path doesn't work in osx when export org to other format. so use abslute path.
+(setq org-download-abbreviate-filename-function #'expand-file-name)
+(setq org-link-file-path-type 'absolute)
+#+end_src
+** compilation
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:11]
+:END:
+
+for the visiting buffer, create a new compilation buffer if not
+exists, otherwise, switch to.
+
+#+begin_src emacs-lisp :results silent
+(defun yt/bind-to-compliation ()
+  "docstring"
+  (interactive)
+  (let* ((filename (buffer-file-name (current-buffer)))
+	 (default-directory (file-name-directory filename))
+	 (output-buffer-name (concat "*Compilation:" filename "*")))
+    (compile "ls")
+    (with-current-buffer "*compilation*"
+      (rename-buffer output-buffer-name)))
+  )
+(setq compilation-scroll-output 'first-error)
+#+end_src
+** ibuffer - 
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:13]
+:END:
+
+#+begin_src emacs-lisp :results silent :tangle no
+(global-set-key (kbd "M-i") 'ibuffer)
+(setq ibuffer-saved-filter-groups
+      '(("home"
+	 ("shell" (mode . shell-mode))
+	 ;; ("emacs-config" (or (filename . ".emacs.d")
+	 ;; 		     (filename . "emacs-config")))
+         ;; ("martinowen.net" (filename . "martinowen.net"))
+	 ("compilation" (mode . compilation-mode))
+	 ("dired" (mode . dired-mode))
+	 ("planner" (or
+		     (name . "^\\*Calendar\\*$")
+		     (name . "^\\*Org Agenda\\*")))
+	 ("python" (mode . python-mode))
+	 ("Org" (or (mode . org-mode)
+		    (filename . "OrgMode")))
+         ;; ("code" (filename . "code"))
+	 ;; ("Web Dev" (or (mode . html-mode)
+	 ;; 		(mode . css-mode)))
+	 ;; ("Subversion" (name . "\*svn"))
+	 ("Magit" (name . "\\*magit"))
+	 ;; ("Magit2" (name . "magit"))
+	 ;; ("ERC" (mode . erc-mode))
+	 ;; ("Help" (or (name . "\*Help\*")
+	 ;; 	     (name . "\*Apropos\*")
+	 ;; 	     (name . "\*info\*")))
+	 )))
+
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)
+	     (ibuffer-switch-to-saved-filter-groups "home")))
+(keymap-set ibuffer-mode-map "M-o" nil)
+
+#+end_src
+** bookmark
+:PROPERTIES:
+:CREATED:  [2023-01-02 Mon 18:22]
+:END:
+
+flush bookmarks immediately. 
+#+begin_src emacs-lisp :results silent
+(setq bookmark-save-flag 1)  ; save bookmark file everytime.
+#+end_src
+
 ** Programming Mode 
 After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
