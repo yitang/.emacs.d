@@ -2259,16 +2259,34 @@ only, and without TOC, which are again, required by JEKLLY.
          :base-extension "org"
          :publishing-directory "~/matrix/learning/mywebsite/blog"
          :recursive t
-         :publishing-function org-md-publish-to-md
+         :publishing-function org-html-publish-to-html
+	 
          :with-toc nil
          :headline-levels 4
+	 
          :section-numbers nil
          :auto-preamble nil
          :auto-sitemap nil
          :html-extension "html"
          :htmlized-source t
          :body-only t
-         )))
+         )
+	;; ("myblog_html"
+        ;;  :base-directory "~/matrix/learning/mywebsite/org"
+        ;;  :base-extension "org"
+        ;;  :publishing-directory "~/matrix/learning/mywebsite/blog"
+        ;;  :recursive t
+        ;;  :publishing-function org-html-publish-to-html
+        ;;  :with-toc nil
+        ;;  :headline-levels 4
+        ;;  :section-numbers nil
+        ;;  :auto-preamble nil
+        ;;  :auto-sitemap nil
+        ;;  :html-extension "html"
+        ;;  :htmlized-source t
+        ;;  :body-only t
+        ;;  )
+	))
 #+end_src
 
 #+name: Jeklly-config-backup
@@ -2421,16 +2439,38 @@ emacs-lisp %} block.
 ;; so that it won't effect my other exporting
 
 (defun yt/my-blog-pre-process-hook (backend) ;; only for html back-end
+  
   (when (equal default-directory
                (concat jekyll-directory jekyll-posts-dir))
     ;; (when (equal backend 'html)
       (message "PROCESS SRC BLOCK")
+
       (goto-char (point-min))
-      (yt/org-to-jekyll-highlight)))
+      (yt/org-to-jekyll-highlight)
+
+      ;; (goto-char (point-min))
+      ;; (yt/my-blog-remove-underscore-in-src backend)
+
+      ))
 
 ;; (setq org-export-before-parsing-hook nil)
 (add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
+;; (remove-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
+;; (add-hook 'org-export-before-processing-hook 'yt/my-blog-pre-process-hook)
+;; (remove-hook 'org-export-before-processing-hook 'yt/my-blog-pre-process-hook)
 
+(defun yt/my-blog-remove-underscore-in-src ()  ;; ony for md back-end
+  (interactive)
+  (save-excursion
+
+    ;; (when (and (equal default-directory
+    ;; 		      (concat jekyll-directory jekyll-posts-dir))
+    ;; 	       (equal backend 'md))
+    ;;   (replace-string-in-region "\\_" "_"))))
+
+    (goto-char (point-min))
+    (org-show-block-all)
+    (replace-string-in-region "\\_" "_" (point-min) (point-max))))
 #+end_src
 
 #+results:
@@ -3171,11 +3211,10 @@ https://depp.brause.cc/nov.el/
   :init
   (setq org-roam-v2-ack t)
   :custom
-  (org-roam-directory "~/git/org/diary")
   (org-roam-completion-everywhere t)
   (org-roam-dailies-capture-templates
     '(("d" "default" entry "* %<%H:%M>: %?"
-       :if-new (file+head "%<%Y-%m-%d>.org.gpg" "#+title: %<%Y-%m-%d>\n"))))
+       :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
   (org-roam-dailies-directory "daily")
 
   ;; ; change the timestmap aslightly..
@@ -3188,7 +3227,6 @@ https://depp.brause.cc/nov.el/
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n i" . org-roam-node-insert)
-	 ("C-c n D" . yt/dailies)
          :map org-mode-map
          ("C-M-i" . completion-at-point)
          :map org-roam-dailies-map
