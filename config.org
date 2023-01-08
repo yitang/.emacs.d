@@ -784,6 +784,8 @@ configuration except using =helm= for selection.
 ;; (setq projectile-switch-project-action 'helm-projectile)
 
 ;; when swtich to project, default to open project directory in dired.
+(use-package projectile)
+(projectile-mode +1)
 (use-package consult-projectile)
 (define-key global-map  (kbd "C-c p") 'consult-projectile-switch-project)
 (setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
@@ -3489,7 +3491,7 @@ use f8 to remove the R process buffer.
 
 ** vertico, orderless etc.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 ;;; -*- lexical-binding: t; -*-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
