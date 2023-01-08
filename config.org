@@ -772,19 +772,21 @@ to jump between different git folders, so there isn't much
 configuration except using =helm= for selection.
 
 #+begin_src emacs-lisp :results silent
-(use-package projectile)
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;; (use-package projectile)
+;; (projectile-mode +1)
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 ;; (use-package helm-projectile)
 ;; (helm-projectile-on)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-remember-window-configs t )
+;; (projectile-global-mode)
+;; (setq projectile-enable-caching t)
+;; (setq projectile-remember-window-configs t )
 ;; (setq projectile-completion-system 'helm)
 ;; (setq projectile-switch-project-action 'helm-projectile)
 
 ;; when swtich to project, default to open project directory in dired.
-(setq projectile-switch-project-action 'projectile-command-map)
+(use-package consult-projectile)
+(define-key global-map  (kbd "C-c p") 'consult-projectile-switch-project)
+(setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
