@@ -1,9 +1,9 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: jupyter python
-# key: <jp
+# name: jupyter python image
+# key: <jpg
 # group: YT
 # binding: direct-keybinding
 # --
-#+begin_src jupyter-python
+#+begin_src jupyter-python :file (concat output-dir "$1.png")
 $0
 #+end_src
