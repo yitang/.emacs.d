@@ -145,12 +145,10 @@ Automatically backup buffers/files into the working directory and the
 (setq company-show-numbers t)
 #+end_src 
 
-Configure recent opened files. I use =helm-mini= to navigate between
-files, which is a lot convenient and faster than actually locate the
-file path.
+Configure recent opened files.
 
 #+begin_src emacs-lisp :results silent 
-(recentf-mode 0)
+(recentf-mode 1)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 #+end_src
@@ -263,8 +261,6 @@ terminal and C-z won't stop the program without asking.
 
 Open PDF files using external program.
 
-[2016-06-20 Mon 21:43] =helm-find-files= has open with default tool
-functionality. This block is no longer needed.
 
 #+begin_src emacs-lisp :results silent 
 ;; (require 'openwith)
@@ -318,7 +314,7 @@ unfill. This snippet is not long used.
 #+end_src
 ** Minibuffer history 
 Let Emacs remember what I've typed, so I don't need to tediously type
-the whole thing. Most of the time, I could just select using =helm=.
+the whole thing. 
 
 #+begin_src emacs-lisp :results silent 
 (setq savehist-file "~/matrix/tools/.emacs.d/local/emacs-history")
@@ -486,60 +482,6 @@ Finally, show the current time in the mode-line.
   :header-args: :tangle lisp/editor-auto-completion.el
   :END:
 [2015-01-23 Fri 18:44]
-** Helm - Fuzzy Match  
-[2015-02-22 Sun 11:40]
-
-Helm and fuzzy match makes selection a lot easier.  in 
-#+begin_src emacs-lisp :results silent
-;; (use-package helm)
-
-;; ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
-;; ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
-;; ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-;; (global-set-key (kbd "C-c h") 'helm-command-prefix)
-;; (global-unset-key (kbd "C-x c"))
-
-;; ;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-;; ;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-;; ;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-
-;; (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
-
-;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;; ;;(global-set-key (kbd "C-x b") 'helm-mini)
-;; (global-set-key (kbd "M-l") 'helm-mini) 
-;; (setq helm-buffers-fuzzy-matching t
-;;       helm-recentf-fuzzy-match    t)
-;; (global-set-key (kbd "C-c h o") 'helm-occur)
-;; (global-set-key (kbd "C-h a") 'helm-apropos)
-;; (setq helm-apropos-fuzzy-match t)
-;; (setq helm-semantic-fuzzy-match t
-;;       helm-imenu-fuzzy-match    t)
-
-;; (helm-autoresize-mode t)
-;; (defun pl/helm-alive-p ()
-;;   (if (boundp 'helm-alive-p)
-;;       (symbol-value 'helm-alive-p)))
-;; ;; (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
-;; (helm-mode 1)
-
-;; ;; TODO: remove this. use C-c i from Helm isntead.
-;; ;; (defun yt/helm-copy-unmarked-to-buffer ()
-;; ;;   (interactive)
-;; ;;   (with-helm-buffer
-;; ;;     (helm-mark-all)
-;; ;;     (cl-loop for cand in (helm-marked-candidates)
-;; ;;              do (with-helm-current-buffer
-;; ;;                   (insert cand "\n")))))
-;; ;; ;; by default, Cc Ci copy marked to buffer.
-;; ;; (define-key helm-map (kbd "C-c C-i") 'helm-copy-unmmarked-to-buffer)
-
-;; (setq helm-ff-guess-ffap-urls nil)
-#+end_src
-
 ** Multi-Cursor & Helm-swoop  - Multiple Selection 
 [2015-01-19 Mon 12:10]
     
@@ -562,35 +504,6 @@ that is highlighted and then modify all of them at the same time.
 ;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 ;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 #+end_src
-
-I usually use =multi-cursor= with =helm-swoop=, which allows me to search, and then narrow down all
-the occurrences in a temporary buffer, and then start to edit. 
-
-#+begin_src emacs-lisp :results silent 
-;; (use-package helm-swoop)
-;; ;; Change the keybinds to whatever you like :)
-;; ;; (global-set-key (kbd "M-i") 'helm-swoop)
-;; ;; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
-;; ;; (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
-;; ;; (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
-;; (global-set-key (kbd "<C-f1>") 'helm-swoop)
-;; ;; When doing isearch, hand the word over to helm-swoop
-;; ;; (define-key isearchp-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
-;; ;; From helm-swoop to helm-multi-swoop-all
-;; ;; (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
-;; ;; When doing evil-search, hand the word over to helm-swoop
-;; ;; (define-key evil-motion-state-map (kbd "M-i") 'helm-swoop-from-evil-search)
-;; ;; Save buffer when helm-multi-swoop-edit complete
-;; (setq helm-multi-swoop-edit-save t)
-;; ;; If this value is t, split window inside the current window
-;; (setq helm-swoop-split-with-multiple-windows nil)
-;; ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
-;; (setq helm-swoop-split-direction 'split-window-vertically)
-;; ;; If nil, you can slightly boost invoke speed in exchange for text color
-;; (setq helm-swoop-speed-or-color nil)
-;; ;; ----------------------------------------------------------------------
-
-    #+end_src
     
 ** ace-jump 
 
@@ -768,26 +681,17 @@ Open the file manager at the default directory.
 [2015-01-19 Mon 12:08]
 
 /Projectile/ is an powerful Emacs package but I only use /projectile/
-to jump between different git folders, so there isn't much
-configuration except using =helm= for selection.
+to jump between different git folders.
 
 #+begin_src emacs-lisp :results silent
-;; (use-package projectile)
-;; (projectile-mode +1)
-;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;; (use-package helm-projectile)
-;; (helm-projectile-on)
-;; (projectile-global-mode)
-;; (setq projectile-enable-caching t)
-;; (setq projectile-remember-window-configs t )
-;; (setq projectile-completion-system 'helm)
-;; (setq projectile-switch-project-action 'helm-projectile)
+(use-package projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 ;; when swtich to project, default to open project directory in dired.
 (use-package projectile)
 (projectile-mode +1)
 (use-package consult-projectile)
-(define-key global-map  (kbd "C-c p") 'consult-projectile-switch-project)
 (setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
 #+end_src
 
@@ -1509,11 +1413,6 @@ available as level1/level2/level3.
 (setq org-refile-use-outline-path t)
 #+end_src
 
-Use helm for matching the target path. 
-#+begin_src emacs-lisp :results silent 
-;; (setq org-completion-handler 'helm)
-#+end_src
-
 Speed up the process by using cache.
 
 #+begin_src emacs-lisp :results silent 
@@ -1831,8 +1730,6 @@ Remove keys
 (org-defkey org-mode-map (kbd "C-c ]") nil)
 (org-defkey org-mode-map (kbd "C-TAB") nil)
 (org-defkey org-mode-map (kbd "<f8>") nil)
-;; use helm iwth org
-;; (setq org-completion-handler 'helm)
 #+end_src
 
 Show org-mode bullets as UTF-8 characters.
@@ -2741,8 +2638,6 @@ _G_oogle: search google
 _d_ictionary: search meaning of a word"
   ("f" describe-function)
   ("v" describe-variable)
-  ("i" helm-info-org)
-  ("G" helm-google-suggest)
   ("d" osx-dictionary-search-word-at-point)
   ("s" get-synonyms)
   ;; ("s" synosaurus-lookup)
@@ -2827,29 +2722,7 @@ _d_ictionary: search meaning of a word"
 (provide 'thesaurus)
 ;;; thesaurus.el ends here
 #+end_src
-hydra 
-#+begin_src emacs-lisp :results silent 
-(use-package hydra)
 
-(defhydra hydra-search (:color blue
-                               :hint nil)
-  "
-Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
-Multiple Buffers : helm-multi-_S_woop 
-Project Directory: projectile-_g_rep  helm-projectile-_G_rep
-Python: elpy rgrep _p_ython project
-"
-  ("i" isearch-forward)
-  ("s" helm-swoop)
-  ("a" ace-jump-word-mode)
-  ("S" helm-multi-swoop)
-  ("g" projectile-grep)
-  ("G" helm-projectile-grep)
-  ("p" elpy-rgrep-symbol)
-  )
-(global-set-key [f5] 'hydra-search/body)
-
-#+end_src
 ** org-mode
    [2021-06-07 Mon 12:40]
 
