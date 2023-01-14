@@ -3211,6 +3211,9 @@ https://depp.brause.cc/nov.el/
 (add-hook 'dired-mode-hook 'org-download-enable)
 (setq-default org-download-image-dir "~/Pictures/org-download")
 (setq-default org-download-heading-lvl nil)   ;; flat file systme, otherwise, would be confusing.
+
+(if (eq system-type 'darwin)
+    (setq org-download-screenshot-method "screencapture -i %s"))
 #+end_src
 ** org-roam
 :PROPERTIES:
