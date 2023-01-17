@@ -688,11 +688,12 @@ to jump between different git folders.
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-;; when swtich to project, default to open project directory in dired.
-(use-package projectile)
-(projectile-mode +1)
+;; as of [2023-01-17 Tue 19:35], there's issue with
+;; projectile-switch-project function. it cannot detect the right
+;; project directory. so i have to use consult-projectile for this.
 (use-package consult-projectile)
 (setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
+(define-key projectile-command-map (kbd "p") 'consult-projectile-switch-project)
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
