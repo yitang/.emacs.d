@@ -1309,14 +1309,17 @@ extension.
 #+end_src
 
 ** org-todos
+:PROPERTIES:
+:ID:       1BFBF03A-F2BB-45E3-AE9A-C43540B1068B
+:END:
 [2015-07-20 Mon 14:57]
 
 First, define the TODO keywords. 
 
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(p)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "SOMEDAY" "|" "DONE(d)")
+              (sequence "WAITING(W@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 #+end_src
 
 Then highlight the keywords using different colours. 
@@ -2906,11 +2909,10 @@ open this gnome-terminal here
 ;; (global-set-key (kbd "<f5>") 'yt/open-terminal)
 #+end_src
 
-use swiper to replace default =isearch=
+use =consult-line= to replace default =isearch=
 
 #+begin_src emacs-lisp :results silent 
-(use-package swiper)
-(global-set-key "\C-s" 'swiper)
+(global-set-key "\C-s" 'consult-line)
 #+end_src
 
 
@@ -3376,6 +3378,9 @@ use f8 to remove the R process buffer.
 #+end_src
 
 ** vertico, orderless etc.
+:PROPERTIES:
+:ID:       E99EA784-ACEB-44AF-8DC2-CED03F271539
+:END:
 
 #+begin_src emacs-lisp :results silent
 ;;; -*- lexical-binding: t; -*-
