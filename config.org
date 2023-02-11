@@ -1850,6 +1850,9 @@ General export options, it applys to all the export-backend.
       org-export-with-timestamps nil
       org-export-babel-evaluate t
       org-export-with-drawers nil)
+
+(setq org-export-backends '(ascii html latex md org))
+(require 'ox-md)
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
