@@ -2028,29 +2028,23 @@ direcotyr, org/_drafts and org/_posts.
   "Relative path to drafts directory.")
 (defvar jekyll-posts-dir "_posts/"
   "Relative path to posts directory.")
-(defvar jekyll-post-ext ".org"
-  "File extension of Jekyll posts.")
+(defvar jekyll-publish-dir "~/matrix/learning/mywebsite/blog/_posts"
+  "Relative path to posts directory.")
+
+;; (defvar jekyll-post-ext ".org"
+;;   "File extension of Jekyll posts.")
 #+end_src
 
-I can quickly scan the folder to see how many outstanding drasfts and
-which posts is published in cease I need to edit it. I bind it to =C-c
-j p= and =C-c j d= where /j/ means Jelly, /p/ means posts, and /d/
-means drafts.
-
-#+begin_src emacs-lisp :results silent 
-(global-set-key (kbd "C-c j p") (lambda ()
-                                  (interactive)
-                                  (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
-(global-set-key (kbd "C-c j d") (lambda ()
-                                  (interactive)
-                                  (find-file (expand-file-name jekyll-drafts-dir jekyll-directory))))
-#+end_src
+I can quickly scan the folder to see how many outstanding drafts and
+which posts is published in cease I need to edit it.
 
 Jeklyl has a spacial template that requires to add YAML in the front,
 since it is in org-mode, I can call Babel functions, add table of
-contents and others etc. This is the template I am using. Note the
-jekly-ymal-escape function is used just to make sure there is strange
-characters that jeklly don;t like. 
+contents and others etc. This is the template I am using.
+
+The =jekly-ymal-escape= function is used just to handle the quote
+and : characters in the title field.
+
 
 #+begin_src emacs-lisp :results silent 
 (defvar jekyll-post-template
@@ -2085,7 +2079,7 @@ comments: true
 (defun jekyll-yaml-escape (s)
   "Escape a string for YAML."
   (if (or (string-match ":" s)
-        2  (string-match "\"" s))
+          (string-match "\"" s))
       (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
     s))
 #+end_src
@@ -2093,7 +2087,7 @@ comments: true
 Then in starting a blog post, I fill the title, and there file will be
 served in the org/_drafts folder, and insert the YMAL. Note in jeklly,
 the title be part of html file name and therefore part of the URL. So
-strange characters must been removed. 
+strange characters must been removed.
 
 #+begin_src emacs-lisp :results silent 
 (defun blog-draft-post (title) 
@@ -2150,94 +2144,71 @@ org/_posts folder and prepend the file name with today's date in
 
 I bound ~C-c j n~ and ~C-c j P~ for making a draft and publishing a draft. 
 
-#+begin_src emacs-lisp :results silent 
-(global-set-key (kbd "C-c j n") 'blog-draft-post)
-(global-set-key (kbd "C-c j P") 'blog-publish-post)
-#+end_src
-
 Then convert all the org files in org/_posts into HTML and save in the
 _posts/ folder. It is good to define an org-publish-project to
 automate this. Note in the following, the published HTML has body
 only, and without TOC, which are again, required by JEKLLY. 
 
+
+#+begin_src emacs-lisp :results silent :tangle no
+(defun jekyll/export-to-markdown ()
+  (interactive)
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; export current posts in org-mode to markdown. ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (org-export-to-file
+      'jekyll-md
+      "~/matrix/learning/mywebsite/blog/_posts/2023-02-09-jekyll-md-export-backend.md"
+    ;; :body-only
+    nil nil nil t
+    )
+  )
+
+
+(defun jekyll/export-to-html ()
+  (interactive)
+  ;; export current posts in org-mode to html.
+  
+  )
+#+end_src
+
+
+
+start jekyll server - 
+
+deploy to AWS Bucket -
+
+#+begin_src emacs-lisp :results silent :tangle no
+(yt/compile
+ "*jekyll-deploy*"
+ "bash %s deploy"
+ )
+#+end_src
+
+
+** transient
+
 #+begin_src emacs-lisp :results silent 
-;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
-(setq org-publish-project-alist
-      '(
-	;; ("myblog"
-        ;;  :base-directory "~/matrix/learning/mywebsite/org"
-        ;;  :base-extension "org"
-        ;;  :publishing-directory "~/matrix/learning/mywebsite/blog"
-        ;;  :recursive t
-        ;;  :publishing-function org-html-publish-to-html
-	 
-        ;;  :with-toc nil
-        ;;  :headline-levels 4
-	 
-        ;;  :section-numbers nil
-        ;;  :auto-preamble nil
-        ;;  :auto-sitemap nil
-        ;;  :html-extension "html"
-        ;;  :htmlized-source t
-        ;;  :body-only t
-        ;;  )
-	
-	;; ("myblog_md"
-        ;;  :base-directory "~/matrix/learning/mywebsite/org"
-        ;;  :base-extension "org"
-        ;;  :publishing-directory "~/matrix/learning/mywebsite/blog"
-        ;;  :recursive t
-        ;;  :publishing-function org-md-publish-to-md
-        ;;  :with-toc nil
-        ;;  :headline-levels 4
-        ;;  :section-numbers nil
-        ;;  :auto-preamble nil
-        ;;  :auto-sitemap nil
-        ;;  ;; :html-extension "html"
-        ;;  ;; :htmlized-source t
-        ;;  :body-only t
-        ;;  )
-
-	("myblog_jekyll_html"
-         :base-directory "~/matrix/learning/mywebsite/org"
-         :base-extension "org"
-         :publishing-directory "~/matrix/learning/mywebsite/blog"
-         :recursive t
-         :publishing-function jekyll-html-publish-to-html
-	 
-         ;; :with-toc nil
-         ;; :headline-levels 4
-         ;; :section-numbers nil
-         ;; ;; :auto-preamble nil
-         ;; :auto-sitemap nil
-         ;; :html-extension "html"
-         ;; :htmlized-source t
-	 
-         :body-only t
-         )
-
-	;; ("myblog_jekyll_md"
-        ;;  :base-directory "~/matrix/learning/mywebsite/org"
-        ;;  :base-extension "org"
-        ;;  :publishing-directory "~/matrix/learning/mywebsite/blog"
-        ;;  :recursive t
-        ;;  :publishing-function jekyll-md-publish-to-md
-        ;;  :with-toc nil
-        ;;  :headline-levels 4
-        ;;  :section-numbers nil
-        ;;  :auto-preamble nil
-        ;;  :auto-sitemap nil
-        ;;  ;; :html-extension "html"
-        ;;  ;; :htmlized-source t
-        ;;  :body-only t
-        ;;  )
-
-	))
+(transient-define-prefix yt/jekyll ()
+  ""
+  ["Jekyll Blog"
+   [("n" "new draft" blog-draft-post)
+    ("p" "publish post" blog-publish-post)
+    ("dd" "Dired - drafts" (lambda ()
+                             (interactive)
+                             (find-file (expand-file-name jekyll-drafts-dir jekyll-directory))))
+    ("dp" "Dired - posts" (lambda ()
+                             (interactive)
+                             (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
+    ("em" "Export as Markdown" jekyll/export-to-markdown )
+    ("eh" "Export as HTML" jekyll/export-to-html)
+     ]])
 #+end_src
 
 
 ** code highlight 
 [2015-01-23 Fri 17:47]
+
 
 wrap src block into highlight block in Jekyll. it search for src
 block, and replace the header with {% highlight python %} for
@@ -2246,107 +2217,25 @@ example. run this as pre-export hook.
 it worth exploring implementing it as a filter function to the src
 code block. 
 
-#+begin_src emacs-lisp :results silent
-(defvar jekyll-highlight-template-open
-  "{%% highlight %s %%}"
-  "%s will be replaced by the language identifier")
+#+begin_src emacs-lisp :results silent :tangle no
+(defun my-jekyll-src-block (src-block contents info)
+  "Transcode a SRC-BLOCK element from Org to ASCII.
+CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (concat
+   (format "{%% highlight %s %%} \n %s {%% endhighlight %%}"
+           (org-element-property :language src-block)
+           (org-element-normalize-string
+            (org-export-format-code-default src-block info)))))
 
-(defvar jekyll-highlight-template-close
-  "{% endhighlight %}")
+(org-export-define-derived-backend 'jekyll-html 'html
+  :translate-alist '((src-block . my-jekyll-src-block)))
 
-(defun yt/org-to-jekyll-highlight ()
-  "wrap babel src block with jekyll syntax highlight block.
-
-so emacs-lisp babel block would be translated to {% highlight
-emacs-lisp %} block.
-"
-  (interactive)
-  ;; (setq case-fold-search t)
-  (save-excursion
-    (goto-char (point-min))
-    (org-show-block-all)
-    (while (search-forward-regexp "^\s*#\\+begin_src \\([a-z_-]+\\).*$" nil t)
-      (replace-match (format jekyll-highlight-template-open (match-string 1)))
-      (message "DEBUGGG")
-      (search-forward-regexp "^\s*#\\+end_src") ;; will throew error if src block is not closed. 
-      (replace-match jekyll-highlight-template-close t))))
-
-;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
-;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highlight)
-
-;;;; TODO: 
-;; it won't be good to add a hook yt/org-jekyl-highlight
-;; so that it won't effect my other exporting
-
-(defun yt/my-blog-pre-process-hook (backend) ;; only for html back-end
-  
-  (when (equal default-directory
-               (concat jekyll-directory jekyll-posts-dir))
-    ;; (when (equal backend 'html)
-      (message "PROCESS SRC BLOCK")
-
-      (goto-char (point-min))
-      (yt/org-to-jekyll-highlight)
-
-      ;; (goto-char (point-min))
-      ;; (yt/my-blog-remove-underscore-in-src backend)
-
-      ))
-
-;; (setq org-export-before-parsing-hook nil)
-(add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
-;; (remove-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
-;; (add-hook 'org-export-before-processing-hook 'yt/my-blog-pre-process-hook)
-;; (remove-hook 'org-export-before-processing-hook 'yt/my-blog-pre-process-hook)
-
-(defun yt/my-blog-remove-underscore-in-src ()  ;; ony for md back-end
-  (interactive)
-  (save-excursion
-
-    ;; (when (and (equal default-directory
-    ;; 		      (concat jekyll-directory jekyll-posts-dir))
-    ;; 	       (equal backend 'md))
-    ;;   (replace-string-in-region "\\_" "_"))))
-
-    (goto-char (point-min))
-    (org-show-block-all)
-    (replace-string-in-region "\\_" "_" (point-min) (point-max))))
-
-(defun yt/jekyll--wrap-src-block (data backend info)
-  (cond
-   ((eq 'html backend)
-    (message "wrap-src-block function")
-    (message "%s" data)
-    )
-   data
-   ))
-
-(defun yt/jekyll--before-parsing (backend)
-  (cond
-   ((eq 'html backend)
-    (message "before parsing")
-    (message "%s" (buffer-string))
-    )
-   ))
-
-
-(defun yt/jekyll--before-processing (backend)
-  (cond
-   ((eq 'html backend)
-    (message "before processing")
-    (message "%s" (buffer-string))
-    )
-   ))
-
-
-(add-hook 'org-export-before-parsing-hook 'yt/jekyll--before-parsing)
-(add-hook 'org-export-before-parsing-functions 'yt/jekyll--before-processing)
-
-(add-to-list 'org-export-filter-src-block-functions 'yt/jekyll--wrap-src-block)
+(org-export-define-derived-backend 'jekyll-md 'md
+  :translate-alist '((src-block . my-jekyll-src-block)))
 #+end_src
 
-#+results:
-** Path Issues 
+** Image Hyperlink
 
 When publishing, the org-file is firstly exported to html file, and
 when Jekyll build the website, the html file will be saved in to some
@@ -2396,6 +2285,19 @@ the img file in Emacs.
 
 ** *cross reference*
 [2015-07-21 Tue 10:59]
+
+the idea is to include a link to post in org foramt, i.e.
+
+2022-01-01-awesome-blog-post.org,
+
+when export to jekyll, the link becomes
+
+blog.yitang.uk/2022/01/01-awesome-blog-post
+
+this works if category is null. to make it fully working, it needs to
+translate the filename into url. it is doable, but not
+strightfoward. because the url depends on few attributes of the blog
+setup, and front matter.
 
 #+begin_src emacs-lisp :results silent 
 (defun org-jekyll-post-link-follow (path)
