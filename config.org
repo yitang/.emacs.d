@@ -2011,11 +2011,11 @@ define the markups.
 * Blogging with Jekyll
   :PROPERTIES:
   :header-args: :tangle lisp/blogging.el
+  :ID:       B89B033E-BA54-430D-8ABC-2F6B90DE8280
   :END:
 
-Jeklly have few conventins, like the new, YAML etc, it is better to
-solve it autoamtilcally and in Emacs, as part of the export process.
-
+Jeklly have few conventions, like the new, YAML etc, it is better to
+solve it automatically and in Emacs, as part of the export process.
 
 First, define a publish project, so that the exported html file will
 go to certail place, and we can define the styles, and other features
@@ -2039,10 +2039,10 @@ direcotyr, org/_drafts and org/_posts.
   "File extension of Jekyll posts.")
 #+end_src
 
-I can quickly scne the folder to see how many outstanding drasfts and
-which posts is published in in cease I need to edit it. I bind it to
-=C-c j p= and =C-c j d= where /j/ means Jekly, /p/ means posts, and
-/d/ means drafts. 
+I can quickly scan the folder to see how many outstanding drasfts and
+which posts is published in cease I need to edit it. I bind it to =C-c
+j p= and =C-c j d= where /j/ means Jelly, /p/ means posts, and /d/
+means drafts.
 
 #+begin_src emacs-lisp :results silent 
 (global-set-key (kbd "C-c j p") (lambda ()
