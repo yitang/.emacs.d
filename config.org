@@ -1519,54 +1519,6 @@ I don't use org-tags.
 (setq org-agenda-tags-todo-honor-ignore-options t)
 #+end_src
 
-** Others
-[2015-07-20 Mon 14:57]
-#+begin_src emacs-lisp :results silent 
-;;;; * Custom Key Bindings
-
-(setq org-agenda-clockreport-parameter-plist
-      (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
-;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-;; global Effort estimate values
-;; global STYLE property values for completion
-(setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                    ("STYLE_ALL" . "habit"))))
-(setq org-agenda-log-mode-items (quote (closed clock)))
-
-(setq org-use-speed-commands t)
-(defun bh/insert-inactive-timestamp ()
-  (interactive)
-  (org-insert-time-stamp nil t t nil nil nil))
-(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
-
-(defun yt/insert-ts-as-file ()
-    (interactive)
-  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
-  )
-
-(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
-
-(defun bh/insert-heading-inactive-timestamp ()
-  (save-excursion
-    (org-return)
-    (org-cycle)
-    (bh/insert-inactive-timestamp)))
-;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
-(setq org-file-apps (quote ((auto-mode . emacs)
-                            ("\\.png\\'" . emacs)
-                            ("\\.svg\\'" . system)
-                            ("\\.mm\\'" . system)
-                            ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . "evince %s"))))
-                                        ; Overwrite the current window with the agenda
-(setq org-agenda-window-setup 'current-window)
-
-(setq org-time-clocksum-format
-      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
-
-(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
-#+end_src
 ** Agenda 
 :PROPERTIES:
 :ID:       E7C78764-3A93-4ACC-89AD-939F6A229FDB
@@ -1641,7 +1593,7 @@ I don't use org-tags.
 
 ;; (setq org-agenda-tags-column -102)
 ;; Use sticky agenda's so they persist
-;; (setq org-agenda-sticky t)
+;; (setq qorg-agenda-sticky t)
 
 #+end_src
 
@@ -1660,13 +1612,15 @@ Start the weekly agenda on Monday.
 (setq org-agenda-start-on-weekday 1)
 #+end_src
 
-use 30 days. 
+show the items 30 prior to their deadline. sounds bit too much. how
+about 7 days?
 
 #+begin_src emacs-lisp :results silent 
 (setq org-deadline-warning-days 30)
 #+end_src
 
-check clock entries if some are too long/short.
+highlight clock entries that are either too long (more than 4 hours)
+or too short (less than 5 mins). those entries requires manual checks.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-agenda-clock-consistency-checks
@@ -1677,7 +1631,7 @@ check clock entries if some are too long/short.
 (setq org-read-date-prefer-future 'time)
 #+end_src
 
-agenda reminder
+Agenda reminder
 #+begin_src emacs-lisp :results silent 
 ;; Erase all reminders and rebuilt reminders for today from the agenda
 (defun bh/org-agenda-to-appt ()
@@ -1686,73 +1640,13 @@ agenda reminder
   (setq appt-display-format 'window) ;; YT: show notification in separate window
   (org-agenda-to-appt))
 
-                                        ; Rebuild the reminders everytime the agenda is displayed
+;; Rebuild the reminders everytime the agenda is displayed
 (add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
 
-                                        ; This is at the end of my .emacs - so appointments are set up when Emacs starts
+;; This is at the end of my .emacs - so appointments are set up when Emacs starts
 ;; (bh/org-agenda-to-appt)
 #+end_src
 
-** customised 
-
-#+begin_src emacs-lisp :results silent 
-(setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
-
-(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
-
-(setq org-habit-show-all-today t)
-(setq org-habit-show-habits nil)
-(setq org-habit-graph-column 80)
-;; add the following 
-(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
-(setq org-agenda-tags-column 120)
-
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
-
-#+end_src
-
-Start up options
-#+begin_src emacs-lisp :results silent 
-(setq org-startup-folded t
-      org-hide-block-startup t
-      org-startup-indented nil)
-#+end_src
-** Deep Configuration 
-
-Remove keys
-
-#+begin_src emacs-lisp :results silent 
-;; remove C-TAB
-(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(org-defkey org-mode-map (kbd "C-c [") nil)
-(org-defkey org-mode-map (kbd "C-c ]") nil)
-(org-defkey org-mode-map (kbd "C-TAB") nil)
-(org-defkey org-mode-map (kbd "<f8>") nil)
-#+end_src
-
-Show org-mode bullets as UTF-8 characters.
-
-
-Add markup wrapper for org-mode. to turn a word into bold, wrapper in
-a selected region, by using expand-region, which is bound to =C-==
-then type *.
-#+begin_src emacs-lisp :results silent :tangle no
-(sp-local-pair 'org-mode "=" "=") ; select region, hit = then region -> =region= in org-mode
-(sp-local-pair 'org-mode "*" "*") ; select region, hit * then region -> *region* in org-mode
-(sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
-(sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
-(sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
-(sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
-#+end_src
-** External Links
-
-C-c C-l org-insert-link by default. found it is easier to have C-c l
-as store link.
-
-   #+begin_src emacs-lisp :results silent 
-     (global-set-key (kbd "C-c l") 'org-store-link)
-   #+end_src
 ** Babel
 [2015-01-29 Thu 14:16]
 define a list of supported language.
@@ -1839,7 +1733,7 @@ Add export back-end, I need HTML, PDF, MarkDown, and Ascii.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-export-backends '(ascii html latex md org))
-(use-package ox-md)
+(use-package ox-md) ;; somehow this does not work. i don't know why. 
 #+end_src
 
 General export options, it applys to all the export-backend. 
@@ -2013,6 +1907,123 @@ to LaTeX. the latex-class can be defined somewhere else.
       '(("frame" "lines")
         ("fontsize" "\\scriptsize")))
 ;; ("linenos" "")))
+#+end_src
+
+** Deep Configuration  - remove this entry
+
+Remove keys
+
+#+begin_src emacs-lisp :results silent
+;; remove C-TAB
+(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(org-defkey org-mode-map (kbd "C-c [") nil)
+(org-defkey org-mode-map (kbd "C-c ]") nil)
+(org-defkey org-mode-map (kbd "C-TAB") nil)
+(org-defkey org-mode-map (kbd "<f8>") nil)
+#+end_src
+
+Show org-mode bullets as UTF-8 characters.
+
+
+Add markup wrapper for org-mode. to turn a word into bold, wrapper in
+a selected region, by using expand-region, which is bound to =C-==
+then type *.
+#+begin_src emacs-lisp :results silent :tangle no
+(sp-local-pair 'org-mode "=" "=") ; select region, hit = then region -> =region= in org-mode
+(sp-local-pair 'org-mode "*" "*") ; select region, hit * then region -> *region* in org-mode
+(sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
+(sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
+(sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
+(sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
+#+end_src
+** Others Org Modules
+[2015-07-20 Mon 14:57]
+#+begin_src emacs-lisp :results silent 
+;;;; * Custom Key Bindings
+
+(setq org-agenda-clockreport-parameter-plist
+      (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
+;; Set default column view headings: Task Effort Clock_Summary
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+;; global Effort estimate values
+;; global STYLE property values for completion
+(setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                    ("STYLE_ALL" . "habit"))))
+(setq org-agenda-log-mode-items (quote (closed clock)))
+
+(setq org-use-speed-commands t)
+(defun bh/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+
+(defun yt/insert-ts-as-file ()
+    (interactive)
+  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
+  )
+
+(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
+
+(defun bh/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (org-return)
+    (org-cycle)
+    (bh/insert-inactive-timestamp)))
+;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+(setq org-file-apps (quote ((auto-mode . emacs)
+                            ("\\.png\\'" . emacs)
+                            ("\\.svg\\'" . system)
+                            ("\\.mm\\'" . system)
+                            ("\\.x?html?\\'" . system)
+                            ("\\.pdf\\'" . "evince %s"))))
+                                        ; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
+
+(setq org-time-clocksum-format
+      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+
+(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
+#+end_src
+
+#+begin_src emacs-lisp :results silent 
+(setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
+
+(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
+
+;; (setq org-habit-show-all-today t)
+;; (setq org-habit-show-habits nil)
+;; (setq org-habit-graph-column 80)
+;; add the following 
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
+(setq org-agenda-tags-column 120)
+
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
+
+#+end_src
+
+Start up options
+#+begin_src emacs-lisp :results silent 
+(setq org-startup-folded t
+      org-hide-block-startup t
+      org-startup-indented nil)
+#+end_src
+
+C-c C-l org-insert-link by default. found it is easier to have C-c l
+as store link.
+
+   #+begin_src emacs-lisp :results silent 
+     (global-set-key (kbd "C-c l") 'org-store-link)
+   #+end_src
+
+#+begin_src emacs-lisp :results silent :tangle no
+;; https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
+;; create id property whenver link a headline -
+;; see - https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
+(setq org-id-link-to-org-use-id t)
+
+;; by defualt, agenda log mode shows when a taks is closed. i don't wanna that.
+(setq org-agenda-log-mode-items '(clock))
 #+end_src
 
 * Blogging with Jekyll
@@ -2893,8 +2904,6 @@ TODO: replace this by using native elpy function.
   :header-args: :tangle lisp/refile.el
   :END:
 
-
-
 quickly filter out non-work tasks in org-agenda. 
 
 #+begin_src emacs-lisp :results silent 
@@ -3156,6 +3165,12 @@ https://depp.brause.cc/nov.el/
     :custom
     (epa-file-select-keys nil)   ;; seems there's a bug in gpg. it always asks for which key.
     )
+
+(setq epg-gpg-program "gpg2")
+(require 'epa-file)
+(epa-file-enable)
+(setq password-cache-expiry (* 15 60))
+(setq epa-pinentry-mode 'loopback)
 #+end_src
 ** .dir-locals.el
 :PROPERTIES:
