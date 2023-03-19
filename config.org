@@ -1733,7 +1733,7 @@ Add export back-end, I need HTML, PDF, MarkDown, and Ascii.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-export-backends '(ascii html latex md org))
-(use-package ox-md) ;; somehow this does not work. i don't know why. 
+(require 'ox-md) ;; somehow this does not work. i don't know why. 
 #+end_src
 
 General export options, it applys to all the export-backend. 
