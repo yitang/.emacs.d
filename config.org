@@ -1299,14 +1299,7 @@ Version 2015-05-07"
   :header-args: :tangle lisp/org-mode.el
   :END:
 
-I started to learn Emacs by reading Bernt Hansen's [[http://doc.norang.ca/org-mode.html][Org Mode - Organize
-Your Life In Plain Text!]] .My settings based on Bernt's 
-
-associate org-mode with file with .org, .org_archive, and .txt
-extension. 
-#+begin_src emacs-lisp :results silent 
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-#+end_src
+Based on Bernt Hansen's [[http://doc.norang.ca/org-mode.html][Org Mode - Organize Your Life In Plain Text!]].
 
 ** org-todos
 :PROPERTIES:
@@ -1337,7 +1330,7 @@ Then highlight the keywords using different colours.
 
 Define an event when a TODO status changes, for example, if changed to
 HOLD, add HOLD tag and remove WAITING tag. If changed to DONE, remove
-both HOLD and WAITING tags. 
+both HOLD and WAITING tags.
 
 #+begin_src emacs-lisp :results silent 
 (setq org-todo-state-tags-triggers
