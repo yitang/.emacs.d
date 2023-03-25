@@ -631,31 +631,6 @@ function often in testing and trying out.
         (message "File '%s' successfully removed" filename)))))
 #+end_src
 
-It is a good practise to group all the file management related
-commands together using hydra. 
-
-#+begin_src emacs-lisp :results silent 
-(defhydra hydra-file-management (:color red
-                                        :hint nil)
-  "
-_o_pen file
-_O_pen file as Sudo user 
-copy file _P_ath to kill ring
-_r_ename buffer-visiting file 
-_d_elete buffer-visiting file
-open with _e_xternal application
-_g_it sync"
-  ("o" find-file)
-  ("O" yt/sudo-find-file)
-  ("P" yt/copy-full-path-to-kill-ring)
-  ("r" yt/rename-current-buffer-file)
-  ("c" yt/copy-file-to)
-  ("d" yt/delete-this-buffer-and-file)
-  ("e" prelude-open-with)
-  ("g" yt/git-up))
-(global-set-key [f3] 'hydra-file-management/body)
-#+end_src
-
 Open the file manager at the default directory.
 
 #+begin_src emacs-lisp :results silent 
@@ -2518,6 +2493,33 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
   :END:
 [2015-06-22 Mon 14:11]
 
+
+It is a good practise to group all the file management related
+commands together using hydra. 
+
+#+begin_src emacs-lisp :results silent
+(use-package hydra)
+(defhydra hydra-file-management (:color red
+                                        :hint nil)
+  "
+_o_pen file
+_O_pen file as Sudo user 
+copy file _P_ath to kill ring
+_r_ename buffer-visiting file 
+_d_elete buffer-visiting file
+open with _e_xternal application
+_g_it sync"
+  ("o" find-file)
+  ("O" yt/sudo-find-file)
+  ("P" yt/copy-full-path-to-kill-ring)
+  ("r" yt/rename-current-buffer-file)
+  ("c" yt/copy-file-to)
+  ("d" yt/delete-this-buffer-and-file)
+  ("e" prelude-open-with)
+  ("g" yt/git-up))
+(global-set-key [f3] 'hydra-file-management/body)
+#+end_src
+
 #+begin_src emacs-lisp :results silent 
 (defhydra yt-hydra/help (:color blue :hint nil)
   "
@@ -2659,7 +2661,8 @@ _g_oto      _o_ut        ^ ^      _r_eport
   :END:
 [2015-07-05 Sun 19:49]
 
-#+begin_src emacs-lisp :results silent 
+#+begin_src emacs-lisp :results silent
+(use-package pyvenv)
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
 ;; (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
@@ -2963,7 +2966,7 @@ https://depp.brause.cc/nov.el/
 ** org-download
 
 #+begin_src emacs-lisp :results silent
-(require 'org-download)
+(use-package org-download)
 (add-hook 'dired-mode-hook 'org-download-enable)
 (setq-default org-download-image-dir "~/Pictures/org-download")
 (setq-default org-download-heading-lvl nil)   ;; flat file systme, otherwise, would be confusing.
@@ -3066,7 +3069,7 @@ called rsync in dired. useful in copy files between servers.
 :END:
 make yaml file a bit easier to work with.
 #+begin_src emacs-lisp :results silent
-(require 'yaml-mode)
+(use-package yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 
@@ -3475,6 +3478,29 @@ use f8 to remove the R process buffer.
                            #'consult-completion-in-region
                          #'completion--in-region)
                        args)))
+#+end_src
+
+** smoothing scrolling
+:PROPERTIES:
+:CREATED:  [2023-03-19 Sun 13:11]
+:ID:       FE2516B8-673E-41F5-9B78-9599AB765D18
+:END:
+
+#+begin_src emacs-lisp :results silent :tangle no
+;;; Scrolling.
+;; Good speed and allow scrolling through large images (pixel-scroll).
+;; Note: Scroll lags when point must be moved but increasing the number
+;;       of lines that point moves in pixel-scroll.el ruins large image
+;;       scrolling. So unfortunately I think we'll just have to live with
+;;       this.
+(pixel-scroll-mode)
+(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
+
+(use-package good-scroll)
+(good-scroll-mode 1)
 #+end_src
 * Scripting
   :PROPERTIES:
