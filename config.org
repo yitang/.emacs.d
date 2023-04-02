@@ -1991,6 +1991,9 @@ as store link.
      (global-set-key (kbd "C-c l") 'org-store-link)
    #+end_src
 
+
+trying to remove closed item in org-agenda. it does not work, might be
+a bug in org-mode. 
 #+begin_src emacs-lisp :results silent :tangle no
 ;; https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
 ;; create id property whenver link a headline -
@@ -2243,7 +2246,7 @@ example. run this as pre-export hook.
 it worth exploring implementing it as a filter function to the src
 code block. 
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (defun my-jekyll-src-block (src-block contents info)
   "Transcode a SRC-BLOCK element from Org to ASCII.
 CONTENTS is nil.  INFO is a plist used as a communication
@@ -2254,6 +2257,8 @@ channel."
            (org-element-normalize-string
             (org-export-format-code-default src-block info)))))
 
+(require 'ox) ;; why i need this line here? TODO: because blogging.el loadded first, before org-mode. need to load after org-mode.
+(require 'ox-md) ;; 
 (org-export-define-derived-backend 'jekyll-html 'html
   :translate-alist '((src-block . my-jekyll-src-block)))
 
@@ -2552,13 +2557,14 @@ _g_it sync"
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
 _i_nfo: info mode 
-_G_oogle: search google 
 _d_ictionary: search meaning of a word"
   ("f" describe-function)
   ("v" describe-variable)
   ("d" osx-dictionary-search-word-at-point)
-  ("s" get-synonyms)
-  ;; ("s" synosaurus-lookup)
+  ;; ("s" get-synonyms)
+  ("i" helm-info)
+  ;; ("G" helm-google-suggest)
+  ("s" synosaurus-lookup)
   ;; ("d" voca-builder/search-popup)
   )
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
