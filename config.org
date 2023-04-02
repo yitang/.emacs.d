@@ -2867,7 +2867,7 @@ insert git sha1 value into current point.
 (use-package which-key)
 (which-key-mode)
 #+end_src
-** NEXT Treemacs
+** Treemacs
 copied following configuration from
 https://github.com/Alexander-Miller/treemacs with no additional
 editing.
