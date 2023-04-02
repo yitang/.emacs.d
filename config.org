@@ -2001,6 +2001,28 @@ as store link.
 (setq org-agenda-log-mode-items '(clock))
 #+end_src
 
+add a created timestamp property to each header.
+
+#+begin_src emacs-lisp :results silent
+(defvar org-created-property-name "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun org-set-created-property (&optional active NAME)
+  "Set a property on the entry giving the creation time.
+
+By default the property is called CREATED. If given the `NAME'
+argument will be used instead. If the property already exists, it
+will not be modified."
+  (interactive)
+  (let* ((created (or NAME org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now))))
+(add-hook 'org-insert-heading-hook 'org-set-created-property 'append)
+(add-hook 'org-capture-prepare-finalize-hook 'org-set-created-property 'append)
+#+end_src
+
 * Blogging with Jekyll
   :PROPERTIES:
   :header-args: :tangle lisp/blogging.el
@@ -2202,11 +2224,15 @@ deploy to AWS Bucket -
                              (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
     ("em" "Export as Markdown" jekyll/export-to-markdown )
     ("eh" "Export as HTML" jekyll/export-to-html)
+    ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
      ]])
 #+end_src
 
 
 ** code highlight 
+:PROPERTIES:
+:ID:       E9958DAD-5446-47C4-99FF-8953CB2A89BC
+:END:
 [2015-01-23 Fri 17:47]
 
 
