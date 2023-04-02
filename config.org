@@ -1700,7 +1700,12 @@ first, and then switch to the interactive session.
 	    (set-marker comint-last-output-start (point))
 	    (get-buffer (current-buffer)))))))
 
-#+end_src    
+#+end_src
+
+use python3 in org-babel.
+#+begin_src emacs-lisp :results silent
+(setq org-babel-python-command "python3")
+#+end_src
 ** Export 
 [2015-02-04 Wed 12:23]
 
