@@ -53,26 +53,6 @@
         (kill-buffer buffer)
         (message "File '%s' successfully removed" filename)))))
 
-(defhydra hydra-file-management (:color red
-                                        :hint nil)
-  "
-_o_pen file
-_O_pen file as Sudo user 
-copy file _P_ath to kill ring
-_r_ename buffer-visiting file 
-_d_elete buffer-visiting file
-open with _e_xternal application
-_g_it sync"
-  ("o" find-file)
-  ("O" yt/sudo-find-file)
-  ("P" yt/copy-full-path-to-kill-ring)
-  ("r" yt/rename-current-buffer-file)
-  ("c" yt/copy-file-to)
-  ("d" yt/delete-this-buffer-and-file)
-  ("e" prelude-open-with)
-  ("g" yt/git-up))
-(global-set-key [f3] 'hydra-file-management/body)
-
 ;; http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html
 (defun yt/open-file-manager ()
   "Show current file in desktop (OS's file manager)."
@@ -94,17 +74,13 @@ _g_it sync"
 (use-package projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(use-package helm-projectile)
-(helm-projectile-on)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-remember-window-configs t )
-(setq projectile-completion-system 'helm)
-(setq projectile-switch-project-action 'helm-projectile)
 
-;; when swtich to project, default to open project directory in dired.
-(setq projectile-switch-project-action 'projectile-dired)
+;; as of [2023-01-17 Tue 19:35], there's issue with
+;; projectile-switch-project function. it cannot detect the right
+;; project directory. so i have to use consult-projectile for this.
+(use-package consult-projectile)
+(setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
+(define-key projectile-command-map (kbd "p") 'consult-projectile-switch-project)
 
 (use-package tramp)
 (use-package ssh)

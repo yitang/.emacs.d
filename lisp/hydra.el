@@ -1,40 +1,40 @@
+(use-package hydra)
+(defhydra hydra-file-management (:color red
+                                        :hint nil)
+  "
+_o_pen file
+_O_pen file as Sudo user 
+copy file _P_ath to kill ring
+_r_ename buffer-visiting file 
+_d_elete buffer-visiting file
+open with _e_xternal application
+_g_it sync"
+  ("o" find-file)
+  ("O" yt/sudo-find-file)
+  ("P" yt/copy-full-path-to-kill-ring)
+  ("r" yt/rename-current-buffer-file)
+  ("c" yt/copy-file-to)
+  ("d" yt/delete-this-buffer-and-file)
+  ("e" prelude-open-with)
+  ("g" yt/git-up))
+(global-set-key [f3] 'hydra-file-management/body)
+
 (defhydra yt-hydra/help (:color blue :hint nil)
   "
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
 _i_nfo: info mode 
-_G_oogle: search google 
 _d_ictionary: search meaning of a word"
   ("f" describe-function)
   ("v" describe-variable)
-  ("i" helm-info-org)
-  ("G" helm-google-suggest)
   ("d" osx-dictionary-search-word-at-point)
-  ("s" get-synonyms)
-  ;; ("s" synosaurus-lookup)
+  ;; ("s" get-synonyms)
+  ("i" helm-info)
+  ;; ("G" helm-google-suggest)
+  ("s" synosaurus-lookup)
   ;; ("d" voca-builder/search-popup)
   )
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
-
-(use-package hydra)
-
-(defhydra hydra-search (:color blue
-                               :hint nil)
-  "
-Current Buffer   : _i_search helm-_s_woop _a_ce-jump-word 
-Multiple Buffers : helm-multi-_S_woop 
-Project Directory: projectile-_g_rep  helm-projectile-_G_rep
-Python: elpy rgrep _p_ython project
-"
-  ("i" isearch-forward)
-  ("s" helm-swoop)
-  ("a" ace-jump-word-mode)
-  ("S" helm-multi-swoop)
-  ("g" projectile-grep)
-  ("G" helm-projectile-grep)
-  ("p" elpy-rgrep-symbol)
-  )
-(global-set-key [f5] 'hydra-search/body)
 
 ;; https://github.com/abo-abo/hydra/wiki/Org-clock
 (defhydra hydra-org-clock (:color blue :hint nil)

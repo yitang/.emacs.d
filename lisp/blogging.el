@@ -4,15 +4,11 @@
   "Relative path to drafts directory.")
 (defvar jekyll-posts-dir "_posts/"
   "Relative path to posts directory.")
-(defvar jekyll-post-ext ".org"
-  "File extension of Jekyll posts.")
+(defvar jekyll-publish-dir "~/matrix/learning/mywebsite/blog/_posts"
+  "Relative path to posts directory.")
 
-(global-set-key (kbd "C-c j p") (lambda ()
-                                  (interactive)
-                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
-(global-set-key (kbd "C-c j d") (lambda ()
-                                  (interactive)
-                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
+;; (defvar jekyll-post-ext ".org"
+;;   "File extension of Jekyll posts.")
 
 (defvar jekyll-post-template
   " 
@@ -46,7 +42,7 @@ comments: true
 (defun jekyll-yaml-escape (s)
   "Escape a string for YAML."
   (if (or (string-match ":" s)
-        2  (string-match "\"" s))
+          (string-match "\"" s))
       (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
     s))
 
@@ -92,170 +88,39 @@ comments: true
       (find-file filename)
       (set-window-point (selected-window) old-point)))))
 
-(global-set-key (kbd "C-c j n") 'blog-draft-post)
-(global-set-key (kbd "C-c j P") 'blog-publish-post)
+(transient-define-prefix yt/jekyll ()
+  ""
+  ["Jekyll Blog"
+   [("n" "new draft" blog-draft-post)
+    ("p" "publish post" blog-publish-post)
+    ("dd" "Dired - drafts" (lambda ()
+                             (interactive)
+                             (find-file (expand-file-name jekyll-drafts-dir jekyll-directory))))
+    ("dp" "Dired - posts" (lambda ()
+                             (interactive)
+                             (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
+    ("em" "Export as Markdown" jekyll/export-to-markdown )
+    ("eh" "Export as HTML" jekyll/export-to-html)
+    ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
+     ]])
 
-;; ref: http://cute-jumper.github.io/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/
-(setq org-publish-project-alist
-      '(("myblog"
-         :base-directory "~/matrix/learning/mywebsite/org"
-         :base-extension "org"
-         :publishing-directory "~/matrix/learning/mywebsite/blog"
-         :recursive t
-         :publishing-function org-md-publish-to-md
-         :with-toc nil
-         :headline-levels 4
-         :section-numbers nil
-         :auto-preamble nil
-         :auto-sitemap nil
-         :html-extension "html"
-         :htmlized-source t
-         :body-only t
-         )))
+(defun my-jekyll-src-block (src-block contents info)
+  "Transcode a SRC-BLOCK element from Org to ASCII.
+CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (concat
+   (format "{%% highlight %s %%} \n %s {%% endhighlight %%}"
+           (org-element-property :language src-block)
+           (org-element-normalize-string
+            (org-export-format-code-default src-block info)))))
 
-(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
-  "Path to Jekyll blog.")
-(defvar jekyll-drafts-dir "_drafts/"
-  "Relative path to drafts directory.")
-(defvar jekyll-posts-dir "_posts/"
-  "Relative path to posts directory.")
-(defvar jekyll-post-ext ".org"
-  "File extension of Jekyll posts.")
+(require 'ox) ;; why i need this line here? TODO: because blogging.el loadded first, before org-mode. need to load after org-mode.
+(require 'ox-md) ;; 
+(org-export-define-derived-backend 'jekyll-html 'html
+  :translate-alist '((src-block . my-jekyll-src-block)))
 
-(defvar jekyll-post-template
-  " 
-#+begin_export html
----
-layout: post
-title: %s
-published: false
-excerpt: 
-categories:
-  -  
-tags:
-  -
-comments: true 
----
-#+END_export
-
-# #+call: GetLastUpdatedDate[:exports none]()[:results org]
-
-#+TOC: headlines 4
-"
-    "Default template for Jekyll posts. %s will be replace by the post title.")
-
-(defun jekyll-make-slug (s)
-  "Turn a string into a slug."
-  (replace-regexp-in-string
-   " " "-" (downcase
-            (replace-regexp-in-string
-             "[^A-Za-z0-9 ]" "" s))))
-
-(defun jekyll-yaml-escape (s)
-  "Escape a string for YAML."
-  (if (or (string-match ":" s)
-        2  (string-match "\"" s))
-      (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
-    s))
-
-(defun blog-draft-post (title) 
-  "Create a new Jekyll blog post."
-  (interactive "sPost Title: ")
-  (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
-                            (jekyll-make-slug title)
-                            jekyll-post-ext)))
-    (if (file-exists-p draft-file)
-        (find-file draft-file)
-      (find-file draft-file)
-      (insert (format jekyll-post-template (jekyll-yaml-escape title))))))
-
-(defun blog-publish-post ()
-  "Move a draft post to the posts directory, and rename it so that it
- contains the date."
-  (interactive)
-  (cond
-   ((not (equal
-          (file-name-directory (buffer-file-name (current-buffer)))
-          (concat jekyll-directory jekyll-drafts-dir)))
-    (message "This is not a draft post."))
-   ((buffer-modified-p)
-    (message "Can't publish post; buffer has modifications."))
-   (t
-    (let ((filename
-           (concat jekyll-directory jekyll-posts-dir
-                   (format-time-string "%Y-%m-%d-")
-                   (file-name-nondirectory
-                    (buffer-file-name (current-buffer)))))
-          (old-point (point)))
-      (rename-file (buffer-file-name (current-buffer))
-                   filename)
-      (kill-buffer nil)
-      (find-file filename)
-      (set-window-point (selected-window) old-point)))))
-
-
-;; Improve our blogging experience with Org-Jekyll. This code sets four
-;; functions with corresponding key bindings:
-;;
-;; C-c j n - Create new draft
-;; C-c j P - Post current draft
-;; C-c j d - Show all drafts
-;; C-c j p - Show all posts
-;;
-;; Once a draft has been posted (i.e., moved from the _drafts
-;; directory to _post with the required date prefix in the filename), we
-;; then need to html-export it to the jekyll rootdir (with org-publish).
-
-(global-set-key (kbd "C-c j n") 'blog-draft-post)
-(global-set-key (kbd "C-c j P") 'blog-publish-post)
-(global-set-key (kbd "C-c j p") (lambda ()
-                                  (interactive)
-                                  (find-file "~/matrix/learning/mywebsite/org/_posts/")))
-(global-set-key (kbd "C-c j d") (lambda ()
-                                  (interactive)
-                                  (find-file "~/matrix/learning/mywebsite/org/_drafts/")))
-
-(defvar jekyll-highlight-template-open
-  "{%% highlight %s %%}"
-  "%s will be replaced by the language identifier")
-
-(defvar jekyll-highlight-template-close
-  "{% endhighlight %}")
-
-(defun yt/org-to-jekyll-highlight ()
-  "wrap babel src block with jekyll syntax highlight block.
-
-so emacs-lisp babel block would be translated to {% highlight
-emacs-lisp %} block.
-"
-  (interactive)
-  ;; (setq case-fold-search t)
-  (save-excursion
-    (goto-char (point-min))
-    (org-show-block-all)
-    (while (search-forward-regexp "^\s*#\\+begin_src \\([a-z_-]+\\).*$" nil t)
-      (replace-match (format jekyll-highlight-template-open (match-string 1)))
-      (message "DEBUGGG")
-      (search-forward-regexp "^\s*#\\+end_src") ;; will throew error if src block is not closed. 
-      (replace-match jekyll-highlight-template-close t))))
-
-;; (add-hook 'org-export-before-processing-hook 'yt/org-to-jekyll-highlight) ;; won't work. all src blocks are wrapped before execuating. not ideal if i do need them. 
-;; (add-hook 'org-export-before-parsing-hook 'yt/org-to-jekyll-highlight)
-
-;;;; TODO: 
-;; it won't be good to add a hook yt/org-jekyl-highlight
-;; so that it won't effect my other exporting
-
-(defun yt/my-blog-pre-process-hook (backend) ;; only for html back-end
-  (when (equal default-directory
-               (concat jekyll-directory jekyll-posts-dir))
-    ;; (when (equal backend 'html)
-      (message "PROCESS SRC BLOCK")
-      (goto-char (point-min))
-      (yt/org-to-jekyll-highlight)))
-
-;; (setq org-export-before-parsing-hook nil)
-(add-hook 'org-export-before-parsing-hook 'yt/my-blog-pre-process-hook)
+(org-export-define-derived-backend 'jekyll-md 'md
+  :translate-alist '((src-block . my-jekyll-src-block)))
 
 (defun org-custom-link-img-follow (path)
   (org-open-file-with-emacs

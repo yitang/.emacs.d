@@ -78,7 +78,7 @@
 (setq company-dabbrev-downcase nil)
 (setq company-show-numbers t)
 
-(recentf-mode 0)
+(recentf-mode 1)
 (setq recentf-max-saved-items 200
       recentf-max-menu-items 15)
 

@@ -1,8 +1,6 @@
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(p)" "SOMEDAY" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WIP(w)" "SOMEDAY" "|" "DONE(d)")
+              (sequence "WAITING(W@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
@@ -23,7 +21,7 @@
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 (setq org-log-done (quote time))
-(setq org-log-into-drawer t)
+(setq org-log-into-drawer t)  ; t means LOGBOOK
 (setq org-log-state-notes-insert-after-drawers nil)
 
 (defun yt/modify-org-done-face ()
@@ -51,8 +49,6 @@
 (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
 (setq org-refile-use-outline-path t)
-
-(setq org-completion-handler 'helm)
 
 (setq org-refile-use-cache t)
 
@@ -116,51 +112,6 @@ Skips capture tasks"
 ;; Allow setting single tags without the menu
 (setq org-fast-tag-selection-single-key (quote expert))
 (setq org-agenda-tags-todo-honor-ignore-options t)
-
-;;;; * Custom Key Bindings
-
-(setq org-agenda-clockreport-parameter-plist
-      (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
-;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-;; global Effort estimate values
-;; global STYLE property values for completion
-(setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                    ("STYLE_ALL" . "habit"))))
-(setq org-agenda-log-mode-items (quote (closed clock)))
-
-(setq org-use-speed-commands t)
-(defun bh/insert-inactive-timestamp ()
-  (interactive)
-  (org-insert-time-stamp nil t t nil nil nil))
-(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
-
-(defun yt/insert-ts-as-file ()
-    (interactive)
-  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
-  )
-
-(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
-
-(defun bh/insert-heading-inactive-timestamp ()
-  (save-excursion
-    (org-return)
-    (org-cycle)
-    (bh/insert-inactive-timestamp)))
-;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
-(setq org-file-apps (quote ((auto-mode . emacs)
-                            ("\\.png\\'" . emacs)
-                            ("\\.svg\\'" . system)
-                            ("\\.mm\\'" . system)
-                            ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . "evince %s"))))
-                                        ; Overwrite the current window with the agenda
-(setq org-agenda-window-setup 'current-window)
-
-(setq org-time-clocksum-format
-      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
-
-(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 
 (global-set-key (kbd "<f12>") 'org-agenda)
 
@@ -229,7 +180,7 @@ Skips capture tasks"
 
 ;; (setq org-agenda-tags-column -102)
 ;; Use sticky agenda's so they persist
-;; (setq org-agenda-sticky t)
+;; (setq qorg-agenda-sticky t)
 
 (setq org-agenda-time-grid (quote ((daily today require-timed)
  (600 630 700 730 800 830 900 930 1000 1030 1200 1400 1600 1800 2000)
@@ -254,68 +205,12 @@ Skips capture tasks"
   (setq appt-display-format 'window) ;; YT: show notification in separate window
   (org-agenda-to-appt))
 
-                                        ; Rebuild the reminders everytime the agenda is displayed
+;; Rebuild the reminders everytime the agenda is displayed
 (add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
 
-                                        ; This is at the end of my .emacs - so appointments are set up when Emacs starts
+;; This is at the end of my .emacs - so appointments are set up when Emacs starts
 ;; (bh/org-agenda-to-appt)
 
-(setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
-
-(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
-
-(setq org-habit-show-all-today t)
-(setq org-habit-show-habits nil)
-(setq org-habit-graph-column 80)
-;; add the following 
-(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
-(setq org-agenda-tags-column 120)
-
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
-
-(setq org-startup-folded t
-      org-hide-block-startup t
-      org-startup-indented nil)
-
-;; remove C-TAB
-(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
-(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
-(org-defkey org-mode-map (kbd "C-c [") nil)
-(org-defkey org-mode-map (kbd "C-c ]") nil)
-(org-defkey org-mode-map (kbd "C-TAB") nil)
-(org-defkey org-mode-map (kbd "<f8>") nil)
-;; use helm iwth org
-;; (setq org-completion-handler 'helm)
-
-(sp-local-pair 'org-mode "=" "=") ; select region, hit = then region -> =region= in org-mode
-(sp-local-pair 'org-mode "*" "*") ; select region, hit * then region -> *region* in org-mode
-(sp-local-pair 'org-mode "/" "/") ; select region, hit / then region -> /region/ in org-mode
-(sp-local-pair 'org-mode "_" "_") ; select region, hit _ then region -> _region_ in org-mode
-(sp-local-pair 'org-mode "+" "+") ; select region, hit + then region -> +region+ in org-mode
-(sp-local-pair 'org-mode "$" "$") ; select region, hit $ then region -> $region$ in org-mode
-
-(global-set-key (kbd "C-c l") 'org-store-link)
-
-;;;; * org-babel 
-(setq org-src-window-setup 'current-window)
-(setq org-src-fontify-natively nil)
-(setq org-src-preserve-indentation nil)
-(setq org-edit-src-content-indentation 0)
-(setq org-catch-invisible-edits 'error)
-(setq org-export-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(set-charset-priority 'unicode)
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
-(defun bh/display-inline-images ()
-  (condition-case nil
-      (org-display-inline-images)
-    (error nil)))
-
-
-(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
-
-(setq org-babel-results-keyword "results")
 (org-babel-do-load-languages
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
@@ -330,14 +225,18 @@ Skips capture tasks"
 	 (latex . t)
 	 (jupyter . t)
 	 (sql . t))))
-
-(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
-
-;; (add-to-list 'org-babel-default-header-args:R
-;;              ;; '(:session . "*R-main*")
-;;              '((:width . 640) (:height . 640)))
-
 (setq org-confirm-babel-evaluate nil)
+
+(setq org-src-window-setup 'current-window)
+(setq org-src-fontify-natively t)
+(setq org-src-preserve-indentation nil)
+(setq org-edit-src-content-indentation 0)
+(setq org-catch-invisible-edits 'error)
+(setq org-export-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(set-charset-priority 'unicode)
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+(setq org-babel-results-keyword "results")
 
 ;; copy of org-sh-bash-initiate-session in ob-shell.el but with different name
 ;; per https://emacs.stackexchange.com/questions/55957/error-no-org-babel-initiate-session-function-for-bash
@@ -354,11 +253,10 @@ Skips capture tasks"
 	    (set-marker comint-last-output-start (point))
 	    (get-buffer (current-buffer)))))))
 
-;; (use-package ox-html)
-;; (use-package ox-latex)
-;; (use-package ox-ascii)
-;; (use-package ox-md)
-(use-package htmlize)
+(setq org-babel-python-command "python3")
+
+(setq org-export-backends '(ascii html latex md org))
+(require 'ox-md) ;; somehow this does not work. i don't know why.
 
 (setq org-export-with-toc nil
       org-export-with-todo-keywords t
@@ -372,12 +270,6 @@ Skips capture tasks"
 (setq org-image-actual-width '(400))
 
 (setq org-table-export-default-format "orgtbl-to-csv")
-
-(setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
-                                 ("/" italic "<i>" "</i>")
-                                 ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
-                                 ("=" org-code "<code>" "</code>" verbatim)
-                                 ("~" org-verbatim "<code>" "</code>" verbatim))))
 
 ;; http://emacs-fu.blogspot.co.uk/2011/04/nice-looking-pdfs-with-org-mode-and.html
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
@@ -500,8 +392,92 @@ Skips capture tasks"
         ("fontsize" "\\scriptsize")))
 ;; ("linenos" "")))
 
-;;;; comple pdf 
-(setq org-latex-pdf-process
-      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+;; remove C-TAB
+(define-key org-mode-map (kbd "C-S-<right>") 'mc/mark-next-like-this)
+(define-key org-mode-map (kbd "C-S-<left>") 'mc/mark-previous-like-this)
+(org-defkey org-mode-map (kbd "C-c [") nil)
+(org-defkey org-mode-map (kbd "C-c ]") nil)
+(org-defkey org-mode-map (kbd "C-TAB") nil)
+(org-defkey org-mode-map (kbd "<f8>") nil)
+
+;;;; * Custom Key Bindings
+
+(setq org-agenda-clockreport-parameter-plist
+      (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
+;; Set default column view headings: Task Effort Clock_Summary
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+;; global Effort estimate values
+;; global STYLE property values for completion
+(setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                    ("STYLE_ALL" . "habit"))))
+(setq org-agenda-log-mode-items (quote (clock)))
+
+(setq org-use-speed-commands t)
+(defun bh/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+
+(defun yt/insert-ts-as-file ()
+    (interactive)
+  (insert (format-time-string "%Y-%m-%d--%H-%M-%S"))
+  )
+
+(global-set-key (kbd "<f9> T") 'yt/insert-ts-as-file)
+
+(defun bh/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (org-return)
+    (org-cycle)
+    (bh/insert-inactive-timestamp)))
+;; (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+(setq org-file-apps (quote ((auto-mode . emacs)
+                            ("\\.png\\'" . emacs)
+                            ("\\.svg\\'" . system)
+                            ("\\.mm\\'" . system)
+                            ("\\.x?html?\\'" . system)
+                            ("\\.pdf\\'" . "evince %s"))))
+                                        ; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
+
+(setq org-time-clocksum-format
+      '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
+
+(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
+
+(setq org-reverse-note-order t) ;; refiled headline will be the first under the taget
+
+(setq org-archive-location "::* Archived Tasks") ;;in-file archive 
+
+;; (setq org-habit-show-all-today t)
+;; (setq org-habit-show-habits nil)
+;; (setq org-habit-graph-column 80)
+;; add the following 
+(setq org-time-stamp-custom-formats '("<%A %d %B %Y>" . "<%A %d %B %Y %H:%M>"))
+(setq org-agenda-tags-column 120)
+
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
+
+(setq org-startup-folded t
+      org-hide-block-startup t
+      org-startup-indented nil)
+
+(global-set-key (kbd "C-c l") 'org-store-link)
+
+(defvar org-created-property-name "CREATED"
+  "The name of the org-mode property that stores the creation date of the entry")
+
+(defun org-set-created-property (&optional active NAME)
+  "Set a property on the entry giving the creation time.
+
+By default the property is called CREATED. If given the `NAME'
+argument will be used instead. If the property already exists, it
+will not be modified."
+  (interactive)
+  (let* ((created (or NAME org-created-property-name))
+         (fmt (if active "<%s>" "[%s]"))
+         (now  (format fmt (format-time-string "%Y-%m-%d %a %H:%M"))))
+    (unless (org-entry-get (point) created nil)
+      (org-set-property created now))))
+(add-hook 'org-insert-heading-hook 'org-set-created-property 'append)
+(add-hook 'org-capture-prepare-finalize-hook 'org-set-created-property 'append)

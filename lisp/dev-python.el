@@ -1,3 +1,4 @@
+(use-package pyvenv)
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
 ;; (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
