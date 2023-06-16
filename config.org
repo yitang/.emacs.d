@@ -1670,7 +1670,7 @@ define default header for all and specific language
 display inline image after execute src-block, useful for src block that
 generate inline images.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (defun bh/display-inline-images ()
   (condition-case nil
       (org-display-inline-images)
