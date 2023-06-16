@@ -3127,6 +3127,20 @@ make yaml file a bit easier to work with.
 (setq org-download-abbreviate-filename-function #'expand-file-name)
 (setq org-link-file-path-type 'absolute)
 #+end_src
+
+#+begin_src emacs-lisp :results silent
+(defun yt/execute-src-org-file (filename)
+ "run the src babel block in a given file"
+  (interactive)
+  (with-current-buffer (get-buffer-create (concat "*buffer:" filename))
+    (erase-buffer)
+    (insert-file-contents filename)
+    (let ((default-directory (file-name-directory filename)))
+      (org-babel-execute-buffer))
+    )
+  )
+#+end_src
+
 ** compilation
 :PROPERTIES:
 :CREATED:  [2023-01-02 Mon 18:11]
