@@ -1929,7 +1929,7 @@ then type *.
 ;; global STYLE property values for completion
 (setq org-global-properties (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
                                     ("STYLE_ALL" . "habit"))))
-(setq org-agenda-log-mode-items (quote (closed clock)))
+(setq org-agenda-log-mode-items (quote (clock)))
 
 (setq org-use-speed-commands t)
 (defun bh/insert-inactive-timestamp ()
@@ -3137,16 +3137,32 @@ exists, otherwise, switch to.
 
 #+begin_src emacs-lisp :results silent
 (defun yt/bind-to-compliation ()
-  "docstring"
+  "bind current file-visiting buffer to a dedicated compilation buffer"
   (interactive)
   (let* ((filename (buffer-file-name (current-buffer)))
 	 (default-directory (file-name-directory filename))
-	 (output-buffer-name (concat "*Compilation:" filename "*")))
-    (compile "ls")
+	 (output-buffer-name (concat "*compilation:" filename "*")))
+    (compile "ls -l")
     (with-current-buffer "*compilation*"
       (rename-buffer output-buffer-name)))
   )
 (setq compilation-scroll-output 'first-error)
+
+
+(defun yt/kill-buffer (name)
+  "if buffer exists, kill, otherwise, do nothing"
+  (when (get-buffer name)
+    (kill-buffer name)
+    ))
+
+(defun yt/compile (buffer-name cmd &optional working-directory)
+  (let ((default-directory (or working-directory default-directory)))
+    (compile cmd))
+  (yt/kill-buffer buffer-name)
+  (with-current-buffer "*compilation*"
+    (rename-buffer buffer-name)
+    )
+  )
 #+end_src
 ** ibuffer - 
 :PROPERTIES:
