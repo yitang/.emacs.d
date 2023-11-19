@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: property
+# key: p
+# group: object oriented
+# --
+@property
+def ${1:prop}(self):
+    $0
