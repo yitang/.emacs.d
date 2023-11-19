@@ -3175,7 +3175,7 @@ exists, otherwise, switch to.
     (compile cmd))
   (yt/kill-buffer buffer-name)
   (with-current-buffer "*compilation*"
-    (rename-buffer buffer-name)
+    (rename-buffer (concat "*Compilation*" buffer-name))
     )
   )
 #+end_src
