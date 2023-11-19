@@ -4,7 +4,7 @@
 # binding: direct-keybinding
 # --
 #+title: $1
-#+property: header-args:ipython :session py2 :exports none :eval never-export :async nil :tangle yes
+#+property: header-args:jupyter-python :session /jpy:localhost#8888:py :exports none :eval never-export :async yes :tangle yes
 
 #+begin_src emacs-lisp :results silent :tangle no
 (setq output-dir "`(file-name-directory buffer-file-name)`report/")
@@ -12,7 +12,7 @@
 #+end_src
 
 #+name: setup
-#+begin_src ipython
+#+begin_src jupyter-python
 %matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
