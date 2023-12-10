@@ -2246,8 +2246,9 @@ deploy to AWS Bucket -
     ("dp" "Dired - posts" (lambda ()
                              (interactive)
                              (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
-    ("m" "Export as Markdown" yt/jekyll--export-to-md )
-    ("eh" "Export as HTML" yt/jekyll--export-to-html)
+    ("m" "Export as Markdown" yt/jekyll--export-to-md)
+    ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
+    ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
      ]])
 #+end_src
@@ -2325,6 +2326,9 @@ caption="Threadripper 3970x vs i5-13600k: Train LightGBM Models on CPU" %}
 - caption :: is the caption on the top of the image.
 - image.html  :: is the liquid template in _includes/image.html
 
+this image is centred with caption on the top. i cannot control the
+image size here. image preview is lacking in org buffer.
+
 #+begin_src emacs-lisp :results silent :tangle no
 (defvar  jekyll-insert-image-liquid-template
   " 
@@ -2339,12 +2343,6 @@ caption=\"%s\" %%}
 		     (read-string "Caption: ")))
   (insert (format jekyll-insert-image-liquid-template src caption))
   )
-#+end_src
-
-
-
-#+begin_src emacs-lisp :results silent :tangle no
-(format "%% inlcude image.html src=%s" "aaa.png")
 #+end_src
 
 ** Org-link 
