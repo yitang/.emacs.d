@@ -2374,6 +2374,14 @@ setup, and front matter.
 
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 #+end_src
+
+** HTML export progress 
+:PROPERTIES:
+:CREATED:  [2023-12-10 Sun 16:45]
+:END:
+
+#+begin_src emacs-lisp :results silent :tangle no
+#+end_src
 * auctex
   :PROPERTIES:
   :header-args: :tangle lisp/latex.el
