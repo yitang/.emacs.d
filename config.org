@@ -2253,7 +2253,7 @@ deploy to AWS Bucket -
     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
-    ("s" "Jekyll Server" (yt/compile "*jekyll-sever*" "jekyll s" jekyll-site-dir))
+    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-sever*" "jekyll s" jekyll-site-dir)))
      ]])
 #+end_src
 
