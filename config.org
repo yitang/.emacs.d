@@ -2221,20 +2221,6 @@ only, and without TOC, which are again, required by JEKLLY.
   )
 #+end_src
 
-
-
-start jekyll server - 
-
-deploy to AWS Bucket -
-
-#+begin_src emacs-lisp :results silent :tangle no
-(yt/compile
- "*jekyll-deploy*"
- "bash %s deploy"
- )
-#+end_src
-
-
 ** transient
 
 #+begin_src emacs-lisp :results silent 
