@@ -2319,7 +2319,7 @@ caption="Threadripper 3970x vs i5-13600k: Train LightGBM Models on CPU" %}
 this image is centred with caption on the top. i cannot control the
 image size here. image preview is lacking in org buffer.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (defvar  jekyll-insert-image-liquid-template
   " 
 {%% include image.html
@@ -3617,6 +3617,25 @@ use f8 to remove the R process buffer.
 
 (use-package good-scroll)
 (good-scroll-mode 1)
+#+end_src
+
+** smerge 
+:PROPERTIES:
+:CREATED:  [2023-12-10 Sun 22:09]
+:END:
+
+#+begin_src emacs-lisp :results silent
+
+(defhydra hydra/smerge ()
+  "open file: "
+  ("n" (smerge-next) "Jump to next confclit")
+  ("p" (smerge-prev) "Jump to previous conflict")
+  ("c" (smerge-keep-current) "keep current")
+  ("u" (smerge-keep-upper "keep upper version"))
+  ("l" (smerge-keep-lower "keep lower version"))
+  )
+(global-set-key (kbd "<f7>") 'hydra/smerge/body)
+
 #+end_src
 * Scripting
   :PROPERTIES:
