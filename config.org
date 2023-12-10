@@ -2078,9 +2078,12 @@ direcotyr, org/_drafts and org/_posts.
 (defvar jekyll-posts-dir "_posts/"
   "Relative path to posts directory.")
 
-(defvar jekyll-publish-dir "~/matrix/learning/mywebsite/blog/_posts"
+
+(defvar jekyll-site-dir "~/matrix/learning/mywebsite/blog/"
   "Relative path to posts directory.")
-(defvar jekyll-assets-dir "~/matrix/learning/mywebsite/blog/assets/"
+(defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
+  "Relative path to posts directory.")
+(defvar jekyll-assets-dir (concat jekyll-site-dir "assets/")
   "Relative path to assets directory.")
 
 ;; (defvar jekyll-post-ext ".org"
