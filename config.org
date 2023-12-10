@@ -2209,7 +2209,7 @@ only, and without TOC, which are again, required by JEKLLY.
 (defun yt/jekyll--export-to-md ()
   (interactive)
   (let* ((org-name (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
-	 (post-name (concat jekyll-directory jekyll-posts-dir org-name ".md")))
+	 (post-name (concat jekyll-publish-dir org-name ".md")))
     (message "Exporting to %s" post-name)
     (org-export-to-file 'jekyll-md post-name nil nil nil t)))
 
