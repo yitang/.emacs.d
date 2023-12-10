@@ -737,7 +737,7 @@ following settings, I can use =F9-f= to select temporal buffers.
 
 #+end_src
 
-* COMMENT ESS - Emacs Speaks Statistics                                  :ExportFile:
+* ESS - Emacs Speaks Statistics                                  :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/ess__emacs_speaks_statistics
   :header-args: :tangle lisp/Dev-R.el
@@ -1642,6 +1642,26 @@ define a list of supported language.
 	 (jupyter . t)
 	 (sql . t))))
 (setq org-confirm-babel-evaluate nil)
+
+
+;; (use-package conda
+;;   ;; :straight t
+;;   :config
+;;   (setq conda-anaconda-home (expand-file-name "/home/yitang/miniconda3/"))
+;;   (setq conda-env-home-directory (expand-file-name "/home/yitang/miniconda3/"))
+;;   (setq conda-env-subdirectory "envs"))
+
+;; (unless (getenv "CONDA_DEFAULT_ENV")
+;;   (conda-env-activate "latest"))
+
+
+;; (defun my/jupyter-refresh-kernelspecs ()
+;;   "Refresh Jupyter kernelspecs"
+;;   (interactive)
+;;   (jupyter-available-kernelspecs t))
+
+
+;; (setq jupyter-use-zmq nil) 
 #+end_src
 
 define default header for all and specific language
@@ -2943,7 +2963,7 @@ editing.
           treemacs-no-png-images                   nil
           treemacs-no-delete-other-windows         t
           treemacs-project-follow-cleanup          nil
-          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" "~/matrix/tools/.emacs.d/ispell-dict")
           treemacs-position                        'left
           treemacs-read-string-input               'from-child-frame
           treemacs-recenter-distance               0.1
@@ -3016,6 +3036,7 @@ editing.
 ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
 ;;   :ensure t
 ;;   :config (treemacs-set-scope-type 'Perspectives))
+
 
 ;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
 ;;   :after (treemacs)

@@ -227,6 +227,26 @@ Skips capture tasks"
 	 (sql . t))))
 (setq org-confirm-babel-evaluate nil)
 
+
+;; (use-package conda
+;;   ;; :straight t
+;;   :config
+;;   (setq conda-anaconda-home (expand-file-name "/home/yitang/miniconda3/"))
+;;   (setq conda-env-home-directory (expand-file-name "/home/yitang/miniconda3/"))
+;;   (setq conda-env-subdirectory "envs"))
+
+;; (unless (getenv "CONDA_DEFAULT_ENV")
+;;   (conda-env-activate "latest"))
+
+
+;; (defun my/jupyter-refresh-kernelspecs ()
+;;   "Refresh Jupyter kernelspecs"
+;;   (interactive)
+;;   (jupyter-available-kernelspecs t))
+
+
+;; (setq jupyter-use-zmq nil)
+
 (setq org-src-window-setup 'current-window)
 (setq org-src-fontify-natively t)
 (setq org-src-preserve-indentation nil)
@@ -237,6 +257,13 @@ Skips capture tasks"
 (set-charset-priority 'unicode)
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 (setq org-babel-results-keyword "results")
+
+(defun bh/display-inline-images ()
+  (condition-case nil
+      (org-display-inline-images)
+    (error nil)))
+
+(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
 
 ;; copy of org-sh-bash-initiate-session in ob-shell.el but with different name
 ;; per https://emacs.stackexchange.com/questions/55957/error-no-org-babel-initiate-session-function-for-bash

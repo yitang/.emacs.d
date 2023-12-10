@@ -99,7 +99,7 @@ comments: true
     ("dp" "Dired - posts" (lambda ()
                              (interactive)
                              (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
-    ("em" "Export as Markdown" jekyll/export-to-markdown )
+    ;; ("em" "Export as Markdown" jekyll/export-to-markdown )
     ("eh" "Export as HTML" jekyll/export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
      ]])
