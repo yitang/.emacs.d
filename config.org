@@ -2057,8 +2057,11 @@ direcotyr, org/_drafts and org/_posts.
   "Relative path to drafts directory.")
 (defvar jekyll-posts-dir "_posts/"
   "Relative path to posts directory.")
+
 (defvar jekyll-publish-dir "~/matrix/learning/mywebsite/blog/_posts"
   "Relative path to posts directory.")
+(defvar jekyll-assets-dir "~/matrix/learning/mywebsite/blog/assets/"
+  "Relative path to assets directory.")
 
 ;; (defvar jekyll-post-ext ".org"
 ;;   "File extension of Jekyll posts.")
