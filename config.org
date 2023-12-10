@@ -2179,25 +2179,19 @@ automate this. Note in the following, the published HTML has body
 only, and without TOC, which are again, required by JEKLLY. 
 
 
-#+begin_src emacs-lisp :results silent :tangle no
-(defun jekyll/export-to-markdown ()
+#+begin_src emacs-lisp :results silent
+(defun yt/jekyll--export-to-md ()
   (interactive)
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; export current posts in org-mode to markdown. ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  (org-export-to-file
-      'jekyll-md
-      "~/matrix/learning/mywebsite/blog/_posts/2023-02-09-jekyll-md-export-backend.md"
-    ;; :body-only
-    nil nil nil t
-    )
-  )
+  (let* ((org-name (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
+	 (post-name (concat jekyll-directory jekyll-posts-dir org-name ".md")))
+    (message "Exporting to %s" post-name)
+    (org-export-to-file 'jekyll-md post-name nil nil nil t)))
 
 
-(defun jekyll/export-to-html ()
+(defun yt/jekyll--export-to-html ()
   (interactive)
+  (message "not implemented. use markdown instead.")
   ;; export current posts in org-mode to html.
-  
   )
 #+end_src
 
@@ -2229,8 +2223,8 @@ deploy to AWS Bucket -
     ("dp" "Dired - posts" (lambda ()
                              (interactive)
                              (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
-    ("em" "Export as Markdown" jekyll/export-to-markdown )
-    ("eh" "Export as HTML" jekyll/export-to-html)
+    ("m" "Export as Markdown" yt/jekyll--export-to-md )
+    ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
      ]])
 #+end_src
@@ -2294,7 +2288,42 @@ the img file in Emacs.
     (format "<img src=\"/assets/%s\" alt=\"%s\"/>" path desc))))
 
 (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
+
 #+end_src
+
+i can also use liquid template for insetting images as follows:
+
+#+begin_example
+{% include image.html src="/assets/temp.png"
+caption="Threadripper 3970x vs i5-13600k: Train LightGBM Models on CPU" %}
+#+end_example
+
+- src :: is the path to the image i want to include.
+- caption :: is the caption on the top of the image.
+- image.html  :: is the liquid template in _includes/image.html
+
+#+begin_src emacs-lisp :results silent :tangle no
+(defvar  jekyll-insert-image-liquid-template
+  " 
+{%% include image.html
+src=\"%s\"
+caption=\"%s\" %%}
+"
+  "insert image using liquid template.")
+
+(defun yt/jekyll-insert-image (src caption)
+  (interactive (list (read-file-name "images to include: " jekyll-assets-dir)
+		     (read-string "Caption: ")))
+  (insert (format jekyll-insert-image-liquid-template src caption))
+  )
+#+end_src
+
+
+
+#+begin_src emacs-lisp :results silent :tangle no
+(format "%% inlcude image.html src=%s" "aaa.png")
+#+end_src
+
 ** Org-link 
 [2015-07-18 Sat 09:15]
 
