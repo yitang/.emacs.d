@@ -2113,7 +2113,7 @@ comments: true
 ,#+end_export
 
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
-,#+BIND: org-md-toplevel-hlevel 3
+,#+BIND: org-md-toplevel-hlevel 2
 ,#+TOC: headlines 4
 "
   "Default template for Jekyll posts. %s will be replace by the post title.")
