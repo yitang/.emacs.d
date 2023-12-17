@@ -2056,19 +2056,11 @@ will not be modified."
   :ID:       B89B033E-BA54-430D-8ABC-2F6B90DE8280
   :END:
 
-Jeklly have few conventions, like the new, YAML etc, it is better to
-solve it automatically and in Emacs, as part of the export process.
 
-First, define a publish project, so that the exported html file will
-go to certail place, and we can define the styles, and other features
-for a praticularlly project. but for Jeklly, it is more about to match
-the constraints.
+I write blog posts in org-mode format, export to Markdown, and let Jekyll render it in HTML over the web.
 
-For managing a blog, it is good idea to keep the original org file
-inside of the website.  Most people using Jeklly write blog in
-Markdown format, but Org-mode is obvious more powerful in Literate
-Program. In this case, I have two folders under Jeklly project
-direcotyr, org/_drafts and org/_posts. 
+I have the org/ folder to keep the blog posts and drafts. They are exporting to the blog/_posts and
+blog/_drafts folder.
 
 #+begin_src emacs-lisp :results silent 
 (defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
@@ -2090,16 +2082,11 @@ direcotyr, org/_drafts and org/_posts.
 ;;   "File extension of Jekyll posts.")
 #+end_src
 
-I can quickly scan the folder to see how many outstanding drafts and
-which posts is published in cease I need to edit it.
 
-Jeklyl has a spacial template that requires to add YAML in the front,
-since it is in org-mode, I can call Babel functions, add table of
-contents and others etc. This is the template I am using.
+The /jekyll-post-template/ contains the frontmatter Jekyll requires, a short HTML snippet for MathJax (might
+not need at all), and org-mode snippets to control the exporting.
 
-The =jekly-ymal-escape= function is used just to handle the quote
-and : characters in the title field.
-
+This template is used when creating a post/draft in org-mode, the title will be populated.
 
 #+begin_src emacs-lisp :results silent 
 (defvar jekyll-post-template
@@ -2138,6 +2125,8 @@ comments: true
       (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
     s))
 #+end_src
+
+The =jekly-ymal-escape= function is used just to handle the quote and : characters in the title field.
 
 Then in starting a blog post, I fill the title, and there file will be
 served in the org/_drafts folder, and insert the YMAL. Note in jeklly,
@@ -2199,17 +2188,20 @@ org/_posts folder and prepend the file name with today's date in
 
 I bound ~C-c j n~ and ~C-c j P~ for making a draft and publishing a draft. 
 
-Then convert all the org files in org/_posts into HTML and save in the
-_posts/ folder. It is good to define an org-publish-project to
-automate this. Note in the following, the published HTML has body
-only, and without TOC, which are again, required by JEKLLY. 
+Then convert all the org files in org/_posts into Markdown and save in the _posts/ folder. I used to use the
+=org-publish-project= function, it was great. Now i switched to exporting explicitly blog post while working
+on it.
 
+the =yt/jekyll--export-to-md= functions does that, for example, org/2023-12-31-example.org to
+blog/_posts/2023-12-31-example.md.
+
+I prefer to Markdown format for its simplicity, and stopped using HTML format.
 
 #+begin_src emacs-lisp :results silent
 (defun yt/jekyll--export-to-md ()
   (interactive)
   (let* ((org-name (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
-	 (post-name (concat jekyll-publish-dir org-name ".md")))
+	 (post-name (file-name-concat jekyll-publish-dir (concat org-name ".md"))))
     (message "Exporting to %s" post-name)
     (org-export-to-file 'jekyll-md post-name nil nil nil t)))
 
@@ -2222,6 +2214,11 @@ only, and without TOC, which are again, required by JEKLLY.
 #+end_src
 
 ** transient
+
+=yt/jekyll= is the command centre: it provides a entry point to all the functionalities I need while working
+on my personal blog project.
+
+it is binds to F5 in a .dir-locals.el.
 
 #+begin_src emacs-lisp :results silent 
 (transient-define-prefix yt/jekyll ()
@@ -2255,8 +2252,8 @@ wrap src block into highlight block in Jekyll. it search for src
 block, and replace the header with {% highlight python %} for
 example. run this as pre-export hook.
 
-it worth exploring implementing it as a filter function to the src
-code block. 
+The org-mode documentation provides a elegant solution to this problem: simplify define a new export backend
+that inherent from the markdown backend, but only change the src code block.
 
 #+begin_src emacs-lisp :results silent
 (defun my-jekyll-src-block (src-block contents info)
@@ -2269,7 +2266,7 @@ channel."
            (org-element-normalize-string
             (org-export-format-code-default src-block info)))))
 
-(require 'ox) ;; why i need this line here? TODO: because blogging.el loadded first, before org-mode. need to load after org-mode.
+(require 'ox) ;; because blogging.el loadded first, before org-mode. need to load after org-mode.
 (require 'ox-md) ;; 
 (org-export-define-derived-backend 'jekyll-html 'html
   :translate-alist '((src-block . my-jekyll-src-block)))
@@ -2386,13 +2383,6 @@ setup, and front matter.
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 #+end_src
 
-** HTML export progress 
-:PROPERTIES:
-:CREATED:  [2023-12-10 Sun 16:45]
-:END:
-
-#+begin_src emacs-lisp :results silent :tangle no
-#+end_src
 * auctex
   :PROPERTIES:
   :header-args: :tangle lisp/latex.el
