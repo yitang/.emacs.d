@@ -5,6 +5,6 @@
   (interactive "P")
   (let ((config-files (directory-files dir t ".el$")))
     (mapcar #'load config-files))
-  (message "Doen loading %s" dir)
+  (message "Done loading %s" dir)
   )
 (yt/load-direcotry "~/matrix/tools/.emacs.d/lisp")
