@@ -2113,7 +2113,7 @@ comments: true
 ,#+end_export
 
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
-
+,#+BIND: org-md-toplevel-hlevel 3
 ,#+TOC: headlines 4
 "
   "Default template for Jekyll posts. %s will be replace by the post title.")
@@ -2383,6 +2383,28 @@ setup, and front matter.
 (org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
 #+end_src
 
+** change the headline levels
+:PROPERTIES:
+:CREATED:  [2023-12-17 Sun 12:02]
+:END:
+
+see this question i asked: 
+https://emacs.stackexchange.com/questions/76544/org-mode-export-to-markdown-respect-the-level-of-headlines
+
+i found the default font size for headline is too big. instead of
+tweaking the Jekyll/HTML, I did the trick of changing the level of
+headline while exporting to markdown. so the top level headline
+becomes 2nd, or 3rd, and therefore the fontsize is smaller.
+
+use the bind keywords to set the variable /org-md-toplevel-hlevel/ to
+either 2 or 3. it only effects the exporting.
+
+according to the documentation, i also need to set
+/org-export-allow-bind-keywords/ to true.
+
+#+begin_src emacs-lisp :results silent
+(setq org-export-allow-bind-keywords t)
+#+end_src
 * auctex
   :PROPERTIES:
   :header-args: :tangle lisp/latex.el
@@ -3056,6 +3078,11 @@ https://depp.brause.cc/nov.el/
 :END:
 
 #+begin_src emacs-lisp :results silent
+(setq emacsql-sqlite-executable "/usr/bin/sqlite3")
+(use-package emacsql-sqlite-builtin)
+;; (setq org-roam-database-connector 'sqlite3)
+(setq org-roam-database-connector 'sqlite-builtin)
+
 (use-package org-roam
   :ensure t
   :init
