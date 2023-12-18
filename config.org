@@ -2412,7 +2412,7 @@ CLOSED: [2023-12-18 Mon 21:40]
 :CREATED:  [2023-12-18 Mon 14:32]
 :END:
 
-A handy function to update the title and date in the filename and also front matter.
+A handy function to update the title and date in the filename and also front matter, see http://yitang.uk/2023/12/18/jekyll-in-emacs-update-blog-post-title-and-date/
 
 #+begin_src emacs-lisp :results silent
 (defun yt/jekyll-update-post-title-and-date ()
