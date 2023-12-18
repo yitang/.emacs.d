@@ -2406,7 +2406,7 @@ according to the documentation, I also need to set
 See this question I asked:
 https://emacs.stackexchange.com/questions/76544/org-mode-export-to-markdown-respect-the-level-of-headlines
 
-** DONE update post name and date 
+** DONE update post title and date 
 CLOSED: [2023-12-18 Mon 21:40]
 :PROPERTIES:
 :CREATED:  [2023-12-18 Mon 14:32]
@@ -2415,7 +2415,7 @@ CLOSED: [2023-12-18 Mon 21:40]
 A handy function to update the title and date in the filename and also front matter.
 
 #+begin_src emacs-lisp :results silent
-(defun yt/jekyll-update-post-name ()
+(defun yt/jekyll-update-post-title-and-date ()
   "it update the post filename with a new title and today's date.
 
 it also update the font matter."
