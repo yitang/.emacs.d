@@ -2388,10 +2388,7 @@ setup, and front matter.
 :CREATED:  [2023-12-17 Sun 12:02]
 :END:
 
-see this question i asked: 
-https://emacs.stackexchange.com/questions/76544/org-mode-export-to-markdown-respect-the-level-of-headlines
-
-i found the default font size for headline is too big. instead of
+I found the default font size for headline is too big. instead of
 tweaking the Jekyll/HTML, I did the trick of changing the level of
 headline while exporting to markdown. so the top level headline
 becomes 2nd, or 3rd, and therefore the fontsize is smaller.
@@ -2399,11 +2396,16 @@ becomes 2nd, or 3rd, and therefore the fontsize is smaller.
 use the bind keywords to set the variable /org-md-toplevel-hlevel/ to
 either 2 or 3. it only effects the exporting.
 
-according to the documentation, i also need to set
+according to the documentation, I also need to set
 /org-export-allow-bind-keywords/ to true.
 
 #+begin_src emacs-lisp :results silent
 (setq org-export-allow-bind-keywords t)
+#+end_src
+
+See this question I asked:
+https://emacs.stackexchange.com/questions/76544/org-mode-export-to-markdown-respect-the-level-of-headlines
+
 ** DONE update post name and date 
 CLOSED: [2023-12-18 Mon 21:40]
 :PROPERTIES:
