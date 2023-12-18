@@ -2404,6 +2404,74 @@ according to the documentation, i also need to set
 
 #+begin_src emacs-lisp :results silent
 (setq org-export-allow-bind-keywords t)
+** DONE update post name and date 
+CLOSED: [2023-12-18 Mon 21:40]
+:PROPERTIES:
+:CREATED:  [2023-12-18 Mon 14:32]
+:END:
+
+A handy function to update the title and date in the filename and also front matter.
+
+#+begin_src emacs-lisp :results silent
+(defun yt/jekyll-update-post-name ()
+  "it update the post filename with a new title and today's date.
+
+it also update the font matter."
+  (interactive)
+  (let* ((title (read-string "new title: "))
+	 (ext (file-name-extension (buffer-file-name)))  ;; as of now, the ext is always .org.
+
+	 ;; the new filename is in the format of {date}-{new-title}.org
+	 (filename (concat
+		    (format-time-string "%Y-%m-%d-")
+		    (file-name-with-extension (jekyll-make-slug title) ext)))
+
+	 ;; normalise the filename. 
+	 (filename (expand-file-name filename))
+
+	 ;; keep the current point which we will go back to after editing.
+	 (old-point (point))
+	 )
+    (rename-file (buffer-file-name) filename) ;; update the filename
+    (kill-buffer nil)  ;; kill the current buffer, i.e. the old file.
+    (find-file filename)  ;; open the new file.
+    (set-window-point (selected-window) old-point)  ;; set the cursor to where i was in the old file.
+
+    ;; udpate title field. 
+    ;; note jekyll-yaml-escape is called to ensure the title field is yaml friendly.
+    (yt/jekyll-update-frontmatter--title (jekyll-yaml-escape title))    
+    )
+  
+  )
+
+(defun yt/jekyll-update-frontmatter--title (title)
+  "Update the title field in the front matter.
+
+title case is used. 
+"
+  (let* ((old-point (point)))
+
+    ;; ensure expand all the code/headers/drawers before editing.
+    (org-show-all)
+
+    ;; go to the first occurence of 'title:'.
+    (goto-char (point-min))
+    (search-forward "title: ")
+
+    ;; update the title field with the new title.
+    (beginning-of-line)
+    (kill-line)
+    (insert (format "title: %s" title))
+
+    ;; ensure the title is in title case
+    (xah-title-case-region-or-line (+ (line-beginning-position) 7) (line-end-position))
+
+    ;; save and reset cursor back to where it started.
+    (save-buffer)    
+    (goto-char old-point)
+    ))
+
+
 #+end_src
 * auctex
   :PROPERTIES:
