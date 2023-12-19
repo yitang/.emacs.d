@@ -2101,7 +2101,6 @@ This template is used when creating a post/draft in org-mode, the title will be 
 layout: post
 title: %s
 # date: add publish date when ready
-published: false
 excerpt: 
 categories:
   -  
