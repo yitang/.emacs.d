@@ -2055,7 +2055,7 @@ will not be modified."
 (add-hook 'org-capture-prepare-finalize-hook 'org-set-created-property 'append)
 #+end_src
 
-* Blogging with Jekyll
+* Jekyll in Emacs
   :PROPERTIES:
   :header-args: :tangle lisp/blogging.el
   :ID:       B89B033E-BA54-430D-8ABC-2F6B90DE8280
@@ -2078,13 +2078,21 @@ blog/_drafts folder.
 
 (defvar jekyll-site-dir "~/matrix/learning/mywebsite/blog/"
   "Relative path to posts directory.")
+;; TODO: remove this variable, use jekyll-sit-post-dir instead
 (defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
   "Relative path to posts directory.")
 (defvar jekyll-assets-dir (concat jekyll-site-dir "assets/")
   "Relative path to assets directory.")
 
-;; (defvar jekyll-post-ext ".org"
-;;   "File extension of Jekyll posts.")
+(defvar jekyll-site-post-dir (concat jekyll-site-dir "_posts/")
+  "Relative path to posts directory.")
+(defvar jekyll-site-draft-dir (concat jekyll-site-dir "_drafts/")
+  "Relative path to posts directory.")
+(defvar jekyll-site-assets-dir (concat jekyll-site-dir "assets/")
+  "Relative path to assets directory.")
+
+(defvar jekyll-post-ext ".org"
+  "File extension of Jekyll posts.")
 #+end_src
 
 
