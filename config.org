@@ -1673,12 +1673,16 @@ define a list of supported language.
 #+end_src
 
 define default header for all and specific language
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
 
-;; (add-to-list 'org-babel-default-header-args:R
-;;              ;; '(:session . "*R-main*")
-;;              '((:width . 640) (:height . 640)))
+(setq org-babel-default-header-args:R
+      '((:session . "R")
+        (:colnames . "yes")))
+
+(setq org-babel-default-header-args:bash
+      '((:session . "*shell*")))
+
 
 #+end_src
 
@@ -1764,14 +1768,6 @@ Set the default format when exporting table to CSV.
 (setq org-table-export-default-format "orgtbl-to-csv")
 #+end_src
 
-define the markups - no longer needed. those are built-in to org-mode.
-#+begin_src emacs-lisp :results silent :tangle no
-(setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
-                                 ("/" italic "<i>" "</i>")
-                                 ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
-                                 ("=" org-code "<code>" "</code>" verbatim)
-                                 ("~" org-verbatim "<code>" "</code>" verbatim))))
-#+end_src
 ** PDF Export
 [2015-01-19 Mon 15:45]
 
