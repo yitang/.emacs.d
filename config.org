@@ -2257,7 +2257,7 @@ it is binds to F5 in a .dir-locals.el.
     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
-    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-sever*" "jekyll s" jekyll-site-dir)))
+    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-sever*" "jekyll s  --watch --drafts" jekyll-site-dir)))
      ]])
 #+end_src
 
