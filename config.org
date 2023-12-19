@@ -2023,7 +2023,7 @@ as store link.
 
 trying to remove closed item in org-agenda. it does not work, might be
 a bug in org-mode. 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 ;; https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
 ;; create id property whenver link a headline -
 ;; see - https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
