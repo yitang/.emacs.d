@@ -684,6 +684,14 @@ build-in packages.
 #+begin_src emacs-lisp :results silent 
 (use-package tramp)
 (use-package ssh)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+(defun yt/tramp-abort ()
+  ;; kill all tramp connections.
+  (interactive)
+  (recentf-cleanup)
+  (tramp-cleanup-all-buffers)
+  (tramp-cleanup-all-connections))
 #+end_src
 
 I'd like catch the password so that I don't need to type it every time
