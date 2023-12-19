@@ -2204,18 +2204,34 @@ I prefer to Markdown format for its simplicity, and stopped using HTML format.
 
 #+begin_src emacs-lisp :results silent
 (defun yt/jekyll--export-to-md ()
+  "export draft/post to markdown"
   (interactive)
   (let* ((org-name (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
-	 (post-name (file-name-concat jekyll-publish-dir (concat org-name ".md"))))
+	 (export-dir (yt/jekyll--find-export-dir))
+	 (post-name (file-name-concat export-dir (concat org-name ".md"))))
     (message "Exporting to %s" post-name)
     (org-export-to-file 'jekyll-md post-name nil nil nil t)))
 
 
 (defun yt/jekyll--export-to-html ()
   (interactive)
-  (message "not implemented. use markdown instead.")
+  (message "not implemented. use yt/jekyll--export-to-md (markdown) instead.")
   ;; export current posts in org-mode to html.
   )
+
+
+(defun yt/jekyll--find-export-dir ()
+  "files in org/drafts mapped to blog/_drafts.
+
+files in org/posts mapped to blog/_posts"
+  (interactive)
+  (let* ((post-type (file-name-nondirectory
+		     (directory-file-name
+		      (file-name-directory buffer-file-name)))))
+    (message "post type is %s" post-type)
+    (cond ((string= post-type "_posts") jekyll-site-post-dir)
+	  ((string= post-type "_drafts") jekyll-site-draft-dir)
+	  (t post-type))))
 #+end_src
 
 ** transient
