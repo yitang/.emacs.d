@@ -818,6 +818,7 @@ There three features that have me made the decision:
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
 (use-package ess)
+(require 'ess-site)
 (setq ess-ask-for-ess-directory nil) ;; start R on default folder
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter) ;;
@@ -3260,9 +3261,9 @@ make yaml file a bit easier to work with.
 :END:
 
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
-(setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
+;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
 
 ;; somehow relative path doesn't work in osx when export org to other format. so use abslute path.
 (setq org-download-abbreviate-filename-function #'expand-file-name)
@@ -3324,7 +3325,7 @@ exists, otherwise, switch to.
 :CREATED:  [2023-01-02 Mon 18:13]
 :END:
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (global-set-key (kbd "M-i") 'ibuffer)
 (setq ibuffer-saved-filter-groups
       '(("home"
@@ -3693,7 +3694,7 @@ use f8 to remove the R process buffer.
 :ID:       FE2516B8-673E-41F5-9B78-9599AB765D18
 :END:
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 ;;; Scrolling.
 ;; Good speed and allow scrolling through large images (pixel-scroll).
 ;; Note: Scroll lags when point must be moved but increasing the number
