@@ -2496,6 +2496,51 @@ title case is used.
 
 
 #+end_src
+
+** NEXT update CUSTOM_ID property
+:PROPERTIES:
+:CREATED:  [2023-12-19 Tue 11:42]
+:ID:       419B4D4E-832E-46F3-9453-B631F3129DD6
+:END:
+
+
+so that the headline is used in URL instead of a randomly generated
+link.
+
+#+begin_example
+http://yitang.uk/2023/12/13/trx4-3970x/#org59a1ed6
+#+end_example
+vs.
+#+begin_example
+http://yitang.uk/2023/12/13/trx4-3970x/#The%20Problem
+#+end_example
+
+alternatively, use NAME keyword, based on the documentation of
+/org-html-prefer-user-labels/, custom_id is used whenever it exists.
+
+below I have a function to create/update the custom_id property whose
+value is literally the headline.
+
+I tweaked the function API a bit so it is used as export hook just as
+an experiment. It is only ran when exporting using jekyll-md. it works
+on the exported buffer so it leaves the original org file unchanged.
+
+#+begin_src emacs-lisp :results silent
+(defun yt/jekyll--create-or-update-custom_id-field-buffer (backend)
+  (when (eq backend 'jekyll-md)
+    (org-map-entries 'yt/jekyll--create-or-update-custom_id-field)
+    ))
+
+(defun yt/jekyll--create-or-update-custom_id-field ()
+  "so that the CUSTOMER_ID propert is aligned with the headline, and
+therfore the URL reflects to the headline. otherwise, the URL
+will be a random number."
+  (org-entry-put nil "CUSTOM_ID" (org-entry-get nil "ITEM"))
+  )
+
+(add-hook 'org-export-before-processing-hook 'yt/jekyll--create-or-update-custom_id-field-buffer)
+#+end_src
+
 * auctex
   :PROPERTIES:
   :header-args: :tangle lisp/latex.el
