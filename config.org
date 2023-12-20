@@ -2533,19 +2533,20 @@ an experiment. It is only ran when exporting using jekyll-md. it works
 on the exported buffer so it leaves the original org file unchanged.
 
 #+begin_src emacs-lisp :results silent
+(defun yt/jekyll--create-or-update-custom_id-field ()
+  "so that the CUSTOM_ID property is the same as the headline and 
+the URL reflects the headline.
+
+by default, the URL to a section will be a random number."
+  (org-entry-put nil "CUSTOM_ID" (org-entry-get nil "ITEM"))
+  )
+
 (defun yt/jekyll--create-or-update-custom_id-field-buffer (backend)
   (when (eq backend 'jekyll-md)
     (org-map-entries 'yt/jekyll--create-or-update-custom_id-field)
     ))
 
-(defun yt/jekyll--create-or-update-custom_id-field ()
-  "so that the CUSTOMER_ID propert is aligned with the headline, and
-therfore the URL reflects to the headline. otherwise, the URL
-will be a random number."
-  (org-entry-put nil "CUSTOM_ID" (org-entry-get nil "ITEM"))
-  )
-
-(add-hook 'org-export-before-processing-hook 'yt/jekyll--create-or-update-custom_id-field-buffer)
+(add-hook 'org-export-before-processing-functions 'yt/jekyll--create-or-update-custom_id-field-buffer)
 #+end_src
 
 * auctex
