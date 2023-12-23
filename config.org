@@ -3271,7 +3271,9 @@ https://depp.brause.cc/nov.el/
 ** gpg encryption
 :PROPERTIES:
 :CREATED:  [2022-12-29 Thu 23:58]
+:ID:       940D1AB9-A3BD-446B-A4B9-42D0A3B41C5F
 :END:
+
 #+begin_src emacs-lisp :results silent :tangle no
 (use-package epa-file
     :ensure nil 
@@ -3281,10 +3283,17 @@ https://depp.brause.cc/nov.el/
     (epa-file-select-keys nil)   ;; seems there's a bug in gpg. it always asks for which key.
     )
 
+(setq epa-file-encrypt-to "yi.tang.uni@gmail.com")
+
 (setq epg-gpg-program "gpg2")
 (require 'epa-file)
-(epa-file-enable)
+(epa-file-enable) ;; decrypt the buffer, may or may not ask for passphase.
+;; ;; to open gpg file in binary mode, i.e. no decryptions, use
+;; (epa-file-disable)
 (setq password-cache-expiry (* 15 60))
+;; loopback means to re-direct the dialog to the caller, here, it
+;; means passpharse via Emacs's minibuffer instead of external
+;; program.
 (setq epa-pinentry-mode 'loopback)
 #+end_src
 ** .dir-locals.el
