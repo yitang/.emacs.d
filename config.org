@@ -3398,6 +3398,18 @@ exists, otherwise, switch to.
     )
   )
 #+end_src
+
+fix colour in compilation buffer - otherwise, there's some strange
+characters in the compilation buffer
+
+#+begin_src emacs-lisp :results silent
+;;;; colorize output in compile buffer
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+#+end_src
+
 ** ibuffer - 
 :PROPERTIES:
 :CREATED:  [2023-01-02 Mon 18:13]
