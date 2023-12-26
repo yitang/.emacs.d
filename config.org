@@ -3489,21 +3489,16 @@ flush bookmarks immediately.
 #+end_src
 
 ** Programming Mode 
-After 2014, Emacs comes a prog-mode, for programming langauge.  it is generic mode, just like text-mode, that sits underneth all the programming language, either R, phython, C++ etc.  The good thinkg to have this concept is that we can define few things that will apply to all these mode, when we write scripts.  
     
-One thing I find particular usefull and necessary is to highlight
-characters in comments that has particullar meaning, like TODO, FIXME
-or other.  which can be particular handy in code reivew, I can
-navigate and jump between the code quickly.
+highlight TODO, FIXME or other in programming mode.
     
 #+begin_src emacs-lisp :results silent
-;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
-    #+end_src 
+#+end_src 
     
 we usually have long scripts, and in Subimetext, one cold folder and
 unfolder a function. in Emacs, this feature could be extended to
