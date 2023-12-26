@@ -408,15 +408,10 @@ useful.
 ** Theme 
 [2015-07-20 Mon 11:46]
 
-I have been using /zenburn/ theme for a while. It is a popular low
-contrast colour theme and easy on the eye. Occasionally I apply
-/tsdh-dark/ theme on the top when I really need to focus on.
+I started using modus-operandi as the default theme.
 
-/leuven/ theme is highly customised for org-mode and I like to use it
-when my eyes are tired of the /zenburn/ theme.
 #+begin_src emacs-lisp :eval yes
-;; (load-theme 'zenburn t) 
-;; (load-theme 'leuven t)
+(load-theme 'modus-operandi)
 #+end_src
 ** Mode Line
 [2015-07-20 Mon 11:46]
