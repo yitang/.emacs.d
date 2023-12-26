@@ -456,7 +456,9 @@ This will leave empty spaces which can be removed by
 
 Finally, show the current time in the mode-line. 
 #+begin_src emacs-lisp :results silent
+(setq display-time-format "W%W %H:%M")
 (display-time-mode)
+;; (display-time)                 
 #+end_src
 
 ** running Emacs in terminal 
