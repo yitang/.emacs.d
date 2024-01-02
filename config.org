@@ -2022,7 +2022,7 @@ then type *.
 
 Start up options
 #+begin_src emacs-lisp :results silent 
-(setq org-startup-folded t
+(setq org-startup-folded "showall"
       org-hide-block-startup t
       org-startup-indented nil)
 #+end_src
