@@ -806,8 +806,9 @@ There three features that have me made the decision:
 #+begin_src emacs-lisp :results silent
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-(use-package ess)
-(require 'ess-site)
+(use-package ess
+  :ensure t
+  :init (require 'ess-site))
 (setq ess-ask-for-ess-directory nil) ;; start R on default folder
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter) ;;
