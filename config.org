@@ -2455,7 +2455,9 @@ CLOSED: [2023-12-18 Mon 21:40]
 :CREATED:  [2023-12-18 Mon 14:32]
 :END:
 
-A handy function to update the title and date in the filename and also front matter, see http://yitang.uk/2023/12/18/jekyll-in-emacs-update-blog-post-title-and-date/
+A handy function to update the title and date in the filename and also
+front matter, see
+http://yitang.uk/2023/12/18/jekyll-in-emacs-update-blog-post-title-and-date/
 
 #+begin_src emacs-lisp :results silent
 (defun yt/jekyll-update-post-title-and-date ()
@@ -2519,7 +2521,8 @@ title case is used.
 
 #+end_src
 
-** NEXT update CUSTOM_ID property
+** DONE update CUSTOM_ID property
+CLOSED: [2023-12-28 Thu 08:37]
 :PROPERTIES:
 :CREATED:  [2023-12-19 Tue 11:42]
 :ID:       419B4D4E-832E-46F3-9453-B631F3129DD6
@@ -2527,7 +2530,7 @@ title case is used.
 
 
 so that the headline is used in URL instead of a randomly generated
-link.
+link, see my blog post: [[http://yitang.uk/2023/12/19/jekyll-in-emacs-align-headline-with-url/\]][Jekyll in Emacs - Align URL with Headline]]
 
 #+begin_example
 http://yitang.uk/2023/12/13/trx4-3970x/#org59a1ed6
