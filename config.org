@@ -2142,6 +2142,16 @@ comments: true
 # #+call: GetLastUpdatedDate[:exports none]()[:results org]
 ,#+BIND: org-md-toplevel-hlevel 2
 ,#+TOC: headlines 4
+
+
+
+,* COMMENT checklist 
+
+- [ ] check title 
+- [ ] check gramamr
+- [ ] check tags,
+- [ ] check dates, publish front matter
+- [ ] promote in social media
 "
   "Default template for Jekyll posts. %s will be replace by the post title.")
 
