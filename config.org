@@ -3895,8 +3895,9 @@ use f8 to remove the R process buffer.
   ("n" (smerge-next) "Jump to next confclit")
   ("p" (smerge-prev) "Jump to previous conflict")
   ("c" (smerge-keep-current) "keep current")
-  ("u" (smerge-keep-upper "keep upper version"))
-  ("l" (smerge-keep-lower "keep lower version"))
+  ("u" (smerge-keep-upper) "keep upper version")
+  ("l" (smerge-keep-lower) "keep lower version")
+  ("a" (smerge-keep-all) "keep both versions")
   )
 (global-set-key (kbd "<f7>") 'hydra/smerge/body)
 
