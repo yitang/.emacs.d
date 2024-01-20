@@ -3404,10 +3404,12 @@ exists, otherwise, switch to.
 (defun yt/bind-to-compliation ()
   "bind current file-visiting buffer to a dedicated compilation buffer"
   (interactive)
-  (let* ((filename (buffer-file-name (current-buffer)))
+  (let* ((filename (buffer-file-name))
 	 (default-directory (file-name-directory filename))
-	 (output-buffer-name (concat "*compilation:" filename "*")))
+	 (output-buffer-name (concat "*compilation*:" filename)))
     (compile "ls -l")
+    (when (get-buffer output-buffer-name)
+      (kill-buffer output-buffer-name))
     (with-current-buffer "*compilation*"
       (rename-buffer output-buffer-name)))
   )
@@ -3420,14 +3422,15 @@ exists, otherwise, switch to.
     (kill-buffer name)
     ))
 
-(defun yt/compile (buffer-name cmd &optional working-directory)
-  (let ((default-directory (or working-directory default-directory)))
-    (compile cmd))
-  (yt/kill-buffer buffer-name)
-  (with-current-buffer "*compilation*"
-    (rename-buffer (concat "*Compilation*" buffer-name))
-    )
-  )
+(defun yt/compile (output-id cmd &optional working-directory)
+  (let ((default-directory (or working-directory default-directory))
+	(buffer-name (concat "*compilation*" output-id)))
+    (progn
+      (compile cmd)
+      (when (get-buffer buffer-name)
+	(kill-buffer buffer-name))
+      (with-current-buffer "*compilation*" 
+	(rename-buffer buffer-name)))))
 #+end_src
 
 fix colour in compilation buffer - otherwise, there's some strange
