@@ -2811,7 +2811,7 @@ _V_ocabulary: add to or visit vocablary
 "
   ("f" describe-function)
   ("v" describe-variable)
-  ("d" osx-dictionary-search-word-at-point)
+  ("d" osx-dictionary-search-input)
   ;; ("s" get-synonyms)
   ("i" helm-info)
   ;; ("G" helm-google-suggest)
