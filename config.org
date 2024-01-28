@@ -2383,6 +2383,19 @@ caption=\"%s\" %%}
 		     (read-string "Caption: ")))
   (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )
+
+(defun yt/jekyll--copy-org-download-to-assets (file)
+  "TODO: from org-download folder to blog assets folder.
+needs to ensure there's no _ in the file name. jekyll does not like it.
+use jekyll-make-slug to normalise the filename.
+"
+  (interactive (list (read-file-name "file to copy: " org-download-image-dir)))
+  (let* ((ext (file-name-extension file ))
+	(base (file-name-base file))
+	(dest-base (jekyll-make-slug base))
+	(dest-file (expand-file-name (file-name-with-extension dest-base ext) jekyll-site-assets-dir)))
+    (copy-file file dest-file)
+    dest-file))
 #+end_src
 
 ** Org-link 
