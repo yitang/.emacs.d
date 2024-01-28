@@ -4,8 +4,7 @@
 (menu-bar-mode 1)
 (scroll-bar-mode -1)
 
-;; (load-theme 'zenburn t) 
-;; (load-theme 'leuven t)
+(load-theme 'modus-operandi)
 
 (setq sml/no-confirm-load-theme t)
 (use-package smart-mode-line
@@ -21,7 +20,9 @@
 (setq sml/mode-width 'full)
 (setq sml/name-width 40)
 
+(setq display-time-format "W%W %H:%M")
 (display-time-mode)
+;; (display-time)
 
 (add-hook 'suspend-hook
 	  (lambda () (or (y-or-n-p "Really suspend? ")

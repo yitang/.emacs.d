@@ -247,6 +247,15 @@ Skips capture tasks"
 
 ;; (setq jupyter-use-zmq nil)
 
+(setq org-babel-default-header-args (append org-babel-default-header-args '((:colnames . "yes"))))
+
+(setq org-babel-default-header-args:R
+      '((:session . "R")
+        (:colnames . "yes")))
+
+(setq org-babel-default-header-args:bash
+      '((:session . "*shell*")))
+
 (setq org-src-window-setup 'current-window)
 (setq org-src-fontify-natively t)
 (setq org-src-preserve-indentation nil)
@@ -485,11 +494,19 @@ Skips capture tasks"
 
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM %10Mindfullness")
 
-(setq org-startup-folded t
+(setq org-startup-folded "showall"
       org-hide-block-startup t
       org-startup-indented nil)
 
 (global-set-key (kbd "C-c l") 'org-store-link)
+
+;; https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
+;; create id property whenver link a headline -
+;; see - https://emacs.stackexchange.com/questions/51755/org-mode-link-files-with-ids-and-not-filenames
+(setq org-id-link-to-org-use-id t)
+
+;; by defualt, agenda log mode shows when a taks is closed. i don't wanna that.
+(setq org-agenda-log-mode-items '(clock))
 
 (defvar org-created-property-name "CREATED"
   "The name of the org-mode property that stores the creation date of the entry")

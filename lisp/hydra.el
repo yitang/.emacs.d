@@ -24,15 +24,18 @@ _g_it sync"
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
 _i_nfo: info mode 
-_d_ictionary: search meaning of a word"
+_d_ictionary: search meaning of a word
+_V_ocabulary: add to or visit vocablary
+"
   ("f" describe-function)
   ("v" describe-variable)
-  ("d" osx-dictionary-search-word-at-point)
+  ("d" osx-dictionary-search-input)
   ;; ("s" get-synonyms)
   ("i" helm-info)
   ;; ("G" helm-google-suggest)
   ("s" synosaurus-lookup)
   ;; ("d" voca-builder/search-popup)
+  ("V" yt/add-vocabulary)
   )
 (global-set-key (kbd "<f1>") 'yt-hydra/help/body)
 

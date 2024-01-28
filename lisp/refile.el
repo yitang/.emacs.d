@@ -131,10 +131,11 @@
   :after (treemacs magit)
   :ensure t)
 
-(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
+;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+;;   :ensure t
+;;   :config (treemacs-set-scope-type 'Perspectives))
+
 
 ;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
 ;;   :after (treemacs)
@@ -157,6 +158,11 @@
 
 (if (eq system-type 'darwin)
     (setq org-download-screenshot-method "screencapture -i %s"))
+
+(setq emacsql-sqlite-executable "/usr/bin/sqlite3")
+(use-package emacsql-sqlite-builtin)
+;; (setq org-roam-database-connector 'sqlite3)
+(setq org-roam-database-connector 'sqlite-builtin)
 
 (use-package org-roam
   :ensure t
@@ -214,6 +220,13 @@
 	  '(lambda ()
              (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
+(setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
+;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
+
+;; somehow relative path doesn't work in osx when export org to other format. so use abslute path.
+(setq org-download-abbreviate-filename-function #'expand-file-name)
+(setq org-link-file-path-type 'absolute)
+
 (defun yt/execute-src-org-file (filename)
  "run the src babel block in a given file"
   (interactive)
@@ -228,10 +241,12 @@
 (defun yt/bind-to-compliation ()
   "bind current file-visiting buffer to a dedicated compilation buffer"
   (interactive)
-  (let* ((filename (buffer-file-name (current-buffer)))
+  (let* ((filename (buffer-file-name))
 	 (default-directory (file-name-directory filename))
-	 (output-buffer-name (concat "*compilation:" filename "*")))
+	 (output-buffer-name (concat "*compilation*:" filename)))
     (compile "ls -l")
+    (when (get-buffer output-buffer-name)
+      (kill-buffer output-buffer-name))
     (with-current-buffer "*compilation*"
       (rename-buffer output-buffer-name)))
   )
@@ -244,18 +259,60 @@
     (kill-buffer name)
     ))
 
-(defun yt/compile (buffer-name cmd &optional working-directory)
-  (let ((default-directory (or working-directory default-directory)))
-    (compile cmd))
-  (yt/kill-buffer buffer-name)
-  (with-current-buffer "*compilation*"
-    (rename-buffer buffer-name)
-    )
-  )
+(defun yt/compile (output-id cmd &optional working-directory)
+  (let ((default-directory (or working-directory default-directory))
+	(buffer-name (concat "*compilation*" output-id)))
+    (progn
+      (compile cmd)
+      (when (get-buffer buffer-name)
+	(kill-buffer buffer-name))
+      (with-current-buffer "*compilation*" 
+	(rename-buffer buffer-name)))))
+
+;;;; colorize output in compile buffer
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(global-set-key (kbd "M-i") 'ibuffer)
+(setq ibuffer-saved-filter-groups
+      '(("home"
+	 ("shell" (mode . shell-mode))
+	 ;; ("emacs-config" (or (filename . ".emacs.d")
+	 ;; 		     (filename . "emacs-config")))
+         ;; ("martinowen.net" (filename . "martinowen.net"))
+	 ("compilation" (mode . compilation-mode))
+	 ("dired" (mode . dired-mode))
+	 ("planner" (or
+		     (name . "^\\*Calendar\\*$")
+		     (name . "^\\*Org Agenda\\*")))
+	 ("python" (mode . python-mode))
+	 ("Org" (or (mode . org-mode)
+		    (filename . "OrgMode")))
+         ;; ("code" (filename . "code"))
+	 ;; ("Web Dev" (or (mode . html-mode)
+	 ;; 		(mode . css-mode)))
+	 ;; ("Subversion" (name . "\*svn"))
+	 ("Magit" (name . "\\*magit"))
+	 ;; ("Magit2" (name . "magit"))
+	 ;; ("ERC" (mode . erc-mode))
+	 ;; ("Help" (or (name . "\*Help\*")
+	 ;; 	     (name . "\*Apropos\*")
+	 ;; 	     (name . "\*info\*")))
+	 )))
+
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-auto-mode 1)
+	     (ibuffer-switch-to-saved-filter-groups "home")))
+(keymap-set ibuffer-mode-map "M-o" nil)
 
 (setq bookmark-save-flag 1)  ; save bookmark file everytime.
 
-;; highlights FIXME: TODO: and BUG: in prog-mode 
 (add-hook 'prog-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
@@ -427,57 +484,6 @@
          ("C-o" . marginalia-cycle))
   :config (marginalia-mode 1))
 
-(use-package consult
-  :bind (("M-s f" . consult-line)
-         ("M-g g" . consult-line)
-         ("M-g o" . consult-outline)
-         ("M-g i" . consult-imenu)
-         ("M-g r" . consult-ripgrep)
-         ("C-x C-r" . consult-recent-file)
-         ([remap switch-to-buffer] . consult-buffer)
-         ([remap yank-pop] . consult-yank-pop)
-         ([remap goto-line] . consult-goto-line)
-         :map minibuffer-local-map
-         ([remap previous-matching-history-element] . consult-history)
-         :map isearch-mode-map
-         ("TAB" . vifon/isearch-to-consult-line))
-  :config (progn
-            (setq consult-project-root-function #'vc-root-dir)
-            (consult-customize
-             consult-ripgrep consult-grep
-             consult-buffer consult-recent-file
-             :preview-key (kbd "M-."))
-
-            (defun vifon/orderless-fix-consult-tofu (pattern index total)
-              "Ignore the last character which is hidden and used only internally."
-              (when (string-suffix-p "$" pattern)
-                `(orderless-regexp . ,(concat (substring pattern 0 -1)
-                                              "[\x200000-\x300000]*$"))))
-
-            (dolist (command '(consult-buffer consult-line))
-              (advice-add command :around
-                          (lambda (orig &rest args)
-                            (let ((orderless-style-dispatchers (cons #'vifon/orderless-fix-consult-tofu
-                                                                     orderless-style-dispatchers)))
-                              (apply orig args)))))
-
-            ;; Disable consult-buffer project-related capabilities as
-            ;; they are very slow in TRAMP.
-            (setq consult-buffer-sources
-                  (delq 'consult--source-project-buffer
-                        (delq 'consult--source-project-file consult-buffer-sources)))
-
-            (setq consult--source-hidden-buffer
-                  (plist-put consult--source-hidden-buffer :narrow ?h))
-
-            (defun vifon/isearch-to-consult-line ()
-              "Search using `consult-line' what was being searched with `isearch'."
-              (interactive)
-              (isearch-exit)
-              (let ((query (if isearch-regexp
-                               isearch-string
-                             (regexp-quote isearch-string))))
-                (consult-line query)))))
 
 (use-package corfu
   :init (global-corfu-mode 1))
@@ -521,3 +527,149 @@
                            #'consult-completion-in-region
                          #'completion--in-region)
                        args)))
+
+;; Example configuration for Consult
+(use-package consult
+  ;; Replace bindings. Lazily loaded due by `use-package'.
+  :bind (;; C-c bindings in `mode-specific-map'
+         ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
+         ;; C-x bindings in `ctl-x-map'
+         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab)    ;; orig. switch-to-buffer-other-tab
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+         ;; Custom M-# bindings for fast register access
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ;; Other custom bindings
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ;; M-g bindings in `goto-map'
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ;; M-s bindings in `search-map'
+         ("M-s d" . consult-find)                  ;; Alternative: consult-fd
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+         ;; Minibuffer history
+         :map minibuffer-local-map
+         ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+         ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  ;; Configure other variables and modes in the :config section,
+  ;; after lazily loading the package.
+  :config
+
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  ;; By default `consult-project-function' uses `project-root' from project.el.
+  ;; Optionally configure a different project root function.
+  ;;;; 1. project.el (the default)
+  ;; (setq consult-project-function #'consult--default-project--function)
+  ;;;; 2. vc.el (vc-root-dir)
+  ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
+  ;;;; 3. locate-dominating-file
+  ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+  ;;;; 4. projectile.el (projectile-project-root)
+  ;; (autoload 'projectile-project-root "projectile")
+  ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+  ;;;; 5. No project support
+  ;; (setq consult-project-function nil)
+)
+
+;;; Scrolling.
+;; Good speed and allow scrolling through large images (pixel-scroll).
+;; Note: Scroll lags when point must be moved but increasing the number
+;;       of lines that point moves in pixel-scroll.el ruins large image
+;;       scrolling. So unfortunately I think we'll just have to live with
+;;       this.
+(pixel-scroll-mode)
+(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
+(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
+(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
+(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
+
+(use-package good-scroll)
+(good-scroll-mode 1)
+
+(defhydra hydra/smerge ()
+  "open file: "
+  ("n" (smerge-next) "Jump to next confclit")
+  ("p" (smerge-prev) "Jump to previous conflict")
+  ("c" (smerge-keep-current) "keep current")
+  ("u" (smerge-keep-upper) "keep upper version")
+  ("l" (smerge-keep-lower) "keep lower version")
+  ("a" (smerge-keep-all) "keep both versions")
+  )
+(global-set-key (kbd "<f7>") 'hydra/smerge/body)

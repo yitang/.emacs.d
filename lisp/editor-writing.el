@@ -24,10 +24,33 @@
         consult-flyspell-set-point-after-word t
         consult-flyspell-always-check-buffer nil))
 
-;; check grammar 
+;; ;; check grammar 
 (use-package langtool)
-(setq langtool-language-tool-jar "~/java/LanguageTool-2.8/languagetool-commandline.jar")
+(if (eq system-type 'darwin)
+    ;; (setq langtool-java-bin "/opt/homebrew/opt/openjdk/bin/java")
+    (setq langtool-language-tool-jar "~/Downloads/LanguageTool-6.3/languagetool-commandline.jar"))
+
 (setq langtool-mother-tongue "en")
+
+;; checkout this also; https://github.com/emacs-languagetool/flycheck-languagetool
+
+;; https://github.com/PillFall/languagetool.el
+;; not working 
+;; (use-package languagetool
+;;   :ensure t
+;;   :defer t
+;;   :commands (languagetool-check
+;;              languagetool-clear-suggestions
+;;              languagetool-correct-at-point
+;;              languagetool-correct-buffer
+;;              languagetool-set-language
+;;              languagetool-server-mode
+;;              languagetool-server-start
+;;              languagetool-server-stop)
+;;   :config
+;;   (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
+;;         languagetool-console-command "/Users/yitang/Downloads/LanguageTool-6.3/languagetool-commandline.jar"
+;;         languagetool-server-command "/Users/yitang/Downloads/LanguageTool-6.3/languagetool-server.jar"))
 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in

@@ -84,6 +84,14 @@
 
 (use-package tramp)
 (use-package ssh)
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+(defun yt/tramp-abort ()
+  ;; kill all tramp connections.
+  (interactive)
+  (recentf-cleanup)
+  (tramp-cleanup-all-buffers)
+  (tramp-cleanup-all-connections))
 
 (setq password-cache-expiry nil)
 
