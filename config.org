@@ -2381,7 +2381,7 @@ caption=\"%s\" %%}
 (defun yt/jekyll-insert-image (src caption)
   (interactive (list (read-file-name "images to include: " jekyll-assets-dir)
 		     (read-string "Caption: ")))
-  (insert (format jekyll-insert-image-liquid-template src caption))
+  (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )
 #+end_src
 
