@@ -640,6 +640,8 @@ Open the file manager at the default directory.
 (setq dired-listing-switches "-lsh")
 (setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
+
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode)))
 #+end_src
 ** Projectile - Directory Access 
 [2015-01-19 Mon 12:08]
