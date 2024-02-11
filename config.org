@@ -2094,18 +2094,18 @@ blog/_drafts folder.
 
 
 (defvar jekyll-site-dir "~/matrix/learning/mywebsite/blog/"
-  "Relative path to posts directory.")
+  "root directory of the Jekyll site.")
 ;; TODO: remove this variable, use jekyll-sit-post-dir instead
-(defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
-  "Relative path to posts directory.")
-(defvar jekyll-assets-dir (concat jekyll-site-dir "assets/")
-  "Relative path to assets directory.")
+;; (defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
+;;   "Relative path to posts directory.")
+;; (defvar jekyll-assets-dir (file-name-concat jekyll-site-dir "assets/")
+;;   "Relative path to assets directory.")
 
-(defvar jekyll-site-post-dir (concat jekyll-site-dir "_posts/")
+(defvar jekyll-site-post-dir (file-name-concat jekyll-site-dir "_posts/")
   "Relative path to posts directory.")
-(defvar jekyll-site-draft-dir (concat jekyll-site-dir "_drafts/")
+(defvar jekyll-site-draft-dir (file-name-concat jekyll-site-dir "_drafts/")
   "Relative path to posts directory.")
-(defvar jekyll-site-assets-dir (concat jekyll-site-dir "assets/")
+(defvar jekyll-site-assets-dir (file-name-concat jekyll-site-dir "assets/")
   "Relative path to assets directory.")
 
 (defvar jekyll-post-ext ".org"
@@ -2382,7 +2382,7 @@ caption=\"%s\" %%}
   "insert image using liquid template.")
 
 (defun yt/jekyll-insert-image (src caption)
-  (interactive (list (read-file-name "images to include: " jekyll-assets-dir)
+  (interactive (list (read-file-name "images to include: " jekyll-site-assets-dir)
 		     (read-string "Caption: ")))
   (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )
