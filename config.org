@@ -2101,9 +2101,9 @@ blog/_drafts folder.
 ;; (defvar jekyll-assets-dir (file-name-concat jekyll-site-dir "assets/")
 ;;   "Relative path to assets directory.")
 
-(defvar jekyll-site-post-dir (file-name-concat jekyll-site-dir "_posts/")
+(defvar jekyll-site-posts-dir (file-name-concat jekyll-site-dir "_posts/")
   "Relative path to posts directory.")
-(defvar jekyll-site-draft-dir (file-name-concat jekyll-site-dir "_drafts/")
+(defvar jekyll-site-drafts-dir (file-name-concat jekyll-site-dir "_drafts/")
   "Relative path to posts directory.")
 (defvar jekyll-site-assets-dir (file-name-concat jekyll-site-dir "assets/")
   "Relative path to assets directory.")
@@ -2263,8 +2263,8 @@ files in org/posts mapped to blog/_posts"
 		     (directory-file-name
 		      (file-name-directory buffer-file-name)))))
     (message "post type is %s" post-type)
-    (cond ((string= post-type "_posts") jekyll-site-post-dir)
-	  ((string= post-type "_drafts") jekyll-site-draft-dir)
+    (cond ((string= post-type "_posts") jekyll-site-posts-dir)
+	  ((string= post-type "_drafts") jekyll-site-drafts-dir)
 	  (t post-type))))
 #+end_src
 
