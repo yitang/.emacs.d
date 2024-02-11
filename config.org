@@ -2178,7 +2178,7 @@ strange characters must been removed.
 (defun blog-draft-post (title) 
   "Create a new Jekyll blog post."
   (interactive "sPost Title: ")
-  (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
+  (let ((draft-file (concat jekyll-source-drafts-dir
                             (jekyll-make-slug title)
                             jekyll-post-ext)))
     (if (file-exists-p draft-file)
@@ -2209,13 +2209,14 @@ org/_posts folder and prepend the file name with today's date in
   (cond
    ((not (equal
           (file-name-directory (buffer-file-name (current-buffer)))
-          (concat jekyll-directory jekyll-drafts-dir)))
+          jekyll-source-drafts-dir))
     (message "This is not a draft post."))
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
     (let ((filename
            (concat jekyll-directory jekyll-posts-dir
+           (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")
                    (file-name-nondirectory
                     (buffer-file-name (current-buffer)))))
