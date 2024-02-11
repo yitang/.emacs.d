@@ -2212,7 +2212,7 @@ org/_posts folder and prepend the file name with today's date in
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
-    ;; TODO: find `filename` variable using the yt/jekyll-find-export function.
+    ;; TODO: use a utlity function to for `filename`, find publish file? 
     (let ((filename
            (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")
