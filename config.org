@@ -2207,9 +2207,7 @@ org/_posts folder and prepend the file name with today's date in
  contains the date."
   (interactive)
   (cond
-   ((not (equal
-          (file-name-directory (buffer-file-name (current-buffer)))
-          jekyll-source-drafts-dir))
+   ((not (yt/jekyll-is-draft-p))
     (message "This is not a draft post."))
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
@@ -2259,7 +2257,10 @@ I prefer to Markdown format for its simplicity, and stopped using HTML format.
 
 
 (defun yt/jekyll-is-draft-p ()
-  "if the file is inside of the draft directory, it is an draft."
+  "if the file is inside of the draft directory, it is an draft.
+
+can also implmenet as  (file-name-directory (buffer-file-name (current-buffer))) equal to jekyll-source-drafts-dir
+"
   (let ((draft-dir  (file-truename jekyll-source-drafts-dir))
 	(filepath (file-truename (buffer-file-name))))
     (string-prefix-p draft-dir filepath)))
