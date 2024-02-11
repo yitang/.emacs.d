@@ -2085,11 +2085,13 @@ I have the org/ folder to keep the blog posts and drafts. They are exporting to 
 blog/_drafts folder.
 
 #+begin_src emacs-lisp :results silent 
-(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
-  "Path to Jekyll blog.")
-(defvar jekyll-drafts-dir "_drafts/"
+(defvar jekyll-source-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
+  "root directory of org files.")
+
+;; replace those two with jekyll-source-drafts-dir, jekyll-source-post-dir
+(defvar jekyll-source-drafts-dir (file-name-concat jekyll-source-directory "_drafts/")
   "Relative path to drafts directory.")
-(defvar jekyll-posts-dir "_posts/"
+(defvar jekyll-source-posts-dir (file-name-concat jekyll-source-directory  "_posts/")
   "Relative path to posts directory.")
 
 
@@ -2281,12 +2283,9 @@ it is binds to F5 in a .dir-locals.el.
   ["Jekyll Blog"
    [("n" "new draft" blog-draft-post)
     ("p" "publish post" blog-publish-post)
-    ("dd" "Dired - drafts" (lambda ()
-                             (interactive)
-                             (find-file (expand-file-name jekyll-drafts-dir jekyll-directory))))
-    ("dp" "Dired - posts" (lambda ()
-                            (interactive)
-                            (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
+    ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
+    ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
+    ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
     ("m" "Export as Markdown" yt/jekyll--export-to-md)
     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
