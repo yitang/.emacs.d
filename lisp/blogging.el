@@ -1,24 +1,26 @@
-(defvar jekyll-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
-  "Path to Jekyll blog.")
-(defvar jekyll-drafts-dir "_drafts/"
+(defvar jekyll-source-directory (expand-file-name "~/matrix/learning/mywebsite/org/")
+  "root directory of org files.")
+
+;; replace those two with jekyll-source-drafts-dir, jekyll-source-post-dir
+(defvar jekyll-source-drafts-dir (file-name-concat jekyll-source-directory "_drafts/")
   "Relative path to drafts directory.")
-(defvar jekyll-posts-dir "_posts/"
+(defvar jekyll-source-posts-dir (file-name-concat jekyll-source-directory  "_posts/")
   "Relative path to posts directory.")
 
 
 (defvar jekyll-site-dir "~/matrix/learning/mywebsite/blog/"
-  "Relative path to posts directory.")
+  "root directory of the Jekyll site.")
 ;; TODO: remove this variable, use jekyll-sit-post-dir instead
-(defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
-  "Relative path to posts directory.")
-(defvar jekyll-assets-dir (concat jekyll-site-dir "assets/")
-  "Relative path to assets directory.")
+;; (defvar jekyll-publish-dir (concat jekyll-site-dir "_posts/")
+;;   "Relative path to posts directory.")
+;; (defvar jekyll-assets-dir (file-name-concat jekyll-site-dir "assets/")
+;;   "Relative path to assets directory.")
 
-(defvar jekyll-site-post-dir (concat jekyll-site-dir "_posts/")
+(defvar jekyll-site-posts-dir (file-name-concat jekyll-site-dir "_posts/")
   "Relative path to posts directory.")
-(defvar jekyll-site-draft-dir (concat jekyll-site-dir "_drafts/")
+(defvar jekyll-site-drafts-dir (file-name-concat jekyll-site-dir "_drafts/")
   "Relative path to posts directory.")
-(defvar jekyll-site-assets-dir (concat jekyll-site-dir "assets/")
+(defvar jekyll-site-assets-dir (file-name-concat jekyll-site-dir "assets/")
   "Relative path to assets directory.")
 
 (defvar jekyll-post-ext ".org"
@@ -72,7 +74,7 @@ comments: true
 (defun blog-draft-post (title) 
   "Create a new Jekyll blog post."
   (interactive "sPost Title: ")
-  (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
+  (let ((draft-file (concat jekyll-source-drafts-dir
                             (jekyll-make-slug title)
                             jekyll-post-ext)))
     (if (file-exists-p draft-file)
@@ -94,13 +96,13 @@ comments: true
   (cond
    ((not (equal
           (file-name-directory (buffer-file-name (current-buffer)))
-          (concat jekyll-directory jekyll-drafts-dir)))
+          jekyll-source-drafts-dir))
     (message "This is not a draft post."))
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
     (let ((filename
-           (concat jekyll-directory jekyll-posts-dir
+           (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")
                    (file-name-nondirectory
                     (buffer-file-name (current-buffer)))))
@@ -137,8 +139,8 @@ files in org/posts mapped to blog/_posts"
 		     (directory-file-name
 		      (file-name-directory buffer-file-name)))))
     (message "post type is %s" post-type)
-    (cond ((string= post-type "_posts") jekyll-site-post-dir)
-	  ((string= post-type "_drafts") jekyll-site-draft-dir)
+    (cond ((string= post-type "_posts") jekyll-site-posts-dir)
+	  ((string= post-type "_drafts") jekyll-site-drafts-dir)
 	  (t post-type))))
 
 (transient-define-prefix yt/jekyll ()
@@ -146,18 +148,16 @@ files in org/posts mapped to blog/_posts"
   ["Jekyll Blog"
    [("n" "new draft" blog-draft-post)
     ("p" "publish post" blog-publish-post)
-    ("dd" "Dired - drafts" (lambda ()
-                             (interactive)
-                             (find-file (expand-file-name jekyll-drafts-dir jekyll-directory))))
-    ("dp" "Dired - posts" (lambda ()
-                             (interactive)
-                             (find-file (expand-file-name jekyll-posts-dir jekyll-directory))))
+    ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
+    ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
+    ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
     ("m" "Export as Markdown" yt/jekyll--export-to-md)
     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
     ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-sever*" "jekyll s  --watch --drafts" jekyll-site-dir)))
-     ]])
+    ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
+    ]])
 
 (defun my-jekyll-src-block (src-block contents info)
   "Transcode a SRC-BLOCK element from Org to ASCII.
@@ -197,7 +197,7 @@ caption=\"%s\" %%}
   "insert image using liquid template.")
 
 (defun yt/jekyll-insert-image (src caption)
-  (interactive (list (read-file-name "images to include: " jekyll-assets-dir)
+  (interactive (list (read-file-name "images to include: " jekyll-site-assets-dir)
 		     (read-string "Caption: ")))
   (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )

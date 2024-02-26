@@ -23,6 +23,9 @@
 #+end_src
 
 * Emacs Configuration
+:PROPERTIES:
+:ID:       39DE0B10-95A0-4C90-816F-8F312B47DFC8
+:END:
 :LOGBOOK:  
 CLOCK: [2015-01-25 Sun 22:25]--[2015-01-25 Sun 23:01] =>  0:36
 CLOCK: [2015-01-24 Sat 21:50]--[2015-01-24 Sat 22:30] =>  0:40
@@ -2257,9 +2260,9 @@ I prefer to Markdown format for its simplicity, and stopped using HTML format.
 
 
 (defun yt/jekyll-is-draft-p ()
-  "if the file is inside of the draft directory, it is an draft.
+  "if the file is inside of the draft directory, it is a draft.
 
-can also implmenet as  (file-name-directory (buffer-file-name (current-buffer))) equal to jekyll-source-drafts-dir
+can also implmenet as  (file-name-directory (buffer-file-name (current-buffer))) equals to jekyll-source-drafts-dir
 "
   (let ((draft-dir  (file-truename jekyll-source-drafts-dir))
 	(filepath (file-truename (buffer-file-name))))
@@ -2267,7 +2270,7 @@ can also implmenet as  (file-name-directory (buffer-file-name (current-buffer)))
   
 
 (defun yt/jekyll-find-export ()
-  "find the full paht to the exported file of the current post."
+  "find the full path to the exported file of the current post."
   (let* ((src-file (file-name-nondirectory (buffer-file-name)))
 	 (dest-file (file-name-with-extension src-file ".md")))
     (if (yt/jekyll-is-draft-p)
