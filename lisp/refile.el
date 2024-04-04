@@ -62,7 +62,7 @@
           treemacs-no-png-images                   nil
           treemacs-no-delete-other-windows         t
           treemacs-project-follow-cleanup          nil
-          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" "~/matrix/tools/.emacs.d/ispell-dict")
+          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" "~/matrix/tools/.emacs.d/")
           treemacs-position                        'left
           treemacs-read-string-input               'from-child-frame
           treemacs-recenter-distance               0.1
@@ -105,15 +105,16 @@
        (treemacs-git-mode 'simple)))
 
     (treemacs-hide-gitignored-files-mode nil))
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+  ;; :bind
+  ;; (:map global-map
+  ;;       ("M-0"       . treemacs-select-window)
+  ;;       ("C-x t 1"   . treemacs-delete-other-windows)
+  ;;       ("C-x t t"   . treemacs)
+  ;;       ("C-x t d"   . treemacs-select-directory)
+  ;;       ("C-x t B"   . treemacs-bookmark)
+  ;;       ("C-x t C-t" . treemacs-find-file)
+  ;;       ("C-x t M-t" . treemacs-find-tag))
+  )
 
 (use-package treemacs-evil
   :after (treemacs evil)
@@ -310,6 +311,20 @@
 	     (ibuffer-auto-mode 1)
 	     (ibuffer-switch-to-saved-filter-groups "home")))
 (keymap-set ibuffer-mode-map "M-o" nil)
+
+
+;; nearly all of this is the default layout
+(setq ibuffer-formats 
+      '((mark modified read-only " "
+              (name 30 30 :left :elide) ; change: 30s were originally 18s
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " " filename-and-process)
+        (mark " "
+              (name 16 -1)
+              " " filename)))
 
 (setq bookmark-save-flag 1)  ; save bookmark file everytime.
 

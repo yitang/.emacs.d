@@ -71,6 +71,8 @@
 (setq dired-recursive-copies 'always)
 (setq dired-dwim-target t)
 
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode)))
+
 (use-package projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)

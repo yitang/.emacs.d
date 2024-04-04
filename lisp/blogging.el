@@ -94,19 +94,22 @@ comments: true
  contains the date."
   (interactive)
   (cond
-   ((not (equal
-          (file-name-directory (buffer-file-name (current-buffer)))
-          jekyll-source-drafts-dir))
+   ((not (yt/jekyll-is-draft-p))
     (message "This is not a draft post."))
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
+    ;; TODO: use a utlity function to for `filename`, find publish file? 
     (let ((filename
            (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")
                    (file-name-nondirectory
                     (buffer-file-name (current-buffer)))))
+
+	  (draft-file-exported (yt/jekyll-find-export))
+
           (old-point (point)))
+      (delete-file draft-file-exported)
       (rename-file (buffer-file-name (current-buffer))
                    filename)
       (kill-buffer nil)
@@ -116,32 +119,34 @@ comments: true
 (defun yt/jekyll--export-to-md ()
   "export draft/post to markdown"
   (interactive)
-  (let* ((org-name (file-name-nondirectory (file-name-sans-extension buffer-file-name)))
-	 (export-dir (yt/jekyll--find-export-dir))
-	 (post-name (file-name-concat export-dir (concat org-name ".md"))))
+  (let* ((export-file (yt/jekyll-find-export)))
     (message "Exporting to %s" post-name)
-    (org-export-to-file 'jekyll-md post-name nil nil nil t)))
+    (org-export-to-file 'jekyll-md export-file nil nil nil t)))
 
 
 (defun yt/jekyll--export-to-html ()
-  (interactive)
-  (message "not implemented. use yt/jekyll--export-to-md (markdown) instead.")
   ;; export current posts in org-mode to html.
-  )
-
-
-(defun yt/jekyll--find-export-dir ()
-  "files in org/drafts mapped to blog/_drafts.
-
-files in org/posts mapped to blog/_posts"
   (interactive)
-  (let* ((post-type (file-name-nondirectory
-		     (directory-file-name
-		      (file-name-directory buffer-file-name)))))
-    (message "post type is %s" post-type)
-    (cond ((string= post-type "_posts") jekyll-site-posts-dir)
-	  ((string= post-type "_drafts") jekyll-site-drafts-dir)
-	  (t post-type))))
+  (message "not implemented. use yt/jekyll--export-to-md (markdown) instead."))
+
+
+(defun yt/jekyll-is-draft-p ()
+  "if the file is inside of the draft directory, it is a draft.
+
+can also implmenet as  (file-name-directory (buffer-file-name (current-buffer))) equals to jekyll-source-drafts-dir
+"
+  (let ((draft-dir  (file-truename jekyll-source-drafts-dir))
+	(filepath (file-truename (buffer-file-name))))
+    (string-prefix-p draft-dir filepath)))
+  
+
+(defun yt/jekyll-find-export ()
+  "find the full path to the exported file of the current post."
+  (let* ((src-file (file-name-nondirectory (buffer-file-name)))
+	 (dest-file (file-name-with-extension src-file ".md")))
+    (if (yt/jekyll-is-draft-p)
+	(file-name-concat jekyll-site-draft-dir dest-file)
+      (file-name-concat jekyll-site-post-dir dest-file))))
 
 (transient-define-prefix yt/jekyll ()
   ""
