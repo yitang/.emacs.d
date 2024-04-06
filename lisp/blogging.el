@@ -120,7 +120,7 @@ comments: true
   "export draft/post to markdown"
   (interactive)
   (let* ((export-file (yt/jekyll-find-export)))
-    (message "Exporting to %s" post-name)
+    (message "Exporting to %s" export-file)
     (org-export-to-file 'jekyll-md export-file nil nil nil t)))
 
 
@@ -145,8 +145,8 @@ can also implmenet as  (file-name-directory (buffer-file-name (current-buffer)))
   (let* ((src-file (file-name-nondirectory (buffer-file-name)))
 	 (dest-file (file-name-with-extension src-file ".md")))
     (if (yt/jekyll-is-draft-p)
-	(file-name-concat jekyll-site-draft-dir dest-file)
-      (file-name-concat jekyll-site-post-dir dest-file))))
+	(file-name-concat jekyll-site-drafts-dir dest-file)
+      (file-name-concat jekyll-site-posts-dir dest-file))))
 
 (transient-define-prefix yt/jekyll ()
   ""
