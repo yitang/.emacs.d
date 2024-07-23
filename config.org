@@ -3100,7 +3100,9 @@ use =consult-line= to replace default =isearch=
 use snakemake-mode for smake file.
 
 #+begin_src emacs-lisp :results silent 
-(add-to-list 'auto-mode-alist '("sfile" . snakemake-mode))
+(use-package snakemake-mode
+  :ensure t
+  :mode ("\\.sfile\\'" "\\.Snakemake\\'"))
 #+end_src
 
 
