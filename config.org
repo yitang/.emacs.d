@@ -3602,22 +3602,26 @@ use subword-mode then ThisPhase has two word, and I can use =C-DEL= it will remo
 #+end_src
 
 
-highlights the text that are longer than 80 columns rule. 
+Highlights the text/code after 80 characters, a visual guide to avoid
+writing long code.
 
 #+begin_src emacs-lisp :results silent 
-(use-package whitespace)
-(setq whitespace-line-column 120) ;; limit line length
-(setq whitespace-style '(face lines-tail))
-(add-hook 'prog-mode-hook 'whitespace-mode)
+(use-package whitespace
+  :ensure t
+  :config
+  (setq whitespace-line-column 120)
+  (setq whitespace-style '(face lines-tail))
+  :hook (prog-mode-hook . whitespace-mode))
 #+end_src
 
 
 Rainbow-delimiters. constantly have problem with package, and tired of fixing it, so I turned it off at this stage. 
 
 #+begin_src emacs-lisp :results silent
-(use-package rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(show-paren-mode t) ;for Emacs
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
+(show-paren-mode t) ;; highlight matched parentheses
 #+end_src
 
 use f8 to remove the R process buffer.
