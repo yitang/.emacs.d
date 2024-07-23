@@ -16,7 +16,9 @@
 
 (global-set-key "\C-s" 'consult-line)
 
-(add-to-list 'auto-mode-alist '("sfile" . snakemake-mode))
+(use-package snakemake-mode
+  :ensure t
+  :mode ("\\.sfile\\'" "\\.Snakemake\\'"))
 
 (defun yt/sh-chunk-args ()
 (interactive)
@@ -220,13 +222,14 @@
   :bind (:map dired-mode-map ("r" . dired-rsync))
   :config (add-to-list 'mode-line-misc-info '(:eval dired-rsync-modeline-status 'append)))
 
-(use-package yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.yaml\\'" "\\.yml\\'")
+  :bind (("C-m" . newline-and-indent))
+  )
 
-(add-hook 'yaml-mode-hook
-	  '(lambda ()
-             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+(use-package yaml-pro
+  :ensure nil)
 
 (setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
@@ -366,14 +369,17 @@
 
 (subword-mode 1)
 
-(use-package whitespace)
-(setq whitespace-line-column 120) ;; limit line length
-(setq whitespace-style '(face lines-tail))
-(add-hook 'prog-mode-hook 'whitespace-mode)
+(use-package whitespace
+  :ensure t
+  :config
+  (setq whitespace-line-column 120)
+  (setq whitespace-style '(face lines-tail))
+  :hook (prog-mode-hook . whitespace-mode))
 
-(use-package rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(show-paren-mode t) ;for Emacs
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
+(show-paren-mode t) ;; highlight matched parentheses
 
 (defun yt/prog-previous-output-region ()
   "return start/end points of previous output region"
@@ -393,15 +399,6 @@
       (goto-char (cdr reg))
       (insert "*** output flushed ***\n"))))
 ;; (global-set-key (kbd "<f8>") 'yt/prog-kill-output-backwards)
-
-;;; -*- lexical-binding: t; -*-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-
-;; (add-to-list 'load-path "~/git_others/elpy")   ;; fix elpy-go-to-definition
-(package-initialize)
-
 
 (use-package vertico
   :bind (("C-x M-r" . vertico-repeat)
@@ -670,20 +667,8 @@
   ;; (setq consult-project-function nil)
 )
 
-;;; Scrolling.
-;; Good speed and allow scrolling through large images (pixel-scroll).
-;; Note: Scroll lags when point must be moved but increasing the number
-;;       of lines that point moves in pixel-scroll.el ruins large image
-;;       scrolling. So unfortunately I think we'll just have to live with
-;;       this.
-(pixel-scroll-mode)
-(setq pixel-dead-time 0) ; Never go back to the old scrolling behaviour.
-(setq pixel-resolution-fine-flag t) ; Scroll by number of pixels instead of lines (t = frame-char-height pixels).
-(setq mouse-wheel-scroll-amount '(1)) ; Distance in pixel-resolution to scroll each mouse wheel event.
-(setq mouse-wheel-progressive-speed nil) ; Progressive speed is too fast for me.
-
-(use-package good-scroll)
-(good-scroll-mode 1)
+;; https://www.reddit.com/r/emacs/comments/tv022a/smooth_scrolling_on_emacs_29_is_a_dream_come_true/
+(pixel-scroll-precision-mode 1)
 
 (defhydra hydra/smerge ()
   "open file: "

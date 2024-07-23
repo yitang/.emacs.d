@@ -50,11 +50,11 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   (delete-single-window))
 
 (use-package magit
-  :ensure t)
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-auto-revert-mode nil)
-(global-set-key (kbd "<f9> g") 'magit-status)
-(global-auto-revert-mode t)
+  :ensure t
+  :config
+  (magit-auto-revert-mode nil)  ;; why disbale it? 
+  (global-auto-revert-mode t)   ;; i think it's a good idea to have auto revert.
+  :bind (("<f9>-g" . magit-status)))
 
 (defun yt/save-all-buffers ()
   "save all files-visiting buffers without user confirmation"
