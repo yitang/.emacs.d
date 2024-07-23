@@ -3387,13 +3387,17 @@ called rsync in dired. useful in copy files between servers.
 :END:
 make yaml file a bit easier to work with.
 #+begin_src emacs-lisp :results silent
-(use-package yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.yaml\\'" "\\.yml\\'")
+  :bind (("C-m" . newline-and-indent))
+  )
+#+end_src
 
-(add-hook 'yaml-mode-hook
-	  '(lambda ()
-             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+if i do a lot of yaml file editing, use yaml-pro.
+#+begin_src emacs-lisp :results silent
+(use-package yaml-pro
+  :ensure nil)
 #+end_src
 ** org-mode
 :PROPERTIES:
