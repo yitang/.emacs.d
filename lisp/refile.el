@@ -152,6 +152,13 @@
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)  ;; center the text, looks good. have to call it again when change window size.
 (add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))  ;; blinking cursor is distracting.
 
+(defun yt/read-mode ()
+  (visual-line-mode)
+  (visual-fill-column-mode))
+
+(setq visual-fill-column-width 120)
+(setq line-number-display-limit-width 2000000)  ;; https://emacs.stackexchange.com/questions/3824/what-piece-of-code-in-emacs-makes-line-number-mode-print-as-line-number-i
+
 (use-package org-download)
 (add-hook 'dired-mode-hook 'org-download-enable)
 (setq-default org-download-image-dir "~/Pictures/org-download")

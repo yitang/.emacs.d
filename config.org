@@ -4040,11 +4040,11 @@ The [[https://magit.vc/manual/magit-refcard.pdf][reference card]] lists useful k
 
 #+begin_src emacs-lisp
 (use-package magit
-  :ensure t)
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-auto-revert-mode nil)
-(global-set-key (kbd "<f9> g") 'magit-status)
-(global-auto-revert-mode t)
+  :ensure t
+  :config
+  (magit-auto-revert-mode nil)  ;; why disbale it? 
+  (global-auto-revert-mode t)   ;; i think it's a good idea to have auto revert.
+  :bind (("<f9>-g" . magit-status)))
 #+end_src 
             
 # 1. automatically save all the buffers
