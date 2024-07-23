@@ -3649,15 +3649,6 @@ use f8 to remove the R process buffer.
 :END:
 
 #+begin_src emacs-lisp :results silent
-;;; -*- lexical-binding: t; -*-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-
-;; (add-to-list 'load-path "~/git_others/elpy")   ;; fix elpy-go-to-definition
-(package-initialize)
-
-
 (use-package vertico
   :bind (("C-x M-r" . vertico-repeat)
          :map vertico-map
