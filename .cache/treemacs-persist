@@ -1,0 +1,149 @@
+* Matrix
+** .emacs.d
+ - path :: ~/matrix/tools/.emacs.d
+** Optiver--Trading-at-the-Close
+ - path :: ~/matrix/finance/Optiver--Trading-at-the-Close
+* Matrix - Sub
+** Health
+ - path :: ~/matrix/health
+** Reflect
+ - path :: ~/matrix/reflect
+** Learning
+ - path :: ~/matrix/learning
+** Hobbies
+ - path :: ~/matrix/hobbies
+** Tools
+ - path :: ~/matrix/tools
+** Data Sciences
+ - path :: ~/matrix/ds
+** Finance
+ - path :: ~/matrix/finance
+* DL System
+** HW4
+ - path :: ~/matrix/ds/dlsys/homework/hw4
+* Tab Leadership and Self-Deception by The Arbinger Institute.epub<2>
+** Documents
+ - path :: ~/Documents
+* Tab *scratch*
+** yitang
+ - path :: ~
+* Tab nil
+** emacs
+ - path :: ~/matrix/tools/emacs
+* Tab main.org<emacs>
+** emacs
+ - path :: ~/matrix/tools/emacs
+* Tab main_bk.el
+** Emacs
+ - path :: ~/matrix/tools/Emacs
+* Tab blog
+** mywebsite
+ - path :: ~/matrix/learning/mywebsite
+* Tab 2023-02-03-emacs-as-service-in-macos.org
+** mywebsite
+ - path :: ~/matrix/learning/mywebsite
+* Tab mu4e.el
+** Emacs
+ - path :: ~/matrix/tools/Emacs
+* Tab *Warnings*
+** yitang
+ - path :: ~
+* Tab *Org MY-ASCII Export*
+** .tmp
+ - path :: ~/.tmp
+* Tab 2023-02-09-jekyll-md-export-backend.md
+** mywebsite
+ - path :: ~/matrix/learning/mywebsite
+* Tab config.org
+** .emacs.d
+ - path :: ~/matrix/tools/.emacs.d
+* Tab 2023-06-19.org
+** review
+ - path :: ~/matrix/reflect/review
+* Tab weightlifting_data_logger.py
+** health
+ - path :: ~/matrix/health/health
+* Tab emacs_config.el
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
+* Tab diary.org
+** diaries
+ - path :: ~/matrix/reflect/diaries
+* Tab model_opt.py
+** reimaging_price_trend
+ - path :: ~/matrix/finance/reimaging_price_trend
+* Tab daily_plan.org
+** review
+ - path :: ~/matrix/reflect/review
+* Tab *Org Src main.org<health>[ jupyter-python ]*
+** health
+ - path :: ~/matrix/health/health
+* Tab .emacs
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
+* Tab daily_plan.org<review>
+** review
+ - path :: ~/matrix/reflect/review
+* Tab 2023-01-15.org
+** review
+ - path :: ~/matrix/reflect/review
+* Tab main.org<hobbies>
+** hobbies
+ - path :: ~/matrix/hobbies/hobbies
+* Tab *Org Agenda*
+** exercise_every_day
+ - path :: ~/matrix/health/exercise_every_day
+* Tab main.org<exercise_every_day>
+** exercise_every_day
+ - path :: ~/matrix/health/exercise_every_day
+* Tab *Edit Treemacs Workspaces*
+** reflect
+ - path :: ~/matrix/reflect
+* Tab tab-bar-mode
+** emacs
+ - path :: ~/matrix/tools/emacs
+* Tab main.org<2023-01-19-project-centric-setup>
+** Emacs
+ - path :: ~/matrix/tools/Emacs
+* Tab ds
+** ds
+ - path :: ~/matrix/ds
+* Tab journal.org<books>
+** books
+ - path :: ~/matrix/learning/books
+* Tab magit: .emacs.d
+** .emacs.d
+ - path :: ~/matrix/tools/.emacs.d
+* Tab .bashrc
+** yitang
+ - path :: ~
+* Tab *shell*
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
+* Tab latest.sh
+** yi_kaggle_lib
+ - path :: ~/matrix/ds/yi_kaggle_lib
+* Tab *Org Src emacs_config.org[ emacs-lisp ]*
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
+* Tab dashboard.org
+** health
+ - path :: ~/matrix/health/health
+* Tab sleep.org
+** health
+ - path :: ~/matrix/health/health
+* Tab cardio.org
+** exercise_every_day
+ - path :: ~/matrix/health/exercise_every_day
+* Tab *eww*
+** audio
+ - path :: ~/matrix/learning/audio
+* Tab *Emacs-eshell*
+** Emacs
+ - path :: ~/matrix/tools/Emacs
+* Tab .ackrc
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
+* Tab dotfiles
+** dotfiles
+ - path :: ~/matrix/tools/dotfiles
