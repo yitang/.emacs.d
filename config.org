@@ -1083,7 +1083,7 @@ again to select the next one.
 (use-package flyspell)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
-(define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
+;; (define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
 
 ;; TODO - cannot get consult-flyspell working
 (use-package consult-flyspell
@@ -1093,6 +1093,18 @@ again to select the next one.
   (setq consult-flyspell-select-function (lambda () (flyspell-correct-at-point) (consult-flyspell))
         consult-flyspell-set-point-after-word t
         consult-flyspell-always-check-buffer nil))
+
+;; (require 'flyspell-correct)
+;; (require 'flyspell-correct-ido)
+;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
+
+
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-." . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after flyspell-correct)
 #+end_src 
 
 I need an grammar check to let me know that 
