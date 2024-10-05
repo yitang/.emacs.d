@@ -13,7 +13,7 @@
 (use-package flyspell)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
-(define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
+;; (define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
 
 ;; TODO - cannot get consult-flyspell working
 (use-package consult-flyspell
@@ -23,6 +23,18 @@
   (setq consult-flyspell-select-function (lambda () (flyspell-correct-at-point) (consult-flyspell))
         consult-flyspell-set-point-after-word t
         consult-flyspell-always-check-buffer nil))
+
+;; (require 'flyspell-correct)
+;; (require 'flyspell-correct-ido)
+;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
+
+
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-." . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after flyspell-correct)
 
 ;; ;; check grammar 
 (use-package langtool)

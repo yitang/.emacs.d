@@ -54,7 +54,7 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   :config
   (magit-auto-revert-mode nil)  ;; why disbale it? 
   (global-auto-revert-mode t)   ;; i think it's a good idea to have auto revert.
-  :bind (("<f9>-g" . magit-status)))
+  :bind (("<f9> g" . magit-status)))
 
 (defun yt/save-all-buffers ()
   "save all files-visiting buffers without user confirmation"
@@ -80,7 +80,7 @@ do
     # Add new files
     git add -A . >/dev/null 2>&1
     git commit -m \"$(date)\"
-    git push origin master 
+    git push origin main
 done
 
 echo Finished Sync: $(date)
