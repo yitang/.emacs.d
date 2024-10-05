@@ -4033,7 +4033,7 @@ The [[https://magit.vc/manual/magit-refcard.pdf][reference card]] lists useful k
   :config
   (magit-auto-revert-mode nil)  ;; why disbale it? 
   (global-auto-revert-mode t)   ;; i think it's a good idea to have auto revert.
-  :bind (("<f9>-g" . magit-status)))
+  :bind (("<f9> g" . magit-status)))
 #+end_src 
             
 # 1. automatically save all the buffers
