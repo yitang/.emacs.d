@@ -3411,7 +3411,7 @@ make yaml file a bit easier to work with.
 if i do a lot of yaml file editing, use yaml-pro.
 #+begin_src emacs-lisp :results silent
 (use-package yaml-pro
-  :ensure nil)
+  :ensure t)
 #+end_src
 ** org-mode
 :PROPERTIES:
