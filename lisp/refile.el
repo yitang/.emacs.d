@@ -229,7 +229,7 @@
   )
 
 (use-package yaml-pro
-  :ensure nil)
+  :ensure t)
 
 (setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
