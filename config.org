@@ -3009,6 +3009,8 @@ Use Jupyter for python interactive shell.
 #+begin_src emacs-lisp :results silent :tangle no
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "ipython")
 #+end_src
 
 TODO: replace this by using native elpy function.
