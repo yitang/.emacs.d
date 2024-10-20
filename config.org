@@ -2408,10 +2408,12 @@ width=450
   (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )
 
-(defun yt/jekyll--copy-org-download-to-assets (file)
-  "TODO: from org-download folder to blog assets folder.
-needs to ensure there's no _ in the file name. jekyll does not like it.
-use jekyll-make-slug to normalise the filename.
+(defun yt/jekyll-copy-to-assets-folder (file)
+  "TODO: copy a file to the assets folder. if file not provided,
+interactively select file, start with org-download-image-dir.
+
+jekyll-make-slug to normalise the file name. jekyll does not like
+_ in the file name.
 "
   (interactive (list (read-file-name "file to copy: " org-download-image-dir)))
   (let* ((ext (file-name-extension file ))
