@@ -2396,7 +2396,9 @@ image size here. image preview is lacking in org buffer.
   " 
 {%% include image.html
 src=\"/assets/%s\"
-caption=\"%s\" %%}
+caption=\"%s\"
+width=450
+%%}
 "
   "insert image using liquid template.")
 
