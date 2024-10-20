@@ -1813,10 +1813,10 @@ intermediary files. need to test those.
 
 #+begin_src emacs-lisp :results silent :tangle no
 ;; ;;;; comple pdf 
-;; (setq org-latex-pdf-process
-;;       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
-;;         "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
 #+end_src
 
 define customised latex-class which will be use when export org-mode
