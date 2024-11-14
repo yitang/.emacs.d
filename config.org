@@ -2823,6 +2823,7 @@ commands together using hydra.
 _o_pen file
 _O_pen file as Sudo user 
 copy file _P_ath to kill ring
+copy file _p_ath relative to project dir to kill ring
 _r_ename buffer-visiting file 
 _d_elete buffer-visiting file
 open with _e_xternal application
