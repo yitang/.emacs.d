@@ -2830,6 +2830,7 @@ _g_it sync"
   ("o" find-file)
   ("O" yt/sudo-find-file)
   ("P" yt/copy-full-path-to-kill-ring)
+  ("p" yt/copy-rel-path-to-kill-ring)  
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
