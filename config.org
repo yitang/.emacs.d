@@ -3986,6 +3986,46 @@ use f8 to remove the R process buffer.
 (global-set-key (kbd "<f7>") 'hydra/smerge/body)
 
 #+end_src
+
+** Compare Files in dired
+:PROPERTIES:
+:CREATED:  [2024-11-16 Sat 10:33]
+:END:
+
+mark two files in dired, run ediff.
+
+#+begin_src emacs-lisp :results silent :tangle no
+(setq ediff-keep-variants nil)  ;; ask before close the file.
+(setq ediff-keep-variants t)    ;; show buffer after exit.
+
+
+(defun mkm/ediff-marked-pair ()
+  "Run ediff-files on a pair of files marked in dired buffer
+
+copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers"
+  (interactive)
+  (let* ((marked-files (dired-get-marked-files nil nil))
+         (other-win (get-window-with-predicate
+                     (lambda (window)
+                       (with-current-buffer (window-buffer window)
+                         (and (not (eq window (selected-window)))
+                              (eq major-mode 'dired-mode))))))
+         (other-marked-files (and other-win
+                                  (with-current-buffer (window-buffer other-win)
+                                    (dired-get-marked-files nil)))))
+    (cond ((= (length marked-files) 2)
+           (ediff-files (nth 0 marked-files)
+                        (nth 1 marked-files)))
+          ((and (= (length marked-files) 1)
+                (= (length other-marked-files) 1))
+           (ediff-files (nth 0 marked-files)
+                        (nth 0 other-marked-files)))
+          (t (error "mark exactly 2 files, at least 1 locally")))))
+
+
+(define-key dired-mode-map (kbd "C-c e") 'mkm/ediff-marked-pair)
+#+end_src
+
 * Scripting
   :PROPERTIES:
   :header-args: :tangle lisp/scripting.el
