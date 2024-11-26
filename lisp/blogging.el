@@ -197,7 +197,9 @@ channel."
   " 
 {%% include image.html
 src=\"/assets/%s\"
-caption=\"%s\" %%}
+caption=\"%s\"
+width=450
+%%}
 "
   "insert image using liquid template.")
 
@@ -207,10 +209,12 @@ caption=\"%s\" %%}
   (insert (format jekyll-insert-image-liquid-template (file-name-nondirectory src) caption))
   )
 
-(defun yt/jekyll--copy-org-download-to-assets (file)
-  "TODO: from org-download folder to blog assets folder.
-needs to ensure there's no _ in the file name. jekyll does not like it.
-use jekyll-make-slug to normalise the filename.
+(defun yt/jekyll-copy-to-assets-folder (file)
+  "TODO: copy a file to the assets folder. if file not provided,
+interactively select file, start with org-download-image-dir.
+
+jekyll-make-slug to normalise the file name. jekyll does not like
+_ in the file name.
 "
   (interactive (list (read-file-name "file to copy: " org-download-image-dir)))
   (let* ((ext (file-name-extension file ))
@@ -219,6 +223,12 @@ use jekyll-make-slug to normalise the filename.
 	(dest-file (expand-file-name (file-name-with-extension dest-base ext) jekyll-site-assets-dir)))
     (copy-file file dest-file)
     dest-file))
+
+(defun yt/jekyll-copy-insert-image (file caption)
+  (interactive (list (read-file-name "file to copy: " org-download-image-dir)
+		     (read-string "Caption: ")))
+  (yt/jekyll-insert-image (yt/jekyll-copy-to-assets-folder file) caption)
+  )
 
 ;; from https://lists.gnu.org/archive/html/emacs-orgmode/2009-08/msg00460.html
 ;; magit link in org-mode 

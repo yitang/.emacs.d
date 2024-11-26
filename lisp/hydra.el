@@ -5,6 +5,7 @@
 _o_pen file
 _O_pen file as Sudo user 
 copy file _P_ath to kill ring
+copy file _p_ath relative to project dir to kill ring
 _r_ename buffer-visiting file 
 _d_elete buffer-visiting file
 open with _e_xternal application
@@ -12,6 +13,7 @@ _g_it sync"
   ("o" find-file)
   ("O" yt/sudo-find-file)
   ("P" yt/copy-full-path-to-kill-ring)
+  ("p" yt/copy-rel-path-to-kill-ring)  
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)

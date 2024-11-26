@@ -21,8 +21,8 @@
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 
 ;; for new elpy version
-(setq elpy-shell-starting-directory 'current-directory)
-(setq elpy-rpc-virtualenv-path 'current)
+(setq elpy-shell-starting-directory 'project-root)  ;; set to project directory.
+(setq elpy-rpc-virtualenv-path 'current)   ;; rpc is in the python dev env
 
 (setq python-shell-interpreter "jupyter"
       python-shell-interpreter-args "console --simple-prompt"

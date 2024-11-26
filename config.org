@@ -3009,8 +3009,8 @@ _g_oto      _o_ut        ^ ^      _r_eport
 (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 
 ;; for new elpy version
-(setq elpy-shell-starting-directory 'current-directory)
-(setq elpy-rpc-virtualenv-path 'current)
+(setq elpy-shell-starting-directory 'project-root)  ;; set to project directory.
+(setq elpy-rpc-virtualenv-path 'current)   ;; rpc is in the python dev env
 #+end_src
 
 Use Jupyter for python interactive shell.
@@ -3318,10 +3318,11 @@ https://depp.brause.cc/nov.el/
 :END:
 
 #+begin_src emacs-lisp :results silent
-(setq emacsql-sqlite-executable "/usr/bin/sqlite3")
-(use-package emacsql-sqlite-builtin)
-;; (setq org-roam-database-connector 'sqlite3)
-(setq org-roam-database-connector 'sqlite-builtin)
+;; (setq emacsql-sqlite-executable "/usr/bin/sqlite3")
+;; (use-package emacsql-sqlite-builtin)
+;; ;; (setq org-roam-database-connector 'sqlite3)
+;; (setq org-roam-database-connector 'sqlite-builtin)
+;; (setq org-roam-database-connector 'sqlite)
 
 (use-package org-roam
   :ensure t

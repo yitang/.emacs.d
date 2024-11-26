@@ -169,10 +169,11 @@
 (if (eq system-type 'darwin)
     (setq org-download-screenshot-method "screencapture -i %s"))
 
-(setq emacsql-sqlite-executable "/usr/bin/sqlite3")
-(use-package emacsql-sqlite-builtin)
-;; (setq org-roam-database-connector 'sqlite3)
-(setq org-roam-database-connector 'sqlite-builtin)
+;; (setq emacsql-sqlite-executable "/usr/bin/sqlite3")
+;; (use-package emacsql-sqlite-builtin)
+;; ;; (setq org-roam-database-connector 'sqlite3)
+;; (setq org-roam-database-connector 'sqlite-builtin)
+;; (setq org-roam-database-connector 'sqlite)
 
 (use-package org-roam
   :ensure t

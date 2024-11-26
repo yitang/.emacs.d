@@ -25,6 +25,12 @@
       ;;(rel-name (file-relative-name file-truename "~/")))  ; BUG: if filename is not relative to home directory.
       ;; (kill-new (concat "~/" rel-name)))))
       (kill-new file-truename))))
+(defun yt/copy-rel-path-to-kill-ring ()
+  "copy buffer's relative path to project directory to kill ring"
+  (interactive)
+  (when (and buffer-file-name (magit-toplevel))
+    (let* ((file-truename buffer-file-name))
+      (kill-new (file-relative-name file-truename (magit-top-level))))))
 
 (defun yt/sudo-find-file (file-name)
   "Like find file, but opens the file as root."
