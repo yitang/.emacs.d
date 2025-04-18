@@ -4035,14 +4035,25 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 			     ; minor mode, but i cannot get it
 			     ; working.
 
-  ; an workaround for disbale auto-fill mode.
-  :hook (ledger-mode . (lambda () (set-fill-column 160)))
-  :init
-  (setq ledger-default-date-format "%Y-%m-%d"))
+					; an workaround for disbale auto-fill mode.
+  :hook ((ledger-mode . (lambda () (set-fill-column 160)))
+	 (ledger-mode . (lambda ()
+			  (setq-local tab-always-indent 'complete)
+			  (setq-local completion-cycle-threshold t)
+			  (setq-local ledger-complete-in-steps nil))))
+  :custom
+  (ledger-default-date-format "%Y-%m-%d"))
 
 (use-package flycheck-ledger
   :ensure t)
 
+
+
+;; (add-hook 'ledger-mode-hook
+;;           (lambda ()
+;;             (setq-local tab-always-indent 'complete)
+;;             (setq-local completion-cycle-threshold t)
+;;             (setq-local ledger-complete-in-steps t)))
 #+end_src
 * Scripting
   :PROPERTIES:
