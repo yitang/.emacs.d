@@ -3989,7 +3989,7 @@ use f8 to remove the R process buffer.
 
 mark two files in dired, run ediff.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 (setq ediff-keep-variants nil)  ;; ask before close the file.
 (setq ediff-keep-variants t)    ;; show buffer after exit.
 
