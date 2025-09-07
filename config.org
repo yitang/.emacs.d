@@ -4061,6 +4061,29 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 ;;             (setq-local completion-cycle-threshold t)
 ;;             (setq-local ledger-complete-in-steps t)))
 #+end_src
+
+** matrix setup
+:PROPERTIES:
+:CREATED:  [2025-09-05 Fri 18:08]
+:END:
+#+begin_src emacs-lisp :results silent 
+
+(defvar yt/matrix-setup--matrix-root "~/matrix")
+
+;; ~/matrix/ds
+;; ~/matrix/ds/dlsys
+
+(defun yt/matrix-setup--find-matrix (filepath)
+  "given a filepath, return the matrix it belongs to."
+  (nth 0 (string-split (f-relative filepath yt/matrix-setup--matrix-root) "/")))
+
+
+(defun yt/matrix-setup--find-project (filepath)
+  "given a filepath, return the project it belongs to."
+  (nth 1 (string-split (f-relative filepath yt/matrix-setup--matrix-root) "/")))
+
+
+#+end_src
 * Scripting
   :PROPERTIES:
   :header-args: :tangle lisp/scripting.el
