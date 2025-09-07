@@ -704,6 +704,7 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
 
+(require 'dired)
 (define-key dired-mode-map (kbd "C-c e") 'mkm/ediff-marked-pair)
 
 (use-package diminish :ensure t)
@@ -733,3 +734,17 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 ;;             (setq-local tab-always-indent 'complete)
 ;;             (setq-local completion-cycle-threshold t)
 ;;             (setq-local ledger-complete-in-steps t)))
+
+(defvar yt/matrix-setup--matrix-root "~/matrix")
+
+;; ~/matrix/ds
+;; ~/matrix/ds/dlsys
+
+(defun yt/matrix-setup--find-matrix (filepath)
+  "given a filepath, return the matrix it belongs to."
+  (nth 0 (string-split (f-relative filepath yt/matrix-setup--matrix-root) "/")))
+
+
+(defun yt/matrix-setup--find-project (filepath)
+  "given a filepath, return the project it belongs to."
+  (nth 1 (string-split (f-relative filepath yt/matrix-setup--matrix-root) "/")))
