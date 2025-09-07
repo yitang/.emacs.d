@@ -25,7 +25,7 @@
 ;; (display-time)
 
 (add-hook 'suspend-hook
-	  (lambda () (or (y-or-n-p "Really suspend? ")
-			 (error "Suspend canceled"))))
+	     (lambda () (or (y-or-n-p "Really suspend? ")
+			    (error "Suspend canceled"))))
 (add-hook 'suspend-resume-hook (lambda () (message "Resumed!")
-				 (sit-for 2)))
+				    (sit-for 2)))

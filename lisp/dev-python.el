@@ -1,28 +1,28 @@
 (use-package pyvenv)
 (add-hook 'python-mode-hook 'flyspell-prog-mode)
-(add-hook 'python-mode-hook 'elpy-mode)
+;; (add-hook 'python-mode-hook 'elpy-mode)
 (setq python-fill-docstring-style 'django)
 
-(use-package elpy
-  :ensure t
-  :init)
+;; (use-package elpy
+;;   :ensure t
+;;   :init)
 
-(elpy-enable)
-;; ;; (elpy-use-ipython "ipython3")
-;; (setq elpy-rpc-python-command "python3")
-;; (global-set-key (kbd "M-*") 'pop-tag-mark)
-;; ;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
-;; (setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
-;; (setq elpy-rpc-backend "jedi")
+;; (elpy-enable)
+;; ;; ;; (elpy-use-ipython "ipython3")
+;; ;; (setq elpy-rpc-python-command "python3")
+;; ;; (global-set-key (kbd "M-*") 'pop-tag-mark)
+;; ;; ;; (setq elpy-test-discover-runner-command '("python3" "-m" "unittest"))
+;; ;; (setq elpy-test-pytest-runner-command '("py.test" "--maxfail=100" "-s"))
+;; ;; (setq elpy-rpc-backend "jedi")
 
-;; make elpy more like ESS
-(define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
-(define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
-(define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+;; ;; make elpy more like ESS
+;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
+;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
 
-;; for new elpy version
-(setq elpy-shell-starting-directory 'project-root)  ;; set to project directory.
-(setq elpy-rpc-virtualenv-path 'current)   ;; rpc is in the python dev env
+;; ;; for new elpy version
+;; (setq elpy-shell-starting-directory 'project-root)  ;; set to project directory.
+;; (setq elpy-rpc-virtualenv-path 'current)   ;; rpc is in the python dev env
 
 (setq python-shell-interpreter "jupyter"
       python-shell-interpreter-args "console --simple-prompt"
@@ -34,7 +34,7 @@
 (setq elpy-dedicated-shells nil)   ; Ensure no conflict with dedicated shells
 
 (defvar elpy-shell-python-shell-names '("Python")
-      "List of existing python shell names.")
+	  "List of existing python shell names.")
 
 ;; (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
 
@@ -56,10 +56,10 @@
 
 
 (use-package lsp-pyright
-	     :ensure t
-	     :hook (python-mode . (lambda ()
-				    (require 'lsp-pyright)
-				    (lsp))))  ; or lsp-deferred
+		:ensure t
+		:hook (python-mode . (lambda ()
+				       (require 'lsp-pyright)
+				       (lsp))))  ; or lsp-deferred
 
 (use-package sphinx-doc
   :ensure t
@@ -74,3 +74,7 @@
   fields)                                      ; list of field objects
 
 (use-package jupyter)
+
+;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
+;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
+;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)

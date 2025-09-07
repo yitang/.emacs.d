@@ -169,12 +169,6 @@
 (if (eq system-type 'darwin)
     (setq org-download-screenshot-method "screencapture -i %s"))
 
-;; (setq emacsql-sqlite-executable "/usr/bin/sqlite3")
-;; (use-package emacsql-sqlite-builtin)
-;; ;; (setq org-roam-database-connector 'sqlite3)
-;; (setq org-roam-database-connector 'sqlite-builtin)
-;; (setq org-roam-database-connector 'sqlite)
-
 (use-package org-roam
   :ensure t
   :init
@@ -681,3 +675,61 @@
   ("a" (smerge-keep-all) "keep both versions")
   )
 (global-set-key (kbd "<f7>") 'hydra/smerge/body)
+
+(setq ediff-keep-variants nil)  ;; ask before close the file.
+(setq ediff-keep-variants t)    ;; show buffer after exit.
+
+
+(defun mkm/ediff-marked-pair ()
+  "Run ediff-files on a pair of files marked in dired buffer
+
+copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers"
+  (interactive)
+  (let* ((marked-files (dired-get-marked-files nil nil))
+         (other-win (get-window-with-predicate
+                     (lambda (window)
+                       (with-current-buffer (window-buffer window)
+                         (and (not (eq window (selected-window)))
+                              (eq major-mode 'dired-mode))))))
+         (other-marked-files (and other-win
+                                  (with-current-buffer (window-buffer other-win)
+                                    (dired-get-marked-files nil)))))
+    (cond ((= (length marked-files) 2)
+           (ediff-files (nth 0 marked-files)
+                        (nth 1 marked-files)))
+          ((and (= (length marked-files) 1)
+                (= (length other-marked-files) 1))
+           (ediff-files (nth 0 marked-files)
+                        (nth 0 other-marked-files)))
+          (t (error "mark exactly 2 files, at least 1 locally")))))
+
+
+(define-key dired-mode-map (kbd "C-c e") 'mkm/ediff-marked-pair)
+
+(use-package diminish :ensure t)
+
+(use-package ledger-mode
+  :ensure t
+  :diminish auto-fill-mode   ; it suppose to remove the auto-fill
+			     ; minor mode, but i cannot get it
+			     ; working.
+
+					; an workaround for disbale auto-fill mode.
+  :hook ((ledger-mode . (lambda () (set-fill-column 160)))
+	 (ledger-mode . (lambda ()
+			  (setq-local tab-always-indent 'complete)
+			  (setq-local completion-cycle-threshold t)
+			  (setq-local ledger-complete-in-steps nil))))
+  :custom
+  (ledger-default-date-format "%Y-%m-%d"))
+
+(use-package flycheck-ledger
+  :ensure t)
+
+
+
+;; (add-hook 'ledger-mode-hook
+;;           (lambda ()
+;;             (setq-local tab-always-indent 'complete)
+;;             (setq-local completion-cycle-threshold t)
+;;             (setq-local ledger-complete-in-steps t)))
