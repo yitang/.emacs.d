@@ -145,21 +145,21 @@
 ;;   :ensure t
 ;;   :config (treemacs-set-scope-type 'Tabs))
 
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-
-(setq nov-text-width t)
-(setq visual-fill-column-center-text t)
-
-(add-hook 'nov-mode-hook 'visual-line-mode)  ;; word-wrap and also use visual-line, not logical (actual) line.
-(add-hook 'nov-mode-hook 'visual-fill-column-mode)  ;; center the text, looks good. have to call it again when change window size.
-(add-hook 'nov-mode-hook '(lambda () (blink-cursor-mode 0)))  ;; blinking cursor is distracting.
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :hook ((nov-mode . visual-line-mode)
+	 (nov-mode . visual-fill-column-mode)
+	 (nov-mode . (lambda () (blink-cursor-mode 0))))
+  :config
+  (setq nov-text-width t)
+  (setq visual-fill-column-center-text t))
+  
+(use-package visual-fill-column
+  :ensure t)  
 
 (defun yt/read-mode ()
   (visual-line-mode)
   (visual-fill-column-mode))
-
-(setq visual-fill-column-width 120)
-(setq line-number-display-limit-width 2000000)  ;; https://emacs.stackexchange.com/questions/3824/what-piece-of-code-in-emacs-makes-line-number-mode-print-as-line-number-i
 
 (use-package org-download)
 (add-hook 'dired-mode-hook 'org-download-enable)
