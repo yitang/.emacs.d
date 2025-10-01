@@ -63,16 +63,13 @@
 				       (require 'lsp-pyright)
 				       (lsp))))  ; or lsp-deferred
 
+;; additional add-ons
+;; use consult/ivy to search symbols.
+(use-package consult-lsp
+  :ensure t)
 
-(use-package python-black
-  :demand t
-  :after python
-  :hook (python-mode . python-black-on-save-mode-enable-dwim)
-  :config
-  ;; better to install the black and macchiato on the system level
-  (setq python-black-command "~/.uv_venv/train_llm/bin/black")
-  (setq python-black-macchiato-command "~/.uv_venv/train_llm/bin/black-macchiato")
-  )
+(use-package lsp-ivy
+  :ensure t)
 
 (use-package sphinx-doc
   :ensure t
@@ -91,3 +88,13 @@
 ;; (define-key elpy-mode-map (kbd "<C-return>") 'elpy-shell-send-statement-and-step)
 ;; (define-key elpy-mode-map (kbd "<C-c C-f>") 'python-shell-send-defun)
 ;; (define-key elpy-mode-map (kbd "<C-c C-b>") 'elpy-shell-send-region-or-buffer)
+
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim)
+  :config
+  ;; better to install the black and macchiato on the system level
+  (setq python-black-command "~/.uv_venv/train_llm/bin/black")
+  (setq python-black-macchiato-command "~/.uv_venv/train_llm/bin/black-macchiato")
+  )
