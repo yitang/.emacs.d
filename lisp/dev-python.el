@@ -45,6 +45,8 @@
 ;; (use-package company-lsp)
 (use-package lsp-ui)
 
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.wandb\\'")
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\wandb\\'")
 
 ;; (use-package lsp-jedi
 ;;   :ensure t
@@ -60,6 +62,17 @@
 		:hook (python-mode . (lambda ()
 				       (require 'lsp-pyright)
 				       (lsp))))  ; or lsp-deferred
+
+
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim)
+  :config
+  ;; better to install the black and macchiato on the system level
+  (setq python-black-command "~/.uv_venv/train_llm/bin/black")
+  (setq python-black-macchiato-command "~/.uv_venv/train_llm/bin/black-macchiato")
+  )
 
 (use-package sphinx-doc
   :ensure t
