@@ -3471,8 +3471,8 @@ if i do a lot of yaml file editing, use yaml-pro.
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
 
 ;; somehow relative path doesn't work in osx when export org to other format. so use abslute path.
-(setq org-download-abbreviate-filename-function #'expand-file-name)
-(setq org-link-file-path-type 'absolute)
+(setq org-download-abbreviate-filename-function #'abbreviate-file-name)
+;; (setq org-link-file-path-type 'absolute)
 #+end_src
 
 #+begin_src emacs-lisp :results silent
