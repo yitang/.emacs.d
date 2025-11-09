@@ -3616,6 +3616,10 @@ highlight TODO, FIXME or other in programming mode.
             (font-lock-add-keywords nil
                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
+(add-hook 'text-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 #+end_src 
     
 we usually have long scripts, and in Subimetext, one cold folder and
