@@ -1,4 +1,6 @@
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 180)
 
 (tool-bar-mode -1)
 (menu-bar-mode 1)

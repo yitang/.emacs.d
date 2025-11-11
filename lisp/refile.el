@@ -230,8 +230,8 @@
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
 
 ;; somehow relative path doesn't work in osx when export org to other format. so use abslute path.
-(setq org-download-abbreviate-filename-function #'expand-file-name)
-(setq org-link-file-path-type 'absolute)
+(setq org-download-abbreviate-filename-function #'abbreviate-file-name)
+;; (setq org-link-file-path-type 'absolute)
 
 (defun yt/execute-src-org-file (filename)
  "run the src babel block in a given file"
@@ -334,6 +334,11 @@
 (setq bookmark-save-flag 1)  ; save bookmark file everytime.
 
 (add-hook 'prog-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+(add-hook 'text-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("\\<\\(YT\\|FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
