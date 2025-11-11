@@ -399,7 +399,9 @@ claimed to be suitable for coding environments but I use it for all
 modes.
 
 #+begin_src emacs-lisp :results silent
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 180)
 #+end_src
 ** Minimalists GUI 
 [2015-07-20 Mon 11:46]
