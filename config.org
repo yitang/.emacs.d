@@ -3134,6 +3134,40 @@ TODO: replace this by using native elpy function.
   (setq python-black-macchiato-command "~/.uv_venv/train_llm/bin/black-macchiato")
   )
 #+end_src
+** jump between tests and source code 
+:PROPERTIES:
+:CREATED:  [2025-12-17 Wed 16:32]
+:END:
+
+bi-directional jump between 
+
+project/**/a.py <--> project/**/test_a.py
+
+using =ff-find-other-file= function
+
+#+begin_src emacs-lisp :results silent :tangle no
+;; see https://dev.to/fredericlepied/emacs-how-to-switch-from-modulepy-to-testmodulepy-67k
+(defun py-module (fname)
+  (list (concat
+         (match-string 1 (file-name-nondirectory fname))
+         ".py")) )
+
+(defun py-test (fname)
+  (list (concat "test_"
+                (match-string 1 (file-name-nondirectory fname))
+                ".py")) )
+
+(add-hook 'python-mode-hook
+          (function
+           (lambda()
+             (setq
+	      ;; setup below in .dir-locals.el for each project.
+	      ;; ff-search-directories '("~/.tmp/src/*" "~/.tmp/tests/*")
+	      ff-other-file-alist
+              '(("test_\\(.*\\)\\.py$" py-module)
+                ("\\(.*\\)\\.py$" py-test))
+              ))))
+#+end_src
 * Refile                                                         :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/refile
