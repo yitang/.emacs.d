@@ -98,3 +98,25 @@
   (setq python-black-command "~/.uv_venv/train_llm/bin/black")
   (setq python-black-macchiato-command "~/.uv_venv/train_llm/bin/black-macchiato")
   )
+
+;; see https://dev.to/fredericlepied/emacs-how-to-switch-from-modulepy-to-testmodulepy-67k
+(defun py-module (fname)
+  (list (concat
+         (match-string 1 (file-name-nondirectory fname))
+         ".py")) )
+
+(defun py-test (fname)
+  (list (concat "test_"
+                (match-string 1 (file-name-nondirectory fname))
+                ".py")) )
+
+(add-hook 'python-mode-hook
+          (function
+           (lambda()
+             (setq
+	      ;; setup below in .dir-locals.el for each project.
+	      ;; ff-search-directories '("~/.tmp/src/*" "~/.tmp/tests/*")
+	      ff-other-file-alist
+              '(("test_\\(.*\\)\\.py$" py-module)
+                ("\\(.*\\)\\.py$" py-test))
+              ))))
