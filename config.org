@@ -3168,6 +3168,20 @@ using =ff-find-other-file= function
                 ("\\(.*\\)\\.py$" py-test))
               ))))
 #+end_src
+** pytest 
+:PROPERTIES:
+:CREATED:  [2025-12-17 Wed 16:52]
+:END:
+
+see full configuration at
+https://github.com/wbolster/emacs-python-pytest
+
+#+begin_src emacs-lisp :results silent
+(use-package python-pytest
+ :custom
+ (python-pytest-confirm t))
+#+end_src
+
 * Refile                                                         :ExportFile:
   :PROPERTIES:
   :EXPORT_FILE_NAME: ~/matrix/tools/.emacs.d/docs/refile
