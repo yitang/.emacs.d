@@ -3067,8 +3067,11 @@ TODO: replace this by using native elpy function.
    ;; (use-package company-lsp)
    (use-package lsp-ui)
 
+   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\workflow\\'")
+   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\storage\\'")  
    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.wandb\\'")
    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\wandb\\'")
+   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\configs\\'")
 
    ;; (use-package lsp-jedi
    ;;   :ensure t
