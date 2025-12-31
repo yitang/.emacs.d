@@ -1828,7 +1828,7 @@ run in sequentially. multiple calls are neeed to ensure bibliograph
 etc works. i can also clean up the files, for example, remove the
 intermediary files. need to test those.
 
-#+begin_src emacs-lisp :results silent :tangle no
+#+begin_src emacs-lisp :results silent
 ;; ;;;; comple pdf 
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
