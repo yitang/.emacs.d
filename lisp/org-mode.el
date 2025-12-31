@@ -307,6 +307,12 @@ Skips capture tasks"
 
 (setq org-table-export-default-format "orgtbl-to-csv")
 
+;; ;;;; comple pdf 
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction=nonstopmode -output-directory %o %f"))
+
 ;; http://emacs-fu.blogspot.co.uk/2011/04/nice-looking-pdfs-with-org-mode-and.html
 ;; 'djcb-org-article' for export org documents to the LaTex 'article', using
 ;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)

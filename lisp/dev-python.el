@@ -45,8 +45,12 @@
 ;; (use-package company-lsp)
 (use-package lsp-ui)
 
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\workflow\\'")
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\storage\\'")  
 (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.wandb\\'")
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.snakemake\\'")
 (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\wandb\\'")
+(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\configs\\'")
 
 ;; (use-package lsp-jedi
 ;;   :ensure t
@@ -120,3 +124,7 @@
               '(("test_\\(.*\\)\\.py$" py-module)
                 ("\\(.*\\)\\.py$" py-test))
               ))))
+
+(use-package python-pytest
+ :custom
+ (python-pytest-confirm t))
