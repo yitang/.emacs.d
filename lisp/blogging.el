@@ -160,7 +160,7 @@ can also implmenet as  (file-name-directory (buffer-file-name (current-buffer)))
     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
-    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-sever*" "jekyll s  --watch --drafts" jekyll-site-dir)))
+    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-server*" "bundle exec jekyll s  --watch --drafts" jekyll-site-dir)))
     ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
     ]])
 
