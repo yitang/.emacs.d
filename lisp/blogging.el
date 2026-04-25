@@ -169,7 +169,7 @@ can also implmenet as  (file-name-directory (buffer-file-name (current-buffer)))
 CONTENTS is nil.  INFO is a plist used as a communication
 channel."
   (concat
-   (format "{%% highlight %s %%} \n%s\n{%% endhighlight %%}"
+   (format "```%s\n%s```"
            (org-element-property :language src-block)
            (org-element-normalize-string
             (org-export-format-code-default src-block info)))))
