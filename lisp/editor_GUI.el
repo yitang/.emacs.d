@@ -8,16 +8,16 @@
 
 (load-theme 'modus-operandi)
 
-(when (require 'smart-mode-line nil t)
-  (use-package smart-mode-line
-    :config
-    (setq sml/no-confirm-load-theme t)
-    (setq powerline-arrow-shape 'curve)
-    (setq powerline-default-separator-dir '(right . left))
-    (setq sml/theme 'respectful)
-    (sml/setup)))
+(use-package smart-mode-line
+  :config
+  (setq sml/no-confirm-load-theme t)
+  (setq powerline-arrow-shape 'curve)
+  (setq powerline-default-separator-dir '(right . left))
+  (setq sml/theme 'respectful)
+  (sml/setup))
 
-(when (require 'rich-minority nil t)
+(use-package rich-minority
+  :config
   (rich-minority-mode 1)
   (setf rm-blacklist ""))
 

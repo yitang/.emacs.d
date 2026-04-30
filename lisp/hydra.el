@@ -1,6 +1,5 @@
-(when (require 'hydra nil t)
-  (use-package hydra)
-  (defhydra hydra-file-management (:color red
+(use-package hydra)
+(defhydra hydra-file-management (:color red
                                         :hint nil)
   "
 _o_pen file
@@ -20,10 +19,9 @@ _g_it sync"
   ("d" yt/delete-this-buffer-and-file)
   ("e" (lambda () (interactive) (let ((f (buffer-file-name))) (when f (openwith-open-file f)))))
   ("g" yt/git-up))
-  (global-set-key [f3] 'hydra-file-management/body))
+(global-set-key [f3] 'hydra-file-management/body)
 
-(when (require 'hydra nil t)
-  (defhydra yt-hydra/help (:color blue :hint nil)
+(defhydra yt-hydra/help (:color blue :hint nil)
     "
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
@@ -39,13 +37,11 @@ _V_ocabulary: add to or visit vocablary
     ;; ("G" consult-google)
     ("s" synosaurus-lookup)
     ;; ("d" voca-builder/search-popup)
-    ("V" yt/add-vocabulary)
-    )
-  (global-set-key (kbd "<f1>") 'yt-hydra/help/body))
+    ("V" yt/add-vocabulary))
+(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
 
 ;; https://github.com/abo-abo/hydra/wiki/Org-clock
-(when (require 'hydra nil t)
-  (defhydra hydra-org-clock (:color blue :hint nil)
+(defhydra hydra-org-clock (:color blue :hint nil)
     "
 Clock       In/out^     ^Edit^   ^Summary     Doc(_?_)
 ---------------------------------------------------
@@ -65,9 +61,9 @@ _g_oto      _o_ut        ^ ^      _r_eport
     ("h" yt/org-clock-in-select)
     ("?" (org-info "Clocking commands")))
 
-  (global-set-key (kbd "<f11>") 'hydra-org-clock/body)
+(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 
-  (defun yt/org-clock-in-select ()
-    (interactive)
-    (setq current-prefix-arg '(4)) ;; C-u, 
-    (call-interactively 'org-clock-in)))
+(defun yt/org-clock-in-select ()
+  (interactive)
+  (setq current-prefix-arg '(4)) ;; C-u, 
+  (call-interactively 'org-clock-in))

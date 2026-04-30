@@ -79,20 +79,23 @@
 
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode)))
 
-(when (require 'projectile nil t)
+(use-package projectile
+  :ensure nil
+  :config
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; as of [2023-01-17 Tue 19:35], there's issue with
 ;; projectile-switch-project function. it cannot detect the right
 ;; project directory. so i have to use consult-projectile for this.
-(when (require 'consult-projectile nil t)
+(use-package consult-projectile
+  :after projectile
+  :config
   (setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
   (define-key projectile-command-map (kbd "p") 'consult-projectile-switch-project))
 
 (use-package tramp)
-(when (require 'ssh nil t)
-  (use-package ssh))
+(use-package ssh)
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 (defun yt/tramp-abort ()

@@ -1,6 +1,7 @@
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-(when (require 'ess nil t)
+(use-package ess
+  :config
   (setq ess-ask-for-ess-directory nil) ;; start R on default folder
   (setq ess-local-process-name "R")
   (setq ansi-color-for-comint-mode 'filter) ;;
@@ -92,11 +93,9 @@
                                 ("export" . "")
                                 ("author" . "Yi Tang")))
 
-(when (require 'flycheck nil t)
-  ;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
-  ;; (add-hook 'ess-mode-hook
-  ;;           (lambda () (flycheck-mode t)))
-  )
+(use-package flycheck
+  :ensure nil
+  :hook (ess-mode . flycheck-mode))
 
 (defun yt/clean-R () 
   (interactive)

@@ -346,14 +346,13 @@
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
-(when (require 'hydra nil t)
-  (defhydra hydra-fold (:pre (hs-minor-mode 1))
-    "fold"
-    ("t" hs-toggle-hiding "toggle")
-    ("s" hs-show-all "hide-all")
-    ("h" hs-hide-all "show-all")
-    ("q" nil "quit"))
-  (global-set-key (kbd "<f4>") 'hydra-fold/body))
+(defhydra hydra-fold (:pre (hs-minor-mode 1))
+  "fold"
+  ("t" hs-toggle-hiding "toggle")
+  ("s" hs-show-all "hide-all")
+  ("h" hs-hide-all "show-all")
+  ("q" nil "quit"))
+(global-set-key (kbd "<f4>") 'hydra-fold/body)
 
 (subword-mode 1)
 
@@ -656,17 +655,15 @@
 ;; https://www.reddit.com/r/emacs/comments/tv022a/smooth_scrolling_on_emacs_29_is_a_dream_come_true/
 (pixel-scroll-precision-mode 1)
 
-(when (require 'hydra nil t)
-  (defhydra hydra/smerge ()
-    "open file: "
-    ("n" (smerge-next) "Jump to next confclit")
-    ("p" (smerge-prev) "Jump to previous conflict")
-    ("c" (smerge-keep-current) "keep current")
-    ("u" (smerge-keep-upper) "keep upper version")
-    ("l" (smerge-keep-lower) "keep lower version")
-    ("a" (smerge-keep-all) "keep both versions")
-    )
-  (global-set-key (kbd "<f7>") 'hydra/smerge/body))
+(defhydra hydra/smerge ()
+  "open file: "
+  ("n" (smerge-next) "Jump to next confclit")
+  ("p" (smerge-prev) "Jump to previous conflict")
+  ("c" (smerge-keep-current) "keep current")
+  ("u" (smerge-keep-upper) "keep upper version")
+  ("l" (smerge-keep-lower) "keep lower version")
+  ("a" (smerge-keep-all) "keep both versions"))
+(global-set-key (kbd "<f7>") 'hydra/smerge/body)
 
 (setq ediff-keep-variants nil)  ;; ask before close the file.
 (setq ediff-keep-variants t)    ;; show buffer after exit.
