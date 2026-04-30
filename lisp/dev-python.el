@@ -66,9 +66,7 @@
 
 ;; additional add-ons
 ;; use consult/ivy to search symbols.
-(use-package consult-lsp
-
-(use-package lsp-ivy
+(use-package consult-lsp)
 
 (use-package sphinx-doc
   :hook (python-mode . (lambda ()

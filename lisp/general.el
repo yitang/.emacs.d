@@ -69,10 +69,7 @@
   )
 
 (add-hook 'text-mode-hook 'text-mode-hook-setup)
-(use-package company-quickhelp)
-(company-quickhelp-mode 1)
-(define-key company-active-map (kbd "M-h") #'company-quickhelp-manual-begin)
-(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
+(add-hook 'company-mode-hook 'company-doc-buffer-mode)
 
 (setq company-dabbrev-downcase nil)
 (setq company-show-numbers t)
@@ -87,16 +84,12 @@
 (setq inhibit-startup-message t)
 
 (use-package yasnippet
+  :config
+  (yas/global-mode 1)
+  (add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t))
 
-(use-package yasnippet-classic-snippets
-
-(use-package yasnippet-snippets
-
-
-
-(yas/global-mode 1)
-(add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t)
-(yas/reload-all)
+(use-package yasnippet-classic-snippets)
+(use-package yasnippet-snippets)
 
 (windmove-default-keybindings)
 (define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))

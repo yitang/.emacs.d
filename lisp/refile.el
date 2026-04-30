@@ -697,8 +697,6 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 (require 'dired)
 (define-key dired-mode-map (kbd "C-c e") 'mkm/ediff-marked-pair)
 
-(use-package diminish)
-
 (use-package ledger-mode
   :diminish auto-fill-mode   ; it suppose to remove the auto-fill
 			     ; minor mode, but i cannot get it

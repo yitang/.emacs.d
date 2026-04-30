@@ -1,6 +1,4 @@
-(if (eq system-type 'darwin)
-    (setq ispell-program-name "/opt/homebrew/bin/aspell")   ;; this semes not necessary
-  (setq ispell-program-name "/usr/bin/aspell"))
+(setq ispell-program-name (or (executable-find "aspell") "aspell"))
 (setq ispell-dictionary "british"
       ispell-extra-args '() ;; TeX mode "-t"
       ispell-silently-savep t)
@@ -23,9 +21,6 @@
 (use-package flyspell-correct
   :after flyspell
   :bind (:map flyspell-mode-map ("C-." . flyspell-correct-wrapper)))
-
-(use-package flyspell-correct-ivy
-  :after flyspell-correct)
 
 (defun my-text-abbrev-expand-p ()
   "Return t if the abbrev is in a text context, which is: in
