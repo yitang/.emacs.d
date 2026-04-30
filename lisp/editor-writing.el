@@ -15,15 +15,6 @@
 (add-hook 'org-mode-hook 'flyspell-mode)
 ;; (define-key flyspell-mode-map (kbd "C-.") 'flyspell-correct-wrapper)
 
-;; TODO - cannot get consult-flyspell working
-(use-package consult-flyspell
-  ;; :straight (consult-flyspell :type git :host gitlab :repo "OlMon/consult-flyspell" :branch "master")
-  :config
-  ;; default settings
-  (setq consult-flyspell-select-function (lambda () (flyspell-correct-at-point) (consult-flyspell))
-        consult-flyspell-set-point-after-word t
-        consult-flyspell-always-check-buffer nil))
-
 ;; (require 'flyspell-correct)
 ;; (require 'flyspell-correct-ido)
 ;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)

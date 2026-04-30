@@ -4,7 +4,6 @@
 (setq python-fill-docstring-style 'django)
 
 ;; (use-package elpy
-;;   :ensure t
 ;;   :init)
 
 ;; (elpy-enable)
@@ -53,7 +52,6 @@
 (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\configs\\'")
 
 ;; (use-package lsp-jedi
-;;   :ensure t
 ;;   :config
 ;;   (with-eval-after-load "lsp-mode"
 ;;     (add-to-list 'lsp-disabled-clients 'pyls)
@@ -62,7 +60,6 @@
 
 
 (use-package lsp-pyright
-		:ensure t
 		:hook (python-mode . (lambda ()
 				       (require 'lsp-pyright)
 				       (lsp))))  ; or lsp-deferred
@@ -70,13 +67,10 @@
 ;; additional add-ons
 ;; use consult/ivy to search symbols.
 (use-package consult-lsp
-  :ensure t)
 
 (use-package lsp-ivy
-  :ensure t)
 
 (use-package sphinx-doc
-  :ensure t
   :hook (python-mode . (lambda ()
                          (require 'sphinx-doc)
                          (sphinx-doc-mode t))))

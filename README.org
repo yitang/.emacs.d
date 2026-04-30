@@ -18,7 +18,7 @@
 
  The configurations are tested in Emacs 26 and 27.1.
 
- The required packages are listed in Cask file.
+ Packages are installed via use-package with MELPA/MGNU sources.
 
 * Change Log
 

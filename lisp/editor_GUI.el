@@ -10,7 +10,6 @@
 
 (setq sml/no-confirm-load-theme t)
 (use-package smart-mode-line
-  :ensure t)
 (setq powerline-arrow-shape 'curve)
 (setq powerline-default-separator-dir '(right . left))
 (setq sml/theme 'respectful)

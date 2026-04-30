@@ -36,7 +36,6 @@
 
 ;; use company for all except few modes
 (use-package company
-  :ensure t)
 (add-hook 'after-init-hook 'global-company-mode)
 ;; Don't enable company-mode in below major modes, OPTIONAL
 (setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
@@ -88,13 +87,10 @@
 (setq inhibit-startup-message t)
 
 (use-package yasnippet
-  :ensure t)
 
 (use-package yasnippet-classic-snippets
-  :ensure t)
 
 (use-package yasnippet-snippets
-  :ensure t)
 
 
 

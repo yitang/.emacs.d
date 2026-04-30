@@ -50,7 +50,6 @@ If WINDOW is the only one in its frame, then `delete-frame' too."
   (delete-single-window))
 
 (use-package magit
-  :ensure t
   :config
   (magit-auto-revert-mode nil)  ;; why disbale it? 
   (global-auto-revert-mode t)   ;; i think it's a good idea to have auto revert.

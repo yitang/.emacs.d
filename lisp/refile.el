@@ -17,7 +17,6 @@
 (global-set-key "\C-s" 'consult-line)
 
 (use-package snakemake-mode
-  :ensure t
   :mode ("\\.sfile\\'" "\\.Snakemake\\'"))
 
 (defun yt/sh-chunk-args ()
@@ -34,7 +33,6 @@
 (which-key-mode)
 
 (use-package treemacs
-  :ensure t
   :defer t
   :init
   (with-eval-after-load 'winum
@@ -72,8 +70,7 @@
           treemacs-recenter-after-tag-follow       nil
           treemacs-recenter-after-project-jump     'always
           treemacs-recenter-after-project-expand   'on-distance
-          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-          treemacs-show-cursor                     nil
+ treemacs-litter-directories '("/node_modules" "/.venv" )           treemacs-show-cursor                     nil
           treemacs-show-hidden-files               t
           treemacs-silent-filewatch                nil
           treemacs-silent-refresh                  nil
@@ -120,29 +117,23 @@
 
 (use-package treemacs-evil
   :after (treemacs evil)
-  :ensure t)
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
-  :ensure t)
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
 
 (use-package treemacs-magit
   :after (treemacs magit)
-  :ensure t)
 
 ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
 ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-;;   :ensure t
 ;;   :config (treemacs-set-scope-type 'Perspectives))
 
 
 ;; (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
 ;;   :after (treemacs)
-;;   :ensure t
 ;;   :config (treemacs-set-scope-type 'Tabs))
 
 (use-package nov
@@ -155,7 +146,6 @@
   (setq visual-fill-column-center-text t))
   
 (use-package visual-fill-column
-  :ensure t)  
 
 (defun yt/read-mode ()
   (visual-line-mode)
@@ -170,7 +160,6 @@
     (setq org-download-screenshot-method "screencapture -i %s"))
 
 (use-package org-roam
-  :ensure t
   :init
   (setq org-roam-v2-ack t)
   :custom
@@ -218,13 +207,11 @@
   :config (add-to-list 'mode-line-misc-info '(:eval dired-rsync-modeline-status 'append)))
 
 (use-package yaml-mode
-  :ensure t
   :mode ("\\.yaml\\'" "\\.yml\\'")
   :bind (("C-m" . newline-and-indent))
   )
 
 (use-package yaml-pro
-  :ensure t)
 
 (setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
@@ -370,14 +357,12 @@
 (subword-mode 1)
 
 (use-package whitespace
-  :ensure t
   :config
   (setq whitespace-line-column 120)
   (setq whitespace-style '(face lines-tail))
   :hook (prog-mode-hook . whitespace-mode))
 
 (use-package rainbow-delimiters
-  :ensure t
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 (show-paren-mode t) ;; highlight matched parentheses
 
@@ -712,10 +697,9 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 (require 'dired)
 (define-key dired-mode-map (kbd "C-c e") 'mkm/ediff-marked-pair)
 
-(use-package diminish :ensure t)
+(use-package diminish)
 
 (use-package ledger-mode
-  :ensure t
   :diminish auto-fill-mode   ; it suppose to remove the auto-fill
 			     ; minor mode, but i cannot get it
 			     ; working.
@@ -730,7 +714,6 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
   (ledger-default-date-format "%Y-%m-%d"))
 
 (use-package flycheck-ledger
-  :ensure t)
 
 
 
