@@ -1100,7 +1100,7 @@ again to select the next one.
 (use-package flyspell)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'org-mode-hook 'flyspell-mode)
-;; (define-key flyspell-mode-map (kbd "C-.") 'helm-flyspell-correct)
+;; (define-key flyspell-mode-map (kbd "C-.") 'flyspell-correct-wrapper)
 
 ;; TODO - cannot get consult-flyspell working
 (use-package consult-flyspell
@@ -1131,40 +1131,7 @@ Have you do ...
 #+end_example
 
 is wrong, and also tell me to change /do/ to /done/, and also why.
-=langtool= can do be the job, but currently I don't understand how to
-get it works, so I am not using it anymore.
-
-#+begin_src emacs-lisp :eval no
-;; ;; check grammar 
-(use-package langtool)
-(if (eq system-type 'darwin)
-    ;; (setq langtool-java-bin "/opt/homebrew/opt/openjdk/bin/java")
-    (setq langtool-language-tool-jar "~/Downloads/LanguageTool-6.3/languagetool-commandline.jar"))
-
-(setq langtool-mother-tongue "en")
-
-;; checkout this also; https://github.com/emacs-languagetool/flycheck-languagetool
-
-;; https://github.com/PillFall/languagetool.el
-;; not working 
-;; (use-package languagetool
-;;   :ensure t
-;;   :defer t
-;;   :commands (languagetool-check
-;;              languagetool-clear-suggestions
-;;              languagetool-correct-at-point
-;;              languagetool-correct-buffer
-;;              languagetool-set-language
-;;              languagetool-server-mode
-;;              languagetool-server-start
-;;              languagetool-server-stop)
-;;   :config
-;;   (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
-;;         languagetool-console-command "/Users/yitang/Downloads/LanguageTool-6.3/languagetool-commandline.jar"
-;;         languagetool-server-command "/Users/yitang/Downloads/LanguageTool-6.3/languagetool-server.jar"))
-
-
-#+end_src 
+I am not using langtool at the moment. 
 
 ** Abbreviation 
 
@@ -2864,8 +2831,8 @@ _V_ocabulary: add to or visit vocablary
   ("v" describe-variable)
   ("d" osx-dictionary-search-input)
   ;; ("s" get-synonyms)
-  ("i" helm-info)
-  ;; ("G" helm-google-suggest)
+  ("i" consult-info)
+  ;; ("G" consult-google)
   ("s" synosaurus-lookup)
   ;; ("d" voca-builder/search-popup)
   ("V" yt/add-vocabulary)
