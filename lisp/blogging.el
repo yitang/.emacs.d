@@ -99,7 +99,7 @@ comments: true
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
-    ;; TODO: use a utlity function to for `filename`, find publish file? 
+    ;; TODO: use a utility function to for `filename`, find publish file? 
     (let ((filename
            (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")

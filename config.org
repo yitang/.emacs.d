@@ -1655,7 +1655,7 @@ define a list of supported language.
 #+begin_src emacs-lisp :results silent 
 (org-babel-do-load-languages
  (quote org-babel-load-languages)
- (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
+ (quote ((emacs-lisp . t) ;; TODO: simplify this list 
 	 (R . t)
 	 (shell . t)
 	 (org . t)
@@ -2212,7 +2212,7 @@ org/_posts folder and prepend the file name with today's date in
    ((buffer-modified-p)
     (message "Can't publish post; buffer has modifications."))
    (t
-    ;; TODO: use a utlity function to for `filename`, find publish file? 
+    ;; TODO: use a utility function to for `filename`, find publish file? 
     (let ((filename
            (concat jekyll-source-posts-dir
                    (format-time-string "%Y-%m-%d-")

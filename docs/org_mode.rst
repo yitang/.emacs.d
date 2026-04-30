@@ -780,7 +780,7 @@ Babel
     (setq org-babel-results-keyword "results")
     (org-babel-do-load-languages
      (quote org-babel-load-languages)
-     (quote ((emacs-lisp . t) ;; TODO: simplifiy this list 
+     (quote ((emacs-lisp . t) ;; TODO: simplify this list 
     	 (R . t)
     	 (shell . t)
     	 (ledger . t)
