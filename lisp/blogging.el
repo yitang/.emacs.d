@@ -148,21 +148,24 @@ can also implmenet as  (file-name-directory (buffer-file-name (current-buffer)))
 	(file-name-concat jekyll-site-drafts-dir dest-file)
       (file-name-concat jekyll-site-posts-dir dest-file))))
 
+(use-package transient
+  :demand t)
+
 (transient-define-prefix yt/jekyll ()
   ""
   ["Jekyll Blog"
-   [("n" "new draft" blog-draft-post)
-    ("p" "publish post" blog-publish-post)
-    ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
-    ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
-    ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
-    ("m" "Export as Markdown" yt/jekyll--export-to-md)
-    ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
-    ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
-    ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
-    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-server*" "bundle exec jekyll s  --watch --drafts" jekyll-site-dir)))
-    ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
-    ]])
+    [("n" "new draft" blog-draft-post)
+     ("p" "publish post" blog-publish-post)
+     ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
+     ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
+     ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
+     ("m" "Export as Markdown" yt/jekyll--export-to-md)
+     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
+     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
+     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
+     ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-server*" "bundle exec jekyll s  --watch --drafts" jekyll-site-dir)))
+     ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
+     ]])
 
 (defun my-jekyll-src-block (src-block contents info)
   "Transcode a SRC-BLOCK element from Org to ASCII.

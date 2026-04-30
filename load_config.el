@@ -3,7 +3,7 @@
 (defun yt/load-direcotry (dir)
   "load .el files in a direcotry dir"
   (interactive "P")
-  (let ((config-files (directory-files dir t ".el$")))
+  (let ((config-files  (directory-files dir t ".el$")))
     (mapcar #'load config-files))
   (message "Done loading %s" dir)
   )

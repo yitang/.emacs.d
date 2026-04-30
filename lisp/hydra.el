@@ -1,5 +1,6 @@
-(use-package hydra)
-(defhydra hydra-file-management (:color red
+(when (require 'hydra nil t)
+  (use-package hydra)
+  (defhydra hydra-file-management (:color red
                                         :hint nil)
   "
 _o_pen file
@@ -17,54 +18,56 @@ _g_it sync"
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
-  ("e" prelude-open-with)
+  ("e" (lambda () (interactive) (let ((f (buffer-file-name))) (when f (openwith-open-file f)))))
   ("g" yt/git-up))
-(global-set-key [f3] 'hydra-file-management/body)
+  (global-set-key [f3] 'hydra-file-management/body))
 
-(defhydra yt-hydra/help (:color blue :hint nil)
-  "
+(when (require 'hydra nil t)
+  (defhydra yt-hydra/help (:color blue :hint nil)
+    "
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
 _i_nfo: info mode 
 _d_ictionary: search meaning of a word
 _V_ocabulary: add to or visit vocablary
 "
-  ("f" describe-function)
-  ("v" describe-variable)
-  ("d" osx-dictionary-search-input)
-  ;; ("s" get-synonyms)
-  ("i" consult-info)
-  ;; ("G" consult-google)
-  ("s" synosaurus-lookup)
-  ;; ("d" voca-builder/search-popup)
-  ("V" yt/add-vocabulary)
-  )
-(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
+    ("f" describe-function)
+    ("v" describe-variable)
+    ("d" osx-dictionary-search-input)
+    ;; ("s" get-synonyms)
+    ("i" consult-info)
+    ;; ("G" consult-google)
+    ("s" synosaurus-lookup)
+    ;; ("d" voca-builder/search-popup)
+    ("V" yt/add-vocabulary)
+    )
+  (global-set-key (kbd "<f1>") 'yt-hydra/help/body))
 
 ;; https://github.com/abo-abo/hydra/wiki/Org-clock
-(defhydra hydra-org-clock (:color blue :hint nil)
-  "
+(when (require 'hydra nil t)
+  (defhydra hydra-org-clock (:color blue :hint nil)
+    "
 Clock       In/out^     ^Edit^   ^Summary     Doc(_?_)
 ---------------------------------------------------
             _i_n         _e_dit   
 _h_istory   _c_ontinue   _q_uit   _d_isplay
 _g_oto      _o_ut        ^ ^      _r_eport
       "
-  ("i" org-clock-in)
-  ("o" org-clock-out)
-  ("c" org-clock-in-last)
-  ("e" org-clock-modify-effort-estimate)
-  ("q" org-clock-cancel)
-  ("g" org-clock-goto)
-  ("d" org-clock-display)
-  ("r" org-clock-report)
-  ;; ("j" org-clock-jump-to-current-clock)
-  ("h" yt/org-clock-in-select)
-  ("?" (org-info "Clocking commands")))
+    ("i" org-clock-in)
+    ("o" org-clock-out)
+    ("c" org-clock-in-last)
+    ("e" org-clock-modify-effort-estimate)
+    ("q" org-clock-cancel)
+    ("g" org-clock-goto)
+    ("d" org-clock-display)
+    ("r" org-clock-report)
+    ;; ("j" org-clock-jump-to-current-clock)
+    ("h" yt/org-clock-in-select)
+    ("?" (org-info "Clocking commands")))
 
-(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
+  (global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 
-(defun yt/org-clock-in-select ()
-  (interactive)
-  (setq current-prefix-arg '(4)) ;; C-u, 
-  (call-interactively 'org-clock-in))
+  (defun yt/org-clock-in-select ()
+    (interactive)
+    (setq current-prefix-arg '(4)) ;; C-u, 
+    (call-interactively 'org-clock-in)))

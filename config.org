@@ -50,7 +50,7 @@ this function in debugging this configuration file.
 (defun yt/reload-dot-emacs ()
   "Save the .emacs buffer if needed, then reload .emacs."
   (interactive)
-  (let ((dot-emacs "~/.emacs"))
+  (let ((dot-emacs (or user-init-file (expand-file-name "~/.emacs"))))
     (and (get-file-buffer dot-emacs)
          (save-buffer (get-file-buffer dot-emacs)))
     (load-file dot-emacs))
@@ -104,44 +104,42 @@ Automatically backup buffers/files into the working directory and the
 ;; (guide-key-mode 1) 
 
 ;; use company for all except few modes
-(use-package company
-(add-hook 'after-init-hook 'global-company-mode)
-;; Don't enable company-mode in below major modes, OPTIONAL
-(setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
+(when (require 'company nil t)
+  (use-package company
+    :config
+    (add-hook 'after-init-hook 'global-company-mode)
+    ;; Don't enable company-mode in below major modes, OPTIONAL
+    (setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
 
-;; config company mode
-(setq company-selection-wrap-around t
-      company-tooltip-align-annotations t
-      company-idle-delay 0.36
-      company-minimum-prefix-length 2
-      company-tooltip-limit 10)
+    ;; config company mode
+    (setq company-selection-wrap-around t
+          company-tooltip-align-annotations t
+          company-idle-delay 0.36
+          company-minimum-prefix-length 2
+          company-tooltip-limit 10)
 
-(setq company-ddabbrev-code-everywhere t)
-(setq company-dabbrev-code-modes t)
-(setq company-dabbrev-code-other-buffers 'all)
-(setq company-dabbrev-ignore-buffers "\\`\\'")
-(setq company-dabbrev-char-regexp "\\(\\sw\\|\\s_\\|_\\|-\\)")
+    (setq company-ddabbrev-code-everywhere t)
+    (setq company-dabbrev-code-modes t)
+    (setq company-dabbrev-code-other-buffers 'all)
+    (setq company-dabbrev-ignore-buffers "\\`\\'")
+    (setq company-dabbrev-char-regexp "\\(\\sw\\|\\s_\\|_\\|-\\)")
 
-;; config company for ESS mode
-(defun yt/ess_company_mode_setup ()
-  ;; this is really important. to source vairbales defined in the scripts.
-     (make-local-variable 'company-backends)
-     (add-to-list 'company-backends 'company-dabbrev-code)
-     )
-(add-hook 'ess-mode-hook 'yt/ess_company_mode_setup)
+    ;; config company for ESS mode
+    (defun yt/ess_company_mode_setup ()
+      ;; this is really important. to source vairbales defined in the scripts.
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-dabbrev-code))
+    (add-hook 'ess-mode-hook 'yt/ess_company_mode_setup)
 
+    (defun text-mode-hook-setup ()
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-ispell)
+      ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
+      )
+    (add-hook 'text-mode-hook 'text-mode-hook-setup)
 
-(defun text-mode-hook-setup ()
-  (make-local-variable 'company-backends)
-  (add-to-list 'company-backends 'company-ispell)
-  ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
-  )
-
-(add-hook 'text-mode-hook 'text-mode-hook-setup)
-(add-hook 'company-mode-hook 'company-doc-buffer-mode)
-
-(setq company-dabbrev-downcase nil)
-(setq company-show-numbers t)
+    (setq company-dabbrev-downcase nil)
+    (setq company-show-numbers t)))
 #+end_src 
 
 Configure recent opened files.
@@ -168,13 +166,13 @@ future, and this stage, I turned if off since it will slow down the
 start-up.
 
 #+begin_src emacs-lisp :results silent
-(use-package yasnippet
-  :config
-  (yas/global-mode 1)
-  (add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t))
-
-(use-package yasnippet-classic-snippets)
-(use-package yasnippet-snippets)
+(when (require 'yasnippet nil t)
+  (use-package yasnippet
+    :config
+    (yas/global-mode 1)
+    (add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t))
+  (use-package yasnippet-classic-snippets)
+  (use-package yasnippet-snippets))
 #+end_src
 
 ** Window Layout/Navigation 
@@ -189,10 +187,11 @@ conflicts. This is the only conflicts I'm aware of in this config.
 
 #+begin_src emacs-lisp :results silent
 (windmove-default-keybindings)
-(define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<right>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<up>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<down>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1))))
+(when (require 'org nil t)
+  (define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<right>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<up>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<down>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1)))))
 #+end_src
 
 Instead of equally split the window size, it make a lot sense to have
@@ -277,13 +276,13 @@ There are a set of characters that are more likely to occur as a pair,
 for example, quote and brackets. /smartparens mode/ allows me to
 define such set of pairing characters. 
 #+begin_src emacs-lisp :results silent
-(use-package smartparens)
-(smartparens-global-mode 1)
-(sp-pair "(" ")" :wrap "C-(")
-;; |foobar
-;; hit C-(
-;; becomes (|foobar)
-(sp-pair "'" nil :actions :rem)
+(when (require 'smartparens nil t)
+  (smartparens-global-mode 1)
+  (sp-pair "(" ")" :wrap "C-(")
+  ;; |foobar
+  ;; hit C-(
+  ;; becomes (|foobar)
+  (sp-pair "'" nil :actions :rem))
 #+end_src
 
 Modern display is widen. Like many of the Emacs users, I prefer to
@@ -427,12 +426,14 @@ The smart-mode-line packages can make mode-line "smart and sexy".
 There are many options to tweak.
 
 #+begin_src emacs-lisp :results silent
-(setq sml/no-confirm-load-theme t)
-(use-package smart-mode-line
-(setq powerline-arrow-shape 'curve)
-(setq powerline-default-separator-dir '(right . left))
-(setq sml/theme 'respectful)
-(sml/setup)
+(when (require 'smart-mode-line nil t)
+  (use-package smart-mode-line
+    :config
+    (setq sml/no-confirm-load-theme t)
+    (setq powerline-arrow-shape 'curve)
+    (setq powerline-default-separator-dir '(right . left))
+    (setq sml/theme 'respectful)
+    (sml/setup)))
 #+end_src
 
 There are too much information cluttered at the bottom. I disable the
@@ -440,8 +441,9 @@ display of minor modes, there are just too many and almost all are
 irrelevant.
 
 #+begin_src emacs-lisp :results silent 
-(rich-minority-mode 1)
-(setf rm-blacklist "")
+(when (require 'rich-minority nil t)
+  (rich-minority-mode 1)
+  (setf rm-blacklist ""))
 #+end_src
 
 This will leave empty spaces which can be removed by 
@@ -491,9 +493,9 @@ that is highlighted and then modify all of them at the same time.
 
 
 #+begin_src emacs-lisp
-(use-package multiple-cursors)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(when (require 'multiple-cursors nil t)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this))
 #+end_src
     
 ** ace-jump 
@@ -526,8 +528,8 @@ forward slash, the whole word will be warped inside of quote or
 forward flash. 
 
 #+begin_src emacs-lisp
-(use-package expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(when (require 'expand-region nil t)
+  (global-set-key (kbd "C-=") 'er/expand-region))
 #+end_src
 * File Management                                                :ExportFile:
   :PROPERTIES:
@@ -658,16 +660,16 @@ Open the file manager at the default directory.
 to jump between different git folders.
 
 #+begin_src emacs-lisp :results silent
-(use-package projectile)
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(when (require 'projectile nil t)
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; as of [2023-01-17 Tue 19:35], there's issue with
 ;; projectile-switch-project function. it cannot detect the right
 ;; project directory. so i have to use consult-projectile for this.
-(use-package consult-projectile)
-(setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
-(define-key projectile-command-map (kbd "p") 'consult-projectile-switch-project)
+(when (require 'consult-projectile nil t)
+  (setq consult-projectile-source-projectile-project-action #'(lambda (dir) (dired dir)))
+  (define-key projectile-command-map (kbd "p") 'consult-projectile-switch-project))
 #+end_src
 
 There are many things work out of box. For example, use =C-p p= to
@@ -682,7 +684,8 @@ build-in packages.
 
 #+begin_src emacs-lisp :results silent 
 (use-package tramp)
-(use-package ssh)
+(when (require 'ssh nil t)
+  (use-package ssh))
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 (defun yt/tramp-abort ()
@@ -816,52 +819,71 @@ There three features that have me made the decision:
 #+begin_src emacs-lisp :results silent
 ;; Adapted with one minor change from Felipe Salazar at
 ;; http://www.emacswiki.org/emacs/EmacsSpeaksStatistics
-(use-package ess
-  :init (require 'ess-site))
-(setq ess-ask-for-ess-directory nil) ;; start R on default folder
-(setq ess-local-process-name "R")
-(setq ansi-color-for-comint-mode 'filter) ;;
-;; (setq comint-scroll-to-bottom-on-input t)
-;; (setq comint-scroll-to-bottom-on-output nil)
-;; (setq comint-move-point-for-output nil)
-(setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
-(defun my-ess-start-R ()
-  (interactive)
-  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1))
-        (R)
-        (set-window-buffer w2 "*R*")
-        (set-window-buffer w1 w1name))))
-(defun my-ess-eval ()
-  (interactive)
-  (my-ess-start-R)
-  (if (and transient-mark-mode mark-active)
-      (call-interactively 'ess-eval-region)
-    (call-interactively 'ess-eval-line-and-step)))
-(add-hook 'ess-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
-(add-hook 'ess-mode-hook
-          (lambda ()
-            (flyspell-prog-mode)
-            (run-hooks 'prog-mode-hook)
-            ))
-(add-hook 'ess-R-post-run-hook (lambda () (smartparens-mode 1)))
+(when (require 'ess nil t)
+  (setq ess-ask-for-ess-directory nil) ;; start R on default folder
+  (setq ess-local-process-name "R")
+  (setq ansi-color-for-comint-mode 'filter) ;;
+  ;; (setq comint-scroll-to-bottom-on-input t)
+  ;; (setq comint-scroll-to-bottom-on-output nil)
+  ;; (setq comint-move-point-for-output nil)
+  (setq ess-eval-visibly-p 'nowait) ;; no waiting while ess evalating
+  (defun my-ess-start-R ()
+    (interactive)
+    (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
+        (progn
+          (delete-other-windows)
+          (setq w1 (selected-window))
+          (setq w1name (buffer-name))
+          (setq w2 (split-window w1))
+          (R)
+          (set-window-buffer w2 "*R*")
+          (set-window-buffer w1 w1name))))
+  (defun my-ess-eval ()
+    (interactive)
+    (my-ess-start-R)
+    (if (and transient-mark-mode mark-active)
+        (call-interactively 'ess-eval-region)
+      (call-interactively 'ess-eval-line-and-step)))
+  (add-hook 'ess-mode-hook
+            '(lambda()
+               (local-set-key [(shift return)] 'my-ess-eval)))
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (flyspell-prog-mode)
+              (run-hooks 'prog-mode-hook)
+              ))
+  (add-hook 'ess-R-post-run-hook (lambda () (smartparens-mode 1)))
 
-;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
-;; Control and up/down arrow keys to search history with matching what you've already typed:
-(define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
-(define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)
-(setq ess-history-file "~/.Rhisotry")
-(setq ess-indent-with-fancy-comments nil)
-
-
-(define-key ess-r-mode-map "_" #'ess-insert-assign)
-(define-key inferior-ess-r-mode-map "_" #'ess-insert-assign)
+  ;; REF: http://stackoverflow.com/questions/2901198/useful-keyboard-shortcuts-and-tips-for-ess-r
+  ;; Control and up/down arrow keys to search history with matching what you've already typed:
+  (with-eval-after-load 'comint
+    (define-key comint-mode-map [C-up] 'comint-previous-matching-input-from-input)
+    (define-key comint-mode-map [C-down] 'comint-next-matching-input-from-input)))
+  (setq ess-history-file "~/.Rhisotry")
+  (setq ess-indent-with-fancy-comments nil)
+  (with-eval-after-load 'ess-r
+    (define-key ess-r-mode-map "_" #'ess-insert-assign)
+    (define-key inferior-ess-r-mode-map "_" #'ess-insert-assign))
+  (setq ess-R-font-lock-keywords
+      '((ess-R-fl-keyword:modifiers . t)
+        (ess-R-fl-keyword:fun-defs . t)
+        (ess-R-fl-keyword:keywords . t)
+        (ess-R-fl-keyword:assign-ops)
+        (ess-R-fl-keyword:constants . t)
+        (ess-fl-keyword:fun-calls . t)
+        (ess-fl-keyword:numbers)
+        (ess-fl-keyword:operators)
+        (ess-fl-keyword:delimiters)
+        (ess-fl-keyword:=)
+        (ess-R-fl-keyword:F&T)
+        (ess-R-fl-keyword:%op%)))
+  (setq ess-roxy-template-alist '(("description" . " content for description")
+                                  ("details" . "content for details")
+                                  ("title" . "")
+                                  ("param" . "")
+                                  ("return" . "")
+                                  ("export" . "")
+                                  ("author" . "Yi Tang")))
 #+end_src
 
 ** Syntax highlight 
@@ -909,10 +931,11 @@ use pretty mode
 https://github.com/jimhester/lintr
 the default R-style is not meet my with current R project style, has to turn it off.     
 #+begin_src emacs-lisp
-(use-package flycheck)
-;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
-;; (add-hook 'ess-mode-hook
-;;           (lambda () (flycheck-mode t)))
+(when (require 'flycheck nil t)
+  ;; '(flycheck-lintr-caching nil) ;; need to customised it inside of Emacs
+  ;; (add-hook 'ess-mode-hook
+  ;;           (lambda () (flycheck-mode t)))
+  )
 #+end_src
 ** Scripts editing
 [2015-06-25 Thu 10:02]
@@ -1899,7 +1922,7 @@ to LaTeX. the latex-class can be defined somewhere else.
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
       '(("frame" "lines")
-        ("fontsize" "\\scriptsize")))
+         ("fontsize" "\\scriptsize")))
 ;; ("linenos" "")))
 #+end_src
 
@@ -2255,22 +2278,28 @@ on my personal blog project.
 
 it is binds to F5 in a .dir-locals.el.
 
+(use-package transient
+  :demand t)
+
 #+begin_src emacs-lisp :results silent 
+(use-package transient
+  :demand t)
+
 (transient-define-prefix yt/jekyll ()
   ""
   ["Jekyll Blog"
-   [("n" "new draft" blog-draft-post)
-    ("p" "publish post" blog-publish-post)
-    ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
-    ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
-    ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
-    ("m" "Export as Markdown" yt/jekyll--export-to-md)
-    ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
-    ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
-    ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
-    ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-server*" "bundle exec jekyll s  --watch --drafts" jekyll-site-dir)))
-    ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
-    ]])
+    [("n" "new draft" blog-draft-post)
+     ("p" "publish post" blog-publish-post)
+     ("dd" "Dired - drafts (org)" (lambda () (interactive) (find-file jekyll-source-drafts-dir)))
+     ("dp" "Dired - posts (org)" (lambda () (interactive) (find-file jekyll-source-posts-dir)))
+     ("dP" "Dired - published posts" (lambda () (interactive) (find-file jekyll-site-posts-dir)))
+     ("m" "Export as Markdown" yt/jekyll--export-to-md)
+     ("i" "Insert Image (Liquid Template)" yt/jekyll-insert-image)
+     ;; ("eh" "Export as HTML" yt/jekyll--export-to-html)
+     ;; ("u" "Update post title/date" yt/jekyll-update-post-name)
+     ("s" "Jekyll Server" (lambda () (interactive) (yt/compile "*jekyll-server*" "bundle exec jekyll s  --watch --drafts" jekyll-site-dir)))
+     ("S" "Sync website" (lambda () (interactive) (yt/compile "*jekyll-sync*" "bash script.sh" "~/matrix/learning/mywebsite")))
+     ]])
 #+end_src
 
 
@@ -2617,8 +2646,9 @@ http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
                                        (output-html "open"))))
 
 (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
-(use-package company-auctex)
-(company-auctex-init)
+(when (require 'company-auctex nil t)
+  (use-package company-auctex)
+  (company-auctex-init))
 
 #+end_src
 
@@ -2768,8 +2798,9 @@ It is a good practise to group all the file management related
 commands together using hydra. 
 
 #+begin_src emacs-lisp :results silent
-(use-package hydra)
-(defhydra hydra-file-management (:color red
+(when (require 'hydra nil t)
+  (use-package hydra)
+  (defhydra hydra-file-management (:color red
                                         :hint nil)
   "
 _o_pen file
@@ -2787,31 +2818,32 @@ _g_it sync"
   ("r" yt/rename-current-buffer-file)
   ("c" yt/copy-file-to)
   ("d" yt/delete-this-buffer-and-file)
-  ("e" prelude-open-with)
+  ("e" (lambda () (interactive) (let ((f (buffer-file-name))) (when f (openwith-open-file f)))))
   ("g" yt/git-up))
-(global-set-key [f3] 'hydra-file-management/body)
+  (global-set-key [f3] 'hydra-file-management/body))
 #+end_src
 
 #+begin_src emacs-lisp :results silent 
-(defhydra yt-hydra/help (:color blue :hint nil)
-  "
+(when (require 'hydra nil t)
+  (defhydra yt-hydra/help (:color blue :hint nil)
+    "
 _f_unction: Documentation for a function
 _v_ariable: Documentation for a variable
 _i_nfo: info mode 
 _d_ictionary: search meaning of a word
 _V_ocabulary: add to or visit vocablary
 "
-  ("f" describe-function)
-  ("v" describe-variable)
-  ("d" osx-dictionary-search-input)
-  ;; ("s" get-synonyms)
-  ("i" consult-info)
-  ;; ("G" consult-google)
-  ("s" synosaurus-lookup)
-  ;; ("d" voca-builder/search-popup)
-  ("V" yt/add-vocabulary)
-  )
-(global-set-key (kbd "<f1>") 'yt-hydra/help/body)
+    ("f" describe-function)
+    ("v" describe-variable)
+    ("d" osx-dictionary-search-input)
+    ;; ("s" get-synonyms)
+    ("i" consult-info)
+    ;; ("G" consult-google)
+    ("s" synosaurus-lookup)
+    ;; ("d" voca-builder/search-popup)
+    ("V" yt/add-vocabulary)
+    )
+  (global-set-key (kbd "<f1>") 'yt-hydra/help/body))
 #+end_src
 
 #+begin_src emacs-lisp :results silent :tangle no
@@ -2897,32 +2929,33 @@ _V_ocabulary: add to or visit vocablary
    use hydra to define a function that use most frequently 
 #+begin_src emacs-lisp :results silent 
 ;; https://github.com/abo-abo/hydra/wiki/Org-clock
-(defhydra hydra-org-clock (:color blue :hint nil)
-  "
+(when (require 'hydra nil t)
+  (defhydra hydra-org-clock (:color blue :hint nil)
+    "
 Clock       In/out^     ^Edit^   ^Summary     Doc(_?_)
 ---------------------------------------------------
             _i_n         _e_dit   
 _h_istory   _c_ontinue   _q_uit   _d_isplay
 _g_oto      _o_ut        ^ ^      _r_eport
       "
-  ("i" org-clock-in)
-  ("o" org-clock-out)
-  ("c" org-clock-in-last)
-  ("e" org-clock-modify-effort-estimate)
-  ("q" org-clock-cancel)
-  ("g" org-clock-goto)
-  ("d" org-clock-display)
-  ("r" org-clock-report)
-  ;; ("j" org-clock-jump-to-current-clock)
-  ("h" yt/org-clock-in-select)
-  ("?" (org-info "Clocking commands")))
+    ("i" org-clock-in)
+    ("o" org-clock-out)
+    ("c" org-clock-in-last)
+    ("e" org-clock-modify-effort-estimate)
+    ("q" org-clock-cancel)
+    ("g" org-clock-goto)
+    ("d" org-clock-display)
+    ("r" org-clock-report)
+    ;; ("j" org-clock-jump-to-current-clock)
+    ("h" yt/org-clock-in-select)
+    ("?" (org-info "Clocking commands")))
 
-(global-set-key (kbd "<f11>") 'hydra-org-clock/body)
+  (global-set-key (kbd "<f11>") 'hydra-org-clock/body)
 
-(defun yt/org-clock-in-select ()
-  (interactive)
-  (setq current-prefix-arg '(4)) ;; C-u, 
-  (call-interactively 'org-clock-in))
+  (defun yt/org-clock-in-select ()
+    (interactive)
+    (setq current-prefix-arg '(4)) ;; C-u, 
+    (call-interactively 'org-clock-in)))
 #+end_src
 
 * Emacs Lisp Programming                                         :ExportFile:
@@ -2938,9 +2971,8 @@ _g_oto      _o_ut        ^ ^      _r_eport
 [2015-07-05 Sun 19:49]
 
 #+begin_src emacs-lisp :results silent
-(use-package pyvenv)
-(add-hook 'python-mode-hook 'flyspell-prog-mode)
-;; (add-hook 'python-mode-hook 'elpy-mode)
+(when (require 'pyvenv nil t)
+  (add-hook 'python-mode-hook 'flyspell-prog-mode))
 (setq python-fill-docstring-style 'django)
 
 ;; (use-package elpy
@@ -3000,45 +3032,49 @@ TODO: replace this by using native elpy function.
    replace elpy by LSP mode for python dev..
 
    #+begin_src emacs-lisp :results silent :eval no
-   ;; this requires pip install -U jedi-language-server
-   (use-package lsp-mode
-     :config
-     (add-hook 'python-mode-hook 'lsp))
-   ;; (use-package company-lsp)
-   (use-package lsp-ui)
+     ;; this requires pip install -U jedi-language-server
+    (when (require 'lsp-mode nil t)
+       (use-package lsp-mode
+         :config
+         (add-hook 'python-mode-hook 'lsp)
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]workflow")
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]storage")
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][.]wandb")
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][.]snakemake")
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]wandb")
+         (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]configs")))
+     ;; (use-package company-lsp)
+     (when (require 'lsp-ui nil t)
+       (use-package lsp-ui))
 
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\workflow\\'")
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\storage\\'")  
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.wandb\\'")
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.snakemake\\'")
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\wandb\\'")
-   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\configs\\'")
-
-   ;; (use-package lsp-jedi
-   ;;   :config
-   ;;   (with-eval-after-load "lsp-mode"
-   ;;     (add-to-list 'lsp-disabled-clients 'pyls)
-   ;;     (add-to-list 'lsp-enabled-clients 'jedi)))
+    ;; (use-package lsp-jedi
+    ;;   :config
+    ;;   (with-eval-after-load "lsp-mode"
+    ;;     (add-to-list 'lsp-disabled-clients 'pyls)
+    ;;     (add-to-list 'lsp-enabled-clients 'jedi)))
 
 
 
-   (use-package lsp-pyright
-   		:hook (python-mode . (lambda ()
-   				       (require 'lsp-pyright)
-   				       (lsp))))  ; or lsp-deferred
+    (when (require 'lsp-pyright nil t)
+     (use-package lsp-pyright
+       :hook (python-mode . (lambda ()
+                              (require 'lsp-pyright)
+                              (lsp)))))  ; or lsp-deferred
 
-   ;; additional add-ons
-   ;; use consult/ivy to search symbols.
-   (use-package consult-lsp)
-    #+end_src
+    ;; additional add-ons
+    ;; use consult/ivy to search symbols.
+    (when (require 'consult-lsp nil t)
+      (use-package consult-lsp))
+     #+end_src
 ** Sphinx-doc for documentation
    [2016-06-03 Fri 15:33]
 
 #+begin_src emacs-lisp :results silent
-(use-package sphinx-doc
-  :hook (python-mode . (lambda ()
-                         (require 'sphinx-doc)
-                         (sphinx-doc-mode t))))
+(when (require 'sphinx-doc nil t)
+  (use-package sphinx-doc
+    :hook (python-mode . (lambda ()
+                           (require 'sphinx-doc)
+                           (sphinx-doc-mode t)))))
 
 (cl-defstruct sphinx-doc-doc
   (summary "FIXME: briefly describe function") ; summary line that fits on the first line
@@ -3274,16 +3310,16 @@ editing.
   )
 
 (use-package treemacs-evil
-  :after (treemacs evil)
+  :after (treemacs evil))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
+  :after (treemacs projectile))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
+  :after (treemacs magit))
 
 ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
 ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
@@ -3312,7 +3348,7 @@ https://depp.brause.cc/nov.el/
   (setq nov-text-width t)
   (setq visual-fill-column-center-text t))
   
-(use-package visual-fill-column
+(use-package visual-fill-column)
 
 (defun yt/read-mode ()
   (visual-line-mode)
@@ -3441,7 +3477,7 @@ make yaml file a bit easier to work with.
 
 if i do a lot of yaml file editing, use yaml-pro.
 #+begin_src emacs-lisp :results silent
-(use-package yaml-pro
+(use-package yaml-pro)
 #+end_src
 ** org-mode
 :PROPERTIES:
@@ -3632,13 +3668,14 @@ the whole section.
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
-(defhydra hydra-fold (:pre (hs-minor-mode 1))
-  "fold"
-  ("t" hs-toggle-hiding "toggle")
-  ("s" hs-show-all "hide-all")
-  ("h" hs-hide-all "show-all")
-  ("q" nil "quit"))
-(global-set-key (kbd "<f4>") 'hydra-fold/body)
+(when (require 'hydra nil t)
+  (defhydra hydra-fold (:pre (hs-minor-mode 1))
+    "fold"
+    ("t" hs-toggle-hiding "toggle")
+    ("s" hs-show-all "hide-all")
+    ("h" hs-hide-all "show-all")
+    ("q" nil "quit"))
+  (global-set-key (kbd "<f4>") 'hydra-fold/body))
     #+end_src
     
 
@@ -3986,16 +4023,17 @@ use f8 to remove the R process buffer.
 
 #+begin_src emacs-lisp :results silent
 
-(defhydra hydra/smerge ()
-  "open file: "
-  ("n" (smerge-next) "Jump to next confclit")
-  ("p" (smerge-prev) "Jump to previous conflict")
-  ("c" (smerge-keep-current) "keep current")
-  ("u" (smerge-keep-upper) "keep upper version")
-  ("l" (smerge-keep-lower) "keep lower version")
-  ("a" (smerge-keep-all) "keep both versions")
-  )
-(global-set-key (kbd "<f7>") 'hydra/smerge/body)
+(when (require 'hydra nil t)
+  (defhydra hydra/smerge ()
+    "open file: "
+    ("n" (smerge-next) "Jump to next confclit")
+    ("p" (smerge-prev) "Jump to previous conflict")
+    ("c" (smerge-keep-current) "keep current")
+    ("u" (smerge-keep-upper) "keep upper version")
+    ("l" (smerge-keep-lower) "keep lower version")
+    ("a" (smerge-keep-all) "keep both versions")
+    )
+  (global-set-key (kbd "<f7>") 'hydra/smerge/body))
 
 #+end_src
 
@@ -4058,10 +4096,10 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 			  (setq-local tab-always-indent 'complete)
 			  (setq-local completion-cycle-threshold t)
 			  (setq-local ledger-complete-in-steps nil))))
-  :custom
-  (ledger-default-date-format "%Y-%m-%d"))
+ :custom
+   (ledger-default-date-format "%Y-%m-%d"))
 
-(use-package flycheck-ledger
+(use-package flycheck-ledger)
 
 
 

@@ -1,6 +1,5 @@
-(use-package pyvenv)
-(add-hook 'python-mode-hook 'flyspell-prog-mode)
-;; (add-hook 'python-mode-hook 'elpy-mode)
+(when (require 'pyvenv nil t)
+  (add-hook 'python-mode-hook 'flyspell-prog-mode))
 (setq python-fill-docstring-style 'django)
 
 ;; (use-package elpy
@@ -38,18 +37,19 @@
 ;; (define-key elpy-mode-map (kbd "C-c C-s") 'elpy-shell-set-local-shell)
 
 ;; this requires pip install -U jedi-language-server
-(use-package lsp-mode
-  :config
-  (add-hook 'python-mode-hook 'lsp))
-;; (use-package company-lsp)
-(use-package lsp-ui)
-
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\workflow\\'")
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\storage\\'")  
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.wandb\\'")
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.snakemake\\'")
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\wandb\\'")
-(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\configs\\'")
+(when (require 'lsp-mode nil t)
+   (use-package lsp-mode
+     :config
+     (add-hook 'python-mode-hook 'lsp)
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]workflow")
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]storage")
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][.]wandb")
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][.]snakemake")
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]wandb")
+     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\][~]configs")))
+ ;; (use-package company-lsp)
+ (when (require 'lsp-ui nil t)
+   (use-package lsp-ui))
 
 ;; (use-package lsp-jedi
 ;;   :config
@@ -59,19 +59,22 @@
 
 
 
-(use-package lsp-pyright
-		:hook (python-mode . (lambda ()
-				       (require 'lsp-pyright)
-				       (lsp))))  ; or lsp-deferred
+(when (require 'lsp-pyright nil t)
+ (use-package lsp-pyright
+   :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp)))))  ; or lsp-deferred
 
 ;; additional add-ons
 ;; use consult/ivy to search symbols.
-(use-package consult-lsp)
+(when (require 'consult-lsp nil t)
+  (use-package consult-lsp))
 
-(use-package sphinx-doc
-  :hook (python-mode . (lambda ()
-                         (require 'sphinx-doc)
-                         (sphinx-doc-mode t))))
+(when (require 'sphinx-doc nil t)
+  (use-package sphinx-doc
+    :hook (python-mode . (lambda ()
+                           (require 'sphinx-doc)
+                           (sphinx-doc-mode t)))))
 
 (cl-defstruct sphinx-doc-doc
   (summary "FIXME: briefly describe function") ; summary line that fits on the first line

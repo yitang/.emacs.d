@@ -22,8 +22,9 @@
                                        (output-html "open"))))
 
 (add-hook 'LaTeX-mode-hook #'outline-minor-mode)
-(use-package company-auctex)
-(company-auctex-init)
+(when (require 'company-auctex nil t)
+  (use-package company-auctex)
+  (company-auctex-init))
 
 ;;; Brent.Longborough's .emacs
 

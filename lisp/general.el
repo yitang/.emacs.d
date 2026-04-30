@@ -1,7 +1,7 @@
 (defun yt/reload-dot-emacs ()
   "Save the .emacs buffer if needed, then reload .emacs."
   (interactive)
-  (let ((dot-emacs "~/.emacs"))
+  (let ((dot-emacs (or user-init-file (expand-file-name "~/.emacs"))))
     (and (get-file-buffer dot-emacs)
          (save-buffer (get-file-buffer dot-emacs)))
     (load-file dot-emacs))
@@ -35,44 +35,42 @@
 ;; (guide-key-mode 1) 
 
 ;; use company for all except few modes
-(use-package company
-(add-hook 'after-init-hook 'global-company-mode)
-;; Don't enable company-mode in below major modes, OPTIONAL
-(setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
+(when (require 'company nil t)
+  (use-package company
+    :config
+    (add-hook 'after-init-hook 'global-company-mode)
+    ;; Don't enable company-mode in below major modes, OPTIONAL
+    (setq company-global-modes '(not eshell-mode comint-mode erc-mode rcirc-mode))
 
-;; config company mode
-(setq company-selection-wrap-around t
-      company-tooltip-align-annotations t
-      company-idle-delay 0.36
-      company-minimum-prefix-length 2
-      company-tooltip-limit 10)
+    ;; config company mode
+    (setq company-selection-wrap-around t
+          company-tooltip-align-annotations t
+          company-idle-delay 0.36
+          company-minimum-prefix-length 2
+          company-tooltip-limit 10)
 
-(setq company-ddabbrev-code-everywhere t)
-(setq company-dabbrev-code-modes t)
-(setq company-dabbrev-code-other-buffers 'all)
-(setq company-dabbrev-ignore-buffers "\\`\\'")
-(setq company-dabbrev-char-regexp "\\(\\sw\\|\\s_\\|_\\|-\\)")
+    (setq company-ddabbrev-code-everywhere t)
+    (setq company-dabbrev-code-modes t)
+    (setq company-dabbrev-code-other-buffers 'all)
+    (setq company-dabbrev-ignore-buffers "\\`\\'")
+    (setq company-dabbrev-char-regexp "\\(\\sw\\|\\s_\\|_\\|-\\)")
 
-;; config company for ESS mode
-(defun yt/ess_company_mode_setup ()
-  ;; this is really important. to source vairbales defined in the scripts.
-     (make-local-variable 'company-backends)
-     (add-to-list 'company-backends 'company-dabbrev-code)
-     )
-(add-hook 'ess-mode-hook 'yt/ess_company_mode_setup)
+    ;; config company for ESS mode
+    (defun yt/ess_company_mode_setup ()
+      ;; this is really important. to source vairbales defined in the scripts.
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-dabbrev-code))
+    (add-hook 'ess-mode-hook 'yt/ess_company_mode_setup)
 
+    (defun text-mode-hook-setup ()
+      (make-local-variable 'company-backends)
+      (add-to-list 'company-backends 'company-ispell)
+      ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
+      )
+    (add-hook 'text-mode-hook 'text-mode-hook-setup)
 
-(defun text-mode-hook-setup ()
-  (make-local-variable 'company-backends)
-  (add-to-list 'company-backends 'company-ispell)
-  ;; (setq company-ispell-dictionary (file-truename "~/matrix/tools/.emacs.d/english_words.txt"))
-  )
-
-(add-hook 'text-mode-hook 'text-mode-hook-setup)
-(add-hook 'company-mode-hook 'company-doc-buffer-mode)
-
-(setq company-dabbrev-downcase nil)
-(setq company-show-numbers t)
+    (setq company-dabbrev-downcase nil)
+    (setq company-show-numbers t)))
 
 (recentf-mode 1)
 (setq recentf-max-saved-items 200
@@ -83,19 +81,20 @@
 
 (setq inhibit-startup-message t)
 
-(use-package yasnippet
-  :config
-  (yas/global-mode 1)
-  (add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t))
-
-(use-package yasnippet-classic-snippets)
-(use-package yasnippet-snippets)
+(when (require 'yasnippet nil t)
+  (use-package yasnippet
+    :config
+    (yas/global-mode 1)
+    (add-to-list 'yas/snippet-dirs "~/matrix/tools/.emacs.d/snippets" t))
+  (use-package yasnippet-classic-snippets)
+  (use-package yasnippet-snippets))
 
 (windmove-default-keybindings)
-(define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<right>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<up>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1))))
-(define-key org-read-date-minibuffer-local-map (kbd "<down>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1))))
+(when (require 'org nil t)
+  (define-key org-read-date-minibuffer-local-map (kbd "<left>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<right>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<up>") (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1))))
+  (define-key org-read-date-minibuffer-local-map (kbd "<down>") (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1)))))
 
 ;; (require 'golden-ratio)
 ;; (golden-ratio-mode 1)
@@ -143,13 +142,13 @@
 ;;     (setq openwith-associations '(("\\.pdf\\'" "Skim" (file))))
 ;;   (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))
 
-(use-package smartparens)
-(smartparens-global-mode 1)
-(sp-pair "(" ")" :wrap "C-(")
-;; |foobar
-;; hit C-(
-;; becomes (|foobar)
-(sp-pair "'" nil :actions :rem)
+(when (require 'smartparens nil t)
+  (smartparens-global-mode 1)
+  (sp-pair "(" ")" :wrap "C-(")
+  ;; |foobar
+  ;; hit C-(
+  ;; becomes (|foobar)
+  (sp-pair "'" nil :actions :rem))
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill) ;;
 

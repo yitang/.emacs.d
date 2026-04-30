@@ -431,7 +431,7 @@ Skips capture tasks"
 (setq org-latex-listings 'minted)
 (setq org-latex-minted-options
       '(("frame" "lines")
-        ("fontsize" "\\scriptsize")))
+         ("fontsize" "\\scriptsize")))
 ;; ("linenos" "")))
 
 ;; remove C-TAB

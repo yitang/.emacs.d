@@ -116,16 +116,16 @@
   )
 
 (use-package treemacs-evil
-  :after (treemacs evil)
+  :after (treemacs evil))
 
 (use-package treemacs-projectile
-  :after (treemacs projectile)
+  :after (treemacs projectile))
 
 (use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
+  :after (treemacs magit))
 
 ;; (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
 ;;   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
@@ -145,7 +145,7 @@
   (setq nov-text-width t)
   (setq visual-fill-column-center-text t))
   
-(use-package visual-fill-column
+(use-package visual-fill-column)
 
 (defun yt/read-mode ()
   (visual-line-mode)
@@ -211,7 +211,7 @@
   :bind (("C-m" . newline-and-indent))
   )
 
-(use-package yaml-pro
+(use-package yaml-pro)
 
 (setq org-export-with-broken-links t) ;; broken links are fine in exporting. 
 ;; (setq org-latex-prefer-user-labels t)  ;; fix labels, otherwise, randomly generated, not git friendly.
@@ -346,13 +346,14 @@
 (global-set-key (kbd "C-d") 'comment-region) ;; overwite delete-char 
 (global-set-key (kbd "C-S-d") 'uncomment-region)
 
-(defhydra hydra-fold (:pre (hs-minor-mode 1))
-  "fold"
-  ("t" hs-toggle-hiding "toggle")
-  ("s" hs-show-all "hide-all")
-  ("h" hs-hide-all "show-all")
-  ("q" nil "quit"))
-(global-set-key (kbd "<f4>") 'hydra-fold/body)
+(when (require 'hydra nil t)
+  (defhydra hydra-fold (:pre (hs-minor-mode 1))
+    "fold"
+    ("t" hs-toggle-hiding "toggle")
+    ("s" hs-show-all "hide-all")
+    ("h" hs-hide-all "show-all")
+    ("q" nil "quit"))
+  (global-set-key (kbd "<f4>") 'hydra-fold/body))
 
 (subword-mode 1)
 
@@ -655,16 +656,17 @@
 ;; https://www.reddit.com/r/emacs/comments/tv022a/smooth_scrolling_on_emacs_29_is_a_dream_come_true/
 (pixel-scroll-precision-mode 1)
 
-(defhydra hydra/smerge ()
-  "open file: "
-  ("n" (smerge-next) "Jump to next confclit")
-  ("p" (smerge-prev) "Jump to previous conflict")
-  ("c" (smerge-keep-current) "keep current")
-  ("u" (smerge-keep-upper) "keep upper version")
-  ("l" (smerge-keep-lower) "keep lower version")
-  ("a" (smerge-keep-all) "keep both versions")
-  )
-(global-set-key (kbd "<f7>") 'hydra/smerge/body)
+(when (require 'hydra nil t)
+  (defhydra hydra/smerge ()
+    "open file: "
+    ("n" (smerge-next) "Jump to next confclit")
+    ("p" (smerge-prev) "Jump to previous conflict")
+    ("c" (smerge-keep-current) "keep current")
+    ("u" (smerge-keep-upper) "keep upper version")
+    ("l" (smerge-keep-lower) "keep lower version")
+    ("a" (smerge-keep-all) "keep both versions")
+    )
+  (global-set-key (kbd "<f7>") 'hydra/smerge/body))
 
 (setq ediff-keep-variants nil)  ;; ask before close the file.
 (setq ediff-keep-variants t)    ;; show buffer after exit.
@@ -708,10 +710,10 @@ copied from https://stackoverflow.com/questions/18121808/emacs-ediff-marked-file
 			  (setq-local tab-always-indent 'complete)
 			  (setq-local completion-cycle-threshold t)
 			  (setq-local ledger-complete-in-steps nil))))
-  :custom
-  (ledger-default-date-format "%Y-%m-%d"))
+ :custom
+   (ledger-default-date-format "%Y-%m-%d"))
 
-(use-package flycheck-ledger
+(use-package flycheck-ledger)
 
 
 
